@@ -1,6 +1,6 @@
-package interfaces;
+package ASE.interfaces;
 
-public interface IConnectionView {
+public interface IConnectionReader {
 
 	// Return the wished Ip number.
 	String getIpNumber(String ip_nmbr);

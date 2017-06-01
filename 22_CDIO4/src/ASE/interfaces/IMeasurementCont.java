@@ -1,4 +1,4 @@
-package interfaces;
+package ASE.interfaces;
 
 public interface IMeasurementCont {
 
