@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="22_CDIO3-0.0.1-SNAPSHOT">
+    <wb-module deploy-name="22_CDIO4-0.0.1-SNAPSHOT">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/ASE"/>
         <property name="java-output-path" value="/22_CDIO4/build/classes"/>
-        <property name="context-root" value="22_CDIO3"/>
+        <property name="context-root" value="22_CDIO4"/>
     </wb-module>
 </project-modules>

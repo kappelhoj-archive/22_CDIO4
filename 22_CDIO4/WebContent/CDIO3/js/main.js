@@ -199,20 +199,6 @@ function showUserListPage() {
 	});
 	
 	
-	console.log("Validation Test:");
-	console.log("CPR:");
-	console.log(cprChecker(1111111118));
-	console.log(cprChecker(7589479455));
-	 
-	console.log("Username: ");
-	console.log(usernameChecker("Bent Bo Bobsen Jensen."));
-	console.log(usernameChecker("Mads Stege"));
-	
-	console.log("Password: ");
-	console.log(passwordChecker("K4fhaefueouhr"));
-	console.log(passwordChecker("MadsStege"));
-	console.log(passwordChecker("password"));
-	console.log(passwordChecker("Ky3e"));
 }
 function cprChecker(cpr)
 {
