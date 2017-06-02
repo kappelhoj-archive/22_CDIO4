@@ -18,7 +18,8 @@ public class OperatoerDTO extends DTO
 	/** Operatoer cpr-nr 10 karakterer */
 	String cpr;                 
 	/** Operatoer password min. 7 max. 8 karakterer */
-	String password;            
+	String password;    
+	String rolle;
 
 	public OperatoerDTO(int oprId, String oprNavn, String ini, String cpr, String password)
 	{
@@ -48,5 +49,14 @@ public class OperatoerDTO extends DTO
 	public void setCpr(String cpr) { this.cpr = cpr; }
 	public String getPassword() { return password; }
 	public void setPassword(String password) { this.password = password; }
+	public String getRolle() { return rolle; }
+	public void setRolle(String rolle) { this.rolle = rolle; }
 	public String toString() { return oprId + "\t" + oprNavn + "\t" + ini + "\t" + cpr + "\t" + password; }
+
+	@Override
+	public DTO copy() {
+		
+		return new OperatoerDTO(oprId, oprNavn, ini, cpr, password);
+		
+	}
 }
