@@ -5,7 +5,7 @@ $(document).ready(function() {
 	/*
 	 * On sumbit login post request
 	 * */
-	$(document).on("submit", ".login-page form", function(event) {
+	$(document).on("submit", "#login_form", function(event) {
 		event.preventDefault();
 		$.ajax({
 			url : 'rest/CRUD/login-user',
