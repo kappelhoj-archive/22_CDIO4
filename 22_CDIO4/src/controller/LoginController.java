@@ -1,17 +1,16 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 import controller.interfaces.ILoginController;
-import dataTransferObjects.DTO;
-import dataTransferObjects.OperatoerDTO;
+import dataAccessObjects.MySQLOperatoerDAO;
+import dataAccessObjects.interfaces.OperatoerDAO;
 import exceptions.DALException;
-import staticClasses.FileManagement;
 
 public class LoginController implements ILoginController {
 
 	Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
+	OperatoerDAO dao = new MySQLOperatoerDAO();
 
 	public LoginController(){
 
@@ -27,15 +26,11 @@ public class LoginController implements ILoginController {
 
 		}catch(Exception e){
 			try{
-				ArrayList<DTO> data = FileManagement.retrieveFrom("operatoer");
-				
-				for(DTO user : data){
-					if(((OperatoerDTO) user).getOprId() == id && ((OperatoerDTO) user).getPassword() == password)
-						return true;
-				}
-				
-				return false;
-				
+				if(dao.getOperatoer(id).getPassword() == password)
+					return true;
+				else
+					return false;
+
 			}catch(DALException e2){
 				return false;
 			}
