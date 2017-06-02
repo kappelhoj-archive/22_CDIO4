@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class RaavareDTO extends DTO
+public class RaavareDTO
 {
     /** i omraadet 1-99999999 vaelges af brugerne */
     int raavareId;                     
@@ -32,4 +32,8 @@ public class RaavareDTO extends DTO
     public String toString() { 
 		return raavareId + "\t" + raavareNavn +"\t" + leverandoer; 
 	}
+    
+    public RaavareDTO copy(){
+    	return new RaavareDTO (raavareId, raavareNavn, leverandoer);
+    }
 }

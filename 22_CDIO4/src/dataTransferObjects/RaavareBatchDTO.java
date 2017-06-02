@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class RaavareBatchDTO extends DTO
+public class RaavareBatchDTO
 {
 	int rbId;                     // i omraadet 1-99999999
 	int raavareId;             // i omraadet 1-99999999
@@ -21,5 +21,9 @@ public class RaavareBatchDTO extends DTO
 	public void setMaengde(double maengde) { this.maengde = maengde; }
 	public String toString() { 
 		return rbId + "\t" + raavareId +"\t" + maengde; 
+	}
+	
+	public RaavareBatchDTO copy(){
+		return new RaavareBatchDTO(rbId, raavareId, maengde);
 	}
 }

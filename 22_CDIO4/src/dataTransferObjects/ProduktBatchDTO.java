@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class ProduktBatchDTO  extends DTO
+public class ProduktBatchDTO
 {
 	int pbId;                     // i omraadet 1-99999999
 	int status;					// 0: ikke paabegyndt, 1: under produktion, 2: afsluttet
@@ -21,10 +21,8 @@ public class ProduktBatchDTO  extends DTO
 	public void setReceptId(int receptId) { this.receptId = receptId; }
 	public String toString() { return pbId + "\t" + status + "\t" + receptId; }
 
-	@Override
-	public DTO copy() {
-		// TODO Auto-generated method stub
-		return null;
+	public ProduktBatchDTO copy() {
+		return new ProduktBatchDTO(pbId, status, receptId);
 	}
 }
 
