@@ -49,7 +49,7 @@ public class UserDAO implements IUserDAO {
 	 */
 	public UserDTO getUser(int userID) throws DALException {
 		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getUserId() == userID) {
+			if (users.get(i).getId() == userID) {
 				return users.get(i);
 			}
 		}
@@ -85,7 +85,7 @@ public class UserDAO implements IUserDAO {
 	 */
 	public void deleteUser(int userID) throws DALException {
 		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getUserId() == userID) {
+			if (users.get(i).getId() == userID) {
 				users.remove(i);
 				saveUsers(users);
 				return;
@@ -103,7 +103,7 @@ public class UserDAO implements IUserDAO {
 	public void updateUser(UserDTO user) throws DALException {
 		
 		for(int i=0;i<users.size();i++){
-			if(users.get(i).getUserId()==user.getUserId()){
+			if(users.get(i).getId()==user.getId()){
 				users.remove(i);
 				break;
 			}
