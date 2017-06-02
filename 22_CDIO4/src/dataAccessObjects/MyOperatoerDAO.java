@@ -1,19 +1,20 @@
 package dataAccessObjects;
 
 import java.util.List;
-
+import java.util.Set;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import exceptions.DALException;
 //import staticClasses.FileManagement;
 import dataAccessObjects.interfaces.OperatoerDAO;
-import dataTransferObjects.DTO;
+
 import dataTransferObjects.OperatoerDTO;
 
 
 public class MyOperatoerDAO implements OperatoerDAO {
 
-	static List<DTO> userList;
+	static Hashtable<Integer, OperatoerDTO> userList = new Hashtable<Integer, OperatoerDTO>();
 
 	public MyOperatoerDAO(){
 		//try{
@@ -26,45 +27,45 @@ public class MyOperatoerDAO implements OperatoerDAO {
 		//	}
 		//}
 
-		userList = new ArrayList<DTO>();
+		//userList = new ArrayList<DTO>();
 	}
 
-	// New method calls - not yet tested
+	
 	public OperatoerDTO getOperatoer(int oprId) throws DALException {
 
-		for(DTO user : userList){
-			OperatoerDTO opr = (OperatoerDTO) user.copy();
-
-			if(opr.getOprId() == oprId){
-				return opr;
-			}
-		}
-
-		throw new DALException("Can not find " + oprId);
+		if(userList.get(oprId) != null)
+			return userList.get(oprId).copy();
+	
+		else
+			throw new DALException("Unknown UserID: " + oprId);
 
 	}
 
-	// New method calls - not yet tested
+
 	public void createOperatoer(OperatoerDTO opr) throws DALException {
-
-			userList.add(opr.copy());
-
+		if (userList.putIfAbsent(opr.getOprId(), opr.copy()) == null)
+			return;
+		
+		else
+			throw new DALException("User ID:"+opr.getOprId()+" already exists !");
 
 		//FileManagement.saveData(userList, "operatoer");
 
 	}
 
 	public void updateOperatoer(OperatoerDTO opr) throws DALException {
-		userList.remove(getOperatoer(opr.getOprId()));
-		userList.add(opr.copy());
+		userList.replace(opr.getOprId(), opr.copy());
 		//FileManagement.saveData(userList, "operatoer");
 	}
 
 	public List<OperatoerDTO> getOperatoerList() throws DALException {
 		List<OperatoerDTO> users = new ArrayList<OperatoerDTO>();
 
-		for(DTO user : userList)
-			users.add((OperatoerDTO) user);
+		Set<Integer> keys = userList.keySet();
+		
+		for(Integer key : keys){
+			users.add(userList.get(key).copy());
+		}
 
 		return users;
 	}

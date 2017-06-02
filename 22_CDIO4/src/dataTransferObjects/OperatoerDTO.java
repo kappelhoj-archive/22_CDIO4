@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class OperatoerDTO extends DTO
+public class OperatoerDTO
 {
 	/** Operatoer-identifikationsnummer (opr_id) i omraadet 1-99999999. Vaelges af brugerne */
 	int oprId;                     
@@ -53,8 +53,8 @@ public class OperatoerDTO extends DTO
 	public void setRolle(String rolle) { this.rolle = rolle; }
 	public String toString() { return oprId + "\t" + oprNavn + "\t" + ini + "\t" + cpr + "\t" + password; }
 
-	@Override
-	public DTO copy() {
+
+	public OperatoerDTO copy() {
 		
 		return new OperatoerDTO(oprId, oprNavn, ini, cpr, password);
 		

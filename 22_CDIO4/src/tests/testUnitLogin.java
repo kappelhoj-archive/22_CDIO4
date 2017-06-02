@@ -69,4 +69,32 @@ public class testUnitLogin {
 			assertEquals(expected, actual);
 		}
 
+	@Test
+	public void testCreateUserFail() {
+		boolean expected;
+		boolean actual = false;
+		try{
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword"));
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter2", "PE2", "cpr2", "testpassword2"));
+			
+			System.out.println(dao.getOperatoerList().toString());
+		}catch (DALException e){
+			actual = true;
+			System.out.println(e);
+		}
+		
+		try {
+			System.out.println(dao.getOperatoerList().toString());
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			expected = true;
+
+			assertEquals(expected, actual);
+
+		}
+
+	
 	}
