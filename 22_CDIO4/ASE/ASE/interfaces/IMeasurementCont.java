@@ -1,7 +1,9 @@
 package ASE.interfaces;
 
+import ASE.DTOs.MeasurementDTO;
+
 public interface IMeasurementCont {
 
-	//Method to retrieve and handle new MeasurementDTO's.
+	public void enqueue(MeasurementDTO measurement);
 	
 }
