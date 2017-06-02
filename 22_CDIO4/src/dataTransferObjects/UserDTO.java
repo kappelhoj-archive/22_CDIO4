@@ -1,9 +1,6 @@
 package dataTransferObjects;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * The objects of the UserDTO is used as data transfer object. The class
@@ -20,46 +17,37 @@ public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 4545864587995944260L;
 
 	// Instance variables of the object UserDTO
-	private int userId;
-	private String userName;
+	private int id;
+	private String name;
 	private String ini;
 	private String cpr;
 	private String password;
-	private List<String> roles;
+	private String role;
 
-	/**
-	 * Constructor. The constructor only initializes the userDTO roles as an
-	 * ArrayList.
-	 */
-	public UserDTO() {
-		this.roles = new ArrayList<>();
-	}
 	
 	public UserDTO(UserDTO user){
-		this.userId=user.userId;
-		this.userName=user.userName;
-		this.ini=user.ini;
-		this.cpr=user.cpr;
-		this.password=user.password;
-		
-		//Not a deep copy
-		this.roles=user.roles;
+		this.id = user.id;
+		this.name = user.name;
+		this.ini = user.ini;
+		this.cpr = user.cpr;
+		this.password = user.password;
+		this.role = user.role;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getId() {
+		return id;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getIni() {
@@ -86,43 +74,12 @@ public class UserDTO implements Serializable {
 		this.password = password;
 	}
 
-	public List<String> getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
-
-	/**
-	 * Adds the given role to the list of roles if it is not already in the
-	 * list.
-	 * 
-	 * @param role
-	 *            The role to be added.
-	 */
-	public void addRole(String role) {
-
-		if (hasRole(role)) {
-			return;
-		}
-
-		this.roles.add(role);
-		Collections.sort(this.roles);
-	}
-
-	/**
-	 * Removes the given role from the list if it is on the list. If the role is
-	 * not on the list the method does nothing.
-	 * 
-	 * @param role
-	 *            The role to be removed.
-	 */
-	public void removeRole(String role) {
-		this.roles.remove(role);
-	}
-
-	/**
-	 * Removes all the roles of the userDTO.
-	 */
-	public void removeAllRoles() {
-		this.roles.clear();
+	
+	public void setRole(String role){
+		this.role = role;
 	}
 
 	/**
@@ -133,13 +90,7 @@ public class UserDTO implements Serializable {
 	 * @return True if the userDTO has the role, false otherwise.
 	 */
 	public boolean hasRole(String role) {
-		boolean hasRole = false;
-		for (int i = 0; i < roles.size(); i++) {
-			if (roles.get(i).equals(role)) {
-				hasRole = true;
-			}
-		}
-		return hasRole;
+		return this.role.equals(role);
 	}
 
 	/**
@@ -148,11 +99,8 @@ public class UserDTO implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		String newString = "ID: " + userId + ", Username: " + userName + ", Initials: " + ini + ", Roles: ";
+		String newString = "ID: " + id + ", name: " + name + ", Initials: " + ini + ", Role: " + role;
 
-		for (String role : roles) {
-			newString = newString + role + ", ";
-		}
 		return newString;
 	}
 	
@@ -165,9 +113,9 @@ public class UserDTO implements Serializable {
 	 */
 	public boolean equals(UserDTO user) {
 
-		if (this.getUserId() != user.getUserId()) {
+		if (this.getId() != user.getId()) {
 			return false;
-		} else if (!this.getUserName().equals(user.getUserName())) {
+		} else if (!this.getName().equals(user.getName())) {
 			return false;
 		} else if (!this.getIni().equals(user.getIni())) {
 			return false;
@@ -175,7 +123,7 @@ public class UserDTO implements Serializable {
 			return false;
 		} else if (!this.getPassword().equals(user.getPassword())) {
 			return false;
-		} else if (!this.getRoles().equals(this.getRoles())) {
+		} else if (!this.getRole().equals(user.getRole())) {
 			return false;
 		}
 		return true;

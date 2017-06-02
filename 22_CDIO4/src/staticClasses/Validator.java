@@ -1,7 +1,5 @@
 package staticClasses;
 
-import java.util.List;
-
 /**
  * The Validator class only contains static methods and is used to check if the
  * user input is valid. The class also contains the inner class InputException
@@ -227,35 +225,6 @@ public class Validator {
 			}
 		}
 		throw new InputException("This is not a valid role.");
-	}
-
-	/**
-	 * Checks if the given role is a valid role.
-	 * 
-	 * @param role
-	 *            The role to be checked.
-	 * @return True if the role is valid, throws InputException otherwise.
-	 * @throws InputException
-	 *             The exception to be thrown if the given role is not valid.
-	 */
-	public static boolean validateRoles(List<String> roles) throws InputException {
-		if (roles == null) {
-			throw new InputException("Roles can't be null");
-		}
-		boolean equalFlag = false;
-		for (int i = 0; i < roles.size(); i++) {
-			for (int j = 0; j < validRoles.length; j++) {
-				if (roles.get(i).equals(validRoles[j])) {
-					equalFlag = true;
-					break;
-				}
-			}
-			if (equalFlag == false) {
-				throw new InputException("Role " + roles.get(i) + " was not valid");
-			}
-			equalFlag = false;
-		}
-		return true;
 	}
 
 	/**

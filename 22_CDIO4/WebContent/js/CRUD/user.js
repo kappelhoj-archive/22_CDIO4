@@ -111,7 +111,7 @@ $(document).ready(function() {
 
 
 //Check if a password follows the given rules
-function passwordChecker(password)
+function checkPassword(password)
 {
 	//Counter for the different groups.
 	var counter = 0;
@@ -125,6 +125,7 @@ function passwordChecker(password)
 	}
 	//Check for lowercase letters
 	if(password.search(/[a-z]/)>-1){
+
 		counter++;
 	}
 	//Check for numbers 
@@ -132,7 +133,7 @@ function passwordChecker(password)
 		counter++;
 	}
 	//Check for any of the given symbols.
-	if(password.search(/[.-_+!?=]/)>-1){
+	if(password.search(/[-._+!?=]/)>-1){
 		counter++;
 	}
 	
@@ -170,7 +171,7 @@ function checkCPR(cpr){
 	var controlNumber= [4,3,2,7,6,5,4,3,2];
 	var controlCifre=parseInt(splitCPR[9])
 	for(var i=0;i<9;i++){
-		cprssum+=parseInt(splitCPR[i])*controlNumber[i];
+		cprsum+=parseInt(splitCPR[i])*controlNumber[i];
 	}
 	if(11-(cprsum%11)==controlCifre){
 		return true
@@ -182,12 +183,13 @@ function checkCPR(cpr){
 }
 
 //generate initials from a name.
-function generateIntials(name){
+function generateInitials(name){
 	var initials="";
 	splitName=name.split(" ");
 	if(splitName.length<3){
 		//Add the two first letters of every name.
 		for(var i=0;i<splitName.length;i++){
+			
 			initials+=splitName[i].substring(0,2);
 		}
 	}
@@ -195,10 +197,20 @@ function generateIntials(name){
 		//Add first letter of the first name. 
 		initials+=splitName[0].substring(0,1);
 		
+		//Make sure the initials length match:
+		var modifier;
+		if(splitName.length==3){
+			modifier=2;
+		}
+		else{
+			modifier=3;
+		}
+		
 		//Add the first letter of the last three names, or two if there are 3 names.
-		for(var i=splitName.length-3;i<splitName.length;i++){
+		for(var i=splitName.length-modifier;i<splitName.length;i++){
 			initials+=splitName[i].substring(0,1);
 		}
 	}
+	return initials
 }
 
