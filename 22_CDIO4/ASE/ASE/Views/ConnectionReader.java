@@ -16,11 +16,11 @@ public class ConnectionReader {
 
 		// Attempt to retrieve information from the WeightTable.txt file.
 		try {
-			// Retrieve information
+			// Retrieve information.
 			while (WeightScanner.hasNextLine()) {
 				String tokenCheck = WeightScanner.next();
 
-				// Token check.
+				// Syntax check.
 				if (tokenCheck.equals("IP")) {
 					String weightIP = WeightScanner.nextLine().trim();
 					WeightScanner.skip("PORT");
@@ -44,6 +44,13 @@ public class ConnectionReader {
 		}
 	}
 
+	// Method to return Port number as integer.
+	public int getPortInt() {
+		int weightPortInt = Integer.parseInt(WeightPort);
+		return weightPortInt;
+	}
+
+	// Method to verify the validness of the IP.
 	private static boolean IPChecker(String WeightIP) {
 		// Check to see if the IP contains the right number of periods.
 
@@ -78,6 +85,7 @@ public class ConnectionReader {
 		return true;
 	}
 
+	// Method to verify the validness of the Port number.
 	private static boolean PORTChecker(String weightPort) {
 
 		// Checks to see if the Port number contains letters.
