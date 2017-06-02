@@ -36,10 +36,10 @@ public class DataVerifier implements IDataVerifier {
 
 		try {
 			// if it returns an exception then the userID is not used
-			data.getUser(user.getUserId());
+			data.getUser(user.getId());
 
 			// throws an exception if the userID is taken
-			throw new WrongDataException("This userID is already taken: " + user.getUserId());
+			throw new WrongDataException("This userID is already taken: " + user.getId());
 
 		} catch (DALException userID) {
 
@@ -47,7 +47,7 @@ public class DataVerifier implements IDataVerifier {
 			user.setPassword(generatePassword());
 
 			// sets initials according to their username
-			user.setIni(generateInitials(user.getUserName()));
+			user.setIni(generateInitials(user.getName()));
 
 			// validates if all the variables are legal
 			validate(user);
@@ -140,7 +140,7 @@ public class DataVerifier implements IDataVerifier {
 	private void validate(UserDTO user) throws WrongDataException {
 		// Validates if the username is legal
 		try {
-			Validator.validateUsername(user.getUserName());
+			Validator.validateUsername(user.getName());
 		} catch (InputException e) {
 			throw new WrongDataException(e.getMessage());
 		}
@@ -152,14 +152,14 @@ public class DataVerifier implements IDataVerifier {
 			throw new WrongDataException(e.getMessage());
 		}
 		try {
-			Validator.validateRoles(user.getRoles());
+			Validator.validateRole(user.getRole());
 		} catch (InputException e) {
 			throw new WrongDataException(e.getMessage());
 		}
 
 		// Validates if the UserID is legal
 		try {
-			Validator.validateUserID(user.getUserId());
+			Validator.validateUserID(user.getId());
 		} catch (InputException e) {
 			throw new WrongDataException(e.getMessage());
 		}
