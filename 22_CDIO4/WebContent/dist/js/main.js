@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$("body").load("login.html");
+	$("body").load("src/login.html");
 
 	/*
 	 * On sumbit login post request

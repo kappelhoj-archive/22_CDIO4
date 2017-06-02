@@ -1,0 +1,90 @@
+<project name="CDIO 4 Build" default="all" basedir=".">
+    <!-- Setup -->
+	<property name="WEB_DIR" value="WebContent" description="Web Application folder" />
+    <property name="SRC_DIR" value="${WEB_DIR}/src" description="Source folder" />
+    <property name="SRC_CSS_DIR" value="${SRC_DIR}/css" description="CSS source folder" />
+    <property name="SRC_JS_DIR" value="${SRC_DIR}/js" description="JavaScript source folder" />
+    <property name="DIST_DIR" value="${WEB_DIR}/dist" description="Output folder for build targets" />
+    <property name="DIST_CSS_DIR" value="${DIST_DIR}/css" description="Output folder for CSS files" />
+    <property name="DIST_JS_DIR" value="${DIST_DIR}/js" description="Output folder for JavaScript files" />
+    <property name="BUILD_DIR" value="build" description="Files needed to build" />
+    <property name="YUI" value="${BUILD_DIR}/yuicompressor-2.4.7.jar" description="YUICompressor" />
+
+    <!-- Files names for distribution -->
+    <property name="CSS" value="${DIST_CSS_DIR}/style.css" />
+    <property name="CSS_MIN" value="${DIST_CSS_DIR}/style.min.css" />
+    <property name="JS" value="${DIST_JS_DIR}/main.js" />
+    <property name="JS_MIN" value="${DIST_JS_DIR}/main.min.js" />
+
+    <!-- Targets -->
+    <!--
+	<target name="html" description="Copy HTML files to the output folder">
+        <mkdir dir="${DIST_DIR}" />
+        <copy todir="${DIST_DIR}">
+            <fileset dir="${SRC_DIR}">
+                <include name="*.*" />
+            </fileset>
+        </copy>
+    </target>
+    -->
+    <target name="css" description="Concatenate CSS source files">
+        <echo message="Building ${CSS}" />
+        <concat destfile="${CSS}">
+            <!-- Indsæt alle css filer der skal samles -->
+            <fileset dir="${SRC_CSS_DIR}" includes="style.css" />
+        </concat>
+        <echo message="${CSS} built." />
+    </target>
+
+    <target name="css.min" depends="css" description="Minify CSS files">
+        <echo message="Building ${CSS_MIN}" />
+        <apply executable="java" parallel="false" verbose="true" dest="${DIST_CSS_DIR}">
+            <fileset dir="${DIST_CSS_DIR}">
+                <include name="style.css" />
+            </fileset>
+            <arg line="-jar" />
+            <arg path="${YUI}" />
+            <arg value="--charset" />
+            <arg value="ANSI" />
+            <arg value="-o" />
+            <targetfile />
+            <mapper type="glob" from="style.css" to="style.min.css" />
+        </apply>
+        <echo message="${CSS_MIN} built." />
+    </target>
+
+    <target name="js" description="Concatenate JavaScript source files">
+        <echo message="Building ${JS}" />
+        <concat destfile="${JS}">
+        	<!-- Indsæt alle js filer her -->
+        	<fileset dir="${SRC_JS_DIR}" includes="login.js" />
+            <fileset dir="${SRC_JS_DIR}" includes="main.js" />
+        </concat>
+        <echo message="${JS} built." />
+    </target>
+
+    <target name="js.min" depends="js" description="Minimize JavaScript files">
+        <echo message="Building ${JS_MIN}" />
+        <apply executable="java" parallel="false" verbose="true" dest="${DIST_JS_DIR}">
+            <fileset dir="${DIST_JS_DIR}">
+                <include name="main.js" />
+            </fileset>
+            <arg line="-jar" />
+            <arg path="${YUI}" />
+            <arg value="--charset" />
+            <arg value="ANSI" />
+            <arg value="-o" />
+            <targetfile />
+            <mapper type="glob" from="main.js" to="main.min.js" />
+        </apply>
+        <echo message="${JS_MIN} built." />
+    </target>
+
+    <target name="clean">
+        <delete dir="${DIST_DIR}" />
+    </target>
+
+    <target name="all" depends="clean, css, css.min, js, js.min">
+        <echo message="Build complete." />
+    </target>
+</project>
