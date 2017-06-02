@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test Validation</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/main.css">
+<script src="../js/jquery-3.2.1.min.js"></script>
+<script src="../js/jquery.serialize-object-2.5.0.js"></script>
+<script src="../js/CRUD/user.js"></script>
+
+<script>
+	//Password check
+	console.log("Check password false: Hello")
+	console.log(checkPassword("Hello")+"\n");
+	console.log("Check password false: password")
+	console.log(checkPassword("password")+"\n");
+	console.log("Check password false: 123456789")
+	console.log(checkPassword("123456789")+"\n");
+	console.log("Check password false: jJduejKgurJeFejI")
+	console.log(checkPassword("jJduejKgurJeFejI")+"\n");
+	console.log("Check password false: jJdueji")
+	console.log(checkPassword("jJdueji")+"\n");
+	console.log("Check password true: jJduej95374JeFejI")
+	console.log(checkPassword("jJduej95374JeFejI")+"\n");
+	console.log("Check password false: jJ9+")
+	console.log(checkPassword("jJ9+")+"\n");
+	console.log("Check password true: jJ9+-?juifF")
+	console.log(checkPassword("jJ9+-?juifF")+"\n");
+	
+	
+	console.log("");
+	console.log("");
+	console.log("Check CPR false: 843");
+	console.log(checkCPR("843"));
+	
+	console.log("Check CPR false: 4F12654364");
+	console.log(checkCPR("4F12654364"));
+	
+	console.log("Check CPR false: 1234567890");
+	console.log(checkCPR("1234567890"));
+	
+	console.log("Check CPR true: 1111111118");
+	console.log(checkCPR("1111111118"));
+	
+	console.log("");
+	console.log("");
+	console.log("Generate Intials: Bob");
+	console.log(generateInitials("Bob"));
+	console.log("Generate Intials: Bob Jensen");
+	console.log(generateInitials("Bob Jensen"));
+	console.log("Generate Intials: Lis Mads Bo");
+	console.log(generateInitials("Lis Mads Bo"));
+	console.log("Generate Intials: Lis Mads Bo Bent");
+	console.log(generateInitials("Lis Mads Bo Bent"));
+	console.log("Generate Intials: Lis Mads Bo Bent Ar Ti Ri");
+	console.log(generateInitials("Lis Mads Bo Bent Ar Ti Ri"));
+	
+</script>
+
+</head>
+<body>
+
+</body>
+</html>
