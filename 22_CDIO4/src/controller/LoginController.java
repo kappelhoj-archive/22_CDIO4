@@ -26,7 +26,7 @@ public class LoginController implements ILoginController {
 
 		}catch(Exception e){
 			try{
-				if(dao.getOperatoer(id).getPassword() == password)
+				if(dao.getOperatoer(id).getPassword().equals(password))
 					return true;
 				else
 					return false;

@@ -53,7 +53,7 @@ public class testUnitLogin {
 		boolean expected;
 		boolean actual;
 		try{
-			dao.createOperatoer(new OperatoerDTO(1, "Peter", "PE", "cpr", "testpassword"));
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword"));
 		}catch (DALException e){
 			fail(e.getMessage());
 		}
