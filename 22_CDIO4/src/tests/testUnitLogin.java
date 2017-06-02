@@ -53,7 +53,7 @@ public class testUnitLogin {
 		boolean expected;
 		boolean actual;
 		try{
-			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword"));
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword", "Admin"));
 		}catch (DALException e){
 			fail(e.getMessage());
 		}
@@ -74,8 +74,8 @@ public class testUnitLogin {
 		boolean expected;
 		boolean actual = false;
 		try{
-			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword"));
-			dao.createOperatoer(new OperatoerDTO(1111, "Peter2", "PE2", "cpr2", "testpassword2"));
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword","Admin"));
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter2", "PE2", "cpr2", "testpassword2","Admin"));
 			
 			System.out.println(dao.getOperatoerList().toString());
 		}catch (DALException e){

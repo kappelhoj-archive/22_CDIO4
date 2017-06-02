@@ -21,7 +21,7 @@ public class OperatoerDTO
 	String password;    
 	String rolle;
 
-	public OperatoerDTO(int oprId, String oprNavn, String ini, String cpr, String password)
+	public OperatoerDTO(int oprId, String oprNavn, String ini, String cpr, String password, String rolle)
 	{
 		this.oprId = oprId;
 		this.oprNavn = oprNavn;
@@ -56,7 +56,7 @@ public class OperatoerDTO
 
 	public OperatoerDTO copy() {
 		
-		return new OperatoerDTO(oprId, oprNavn, ini, cpr, password);
+		return new OperatoerDTO(oprId, oprNavn, ini, cpr, password, rolle);
 		
 	}
 }
