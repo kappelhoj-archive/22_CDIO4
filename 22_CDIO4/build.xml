@@ -17,7 +17,8 @@
     <property name="JS_MIN" value="${DIST_JS_DIR}/main.min.js" />
 
     <!-- Targets -->
-    <target name="html" description="Copy HTML files to the output folder">
+    <!--
+	<target name="html" description="Copy HTML files to the output folder">
         <mkdir dir="${DIST_DIR}" />
         <copy todir="${DIST_DIR}">
             <fileset dir="${SRC_DIR}">
@@ -25,7 +26,8 @@
             </fileset>
         </copy>
     </target>
-    <target name="css" depends="html" description="Concatenate CSS source files">
+    -->
+    <target name="css" description="Concatenate CSS source files">
         <echo message="Building ${CSS}" />
         <concat destfile="${CSS}">
             <!-- Indsæt alle css filer der skal samles -->
@@ -51,10 +53,11 @@
         <echo message="${CSS_MIN} built." />
     </target>
 
-    <target name="js" depends="html" description="Concatenate JavaScript source files">
+    <target name="js" description="Concatenate JavaScript source files">
         <echo message="Building ${JS}" />
         <concat destfile="${JS}">
         	<!-- Indsæt alle js filer her -->
+        	<fileset dir="${SRC_JS_DIR}" includes="login.js" />
             <fileset dir="${SRC_JS_DIR}" includes="main.js" />
         </concat>
         <echo message="${JS} built." />
@@ -81,7 +84,7 @@
         <delete dir="${DIST_DIR}" />
     </target>
 
-    <target name="all" depends="clean, html, css, css.min, js, js.min">
+    <target name="all" depends="clean, css, css.min, js, js.min">
         <echo message="Build complete." />
     </target>
 </project>
