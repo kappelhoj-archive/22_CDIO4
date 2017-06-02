@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CDIO 4</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/user_edit.css">
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/jquery.serialize-object-2.5.0.js"></script>
+	<script src="js/main.js"></script>
+</head>
+<body>
+<h2>Bruger redigering </h2>
+<form id="user_edit_form">
+	<div class="form-group">
+    	<label for="user_id">Bruger id</label>
+    	<input type="text" class="form-control" id="user_id" name="id" readonly>
+    </div>
+    
+    <div class="form-group">
+    	<label for="password">Nuværende password</label>
+    	<input type="password" class="form-control" id="password" placeholder="Current password" name="password">
+    </div>
+    
+    <div class="form-group">
+    	<label for="new_password">Nyt password</label>
+    	<input type="password" class="form-control" id="new_password" placeholder="Nyt password">
+    </div>
+    
+    <div class="form-group">
+    	<label for="repeat_new_password">Gentag password</label>
+    	<input type="password" class="form-control" id="repeat_new_password" placeholder="Gentag password">
+    </div>
+    
+    <div class="form-group">
+    	<label for="name">Navn</label>
+    	<input type="text" class="form-control" id="name" placeholder="Navn" name="name">
+    </div>
+    
+    <div class="form-group">
+    	<label for="initials">Initialer</label>
+    	<input type="text" class="form-control" id="initials" placeholder="Initialer" name="ini">
+    </div>
+    
+    <div class="form-group">
+    	<label for="cpr">CPR</label>
+    	<input type="text" class="form-control" id="cpr" name="cpr" readonly>
+    </div>
+    
+    <div class="form-group">
+    	<label for="role">Rolle</label>
+    	<input type="text" class="form-control" id="role" name="role" readonly>
+    </div>
+    <div class="form-group">
+		<button type="submit" class="btn btn-primary">Gem ændringer</button>
+        <button type="button" class="btn btn-secondary">Gå tilbage</button>
+	</div>
+</form>
+</body>
+</html>
