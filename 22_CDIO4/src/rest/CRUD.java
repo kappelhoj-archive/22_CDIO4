@@ -34,7 +34,7 @@ public class CRUD {
 					id = (int) (Math.random() * 89 + 11);
 					Controller.func.getUser(id);
 				} catch (DALException e) {
-					user.setUserId(id);
+					user.setId(id);
 					break;
 				}
 			}
@@ -70,7 +70,7 @@ public class CRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public boolean editUser(UserDTO user) {
 		try {
-			UserDTO sameUser = Controller.func.getUser(user.getUserId());
+			UserDTO sameUser = Controller.func.getUser(user.getId());
 			
 			//If password has not been changed.
 			if (user.getPassword().length() < 1) {
