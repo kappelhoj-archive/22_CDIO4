@@ -3,14 +3,14 @@ package controller;
 import java.util.Hashtable;
 
 import controller.interfaces.ILoginController;
-import dataAccessObjects.MySQLOperatoerDAO;
+import dataAccessObjects.MyOperatoerDAO;
 import dataAccessObjects.interfaces.OperatoerDAO;
 import exceptions.DALException;
 
 public class LoginController implements ILoginController {
 
 	Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
-	OperatoerDAO dao = new MySQLOperatoerDAO();
+	OperatoerDAO dao = new MyOperatoerDAO();
 
 	public LoginController(){
 

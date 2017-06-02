@@ -20,5 +20,11 @@ public class ProduktBatchDTO  extends DTO
 	public int getReceptId() { return receptId; }
 	public void setReceptId(int receptId) { this.receptId = receptId; }
 	public String toString() { return pbId + "\t" + status + "\t" + receptId; }
+
+	@Override
+	public DTO copy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import controller.LoginController;
 import controller.interfaces.ILoginController;
-import dataAccessObjects.MySQLOperatoerDAO;
+import dataAccessObjects.MyOperatoerDAO;
 import dataAccessObjects.interfaces.OperatoerDAO;
 import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
@@ -21,7 +21,7 @@ public class testUnitLogin {
 	@Before
 	public void setUp() throws Exception {
 		controller = new LoginController();
-		dao = new MySQLOperatoerDAO();
+		dao = new MyOperatoerDAO();
 	}
 
 	@After
