@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class ReceptKompDTO
+public class ReceptKompDTO extends DTO
 {
 	int receptId;                  // auto genereres fra 1..n   
 	int raavareId;             // i omraadet 1-99999999

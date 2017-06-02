@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class ProduktBatchDTO 
+public class ProduktBatchDTO  extends DTO
 {
 	int pbId;                     // i omraadet 1-99999999
 	int status;					// 0: ikke paabegyndt, 1: under produktion, 2: afsluttet

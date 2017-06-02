@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class RaavareBatchDTO
+public class RaavareBatchDTO extends DTO
 {
 	int rbId;                     // i omraadet 1-99999999
 	int raavareId;             // i omraadet 1-99999999

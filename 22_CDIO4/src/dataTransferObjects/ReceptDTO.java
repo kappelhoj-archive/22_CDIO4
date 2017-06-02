@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class ReceptDTO 
+public class ReceptDTO extends DTO
 {
 	/** Recept nr i omraadet 1-99999999 */
 	int receptId;

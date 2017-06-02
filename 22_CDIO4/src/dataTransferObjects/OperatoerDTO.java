@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class OperatoerDTO
+public class OperatoerDTO extends DTO
 {
 	/** Operatoer-identifikationsnummer (opr_id) i omraadet 1-99999999. Vaelges af brugerne */
 	int oprId;                     

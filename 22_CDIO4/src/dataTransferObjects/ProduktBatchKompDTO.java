@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class ProduktBatchKompDTO 
+public class ProduktBatchKompDTO extends DTO
 {
 	int pbId; 	  // produktbatchets id
 	int rbId;        // i omraadet 1-99999999

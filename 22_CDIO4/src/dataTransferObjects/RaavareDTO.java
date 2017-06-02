@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class RaavareDTO 
+public class RaavareDTO extends DTO
 {
     /** i omraadet 1-99999999 vaelges af brugerne */
     int raavareId;                     
