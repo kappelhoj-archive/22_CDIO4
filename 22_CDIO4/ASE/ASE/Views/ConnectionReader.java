@@ -7,7 +7,8 @@ import java.util.regex.Pattern;
 
 public class ConnectionReader {
 
-	String WeightIP, WeightPort;
+	private String WeightIP, WeightPort;
+	private String[] IPArray;
 
 	public void WeightReader() throws FileNotFoundException {
 
@@ -44,6 +45,17 @@ public class ConnectionReader {
 		}
 	}
 
+	//Method to return size of IPArray
+	public String[] getIPArray(){
+		return IPArray;
+	}
+	
+	
+	//Method to return IP number as String.
+	public String getIPString(){
+		return WeightIP;
+	}
+		
 	// Method to return Port number as integer.
 	public int getPortInt() {
 		int weightPortInt = Integer.parseInt(WeightPort);
@@ -51,10 +63,10 @@ public class ConnectionReader {
 	}
 
 	// Method to verify the validness of the IP.
-	private static boolean IPChecker(String WeightIP) {
+	private boolean IPChecker(String WeightIP) {
 		// Check to see if the IP contains the right number of periods.
 
-		String[] IPArray = WeightIP.split(Pattern.quote("."));
+		IPArray = WeightIP.split(Pattern.quote("."));
 
 		if (IPArray.length != 4) {
 			System.out.println("Error: Invalid number of periods!");
