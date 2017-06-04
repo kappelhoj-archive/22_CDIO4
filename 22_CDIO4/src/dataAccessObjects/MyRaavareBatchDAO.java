@@ -19,7 +19,7 @@ public class MyRaavareBatchDAO implements RaavareBatchDAO {
 			return rawmatBatchList.get(rbId).copy();
 
 		else
-			throw new DALException("Unknown Product Batch ID: " + rbId);
+			throw new DALException("Unknown Raw Material Batch ID: " + rbId);
 	}
 
 	@Override
