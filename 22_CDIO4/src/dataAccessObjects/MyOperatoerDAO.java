@@ -57,6 +57,7 @@ public class MyOperatoerDAO implements OperatoerDAO {
 		userList.replace(opr.getOprId(), opr.copy());
 		//FileManagement.saveData(userList, "operatoer");
 	}
+	
 
 	public List<OperatoerDTO> getOperatoerList() throws DALException {
 		List<OperatoerDTO> users = new ArrayList<OperatoerDTO>();
