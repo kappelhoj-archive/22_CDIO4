@@ -11,13 +11,23 @@ import exceptions.DALException;
 
 public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 	
-	static Hashtable<Integer, ProduktBatchKompDTO> productBatchCompList = new Hashtable<Integer, ProduktBatchKompDTO>();
+	class DoubleInteger {
+		int x;
+		int y;
+		
+		int getX(){return x;}
+		int getY(){return y;}
+		
+		public DoubleInteger(int x, int y){this.x = x; this.y = y;}
+	}
+	
+	static Hashtable<DoubleInteger, ProduktBatchKompDTO> productBatchCompList = new Hashtable<DoubleInteger, ProduktBatchKompDTO>();
 
 	@Override
 	public ProduktBatchKompDTO getProduktBatchKomp(int pbId, int rbId) throws DALException {
 		
-		if(productBatchCompList.get(rbId) != null)
-			return productBatchCompList.get(rbId).copy();
+		if(productBatchCompList.get(new DoubleInteger(pbId, rbId)) != null)
+			return productBatchCompList.get(new DoubleInteger(pbId, rbId)).copy();
 	
 		else
 			throw new DALException("Unknown Product Batch Comp ID: " + rbId);
@@ -27,9 +37,9 @@ public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 	public List<ProduktBatchKompDTO> getProduktBatchKompList(int pbId) throws DALException {
 		List<ProduktBatchKompDTO> productbsc = new ArrayList<ProduktBatchKompDTO>();
 
-		Set<Integer> keys = productBatchCompList.keySet();
+		Set<DoubleInteger> keys = productBatchCompList.keySet();
 		
-		for(Integer key : keys){
+		for(DoubleInteger key : keys){
 			productbsc.add(productBatchCompList.get(key).copy());
 		}
 
@@ -44,18 +54,19 @@ public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 
 	@Override
 	public void createProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws DALException {
-		if (productBatchCompList.putIfAbsent(produktbatchkomponent.getPbId(), produktbatch.copy()) == null)
+		
+		if (productBatchCompList.putIfAbsent(new DoubleInteger(produktbatchkomponent.getPbId(), produktbatchkomponent.getRbId()), produktbatchkomponent.copy()) == null)
 			return;
 		
 		else
-			throw new DALException("Product Batch ID:"+produktbatch.getPbId()+" already exists !");
+			throw new DALException("Product Batch ID:"+produktbatchkomponent.getPbId()+" already exists !");
 
 
 	}
 
 	@Override
 	public void updateProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws DALException {
-		// TODO Auto-generated method stub
+		productBatchCompList.replace(new DoubleInteger(produktbatchkomponent.getPbId(), produktbatchkomponent.getRbId()), produktbatchkomponent.copy());
 
 	}
 
