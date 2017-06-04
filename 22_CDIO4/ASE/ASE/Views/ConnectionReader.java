@@ -63,9 +63,9 @@ public class ConnectionReader {
 	}
 
 	// Method to verify the validness of the IP.
-	private boolean IPChecker(String WeightIP) {
+	private boolean IPChecker(String weightIP) {
+		
 		// Check to see if the IP contains the right number of periods.
-
 		IPArray = WeightIP.split(Pattern.quote("."));
 
 		if (IPArray.length != 4) {
@@ -80,6 +80,12 @@ public class ConnectionReader {
 			}
 		} catch (Exception e) {
 			System.out.println("Error: IP contains invalid characters!");
+		}
+		
+		// Check to see if the IP is invalid/unknown, i.e. 0.0.0.0.
+		if (weightIP == "0.0.0.0"){
+			System.out.println("Error: IP reference invalid/unknown!");
+			System.out.println("Error source: ");
 		}
 
 		// Check to see if any of the numbers are too small or too big.
