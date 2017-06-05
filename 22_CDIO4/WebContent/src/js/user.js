@@ -109,17 +109,20 @@ $(document).ready(function() {
 });
 
 function getUser(userId) {
+	var json;
 	$.ajax({
 		url : "rest/user/get-user",
 		type : "POST",
 		data: userId,
 		contentType: "application/json",
 		success : function(data){
-			console.log(data);
-			console.log("Rolle: " + data.rolle);
+			json = data;
 		},
 		error: function(data){
 			console.log("Fejl! " + data);
 		}
 	});
+	return { getJson : function () {
+		if(json) return json;
+	}};
 }

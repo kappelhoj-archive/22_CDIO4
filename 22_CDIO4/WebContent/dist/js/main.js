@@ -8,6 +8,9 @@ $(document).ready(function() {
 	$(document).on("submit", "#login_form", function(event) {
 		event.preventDefault();
 		var userId = $("#user_id").val();
+		var userData = getUser(userId);
+		var template;
+		
 		$.ajax({
 			url : 'rest/login/login-user',
 			type : 'POST',
@@ -15,10 +18,17 @@ $(document).ready(function() {
 			data : $(this).serializeJSON(),
 			success : function(data) {
 				if(data == "super_admin" || data == "logged_in") {
-					$("body").load("src/master.html", function() {
-						console.log(userId);
-						getUser(userId);
-					});
+					console.log(userData.getJson());
+					
+					//template = Mustache.render("<h1>{{rolle}}</h1>", userData.getJson());
+					
+					$.get("src/master.html", function(template, textStatus, jqXhr) {
+			            $("body").html(Mustache.render($(template).html(), userData.getJson()))		            
+			        });
+//					$("body").load("src/master.html", function() {
+//						console.log(userId);
+//						getUser(userId);
+//					});
 				}
 				else {
 					console.log(data);
@@ -140,17 +150,20 @@ $(document).ready(function() {
 });
 
 function getUser(userId) {
+	var json;
 	$.ajax({
 		url : "rest/user/get-user",
 		type : "POST",
 		data: userId,
 		contentType: "application/json",
 		success : function(data){
-			console.log(data);
-			console.log("Rolle: " + data.rolle);
+			json = data;
 		},
 		error: function(data){
 			console.log("Fejl! " + data);
 		}
 	});
+	return { getJson : function () {
+		if(json) return json;
+	}};
 }
