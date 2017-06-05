@@ -1,122 +1,61 @@
 package ASE.Controllers;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.concurrent.TimeUnit;
 
+import ASE.exceptions.InvalidReturnMessage;
 import ASE.exceptions.ProtocolErrorException;
+import ASE.interfaces.IWeightCommunicator;
+import ASE.interfaces.IWeightCommunicator.Buttons;
 
 public class WeightController implements Runnable {
 	MeasurementController measurementAdder;
-	Socket weightConnection;
-	DataOutputStream outToWeight;
-	BufferedReader inFromWeight;
+	IWeightCommunicator weightCommunication;
 
-	WeightController(MeasurementController measurementAdder, Socket weightConnection)
-			throws UnknownHostException, IOException {
+	WeightController(MeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
-		this.weightConnection = weightConnection;
-		outToWeight = new DataOutputStream(weightConnection.getOutputStream());
-		inFromWeight = new BufferedReader(new InputStreamReader(weightConnection.getInputStream()));
+		weightCommunication = new WeightCommunicator(weightConnection);
 	}
 
 	@Override
 	public void run() {
+
 		while (true) {
-			startMeasureMent();
-		}
-	}
-
-	public void startMeasureMent() {
-
-	}
-
-	public void login() {
-
-	}
-
-	public String RM20(String message) throws IOException, ProtocolErrorException {
-		String out = "";
-		outToWeight.writeBytes("RM20 8 \"" + message + "\" \"\" \"&3\"" + "\n");
-		out = waitForAnswer();
-		checkReturnMessage(message,out);
-		return out;
-	}
-
-	public void P111(String message) throws IOException, ProtocolErrorException {
-		String out = "";
-		outToWeight.writeBytes("P111 \"" + message + "\"" + "\n");
-		out = waitForAnswer();
-		checkReturnMessage(message,out);
-	}
-
-	/**
-	 * Check if the answer received has a special function or if it is and
-	 * error.
-	 * 
-	 * @param answerReceived
-	 */
-	public String checkReturnMessage(String previousMessageSent,String answerReceived) throws ProtocolErrorException {
-		if(previousMessageSent!=null){
-			
-		}
-		String splitAnswer[] = answerReceived.split(" ");
-		switch (splitAnswer[0]) {
-		case "RM20":
-			switch (splitAnswer[1]) {
-			case "A":
-				break;
-			case "B":
-				break;
-			default:
-				throw new ProtocolErrorException(answerReceived, "Received Unknown");
-			}
-
-		case "P111":
-			switch (splitAnswer[1]) {
-			case "A":
-				break;
-			default:
-				throw new ProtocolErrorException(answerReceived, "Received Unknown");
-			}
-
-		default:
-			break;
-		}
-
-		return answerReceived;
-	}
-
-	public String waitForAnswer() throws IOException {
-		while (!inFromWeight.ready()) {
 			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				System.out.println("Thread Interupted.");
-			}
-		}
-		return inFromWeight.readLine();
-	}
-
-	@Override
-	public void flush() {
-		// TODO: Redo this method at some point.
-		try {
-			sendCommand("RM20 0");
-			try {
-				TimeUnit.SECONDS.sleep(2);
-			} catch (InterruptedException e) {
+				Buttons buttonConfirmation;
+				
+				do{
+					buttonConfirmation = login();
+					switch(buttonConfirmation){
+					case BACK:
+						continue;
+					case LOGOUT:
+					default:
+						break;
+					}
+				}while(buttonConfirmation!=Buttons.CONFIRM);
+				
+				
+				
+			} catch (ProtocolErrorException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			while (inFromWeight.ready()) {
-				inFromWeight.readLine();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+
+		}
+	}
+
+	public Buttons login() throws ProtocolErrorException {
+		try {
+			String id = weightCommunication.askForInformation("Enter your id and press ok.");
+			// TODO: get operator from system
+			String oprName = "";
+
+			weightCommunication.sendMessage("Please confirm your name" + oprName + " ->]");
+			return weightCommunication.receiveButtonPush();
+
+		} catch (InvalidReturnMessage e) {
+			return weightCommunication.receiveButtonPush();
 		}
 
 	}
