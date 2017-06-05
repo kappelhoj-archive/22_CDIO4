@@ -32,6 +32,7 @@ public class LoginController implements ILoginController {
 					return false;
 
 			}catch(DALException e2){
+				System.out.println(e2);
 				return false;
 			}
 		}
