@@ -24,11 +24,11 @@ $(document).ready(function() {
 //					return "New information not saved. Do you wish to leave the page?";
 //					}
 //					}
-					$("input[name=\"userId\"]").val(data.userId);
-					$("input[name=\"userName\"]").val(data.userName);
-					$("input[name=\"ini\"]").val(data.ini);
-					$("input[name=\"cpr\"]").val(data.cpr);
-					$("input[name=\"roles[]\"]").val(data.roles);
+					$("#user_id").val(data.userId);
+					$("#name").val(data.userName);
+					$("#initials").val(data.ini);
+					$("#cpr").val(data.cpr);
+					$("#rolle").val(data.roles);
 				});
 			},
 			error: function(data){
