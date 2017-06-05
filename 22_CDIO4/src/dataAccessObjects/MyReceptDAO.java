@@ -7,6 +7,7 @@ import java.util.Set;
 
 import dataAccessObjects.interfaces.ReceptDAO;
 import dataTransferObjects.ReceptDTO;
+import exceptions.CollisionException;
 import exceptions.DALException;
 
 public class MyReceptDAO implements ReceptDAO {
@@ -41,7 +42,7 @@ public class MyReceptDAO implements ReceptDAO {
 			return;
 		
 		else
-			throw new DALException("Recpipe ID:"+recept.getReceptId()+" already exists !");
+			throw new CollisionException("Recpipe ID:"+recept.getReceptId()+" already exists !");
 
 	}
 
