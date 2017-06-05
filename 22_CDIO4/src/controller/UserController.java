@@ -2,13 +2,14 @@ package controller;
 
 import java.util.List;
 
+import controller.interfaces.IUserController;
 import dataAccessObjects.MyOperatoerDAO;
 import dataAccessObjects.interfaces.OperatoerDAO;
 import dataTransferObjects.OperatoerDTO;
 import exceptions.*;
 import staticClasses.Validator;
 
-public class UserController {
+public class UserController implements IUserController{
 
 	OperatoerDAO dao = new MyOperatoerDAO();
 
@@ -21,64 +22,74 @@ public class UserController {
 		Validator.validateRole(user.getRolle());
 	}
 
-	public String createUser(OperatoerDTO user){
+	@Override
+	public void createUser(OperatoerDTO user) throws InputException, CollisionException, DALException{
 		try{
 
 			validation(user);
 
 			dao.createOperatoer(user);
 
-			return "true";
+			return;
 
 		}catch(InputException e){
-			return ("INPUT FAIL: "+e.toString());
+			throw new InputException(e.toString());
+			
+		}catch(CollisionException e){
+			throw new CollisionException(e.toString());
 
 		}catch(DALException e){
-			return ("DAL FAIL: "+e.toString());
+			System.out.println(e.toString());
+			throw new DALException (e.toString());
 		}
 	}
 
-	public String updateUser(OperatoerDTO user){
+	@Override
+	public void updateUser(OperatoerDTO user) throws InputException, DALException{
 		try{
 
 			validation(user);
 
 			dao.updateOperatoer(user);
 
-			return "true";
+			return;
 
 		}catch(InputException e){
-			return ("INPUT FAIL: "+e.toString());
+			throw new InputException(e.toString());
 
 		}catch(DALException e){
-			return ("DAL FAIL: "+e.toString());
+			System.out.println(e.toString());
+			throw new DALException (e.toString());
 
 		}
 	}
 
-	public OperatoerDTO getUser(int userID){
+	@Override
+	public OperatoerDTO getUser(int userID) throws InputException, DALException{
 		try{
 			Validator.validateUserID(userID);
 
 			return dao.getOperatoer(userID);
 
 		}catch(InputException e){
-			return null;
-
+			throw new InputException(e.toString());
 
 		}catch(DALException e){
-			return null;
+			System.out.println(e.toString());
+			throw new DALException (e.toString());
 
 		}
 	}
 
-	public List<OperatoerDTO> getUserList(){
+	@Override
+	public List<OperatoerDTO> getUserList() throws DALException{
 		try{
 
 			return dao.getOperatoerList();
 
 		}catch(DALException e){
-			return null;
+			System.out.println(e.toString());
+			throw new DALException (e.toString());
 
 		}
 	}
