@@ -1,4 +1,4 @@
-package ASE.Views;
+package ASE.tests;
 
 import static org.junit.Assert.*;
 
