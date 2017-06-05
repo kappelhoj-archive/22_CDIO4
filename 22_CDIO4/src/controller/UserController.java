@@ -5,9 +5,8 @@ import java.util.List;
 import dataAccessObjects.MyOperatoerDAO;
 import dataAccessObjects.interfaces.OperatoerDAO;
 import dataTransferObjects.OperatoerDTO;
-import exceptions.DALException;
+import exceptions.*;
 import staticClasses.Validator;
-import staticClasses.Validator.InputException;
 
 public class UserController {
 
@@ -31,12 +30,11 @@ public class UserController {
 
 			return "true";
 
-		}catch(DALException e){
-			return ("DAL FAIL: "+e.toString());
-
 		}catch(InputException e){
 			return ("INPUT FAIL: "+e.toString());
 
+		}catch(DALException e){
+			return ("DAL FAIL: "+e.toString());
 		}
 	}
 
@@ -49,14 +47,13 @@ public class UserController {
 
 			return "true";
 
-		}catch(DALException e){
-			return ("DAL FAIL: "+e.toString());
-
 		}catch(InputException e){
 			return ("INPUT FAIL: "+e.toString());
 
-		}
+		}catch(DALException e){
+			return ("DAL FAIL: "+e.toString());
 
+		}
 	}
 
 	public OperatoerDTO getUser(int userID){
@@ -65,10 +62,11 @@ public class UserController {
 
 			return dao.getOperatoer(userID);
 
-		}catch(DALException e){
+		}catch(InputException e){
 			return null;
 
-		}catch(InputException e){
+
+		}catch(DALException e){
 			return null;
 
 		}
