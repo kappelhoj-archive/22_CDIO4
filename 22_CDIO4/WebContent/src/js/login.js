@@ -14,9 +14,7 @@ $(document).ready(function() {
 			data : $(this).serializeJSON(),
 			success : function(data) {
 				if(data == "true") {
-					$("body").load("master.html", function() {
-						showUserListPage();
-					});
+					$("body").load("master.html");
 				}
 				else {
 					console.log("forkert login");
