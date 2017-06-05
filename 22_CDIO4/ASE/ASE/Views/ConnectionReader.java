@@ -9,6 +9,16 @@ public class ConnectionReader {
 
 	private String WeightIP, WeightPort;
 	private String[] IPArray;
+	private String fileLocation;
+	
+	
+	public ConnectionReader(String fileLocation) {
+		this.fileLocation = fileLocation;
+		
+		if (fileLocation == null){
+			fileLocation = "src/WeightTable.txt";
+		}
+	}
 
 	/**
 	 * WeightReader's primary class. Opens the "src/WeightTable.txt" file, and
@@ -21,7 +31,7 @@ public class ConnectionReader {
 	public void WeightReader() throws FileNotFoundException {
 
 		// Creation of the scanner
-		Scanner WeightScanner = new Scanner(new FileInputStream("src/WeightTable.txt"));
+		Scanner WeightScanner = new Scanner(new FileInputStream(fileLocation));
 
 		// Attempt to retrieve information from the WeightTable.txt file.
 		try {
