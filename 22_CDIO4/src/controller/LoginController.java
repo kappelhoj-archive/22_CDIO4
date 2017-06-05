@@ -9,7 +9,7 @@ import exceptions.DALException;
 
 public class LoginController implements ILoginController {
 
-	Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
+	static Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
 	OperatoerDAO dao = new MyOperatoerDAO();
 
 	public LoginController(){
