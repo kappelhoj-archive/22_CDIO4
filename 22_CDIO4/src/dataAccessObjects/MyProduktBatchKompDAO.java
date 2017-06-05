@@ -11,16 +11,6 @@ import exceptions.DALException;
 
 public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 
-	class DoubleInteger {
-		int x;
-		int y;
-
-		int getX(){return x;}
-		int getY(){return y;}
-
-		public DoubleInteger(int x, int y){this.x = x; this.y = y;}
-	}
-
 	static Hashtable<DoubleInteger, ProduktBatchKompDTO> productBatchCompList = new Hashtable<DoubleInteger, ProduktBatchKompDTO>();
 
 	@Override
