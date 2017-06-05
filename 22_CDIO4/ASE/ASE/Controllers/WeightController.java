@@ -16,7 +16,7 @@ public class WeightController implements Runnable {
 	DataOutputStream outToWeight;
 	BufferedReader inFromWeight;
 
-	WeightController(MeasurementController measurementAdder, Socket weightConnection)
+	public WeightController(MeasurementController measurementAdder, Socket weightConnection)
 			throws UnknownHostException, IOException {
 		this.measurementAdder = measurementAdder;
 		this.weightConnection = weightConnection;
