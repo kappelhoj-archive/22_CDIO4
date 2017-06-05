@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
+import dataTransferObjects.DTO;
 import exceptions.DALException;
 
 public class FileManagement {
@@ -25,8 +27,8 @@ public class FileManagement {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static ArrayList<Object> retrieveFrom(String type) throws DALException {
-		ArrayList<Object> objects = new ArrayList<Object>();
+	public static List<DTO> retrieveFrom(String type) throws DALException {
+		ArrayList<DTO> objects = new ArrayList<DTO>();
 
 		ObjectInputStream OIS = null;
 		try {
@@ -34,7 +36,7 @@ public class FileManagement {
 			OIS = new ObjectInputStream(fIS);
 			Object inObj = OIS.readObject();
 			if (inObj instanceof ArrayList<?>) {
-				objects = (ArrayList<Object>) inObj;
+				objects = (ArrayList<DTO>) inObj;
 			} else {
 				throw new DALException("Wrong object in file");
 			}
@@ -67,7 +69,7 @@ public class FileManagement {
 	 *             The exception to be thrown if something goes wrong under the
 	 *             saving.
 	 */
-	public static void saveData(ArrayList<Object> objects, String type) throws DALException {
+	public static void saveData(List<DTO> objects, String type) throws DALException {
 		ObjectOutputStream OOS = null;
 		try {
 			FileOutputStream FOS = new FileOutputStream(type+".data");
@@ -76,7 +78,7 @@ public class FileManagement {
 		} catch (FileNotFoundException e) {
 			throw new DALException("Error locating file " + e.getMessage());
 		} catch (IOException e) {
-			throw new DALException("Error writing to disk " + e.getMessage());
+			throw new DALException(type+".data "+" Error writing to disk " + e.getMessage() + objects.toString());
 		} finally {
 			if (OOS != null) {
 				try {
