@@ -28,6 +28,7 @@ public class OperatoerDTO
 		this.ini = ini;
 		this.cpr = cpr;
 		this.password = password;
+		this.rolle = rolle;
 	}
 	
     public OperatoerDTO(OperatoerDTO opr)

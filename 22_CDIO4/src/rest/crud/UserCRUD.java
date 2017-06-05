@@ -2,12 +2,14 @@ package rest.crud;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import controller.UserController;
 import controller.interfaces.IUserController;
+import controller.teststub.UserStubController;
 import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
 import exceptions.InputException;
@@ -15,7 +17,8 @@ import exceptions.InputException;
 @Path("user")
 public class UserCRUD {
 	private static boolean isInitialized = false;
-	IUserController userController = new UserController();
+//	IUserController userController = new UserController();
+	IUserController userController = new UserStubController();
 	
 	public static void initialize() {
 		if(!isInitialized)
@@ -27,12 +30,13 @@ public class UserCRUD {
 	}
 	
 	@Path("get-user")
-	@GET
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public OperatoerDTO readUser(int userId)
+	public OperatoerDTO readUser(String userId)
 	{
+		int id = Integer.parseInt(userId);
 		try {
-			return userController.getUser(userId);
+			return userController.getUser(id);
 		} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

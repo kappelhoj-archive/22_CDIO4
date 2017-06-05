@@ -7,6 +7,7 @@ $(document).ready(function() {
 	 * */
 	$(document).on("submit", "#login_form", function(event) {
 		event.preventDefault();
+		var userId = $("#user_id").val();
 		$.ajax({
 			url : 'rest/login/login-user',
 			type : 'POST',
@@ -14,8 +15,9 @@ $(document).ready(function() {
 			data : $(this).serializeJSON(),
 			success : function(data) {
 				if(data == "super_admin" || data == "logged_in") {
-					$("body").load("master.html", function() {
-						  getUser(data.id);
+					$("body").load("src/master.html", function() {
+						console.log(userId);
+						getUser(userId);
 					});
 				}
 				else {

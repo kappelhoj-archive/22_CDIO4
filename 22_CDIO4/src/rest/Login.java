@@ -9,11 +9,13 @@ import controller.LoginController;
 import controller.UserController;
 import controller.interfaces.ILoginController;
 import controller.interfaces.IUserController;
+import controller.teststub.LoginStubController;
 import dataTransferObjects.LoginPOJO;
 
 @Path("login")
 public class Login {
-	ILoginController loginController = new LoginController();
+//	ILoginController loginController = new LoginController();
+	ILoginController loginController = new LoginStubController();
 
 	@Path("login-user")
 	@POST
