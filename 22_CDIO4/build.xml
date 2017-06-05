@@ -58,6 +58,7 @@
         <concat destfile="${JS}">
         	<!-- Indsæt alle js filer her -->
         	<fileset dir="${SRC_JS_DIR}" includes="login.js" />
+        	<fileset dir="${SRC_JS_DIR}" includes="user.js" />
             <fileset dir="${SRC_JS_DIR}" includes="main.js" />
         </concat>
         <echo message="${JS} built." />

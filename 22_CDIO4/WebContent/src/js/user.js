@@ -107,4 +107,18 @@ $(document).ready(function() {
 		return false; //for at undgå at knappen poster data (default behavior).
 	});
 	
+	function getUser(userId) {
+		$.ajax({
+			url : "rest/user/get-user",
+			type : "GET",
+			contentType: "application/json",
+			success : function(data){
+				console.log(data.rolle)
+			},
+			error: function(data){
+				console.log(data);
+			}
+		});
+	}
+	
 });

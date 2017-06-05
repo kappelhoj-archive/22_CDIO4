@@ -8,16 +8,18 @@ $(document).ready(function() {
 	$(document).on("submit", "#login_form", function(event) {
 		event.preventDefault();
 		$.ajax({
-			url : 'rest/CRUD/login-user',
+			url : 'rest/login/login-user',
 			type : 'POST',
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
 			success : function(data) {
-				if(data == "true") {
-					$("body").load("master.html");
+				if(data == "super_admin" || data == "logged_in") {
+					$("body").load("master.html", function() {
+						  getUser(data.id);
+					});
 				}
 				else {
-					console.log("forkert login");
+					console.log(data);
 				}
 			},
 			error: function(data){
