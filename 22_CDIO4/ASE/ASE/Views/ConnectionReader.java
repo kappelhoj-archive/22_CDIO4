@@ -10,6 +10,14 @@ public class ConnectionReader {
 	private String WeightIP, WeightPort;
 	private String[] IPArray;
 
+	/**
+	 * WeightReader's primary class. Opens the "src/WeightTable.txt" file, and
+	 * verifies all the information in the .txt file.
+	 * 
+	 * @throws FileNotFoundException
+	 *             throws an exception if the file is not located in
+	 *             "src/WeightTable.txt"
+	 */
 	public void WeightReader() throws FileNotFoundException {
 
 		// Creation of the scanner
@@ -45,26 +53,43 @@ public class ConnectionReader {
 		}
 	}
 
-	//Method to return size of IPArray
-	public String[] getIPArray(){
+	/**
+	 * Method to return size of IPArray
+	 * 
+	 * @return Returns the value of the IP Array as a String[] (Array).
+	 */
+	public String[] getIPArray() {
 		return IPArray;
 	}
-	
-	
-	//Method to return IP number as String.
-	public String getIPString(){
+
+	/**
+	 * Method to return IP number as String.
+	 * 
+	 * @return Returns the value of the IP number as a String.
+	 */
+	public String getIPString() {
 		return WeightIP;
 	}
-		
-	// Method to return Port number as integer.
+
+	/**
+	 * Method to return Port number as integer.
+	 * 
+	 * @return Returns the value of the Port number as an integer.
+	 */
 	public int getPortInt() {
 		int weightPortInt = Integer.parseInt(WeightPort);
 		return weightPortInt;
 	}
 
-	// Method to verify the validness of the IP.
+	/**
+	 * Method to verify the validness of the IP.
+	 * 
+	 * @param weightIP
+	 *            the String value of WeightIP
+	 * @return Returns true if all checks passes without problems.
+	 */
 	private boolean IPChecker(String weightIP) {
-		
+
 		// Check to see if the IP contains the right number of periods.
 		IPArray = WeightIP.split(Pattern.quote("."));
 
@@ -81,9 +106,9 @@ public class ConnectionReader {
 		} catch (Exception e) {
 			System.out.println("Error: IP contains invalid characters!");
 		}
-		
+
 		// Check to see if the IP is invalid/unknown, i.e. 0.0.0.0.
-		if (weightIP == "0.0.0.0"){
+		if (weightIP == "0.0.0.0") {
 			System.out.println("Error: IP reference invalid/unknown!");
 			System.out.println("Error source: ");
 		}
@@ -103,6 +128,11 @@ public class ConnectionReader {
 		return true;
 	}
 
+	/**
+	 * @param weightPort
+	 *            the String value of weightPort
+	 * @return Returns true if all checks passes without problems.
+	 */
 	// Method to verify the validness of the Port number.
 	private static boolean PORTChecker(String weightPort) {
 
