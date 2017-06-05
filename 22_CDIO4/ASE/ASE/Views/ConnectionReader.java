@@ -10,19 +10,19 @@ public class ConnectionReader {
 	private String WeightIP, WeightPort;
 	private String[] IPArray;
 	private String fileLocation;
-	
-	
+
 	public ConnectionReader(String fileLocation) {
 		this.fileLocation = fileLocation;
-		
-		if (fileLocation == null){
+
+		if (fileLocation == null) {
 			fileLocation = "src/WeightTable.txt";
 		}
 	}
 
 	/**
 	 * WeightReader's primary class. Opens the "src/WeightTable.txt" file, and
-	 * verifies all the information in the .txt file.
+	 * verifies all the information in the .txt file. Unless a new file is
+	 * explicitly stated, the default is always "src/WeightTable.txt".
 	 * 
 	 * @throws FileNotFoundException
 	 *             throws an exception if the file is not located in
@@ -31,19 +31,19 @@ public class ConnectionReader {
 	public void WeightReader() throws FileNotFoundException {
 
 		// Creation of the scanner
-		Scanner WeightScanner = new Scanner(new FileInputStream(fileLocation));
+		Scanner weightScanner = new Scanner(new FileInputStream(fileLocation));
 
 		// Attempt to retrieve information from the WeightTable.txt file.
-		try {
-			// Retrieve information.
-			while (WeightScanner.hasNextLine()) {
-				String tokenCheck = WeightScanner.next();
+		// Retrieve information.
+		while (weightScanner.hasNext()) {
+			try {
+				String tokenCheck = weightScanner.next();
 
 				// Syntax check.
 				if (tokenCheck.equals("IP")) {
-					String weightIP = WeightScanner.nextLine().trim();
-					WeightScanner.skip("PORT");
-					String weightPort = WeightScanner.nextLine().trim();
+					String weightIP = weightScanner.nextLine().trim();
+					weightScanner.skip("PORT");
+					String weightPort = weightScanner.nextLine().trim();
 
 					IPChecker(weightIP);
 
@@ -56,11 +56,12 @@ public class ConnectionReader {
 				}
 			}
 
-		} catch (Exception e) {
-			System.out.println("Error occured: " + e);
-		} finally {
-			WeightScanner.close();
+			catch (Exception e) {
+				System.out.println("Error occured: " + e);
+				e.printStackTrace();
+			}
 		}
+		weightScanner.close();
 	}
 
 	/**
@@ -101,7 +102,7 @@ public class ConnectionReader {
 	private boolean IPChecker(String weightIP) {
 
 		// Check to see if the IP contains the right number of periods.
-		IPArray = WeightIP.split(Pattern.quote("."));
+		IPArray = weightIP.split(Pattern.quote("."));
 
 		if (IPArray.length != 4) {
 			System.out.println("Error: Invalid number of periods!");
