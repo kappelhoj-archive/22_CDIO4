@@ -12,7 +12,7 @@ public class WeightController implements Runnable {
 	MeasurementController measurementAdder;
 	IWeightCommunicator weightCommunication;
 
-	WeightController(MeasurementController measurementAdder, Socket weightConnection) throws IOException {
+	public WeightController(MeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
 		weightCommunication = new WeightCommunicator(weightConnection);
 	}

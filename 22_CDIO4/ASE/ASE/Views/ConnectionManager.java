@@ -9,14 +9,14 @@ import java.io.IOException;
 public class ConnectionManager implements Runnable {
 
 	ConnectionReader connectionReader = new ConnectionReader();
-	WeightController weightController;
+	WeightController[] weightController;
 	MeasurementController measurementController;
 	Socket weightSocket;
 
 	@Override
 	public void run() {
 		try {
-			weightSocket = new Socket(connectionReader.WeightIP, connectionReader.getPortInt());
+			weightSocket = new Socket(connectionReader.getIPString(), connectionReader.getPortInt());
 			System.out.println("Connection established.");
 		} catch (UnknownHostException e) {
 			System.out.println("Error occured: Host unknown " + e);
@@ -27,25 +27,20 @@ public class ConnectionManager implements Runnable {
 	}
 
 	public void threadStarter() {
-		for (int i = 0; i < connectionReader.getIPArray().length; i++);
+		for (int i = 0; i < connectionReader.getIPArray().length; i++) {
 			try {
 				weightSocket = new Socket(connectionReader.getIPString(), connectionReader.getPortInt());
 			} catch (IOException e) {
-				System.out.println("Connection failed: " +e);
+				System.out.println("Connection failed: " + e);
 			}
-			
-			weightController = new WeightController(measurementController, weightSocket);
-			
-			(new Thread(new weightThread())).start();
-			(new weightThread()).start();
-			
-			
-			
-		// For hver IP/Port detekteret. Check
-		// Lav nyt socket med ip/port Check
-		// Lav ny weightController til hvert socket.
-		// Start tråd
-		// tråd.start;
-	}
 
+			try {
+				weightController[i] = new WeightController(measurementController, weightSocket);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			(new Thread(weightController[i])).start();
+		}
+	}
 }
