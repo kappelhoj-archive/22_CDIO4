@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import exceptions.CollisionException;
 import exceptions.DALException;
 //import staticClasses.FileManagement;
 import dataAccessObjects.interfaces.OperatoerDAO;
@@ -47,7 +48,7 @@ public class MyOperatoerDAO implements OperatoerDAO {
 			return;
 		
 		else
-			throw new DALException("User ID:"+opr.getOprId()+" already exists !");
+			throw new CollisionException("User ID:"+opr.getOprId()+" already exists !");
 
 		//FileManagement.saveData(userList, "operatoer");
 

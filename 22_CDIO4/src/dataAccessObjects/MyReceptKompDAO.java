@@ -7,6 +7,7 @@ import java.util.Set;
 
 import dataAccessObjects.interfaces.ReceptKompDAO;
 import dataTransferObjects.ReceptKompDTO;
+import exceptions.CollisionException;
 import exceptions.DALException;
 
 public class MyReceptKompDAO implements ReceptKompDAO {
@@ -55,7 +56,7 @@ public class MyReceptKompDAO implements ReceptKompDAO {
 			return;
 
 		else
-			throw new DALException("Recipe Comp ID:"+new DoubleInteger(receptkomponent.getReceptId(), receptkomponent.getRaavareId())+" already exists !");
+			throw new CollisionException("Recipe Comp ID:"+new DoubleInteger(receptkomponent.getReceptId(), receptkomponent.getRaavareId())+" already exists !");
 
 	}
 

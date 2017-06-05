@@ -7,6 +7,7 @@ import java.util.Set;
 
 import dataAccessObjects.interfaces.ProduktBatchKompDAO;
 import dataTransferObjects.ProduktBatchKompDTO;
+import exceptions.CollisionException;
 import exceptions.DALException;
 
 public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
@@ -57,7 +58,7 @@ public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 			return;
 
 		else
-			throw new DALException("Product Batch ID:"+produktbatchkomponent.getPbId()+" already exists !");
+			throw new CollisionException("Product Batch ID:"+produktbatchkomponent.getPbId()+" already exists !");
 
 
 	}

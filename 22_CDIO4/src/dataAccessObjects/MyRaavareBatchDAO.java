@@ -7,6 +7,7 @@ import java.util.Set;
 
 import dataAccessObjects.interfaces.RaavareBatchDAO;
 import dataTransferObjects.RaavareBatchDTO;
+import exceptions.CollisionException;
 import exceptions.DALException;
 
 public class MyRaavareBatchDAO implements RaavareBatchDAO {
@@ -55,7 +56,7 @@ public class MyRaavareBatchDAO implements RaavareBatchDAO {
 			return;
 		
 		else
-			throw new DALException("Product Batch ID:"+raavarebatch.getRbId()+" already exists !");
+			throw new CollisionException("Product Batch ID:"+raavarebatch.getRbId()+" already exists !");
 
 	}
 

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import dataAccessObjects.interfaces.RaavareDAO;
 import dataTransferObjects.RaavareDTO;
+import exceptions.CollisionException;
 import exceptions.DALException;
 
 public class MyRaavareDAO implements RaavareDAO {
@@ -41,7 +42,7 @@ public class MyRaavareDAO implements RaavareDAO {
 			return;
 		
 		else
-			throw new DALException("Raw Material ID:"+raavare.getRaavareId()+" already exists !");
+			throw new CollisionException("Raw Material ID:"+raavare.getRaavareId()+" already exists !");
 
 	}
 
