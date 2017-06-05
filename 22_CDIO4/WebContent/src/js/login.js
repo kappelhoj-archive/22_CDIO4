@@ -15,6 +15,8 @@ $(document).ready(function() {
 			data : $(this).serializeJSON(),
 			success : function(data) {
 				if(data == "super_admin" || data == "logged_in") {
+					var data = getUser(userId);
+					Mustache.render("src/master.html", data);
 					$("body").load("src/master.html", function() {
 						console.log(userId);
 						getUser(userId);
