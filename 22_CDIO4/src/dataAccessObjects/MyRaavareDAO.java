@@ -38,17 +38,17 @@ public class MyRaavareDAO implements RaavareDAO {
 
 	@Override
 	public void createRaavare(RaavareDTO raavare) throws DALException {
-		if (rawmatList.putIfAbsent(raavare.getRaavareId(), raavare.copy()) == null)
+		if (rawmatList.putIfAbsent(raavare.getId(), raavare.copy()) == null)
 			return;
 		
 		else
-			throw new CollisionException("Raw Material ID:"+raavare.getRaavareId()+" already exists !");
+			throw new CollisionException("Raw Material ID:"+raavare.getId()+" already exists !");
 
 	}
 
 	@Override
 	public void updateRaavare(RaavareDTO raavare) throws DALException {
-		rawmatList.replace(raavare.getRaavareId(), raavare.copy());
+		rawmatList.replace(raavare.getId(), raavare.copy());
 
 	}
 

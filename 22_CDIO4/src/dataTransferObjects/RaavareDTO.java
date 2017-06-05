@@ -9,31 +9,31 @@ package dataTransferObjects;
 
 public class RaavareDTO
 {
-    /** i omraadet 1-99999999 vaelges af brugerne */
-    int raavareId;                     
-    /** min. 2 max. 20 karakterer */
-    String raavareNavn;                
-    /** min. 2 max. 20 karakterer */
-    String leverandoer;         
+    /** between 1 and 99999999 chosen by the user. */
+    int id;                     
+    /** between 2 and 20 characters */
+    String name;                
+    /** between 2 and 20 characters */
+    String supplier;         
 	
 	public RaavareDTO(int raavareId, String raavareNavn, String leverandoer)
 	{
-		this.raavareId = raavareId;
-		this.raavareNavn = raavareNavn;
-		this.leverandoer = leverandoer;
+		this.id = raavareId;
+		this.name = raavareNavn;
+		this.supplier = leverandoer;
 	}
 	
-    public int getRaavareId() { return raavareId; }
-    public void setRaavareId(int raavareId) { this.raavareId = raavareId; }
-    public String getRaavareNavn() { return raavareNavn; }
-    public void setRaavareNavn(String raavareNavn) { this.raavareNavn = raavareNavn; }
-    public String getLeverandoer() { return leverandoer; }
-    public void setLeverandoer(String leverandoer) { this.leverandoer = leverandoer; }
+    public int getId() { return id; }
+    public void setId(int raavareId) { this.id = raavareId; }
+    public String getName() { return name; }
+    public void setName(String raavareNavn) { this.name = raavareNavn; }
+    public String getSupplier() { return supplier; }
+    public void setSupplier(String leverandoer) { this.supplier = leverandoer; }
     public String toString() { 
-		return raavareId + "\t" + raavareNavn +"\t" + leverandoer; 
+		return id + "\t" + name +"\t" + supplier; 
 	}
     
     public RaavareDTO copy(){
-    	return new RaavareDTO (raavareId, raavareNavn, leverandoer);
+    	return new RaavareDTO (id, name, supplier);
     }
 }

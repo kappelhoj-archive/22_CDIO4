@@ -39,6 +39,7 @@ public class LoginController implements ILoginController {
 	}
 
 
+	//TODO: Det virker ikke.
 	@Override
 	public int generateAdminKey(int id) {
 		Integer key = new Integer((int) Math.floor(Math.random()*10000));
