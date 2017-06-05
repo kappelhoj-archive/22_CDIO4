@@ -2,6 +2,8 @@ package staticClasses;
 
 import java.util.List;
 
+import exceptions.InputException;
+
 /**
  * The Validator class only contains static methods and is used to check if the
  * user input is valid. The class also contains the inner class InputException
@@ -258,27 +260,5 @@ public class Validator {
 		return true;
 	}
 
-	/**
-	 * The InputException class is an exception inner class used in the
-	 * Validator class. The exception is thrown if the user inputs something
-	 * other than told.
-	 * 
-	 * @author Group 22
-	 *
-	 */
-	public static class InputException extends Exception {
-		// The serial id making us able to identify the object when saved and
-		// loaded.
-		private static final long serialVersionUID = 7884927058176762594L;
 
-		/**
-		 * Constructor.
-		 * 
-		 * @param msg
-		 *            The error message.
-		 */
-		public InputException(String msg) {
-			super(msg);
-		}
-	}
 }
