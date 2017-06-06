@@ -37,6 +37,16 @@ public class LoginController implements ILoginController {
 			}
 		}
 	}
+	
+	@Override
+	public void setNewPassword(int id, String password) throws InputException, DALException{
+		OperatoerDTO user = dao.getOperatoer(id).copy();
+
+		user.setPassword(password);
+
+		dao.updateOperatoer(user);
+	}
+
 
 
 	@Override
@@ -45,20 +55,20 @@ public class LoginController implements ILoginController {
 		adminKeyTable.put(id, key);
 		return key;
 	}
-	
+
 	@Override
 	public int resetPassword(int id) throws InputException, DALException{
 		try{
 			Validator.validateUserID(id);
-			
+
 			OperatoerDTO user = dao.getOperatoer(id).copy();
-			
+
 			user.setPassword(generatePassword());
-			
+
 			dao.updateOperatoer(user);
-			
+
 			return generateAdminKey(id);
-			
+
 		}catch(InputException e){
 			throw new InputException(e.getMessage());
 		}catch(DALException e){
@@ -66,8 +76,8 @@ public class LoginController implements ILoginController {
 			throw new DALException(e.getMessage());
 		}
 	}
-	
-	
+
+
 	/**
 	 * Generates a password for the userDTO accepting the rules of DTU
 	 * passwords.
