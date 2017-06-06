@@ -6,7 +6,7 @@ public class ProductBatchCompDTO
 	int rbId;        // i omraadet 1-99999999
 	double tara;
 	double netto;
-	int oprId;					// operatoer-nummer
+	int userId;					// operatoer-nummer
 
 	
 	public ProductBatchCompDTO(int pbId, int rbId, double tara, double netto, int oprId)
@@ -15,7 +15,7 @@ public class ProductBatchCompDTO
 		this.rbId = rbId;
 		this.tara = tara;
 		this.netto = netto;
-		this.oprId = oprId;
+		this.userId = oprId;
 	}
 	
 	public int getPbId() { return pbId; }
@@ -26,13 +26,13 @@ public class ProductBatchCompDTO
 	public void setTara(double tara) { this.tara = tara; }
 	public double getNetto() { return netto; }
 	public void setNetto(double netto) { this.netto = netto; }
-	public int getOprId() { return oprId; }
-	public void setOprId(int oprId) { this.oprId = oprId; }
+	public int getUserId() { return userId; }
+	public void setUserId(int oprId) { this.userId = oprId; }
 	public String toString() { 
-		return pbId + "\t" + rbId +"\t" + tara +"\t" + netto + "\t" + oprId ; 
+		return pbId + "\t" + rbId +"\t" + tara +"\t" + netto + "\t" + userId ; 
 	}
 	
 	public ProductBatchCompDTO copy(){
-		return new ProductBatchCompDTO(pbId, rbId, tara, netto, oprId);
+		return new ProductBatchCompDTO(pbId, rbId, tara, netto, userId);
 	}
 }

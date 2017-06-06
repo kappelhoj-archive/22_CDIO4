@@ -2,32 +2,65 @@ package dataTransferObjects;
 
 public class RecipeCompDTO
 {
-	int receptId;                  // auto genereres fra 1..n   
-	int raavareId;             // i omraadet 1-99999999
+	int recipeId;                  // auto genereres fra 1..n   
+	int rawMaterialId;             // i omraadet 1-99999999
 	double nomNetto;            // skal vaere positiv og passende stor
 	double tolerance;           // skal vaere positiv og passende stor
 
-	public RecipeCompDTO(int receptId, int raavareId, double nomNetto, double tolerance)
+	public RecipeCompDTO(int recipeId, int rawMaterialId, double nomNetto, double tolerance)
 	{
-		this.receptId = receptId;
-		this.raavareId = raavareId;
+		this.recipeId = recipeId;
+		this.rawMaterialId = rawMaterialId;
 		this.nomNetto = nomNetto;
 		this.tolerance = tolerance;
 	}
 
-	public int getReceptId() { return receptId; }
-	public void setReceptId(int receptId) { this.receptId = receptId; }
-	public int getRaavareId() { return raavareId; }
-	public void setRaavareId(int raavareId) { this.raavareId = raavareId; }
-	public double getNomNetto() { return nomNetto; }
-	public void setNomNetto(double nomNetto) { this.nomNetto = nomNetto; }
-	public double getTolerance() { return tolerance; }
-	public void setTolerance(double tolerance) { this.tolerance = tolerance; }
+
+	public int getRecipeId() {
+		return recipeId;
+	}
+
+
+	public void setRecipeId(int recipeId) {
+		this.recipeId = recipeId;
+	}
+
+
+	public int getRawMaterialId() {
+		return rawMaterialId;
+	}
+
+
+	public void setRawMaterialId(int rawMaterialId) {
+		this.rawMaterialId = rawMaterialId;
+	}
+
+
+	public double getNomNetto() {
+		return nomNetto;
+	}
+
+
+	public void setNomNetto(double nomNetto) {
+		this.nomNetto = nomNetto;
+	}
+
+
+	public double getTolerance() {
+		return tolerance;
+	}
+
+
+	public void setTolerance(double tolerance) {
+		this.tolerance = tolerance;
+	}
+
+
 	public String toString() { 
-		return receptId + "\t" + raavareId + "\t" + nomNetto + "\t" + tolerance; 
+		return recipeId + "\t" + rawMaterialId + "\t" + nomNetto + "\t" + tolerance; 
 	}
 
 	public RecipeCompDTO copy(){
-		return new RecipeCompDTO(receptId, raavareId, nomNetto, tolerance);
+		return new RecipeCompDTO(recipeId, rawMaterialId, nomNetto, tolerance);
 	}
 }

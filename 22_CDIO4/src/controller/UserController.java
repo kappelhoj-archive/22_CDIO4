@@ -14,12 +14,12 @@ public class UserController implements IUserController{
 	IUserDAO dao = new UserDAO();
 
 	public void validation(UserDTO user) throws InputException{
-		Validator.validateUserID(user.getOprId());
-		Validator.validateUsername(user.getOprNavn());
+		Validator.validateUserID(user.getId());
+		Validator.validateUsername(user.getName());
 		Validator.validateInitials(user.getIni());
 		Validator.validateCPR(user.getCpr());
 		Validator.validatePassword(user.getPassword());
-		Validator.validateRole(user.getRolle());
+		Validator.validateRole(user.getRole());
 	}
 
 	@Override

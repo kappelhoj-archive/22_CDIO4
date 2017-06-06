@@ -4,30 +4,30 @@ public class ProductBatchDTO implements IWeightControlDTO
 {
 	int pbId;                     // i omraadet 1-99999999
 	int status;					// 0: ikke paabegyndt, 1: under produktion, 2: afsluttet
-	int receptId;
+	int recipeId;
 	
-	public ProductBatchDTO(int pbId, int status, int receptId)
+	public ProductBatchDTO(int pbId, int status, int recipeId)
 	{
 		this.pbId = pbId;
 		this.status = status;
-		this.receptId = receptId;
+		this.recipeId = recipeId;
 	}
 	
 	public int getPbId() { return pbId; }
 	public void setPbId(int pbId) { this.pbId = pbId; }
 	public int getStatus() { return status; }
 	public void setStatus(int status) { this.status = status; }
-	public int getReceptId() { return receptId; }
-	public void setReceptId(int receptId) { this.receptId = receptId; }
-	public String toString() { return pbId + "\t" + status + "\t" + receptId; }
+	public int getReceptId() { return recipeId; }
+	public void setReceptId(int receptId) { this.recipeId = receptId; }
+	public String toString() { return pbId + "\t" + status + "\t" + recipeId; }
 
 	public ProductBatchDTO copy() {
-		return new ProductBatchDTO(pbId, status, receptId);
+		return new ProductBatchDTO(pbId, status, recipeId);
 	}
 
 	@Override
 	public String getIdentity() {
-		return receptId+"";
+		return recipeId+"";
 	}
 }
 
