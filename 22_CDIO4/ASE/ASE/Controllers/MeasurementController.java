@@ -2,20 +2,21 @@ package ASE.Controllers;
 
 import java.util.LinkedList;
 import java.util.Queue;
+
 import ASE.interfaces.IMeasurementController;
-import dataAccessObjects.interfaces.ProduktBatchKompDAO;
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataAccessObjects.ProductBatchCompDAO;
+import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.DALException;
 
 public class MeasurementController implements IMeasurementController, Runnable {
 
-	ProduktBatchKompDTO temp;
-	Queue<ProduktBatchKompDTO> measurements;
-	public ProduktBatchKompDAO produktBatchKomp;
+	ProductBatchCompDTO temp;
+	Queue<ProductBatchCompDTO> measurements;
+	public ProductBatchCompDAO produktBatchKomp;
 
-	public MeasurementController(ProduktBatchKompDAO produktBatchKomp) {
+	public MeasurementController(ProductBatchCompDAO produktBatchKomp) {
 		this.produktBatchKomp =produktBatchKomp;
-		this.measurements = new LinkedList<ProduktBatchKompDTO>();
+		this.measurements = new LinkedList<ProductBatchCompDTO>();
 	}
 
 	public void run() {

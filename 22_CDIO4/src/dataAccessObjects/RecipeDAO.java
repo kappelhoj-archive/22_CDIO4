@@ -38,17 +38,17 @@ public class RecipeDAO implements IRecipeDAO {
 
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws DALException {
-		if (recipeList.putIfAbsent(recipe.getReceptId(), recipe.copy()) == null)
+		if (recipeList.putIfAbsent(recipe.getRecipeId(), recipe.copy()) == null)
 			return;
 		
 		else
-			throw new CollisionException("Recpipe ID:"+recipe.getReceptId()+" already exists !");
+			throw new CollisionException("Recpipe ID:"+recipe.getRecipeId()+" already exists !");
 
 	}
 
 	@Override
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
-		recipeList.replace(recipe.getReceptId(), recipe.copy());
+		recipeList.replace(recipe.getRecipeId(), recipe.copy());
 
 	}
 

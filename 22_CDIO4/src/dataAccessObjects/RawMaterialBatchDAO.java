@@ -45,7 +45,7 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 		Set<Integer> keys = rawmatBatchList.keySet();
 
 		for(Integer key : keys){
-			if(rawmatBatchList.get(key).getRaavareId() == rawMaterialId)
+			if(rawmatBatchList.get(key).getRawMaterialId() == rawMaterialId)
 				rawmatbs.add(rawmatBatchList.get(key).copy());
 		}
 
