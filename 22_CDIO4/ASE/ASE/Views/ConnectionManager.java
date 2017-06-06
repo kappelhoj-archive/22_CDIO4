@@ -4,11 +4,14 @@ import ASE.Views.ConnectionReader;
 import ASE.Controllers.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.io.IOException;
 
 public class ConnectionManager implements Runnable {
 
 	ConnectionReader connectionReader = new ConnectionReader(null);
+	private ArrayList<String> allConnectedIPAdresses = new ArrayList<String>();
+	private ArrayList<Integer> allConnectedPortNumbers = new ArrayList<Integer>();
 	WeightController[] weightController;
 	MeasurementController measurementController;
 	Socket weightSocket;
@@ -18,7 +21,10 @@ public class ConnectionManager implements Runnable {
 		try {
 			for (int i = 0; i < connectionReader.getAllPortNumbers().size(); i++) {
 				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+				allConnectedIPAdresses.add(connectionReader.getIPString(i));
+				allConnectedPortNumbers.add(connectionReader.getPortInt(i));
 				System.out.println("Connection established.");
+				
 			}
 		} catch (UnknownHostException e) {
 			System.out.println("Error occured: Host unknown " + e);
