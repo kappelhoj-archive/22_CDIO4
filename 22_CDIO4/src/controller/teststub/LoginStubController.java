@@ -7,8 +7,8 @@ import exceptions.InputException;
 
 public class LoginStubController implements ILoginController {
 
-	LoginPOJO login = new LoginPOJO("1", "test");
-	LoginPOJO admin = new LoginPOJO("admin", "root");
+	LoginPOJO user1 = new LoginPOJO("1", "test");
+	LoginPOJO user2 = new LoginPOJO("2", "test2");
 
 	@Override
 	public int generateAdminKey(int id) {
@@ -17,7 +17,7 @@ public class LoginStubController implements ILoginController {
 	}
 	
 	public LoginPOJO getLogin() {
-		return login;
+		return user1;
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class LoginStubController implements ILoginController {
 
 	@Override
 	public LoginState checkLogin(LoginPOJO user) {
-		if(Integer.parseInt(user.getId()) == Integer.parseInt(login.getId()) && user.getPassword().equals(login.getPassword()))
+		if(Integer.parseInt(user.getId()) == Integer.parseInt(user1.getId()) && user.getPassword().equals(user1.getPassword()))
 		{
 			return LoginState.TRUE;
 		}

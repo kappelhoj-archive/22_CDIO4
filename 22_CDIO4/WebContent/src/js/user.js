@@ -11,7 +11,6 @@ function getUser(userId) {
 		contentType: "application/json",
 		success : function(data){
 			json = data;
-			console.log(data);
 		},
 		error: function(data){
 			console.log("Fejl! " + data);
@@ -20,5 +19,22 @@ function getUser(userId) {
 	return { getJson : function () {
 		return json;
 	}};
+}
 
+function getUsers() {
+	$.ajax({
+		url : "rest/user/get-users",
+		type : "GET",
+		data: userId,
+		contentType: "application/json",
+		success : function(data){
+			json = data;
+		},
+		error: function(data){
+			console.log("Fejl! " + data);
+		}
+	});
+	return { getJson : function () {
+		return json;
+	}};
 }
