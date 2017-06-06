@@ -8,11 +8,21 @@ import javax.ws.rs.core.MediaType;
 @Path("raw_material")
 public class RawMaterialCrud {
 	
+	IRawMaterialController controller = new rawMaterialController();
+	
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createRawMaterial(RaavareDTO rawMaterial)
 	{
-		
+		try
+		{
+		controller.create(RaavareDTO);
+		return "success";
+		}
+		catch (InputException e)
+		{
+			return "failure";
+		}
 	}
 }
