@@ -36,6 +36,8 @@ public class testUnitLogin {
 		boolean actual;
 
 		int newKey = controller.generateAdminKey(1111);
+		
+		System.out.println("Admin key: "+new Integer(newKey).toString());
 
 		expected = true;
 		actual = controller.checkLogin(1111, new Integer(newKey).toString());

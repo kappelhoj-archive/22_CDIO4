@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class RaavareBatchDTO
+public class RaavareBatchDTO implements IWeightControlDTO
 {
 	int rbId;                     // i omraadet 1-99999999
 	int raavareId;             // i omraadet 1-99999999
@@ -25,5 +25,10 @@ public class RaavareBatchDTO
 	
 	public RaavareBatchDTO copy(){
 		return new RaavareBatchDTO(rbId, raavareId, maengde);
+	}
+
+	@Override
+	public String getIdentity() {
+		return raavareId+"";
 	}
 }
