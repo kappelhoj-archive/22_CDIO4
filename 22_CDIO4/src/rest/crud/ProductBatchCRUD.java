@@ -23,103 +23,75 @@ public class ProductBatchCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProduktBatchDTO getProductBatch(int pbId)
-	{
-		
-		try
-		{
-			return controller.getProductBatch(pbId);
-		}
-		catch(InputException e)
-		{
+	public ProduktBatchDTO getProductBatch(int id) {
+		try {
+			return controller.getProductBatch(id);
+		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
-		}
-		catch(DALException e)
-		{
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
 		}
 	}
-	
-	
-	//TODO: Kig på HTTP ERROR
+
+	// TODO: Kig på HTTP ERROR
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ProduktBatchDTO> getProductBatchList()
-
-	{
-		try{
+	public List<ProduktBatchDTO> getProductBatchList() {
+		try {
 			return controller.getProductBatchList();
-		}
-		catch(DALException e){
+		} catch (DALException e) {
 			System.out.println(e.getMessage());
 			return null;
-		}	
+		}
 	}
-	
+
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createProductBatch(ProduktBatchDTO productbatch)
-	{
-		
-		try
-		{
+	public String createProductBatch(ProduktBatchDTO productbatch) {
+		try {
 			controller.createProductBatch(productbatch);
 			return "success";
-		}
-		catch(CollisionException e)
-		{
+		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede en råvare med det indtastede id.";
-		}
-		catch(InputException e)
-		{
+			return "Fejl: Der findes allerede et produkt batch med det indtastede id.";
+		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";		
-			
-		}
-		catch(DALException e)
-		{
+			return "Fejl: Det indtastede er ugyldigt..";
+
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet."; 
-	
+			return "Fejl: Der skete en fejl i systemet.";
+
 		}
 	}
-	
+
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateProductBatch(ProduktBatchDTO productbatch)
-	{
-		
-		try
-		{
+	public String updateProductBatch(ProduktBatchDTO productbatch) {
+		try {
 			controller.updateProductBatch(productbatch);
 			return "success";
-		}
-		catch(InputException e)
-		{
+		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";		
-			
-		}
-		catch(DALException e)
-		{
+			return "Fejl: Det indtastede er ugyldigt..";
+
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet."; 
-	
+			return "Fejl: Der skete en fejl i systemet.";
+
 		}
 	}
-	
-	
+
 }

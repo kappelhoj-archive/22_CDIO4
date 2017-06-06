@@ -21,42 +21,32 @@ public class RawMaterialCRUD {
 
 	IRawMaterialController controller = new RawMaterialController();
 
-	//TODO: Kig på HTTP ERROR
+	// TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public RaavareDTO readRawMaterial(int id)
-	{
-		try
-		{
+	public RaavareDTO readRawMaterial(int id) {
+		try {
 			return controller.getRawMaterial(id);
-		}
-		catch (InputException e)
-		{
+		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
-		}
-		catch (DALException e)
-		{
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 
-	//TODO: Kig på HTTP ERROR
+	// TODO: Kig på HTTP ERROR
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareDTO> readRawMaterialList()
-	{
-		try 
-		{
+	public List<RaavareDTO> readRawMaterialList() {
+		try {
 			return controller.getRawMaterialList();
-		}
-		catch (DALException e)
-		{
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
@@ -66,56 +56,41 @@ public class RawMaterialCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createRawMaterial(RaavareDTO rawMaterial)
-	{
-		try
-		{
+	public String createRawMaterial(RaavareDTO rawMaterial) {
+		try {
 			controller.createRawMaterial(rawMaterial);
 			return "success";
-		}
-		catch (CollisionException e)
-		{
+		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "Fejl: Der findes allerede en råvare med det indtastede id.";
-		}
-		catch (InputException e)
-		{
+		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "Fejl: Det indtastede er ugyldigt..";
-		}
-		catch (DALException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet."; 
-		}
-	}
-
-	@Path("update")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateRawMaterial(RaavareDTO rawMaterial)
-	{
-		try 
-		{
-			controller.updateRawMaterial(rawMaterial);
-			return "success";
-		}
-		catch (InputException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
-		}
-		catch (DALException e)
-		{
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "Fejl: Der skete en fejl i systemet.";
 		}
 	}
 
+	@Path("update")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String updateRawMaterial(RaavareDTO rawMaterial) {
+		try {
+			controller.updateRawMaterial(rawMaterial);
+			return "success";
+		} catch (InputException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Det indtastede er ugyldigt..";
+		} catch (DALException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Der skete en fejl i systemet.";
+		}
+	}
 
 }

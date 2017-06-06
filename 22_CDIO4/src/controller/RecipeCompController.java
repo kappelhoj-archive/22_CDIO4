@@ -3,27 +3,28 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IRecipeCompController;
+import dataAccessObjects.MyReceptKompDAO;
+import dataAccessObjects.interfaces.ReceptKompDAO;
 import dataTransferObjects.ReceptKompDTO;
 import exceptions.DALException;
 
 public class RecipeCompController implements IRecipeCompController {
+	
+	ReceptKompDAO dao = new MyReceptKompDAO();
 
 	@Override
 	public ReceptKompDTO getRecipeComp(int receptId, int raavareId) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getReceptKomp(receptId, raavareId);
 	}
 
 	@Override
 	public List<ReceptKompDTO> getRecipeComp(int receptId) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getReceptKompList(receptId);
 	}
 
 	@Override
 	public List<ReceptKompDTO> getRecipeCompList() throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getReceptKompList();
 	}
 
 	@Override
