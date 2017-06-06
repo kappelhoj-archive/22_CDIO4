@@ -1,6 +1,11 @@
 package ASE.exceptions;
 
-public class ProtocolErrorException extends Exception {
+public class ProtocolErrorException extends ASEException {
+
+	public ProtocolErrorException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * 

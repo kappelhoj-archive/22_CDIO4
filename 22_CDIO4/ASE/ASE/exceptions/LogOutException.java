@@ -1,8 +1,8 @@
 package ASE.exceptions;
 
-public class InvalidReturnMessageException extends ASEException {
+public class LogOutException extends ASEException {
 
-	public InvalidReturnMessageException(String message) {
+	public LogOutException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}

@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
-import ASE.exceptions.InvalidReturnMessage;
+import ASE.exceptions.InvalidReturnMessageException;
 import ASE.exceptions.ProtocolErrorException;
 import ASE.interfaces.IWeightCommunicator;
 
@@ -29,13 +29,13 @@ public class WeightCommunicator implements IWeightCommunicator {
 	}
 
 	@Override
-	public void sendMessage(String message) throws InvalidReturnMessage {
+	public void sendMessage(String message) throws InvalidReturnMessageException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public String askForInformation(String message) throws InvalidReturnMessage {
+	public String askForInformation(String message) throws InvalidReturnMessageException {
 		// TODO Auto-generated method stub
 		return null;
 	}

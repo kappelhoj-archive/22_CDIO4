@@ -1,6 +1,7 @@
 package ASE.interfaces;
 
-import ASE.exceptions.InvalidReturnMessage;
+import ASE.exceptions.InvalidReturnMessageException;
+import ASE.exceptions.LogOutException;
 import ASE.exceptions.ProtocolErrorException;
 
 
@@ -8,7 +9,8 @@ public interface IWeightCommunicator {
 	public enum Buttons {
 		CONFIRM, /* When the user confirms some information */
 		BACK, /* When the user wants to go back to the last "menu" */
-		LOGOUT /* When the user dosen't want to do anymore measurement. */
+		LOGOUT, /* When the user dosen't want to do anymore measurement. */
+		NULL /* Standard value.*/
 	}
 
 	/**
@@ -18,18 +20,18 @@ public interface IWeightCommunicator {
 	 * @throws ProtocolErrorException
 	 *             - If the message wasnt a button.
 	 */
-	public Buttons receiveButtonPush() throws ProtocolErrorException;
+	public Buttons receiveButtonPush() throws ProtocolErrorException, LogOutException;
 
 	/**
 	 * This method sends a message to the weight to display on the screen.
 	 * 
 	 * @param message
 	 *            to show on weight display
-	 * @throws InvalidReturnMessage
+	 * @throws InvalidReturnMessageException
 	 *             when an unknown message is received. It is recommended to use
 	 *             the receiveButtonPush method if this happen.
 	 */
-	public void sendMessage(String message) throws InvalidReturnMessage;
+	public void sendMessage(String message) throws InvalidReturnMessageException;
 
 	/**
 	 * This methods send a message to the weight and waits for a answer from the
@@ -38,11 +40,11 @@ public interface IWeightCommunicator {
 	 * @param message
 	 *            to show on weight display
 	 * @return The answer from the user.
-	 * @throws InvalidReturnMessage
+	 * @throws InvalidReturnMessageException
 	 *             when an unknown message is received. It is recommended to use
 	 *             the receiveButtonPush method if this happen.
 	 */
-	public String askForInformation(String message) throws InvalidReturnMessage;
+	public String askForInformation(String message) throws InvalidReturnMessageException;
 
 	/**
 	 * Clears the display on the weight and all currently ungoing functions.
