@@ -6,9 +6,9 @@ import dataTransferObjects.ProduktBatchKompDTO;
 import exceptions.*;
 
 public interface IProductBatchCompController {
-	ProduktBatchKompDTO getProduktBatchKomp(int pbId, int rbId) throws DALException;
-	List<ProduktBatchKompDTO> getProduktBatchKompList(int pbId) throws DALException;
-	List<ProduktBatchKompDTO> getProduktBatchKompList() throws DALException;
-	void createProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws CollisionException, DALException;
-	void updateProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws DALException;	
+	ProduktBatchKompDTO getProductBatchComp(int pbId, int rbId) throws DALException;
+	List<ProduktBatchKompDTO> getProductBatchCompList(int pbId) throws DALException;
+	List<ProduktBatchKompDTO> getProductBatchCompList() throws DALException;
+	void createProductBatchComp(ProduktBatchKompDTO produktbatchkomponent) throws CollisionException, DALException;
+	void updateProductBatchComp(ProduktBatchKompDTO produktbatchkomponent) throws DALException;	
 }
