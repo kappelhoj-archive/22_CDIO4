@@ -27,15 +27,21 @@ public class RawMaterialCrud {
 		}
 		catch (CollisionException e)
 		{
-			return "failure";
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Der findes allerede en råvare med det indtastede id.";
 		}
 		catch (InputException e)
 		{
-			
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Det indtastede er ugyldigt..";
 		}
 		catch (DALException e)
 		{
-			
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Der skete en fejl i systemet."; 
 		}
 	}
 }
