@@ -8,7 +8,12 @@ $(document).ready(function() {
 	$(document).on("submit", "#login_form", function(event) {
 		event.preventDefault();
 		var userId = $("#user_id").val();
-		var userData = getUser(userId);
+		getUser(userId).done(function(r) {
+			
+		})
+		.fail(function(x) {
+			console.log("Fejl!");
+		});
 		
 		$.ajax({
 			url : 'rest/login/login-user',
@@ -22,9 +27,15 @@ $(document).ready(function() {
 			        });
 				}
 				else if(data == "super_admin" || data == "logged_in") {		
-					$.get("src/master.html", function(template) {
-			            $("body").html(Mustache.render($(template).html(), userData.getJson()))		            
-			        });
+					var userId = $("#user_id").val();
+					getUser(userId).done(function(data) {
+						$.get("src/master.html", function(template) {
+				            $("body").html(Mustache.render($(template).html(), data))		            
+				        });
+					})
+					.fail(function(x) {
+						console.log("Fejl!");
+					});
 				}
 				else {
 					console.log(data);
