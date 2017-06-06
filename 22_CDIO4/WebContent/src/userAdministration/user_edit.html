@@ -1,46 +1,49 @@
-<h2>Bruger redigering </h2>
-<form id="user_edit_form">
-	<div class="form-group">
-    	<label for="user_id">Bruger id</label>
-    	<input type="text" class="form-control" id="user_id" name="id" readonly>
-    </div>
-    
-    <div class="form-group">
-    	<label for="password">Nuværende password</label>
-    	<input type="password" class="form-control" id="password" placeholder="Current password" name="password">
-    </div>
-    
-    <div class="form-group">
-    	<label for="new_password">Nyt password</label>
-    	<input type="password" class="form-control" id="new_password" placeholder="Nyt password">
-    </div>
-    
-    <div class="form-group">
-    	<label for="repeat_new_password">Gentag password</label>
-    	<input type="password" class="form-control" id="repeat_new_password" placeholder="Gentag password">
-    </div>
-    
-    <div class="form-group">
-    	<label for="name">Navn</label>
-    	<input type="text" class="form-control" id="name" placeholder="Navn" name="name">
-    </div>
-    
-    <div class="form-group">
-    	<label for="initials">Initialer</label>
-    	<input type="text" class="form-control" id="initials" placeholder="Initialer" name="ini">
-    </div>
-    
-    <div class="form-group">
-    	<label for="cpr">CPR-nummer</label>
-    	<input type="text" class="form-control" id="cpr" name="cpr" readonly>
-    </div>
-    
-    <div class="form-group">
-    	<label for="role">Rolle</label>
-    	<input type="text" class="form-control" id="role" name="role" readonly>
-    </div>
-    <div class="form-group">
-		<button type="submit" class="btn btn-primary">Gem ændringer</button>
-        <button type="button" class="btn btn-secondary">Gå tilbage</button>
-	</div>
-</form>
+<div id="user_edit">
+	<h2>Bruger redigering</h2>
+	<form id="user_edit_form">
+		<div class="form-group">
+	    	<label for="user_id">Bruger id</label>
+	    	<input type="text" class="form-control" id="user_id" name="oprId" value="{{oprId}}" readonly>
+	    </div>
+	    
+	    <div class="form-group">
+	    	<label for="role">Rolle:</label>
+	    	<input type="text" class="form-control" id="role" name="rolle" value="{{rolle}}" readonly>
+	    </div>
+	    
+	    <div class="form-group">
+	    	<label for="name">Navn</label>
+	    	<input type="text" class="form-control" id="name" name="oprNavn" value="{{oprNavn}}">
+	    </div>
+	    
+	    <div class="form-group">
+	    	<label for="initials">Initialer</label>
+	    	<input type="text" class="form-control" id="initials" name="ini" value="{{ini}}">
+	    </div>
+	    
+	    <div class="form-group">
+	    	<label for="cpr">CPR-nummer</label>
+	    	<input type="text" class="form-control" id="cpr" name="cpr" value="{{cpr}}" readonly>
+	    </div>
+	    
+	    <div class="form-group">
+	    	<label for="password">Nuværende password</label>
+	    	<input type="password" class="form-control" id="password" name="password">
+	    </div>
+	    
+	    <div class="form-group">
+	    	<label for="new_password">Nyt password</label>
+	    	<input type="password" class="form-control" id="new_password">
+	    </div>
+	    
+	    <div class="form-group">
+	    	<label for="repeat_new_password">Gentag password</label>
+	    	<input type="password" class="form-control" id="repeat_new_password">
+	    </div>
+	    
+	    <div class="form-group">
+			<button type="submit" class="btn btn-primary">Gem ændringer</button>
+	        <button type="button" class="btn btn-secondary">Gå tilbage</button>
+		</div>
+	</form>
+</div>

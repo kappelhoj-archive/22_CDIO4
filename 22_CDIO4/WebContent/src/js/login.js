@@ -9,7 +9,6 @@ $(document).ready(function() {
 		event.preventDefault();
 		var userId = $("#user_id").val();
 		var userData = getUser(userId);
-		var template;
 		
 		$.ajax({
 			url : 'rest/login/login-user',
@@ -18,11 +17,10 @@ $(document).ready(function() {
 			data : $(this).serializeJSON(),
 			success : function(data) {
 				if(data == "super_admin" || data == "logged_in") {
-					console.log(userData.getJson());
 					
 					//template = Mustache.render("<h1>{{rolle}}</h1>", userData.getJson());
 					
-					$.get("src/master.html", function(template, textStatus, jqXhr) {
+					$.get("src/master.html", function(template) {
 			            $("body").html(Mustache.render($(template).html(), userData.getJson()))		            
 			        });
 //					$("body").load("src/master.html", function() {
