@@ -26,6 +26,7 @@ function getUsers() {
 		url : "rest/user/get-users",
 		type : "GET",
 		data: userId,
+		async: false,
 		contentType: "application/json",
 		success : function(data){
 			json = data;
