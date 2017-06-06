@@ -8,7 +8,7 @@ import exceptions.*;
 
 public interface IRawMaterialController {
 	RaavareDTO getRawMaterial(int raavareId) throws InputException, DALException;
-	List<RaavareDTO> getRawMaterial() throws DALException;
+	List<RaavareDTO> getRawMaterialList() throws DALException;
 	void createRawMaterial(RaavareDTO raavare) throws CollisionException, InputException, DALException;
 	void updateRawMaterial(RaavareDTO raavare) throws InputException, DALException;
 }
