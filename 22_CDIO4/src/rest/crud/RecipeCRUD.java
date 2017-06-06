@@ -23,11 +23,11 @@ public class RecipeCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ReceptDTO getRecipe(int recipeId)
+	public ReceptDTO getRecipe(String recipeId)
 	{
 		try
 		{
-			return controller.getRecipe(recipeId);
+			return controller.getRecipe(Integer.parseInt(recipeId));
 		}
 		catch(InputException e)
 		{

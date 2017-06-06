@@ -25,9 +25,9 @@ public class RawMaterialBatchCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public RaavareBatchDTO readRawMaterialBatch(int id) {
+	public RaavareBatchDTO readRawMaterialBatch(String id) {
 		try {
-			return controller.getRawMaterialBatch(id);
+			return controller.getRawMaterialBatch(Integer.parseInt(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -57,9 +57,9 @@ public class RawMaterialBatchCRUD {
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareBatchDTO> readRawMaterialBatchList(int raavareId) {
+	public List<RaavareBatchDTO> readRawMaterialBatchList(String raavareId) {
 		try {
-			return controller.getRawMaterialBatchList(raavareId);
+			return controller.getRawMaterialBatchList(Integer.parseInt(raavareId));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
