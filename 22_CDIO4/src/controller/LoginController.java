@@ -49,6 +49,7 @@ public class LoginController implements ILoginController {
 		return key;
 	}
 	
+	@Override
 	public int resetPassword(int id) throws InputException, DALException{
 		try{
 			Validator.validateUserID(id);
