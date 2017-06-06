@@ -17,7 +17,7 @@ import exceptions.DALException;
 import exceptions.InputException;
 
 @Path("raw_material")
-public class RawMaterialCrud {
+public class RawMaterialCRUD {
 	
 	IRawMaterialController controller = new RawMaterialController();
 	
