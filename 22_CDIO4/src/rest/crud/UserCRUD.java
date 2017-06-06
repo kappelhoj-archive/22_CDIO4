@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import controller.interfaces.IUserController;
 import controller.teststub.UserStubController;
-import dataTransferObjects.OperatoerDTO;
+import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 import exceptions.InputException;
 
@@ -32,7 +32,7 @@ public class UserCRUD {
 	@Path("get-user")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public OperatoerDTO readUser(String userId)
+	public UserDTO readUser(String userId)
 	{
 		int id = Integer.parseInt(userId);
 		try {
@@ -51,7 +51,7 @@ public class UserCRUD {
 	@Path("get-users")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<OperatoerDTO> readUsers()
+	public List<UserDTO> readUsers()
 	{
 		try {
 			return userController.getUserList();

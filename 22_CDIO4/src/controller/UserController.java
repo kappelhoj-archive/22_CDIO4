@@ -3,17 +3,17 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IUserController;
-import dataAccessObjects.MyOperatoerDAO;
+import dataAccessObjects.UserDAO;
 import dataAccessObjects.interfaces.IUserDAO;
-import dataTransferObjects.OperatoerDTO;
+import dataTransferObjects.UserDTO;
 import exceptions.*;
 import staticClasses.Validator;
 
 public class UserController implements IUserController{
 
-	IUserDAO dao = new MyOperatoerDAO();
+	IUserDAO dao = new UserDAO();
 
-	public void validation(OperatoerDTO user) throws InputException{
+	public void validation(UserDTO user) throws InputException{
 		Validator.validateUserID(user.getOprId());
 		Validator.validateUsername(user.getOprNavn());
 		Validator.validateInitials(user.getIni());
@@ -23,7 +23,7 @@ public class UserController implements IUserController{
 	}
 
 	@Override
-	public void createUser(OperatoerDTO user) throws InputException, CollisionException, DALException{
+	public void createUser(UserDTO user) throws InputException, CollisionException, DALException{
 		try{
 
 			validation(user);
@@ -45,7 +45,7 @@ public class UserController implements IUserController{
 	}
 
 	@Override
-	public void updateUser(OperatoerDTO user) throws InputException, DALException{
+	public void updateUser(UserDTO user) throws InputException, DALException{
 		try{
 
 			validation(user);
@@ -65,7 +65,7 @@ public class UserController implements IUserController{
 	}
 
 	@Override
-	public OperatoerDTO getUser(int id) throws InputException, DALException{
+	public UserDTO getUser(int id) throws InputException, DALException{
 		try{
 			Validator.validateUserID(id);
 
@@ -82,7 +82,7 @@ public class UserController implements IUserController{
 	}
 
 	@Override
-	public List<OperatoerDTO> getUserList() throws DALException{
+	public List<UserDTO> getUserList() throws DALException{
 		try{
 
 			return dao.getUserList();

@@ -3,10 +3,10 @@ package controller;
 import java.util.Hashtable;
 
 import controller.interfaces.ILoginController;
-import dataAccessObjects.MyOperatoerDAO;
+import dataAccessObjects.UserDAO;
 import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.LoginPOJO;
-import dataTransferObjects.OperatoerDTO;
+import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 import exceptions.InputException;
 import staticClasses.Validator;
@@ -14,7 +14,7 @@ import staticClasses.Validator;
 public class LoginController implements ILoginController {
 
 	static Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
-	IUserDAO dao = new MyOperatoerDAO();
+	IUserDAO dao = new UserDAO();
 
 
 	@Override
@@ -45,7 +45,7 @@ public class LoginController implements ILoginController {
 	
 	@Override
 	public void setNewPassword(int id, String password) throws InputException, DALException{
-		OperatoerDTO user = dao.getUser(id).copy();
+		UserDTO user = dao.getUser(id).copy();
 
 		user.setPassword(password);
 
@@ -66,7 +66,7 @@ public class LoginController implements ILoginController {
 		try{
 			Validator.validateUserID(id);
 
-			OperatoerDTO user = dao.getUser(id).copy();
+			UserDTO user = dao.getUser(id).copy();
 
 			user.setPassword(generatePassword());
 

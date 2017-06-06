@@ -3,14 +3,14 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IRecipeCompController;
-import dataAccessObjects.MyReceptKompDAO;
+import dataAccessObjects.RecipeCompDAO;
 import dataAccessObjects.interfaces.IRecipeCompDAO;
 import dataTransferObjects.RecipeCompDTO;
 import exceptions.DALException;
 
 public class RecipeCompController implements IRecipeCompController {
 	
-	IRecipeCompDAO dao = new MyReceptKompDAO();
+	IRecipeCompDAO dao = new RecipeCompDAO();
 
 	@Override
 	public RecipeCompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException {

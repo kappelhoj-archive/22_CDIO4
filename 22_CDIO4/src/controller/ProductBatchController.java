@@ -3,7 +3,7 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IProductBatchController;
-import dataAccessObjects.MyProduktBatchDAO;
+import dataAccessObjects.ProductBatchDAO;
 import dataAccessObjects.interfaces.IProductBatchDAO;
 import dataTransferObjects.ProductBatchDTO;
 import exceptions.CollisionException;
@@ -12,7 +12,7 @@ import exceptions.InputException;
 
 public class ProductBatchController implements IProductBatchController {
 
-	IProductBatchDAO dao = new MyProduktBatchDAO();
+	IProductBatchDAO dao = new ProductBatchDAO();
 	
 	@Override
 	public ProductBatchDTO getProductBatch(int pbId) throws InputException, DALException {

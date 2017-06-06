@@ -12,7 +12,7 @@ import dataTransferObjects.ProductBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyProduktBatchDAO implements IProductBatchDAO, IWeightControlDAO {
+public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 
 	static Hashtable<Integer, ProductBatchDTO> productBatchList = new Hashtable<Integer, ProductBatchDTO>();
 
@@ -43,24 +43,24 @@ public class MyProduktBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 	
 
 	@Override
-	public void createProductBatch(ProductBatchDTO produktbatch) throws DALException {
-		if (productBatchList.putIfAbsent(produktbatch.getPbId(), produktbatch.copy()) == null)
+	public void createProductBatch(ProductBatchDTO productBatch) throws DALException {
+		if (productBatchList.putIfAbsent(productBatch.getPbId(), productBatch.copy()) == null)
 			return;
 		
 		else
-			throw new CollisionException("Product Batch ID:"+produktbatch.getPbId()+" already exists !");
+			throw new CollisionException("Product Batch ID:"+productBatch.getPbId()+" already exists !");
 
 	}
 
 	@Override
-	public void updateProductBatch(ProductBatchDTO produktbatch) throws DALException {
-		productBatchList.replace(produktbatch.getPbId(), produktbatch.copy());
+	public void updateProductBatch(ProductBatchDTO productBatch) throws DALException {
+		productBatchList.replace(productBatch.getPbId(), productBatch.copy());
 
 	}
 
 
 	@Override
-	public IWeightControlDTO getDTOById(int Id) {
+	public IWeightControlDTO getDTOById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

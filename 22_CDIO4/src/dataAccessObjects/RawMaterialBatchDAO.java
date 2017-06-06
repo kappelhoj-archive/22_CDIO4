@@ -12,7 +12,7 @@ import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyRaavareBatchDAO implements IRawMaterialBatchDAO, IWeightControlDAO {
+public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControlDAO {
 
 	static Hashtable<Integer, RawMaterialBatchDTO> rawmatBatchList = new Hashtable<Integer, RawMaterialBatchDTO>();
 
@@ -39,13 +39,13 @@ public class MyRaavareBatchDAO implements IRawMaterialBatchDAO, IWeightControlDA
 	}
 
 	@Override
-	public List<RawMaterialBatchDTO> getRawMaterialBatchList(int raavareId) throws DALException {
+	public List<RawMaterialBatchDTO> getRawMaterialBatchList(int rawMaterialId) throws DALException {
 		List<RawMaterialBatchDTO> rawmatbs = new ArrayList<RawMaterialBatchDTO>();
 
 		Set<Integer> keys = rawmatBatchList.keySet();
 
 		for(Integer key : keys){
-			if(rawmatBatchList.get(key).getRaavareId() == raavareId)
+			if(rawmatBatchList.get(key).getRaavareId() == rawMaterialId)
 				rawmatbs.add(rawmatBatchList.get(key).copy());
 		}
 
@@ -53,23 +53,23 @@ public class MyRaavareBatchDAO implements IRawMaterialBatchDAO, IWeightControlDA
 	}
 
 	@Override
-	public void createRawMaterialBatch(RawMaterialBatchDTO raavarebatch) throws DALException {
-		if (rawmatBatchList.putIfAbsent(raavarebatch.getRbId(), raavarebatch.copy()) == null)
+	public void createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
+		if (rawmatBatchList.putIfAbsent(rawMaterialBatch.getRbId(), rawMaterialBatch.copy()) == null)
 			return;
 		
 		else
-			throw new CollisionException("Product Batch ID:"+raavarebatch.getRbId()+" already exists !");
+			throw new CollisionException("Product Batch ID:"+rawMaterialBatch.getRbId()+" already exists !");
 
 	}
 
 	@Override
-	public void updateRawMaterialBatch(RawMaterialBatchDTO raavarebatch) throws DALException {
-		rawmatBatchList.replace(raavarebatch.getRbId(), raavarebatch.copy());
+	public void updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
+		rawmatBatchList.replace(rawMaterialBatch.getRbId(), rawMaterialBatch.copy());
 
 	}
 
 	@Override
-	public IWeightControlDTO getDTOById(int Id) {
+	public IWeightControlDTO getDTOById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

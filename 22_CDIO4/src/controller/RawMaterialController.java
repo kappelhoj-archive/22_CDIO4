@@ -3,7 +3,7 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IRawMaterialController;
-import dataAccessObjects.MyRaavareDAO;
+import dataAccessObjects.RawMaterialDAO;
 import dataAccessObjects.interfaces.IRawMaterialDAO;
 import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
@@ -12,7 +12,7 @@ import exceptions.InputException;
 
 public class RawMaterialController implements IRawMaterialController {
 	
-	IRawMaterialDAO dao = new MyRaavareDAO();
+	IRawMaterialDAO dao = new RawMaterialDAO();
 
 	@Override
 	public RawMaterialDTO getRawMaterial(int id) throws InputException, DALException {

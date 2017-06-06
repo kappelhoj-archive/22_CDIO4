@@ -10,35 +10,35 @@ import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyRaavareDAO implements IRawMaterialDAO {
+public class RawMaterialDAO implements IRawMaterialDAO {
 	
-	static Hashtable<Integer, RawMaterialDTO> rawmatList = new Hashtable<Integer, RawMaterialDTO>();
+	static Hashtable<Integer, RawMaterialDTO> rawMaterialList = new Hashtable<Integer, RawMaterialDTO>();
 
 	@Override
-	public RawMaterialDTO getRawMaterial(int raavareId) throws DALException {
-		if(rawmatList.get(raavareId) != null)
-			return rawmatList.get(raavareId).copy();
+	public RawMaterialDTO getRawMaterial(int rawMaterialId) throws DALException {
+		if(rawMaterialList.get(rawMaterialId) != null)
+			return rawMaterialList.get(rawMaterialId).copy();
 	
 		else
-			throw new DALException("Unknown Raw Material ID: " + raavareId);
+			throw new DALException("Unknown Raw Material ID: " + rawMaterialId);
 	}
 
 	@Override
 	public List<RawMaterialDTO> getRawMaterialList() throws DALException {
-		List<RawMaterialDTO> rawmats = new ArrayList<RawMaterialDTO>();
+		List<RawMaterialDTO> rawmaterials = new ArrayList<RawMaterialDTO>();
 
-		Set<Integer> keys = rawmatList.keySet();
+		Set<Integer> keys = rawMaterialList.keySet();
 		
 		for(Integer key : keys){
-			rawmats.add(rawmatList.get(key).copy());
+			rawmaterials.add(rawMaterialList.get(key).copy());
 		}
 
-		return rawmats;
+		return rawmaterials;
 	}
 
 	@Override
 	public void createRawMaterial(RawMaterialDTO raavare) throws DALException {
-		if (rawmatList.putIfAbsent(raavare.getId(), raavare.copy()) == null)
+		if (rawMaterialList.putIfAbsent(raavare.getId(), raavare.copy()) == null)
 			return;
 		
 		else
@@ -48,7 +48,7 @@ public class MyRaavareDAO implements IRawMaterialDAO {
 
 	@Override
 	public void updateRawMaterial(RawMaterialDTO raavare) throws DALException {
-		rawmatList.replace(raavare.getId(), raavare.copy());
+		rawMaterialList.replace(raavare.getId(), raavare.copy());
 
 	}
 

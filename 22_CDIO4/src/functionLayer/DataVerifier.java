@@ -4,7 +4,7 @@ import java.util.List;
 
 import dataAccessObjects.IUserDAO;
 import dataAccessObjects.IUserDAO.DALException;
-import dataTransferObjects.UserDTO;
+import dataTransferObjects.UserDTOSkabelon;
 import staticClasses.Validator;
 import staticClasses.Validator.InputException;
 
@@ -32,7 +32,7 @@ public class DataVerifier implements IDataVerifier {
 	 * @param user The user to be created.
 	 */
 	@Override
-	public void createUser(UserDTO user) throws WrongDataException {
+	public void createUser(UserDTOSkabelon user) throws WrongDataException {
 
 		try {
 			// if it returns an exception then the userID is not used
@@ -92,7 +92,7 @@ public class DataVerifier implements IDataVerifier {
 	 * @return The user to be returned.
 	 */
 	@Override
-	public UserDTO getUser(int userID) throws DALException {
+	public UserDTOSkabelon getUser(int userID) throws DALException {
 		return data.getUser(userID);
 	}
 	
@@ -102,7 +102,7 @@ public class DataVerifier implements IDataVerifier {
 	 * @return users list.
 	 */
 	@Override
-	public List<UserDTO> getUserList() throws DALException {
+	public List<UserDTOSkabelon> getUserList() throws DALException {
 		return data.getUserList();
 	}
 
@@ -116,7 +116,7 @@ public class DataVerifier implements IDataVerifier {
 	 *             data.
 	 */
 	@Override
-	public void updateUser(UserDTO user) throws WrongDataException {
+	public void updateUser(UserDTOSkabelon user) throws WrongDataException {
 		// validates if all the new data is legal
 		validate(user);
 
@@ -137,7 +137,7 @@ public class DataVerifier implements IDataVerifier {
 	 *             The exception to be thrown if the UserDTO contains invalid
 	 *             data.
 	 */
-	private void validate(UserDTO user) throws WrongDataException {
+	private void validate(UserDTOSkabelon user) throws WrongDataException {
 		// Validates if the username is legal
 		try {
 			Validator.validateUsername(user.getName());

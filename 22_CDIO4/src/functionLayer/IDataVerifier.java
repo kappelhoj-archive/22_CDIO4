@@ -3,7 +3,7 @@ package functionLayer;
 import java.util.List;
 
 import dataAccessObjects.IUserDAO.DALException;
-import dataTransferObjects.UserDTO;
+import dataTransferObjects.UserDTOSkabelon;
 
 public interface IDataVerifier {
 	
@@ -11,7 +11,7 @@ public interface IDataVerifier {
 	 * Creates a user and adds it to the data.
 	 * @param user The user to be created.
 	 */
-	public void createUser(UserDTO user) throws WrongDataException;
+	public void createUser(UserDTOSkabelon user) throws WrongDataException;
 	
 	/**
 	 * Delete user from data.
@@ -26,14 +26,14 @@ public interface IDataVerifier {
 	 *            the user ID of the user that you want to get.
 	 * @return The user to be returned.
 	 */
-	public UserDTO getUser(int userId) throws DALException;
+	public UserDTOSkabelon getUser(int userId) throws DALException;
 	
 	/**
 	 * Returns a list of all users.
 	 * 
 	 * @return users list.
 	 */
-	public List<UserDTO> getUserList() throws DALException;
+	public List<UserDTOSkabelon> getUserList() throws DALException;
 	
 	/**
 	 * Updates the data file if the UserDTO contains valid data.
@@ -44,7 +44,7 @@ public interface IDataVerifier {
 	 *             The exception to be thrown if the UserDTO contains invalid
 	 *             data.
 	 */
-	public void updateUser(UserDTO user) throws WrongDataException;
+	public void updateUser(UserDTOSkabelon user) throws WrongDataException;
 	
 	/**
 	 * The WrongDataException class is an exception inner class used in the

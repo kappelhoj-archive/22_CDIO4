@@ -10,17 +10,17 @@ import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyReceptDAO implements IRecipeDAO {
+public class RecipeDAO implements IRecipeDAO {
 	
 	static Hashtable<Integer, RecipeDTO> recipeList = new Hashtable<Integer, RecipeDTO>();
 
 	@Override
-	public RecipeDTO getRecipe(int receptId) throws DALException {
-		if(recipeList.get(receptId) != null)
-			return recipeList.get(receptId).copy();
+	public RecipeDTO getRecipe(int recipeId) throws DALException {
+		if(recipeList.get(recipeId) != null)
+			return recipeList.get(recipeId).copy();
 	
 		else
-			throw new DALException("Unknown Recipe ID: " + receptId);
+			throw new DALException("Unknown Recipe ID: " + recipeId);
 	}
 
 	@Override
@@ -37,18 +37,18 @@ public class MyReceptDAO implements IRecipeDAO {
 	}
 
 	@Override
-	public void createRecipe(RecipeDTO recept) throws DALException {
-		if (recipeList.putIfAbsent(recept.getReceptId(), recept.copy()) == null)
+	public void createRecipe(RecipeDTO recipe) throws DALException {
+		if (recipeList.putIfAbsent(recipe.getReceptId(), recipe.copy()) == null)
 			return;
 		
 		else
-			throw new CollisionException("Recpipe ID:"+recept.getReceptId()+" already exists !");
+			throw new CollisionException("Recpipe ID:"+recipe.getReceptId()+" already exists !");
 
 	}
 
 	@Override
-	public void updateRecipe(RecipeDTO recept) throws DALException {
-		recipeList.replace(recept.getReceptId(), recept.copy());
+	public void updateRecipe(RecipeDTO recipe) throws DALException {
+		recipeList.replace(recipe.getReceptId(), recipe.copy());
 
 	}
 

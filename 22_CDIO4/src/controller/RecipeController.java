@@ -3,7 +3,7 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IRecipeController;
-import dataAccessObjects.MyReceptDAO;
+import dataAccessObjects.RecipeDAO;
 import dataAccessObjects.interfaces.IRecipeDAO;
 import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
@@ -11,7 +11,7 @@ import exceptions.DALException;
 
 public class RecipeController implements IRecipeController {
 	
-	IRecipeDAO dao = new MyReceptDAO();
+	IRecipeDAO dao = new RecipeDAO();
 
 	@Override
 	public RecipeDTO getRecipe(int recipeId) throws DALException {

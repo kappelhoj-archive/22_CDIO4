@@ -1,16 +1,15 @@
 package dataAccessObjects;
 
-import java.util.ArrayList;
+
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Set;
 
 import dataAccessObjects.interfaces.IProductBatchCompDAO;
 import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyProduktBatchKompDAO implements IProductBatchCompDAO {
+public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
 	static Hashtable<Integer, ProductBatchCompDTO> productBatchCompList = new Hashtable<Integer, ProductBatchCompDTO>();
 
@@ -56,19 +55,19 @@ public class MyProduktBatchKompDAO implements IProductBatchCompDAO {
 	}
 
 	@Override
-	public void createProductBatchComp(ProductBatchCompDTO produktbatchkomponent) throws DALException {
+	public void createProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {
 
-		if (productBatchCompList.putIfAbsent(produktbatchkomponent.getPbId(), produktbatchkomponent.copy()) == null)
+		if (productBatchCompList.putIfAbsent(productBatchComponent.getPbId(), productBatchComponent.copy()) == null)
 			return;
 
 		else
-			throw new CollisionException("Product Batch ID:"+produktbatchkomponent.getPbId()+" already exists !");
+			throw new CollisionException("Product Batch ID:"+productBatchComponent.getPbId()+" already exists !");
 
 
 	}
 
 	@Override
-	public void updateProductBatchComp(ProductBatchCompDTO produktbatchkomponent) throws DALException {
+	public void updateProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {
 		//productBatchCompList.replace(produktbatchkomponent.getPbId(), produktbatchkomponent.getRbId()), produktbatchkomponent.copy());
 
 	}

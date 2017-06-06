@@ -3,7 +3,7 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IProductBatchCompController;
-import dataAccessObjects.MyProduktBatchKompDAO;
+import dataAccessObjects.ProductBatchCompDAO;
 import dataAccessObjects.interfaces.IProductBatchCompDAO;
 import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
@@ -12,7 +12,7 @@ import exceptions.DALException;
 public class ProductBatchCompController implements IProductBatchCompController {
 
 	
-	IProductBatchCompDAO dao = new MyProduktBatchKompDAO();
+	IProductBatchCompDAO dao = new ProductBatchCompDAO();
 	
 	@Override
 	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
