@@ -17,7 +17,7 @@ public class RawMaterialController implements IRawMaterialController {
 	}
 
 	@Override
-	public List<RaavareDTO> getRawMaterial() throws DALException {
+	public List<RaavareDTO> getRawMaterialList() throws DALException {
 		// TODO Auto-generated method stub
 		return null;
 	}
