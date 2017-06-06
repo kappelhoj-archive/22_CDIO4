@@ -26,19 +26,14 @@ public class Login {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String loginUser(LoginPOJO login) {
 		System.out.println(login);
-		if(login.isSuperAdmin())
-		{
-			return "super_admin";
-		}
-		else if(loginController.checkLogin(Integer.parseInt(login.getId()), login.getPassword()) == LoginState.TRUE)
-		{
+		switch(loginController.checkLogin(login)) {
+		case TRUE:
 			return "logged_in";
-		}
-		else if(loginController.checkLogin(Integer.parseInt(login.getId()), login.getPassword()) == LoginState.NEW)
-		{
+		case SUPER:
+			return "super_admin";
+		case NEW:
 			return "new_log_in";
-		}
-		else {
+		default:
 			return "not_logged_in";
 		}
 	}
