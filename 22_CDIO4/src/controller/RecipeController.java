@@ -24,14 +24,14 @@ public class RecipeController implements IRecipeController {
 	}
 
 	@Override
-	public void createRecipe(ReceptDTO recept) throws CollisionException, DALException {
-		dao.createRecept(recept);
+	public void createRecipe(ReceptDTO recipe) throws CollisionException, DALException {
+		dao.createRecept(recipe);
 
 	}
 
 	@Override
-	public void updateRecipe(ReceptDTO recept) throws DALException {
-		dao.updateRecept(recept);
+	public void updateRecipe(ReceptDTO recipe) throws DALException {
+		dao.updateRecept(recipe);
 
 	}
 

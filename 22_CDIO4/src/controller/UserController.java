@@ -65,11 +65,11 @@ public class UserController implements IUserController{
 	}
 
 	@Override
-	public OperatoerDTO getUser(int userID) throws InputException, DALException{
+	public OperatoerDTO getUser(int id) throws InputException, DALException{
 		try{
-			Validator.validateUserID(userID);
+			Validator.validateUserID(id);
 
-			return dao.getOperatoer(userID);
+			return dao.getOperatoer(id);
 
 		}catch(InputException e){
 			throw new InputException(e.toString());

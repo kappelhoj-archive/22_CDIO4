@@ -13,13 +13,13 @@ public class RecipeCompController implements IRecipeCompController {
 	ReceptKompDAO dao = new MyReceptKompDAO();
 
 	@Override
-	public ReceptKompDTO getRecipeComp(int receptId, int raavareId) throws DALException {
-		return dao.getReceptKomp(receptId, raavareId);
+	public ReceptKompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException {
+		return dao.getReceptKomp(recipeId, rawMaterialId);
 	}
 
 	@Override
-	public List<ReceptKompDTO> getRecipeComp(int receptId) throws DALException {
-		return dao.getReceptKompList(receptId);
+	public List<ReceptKompDTO> getRecipeComp(int recipeId) throws DALException {
+		return dao.getReceptKompList(recipeId);
 	}
 
 	@Override
@@ -28,14 +28,14 @@ public class RecipeCompController implements IRecipeCompController {
 	}
 
 	@Override
-	public void createRecipeComp(ReceptKompDTO receptkomponent) throws DALException {
-		dao.createReceptKomp(receptkomponent);
+	public void createRecipeComp(ReceptKompDTO recipeComponent) throws DALException {
+		dao.createReceptKomp(recipeComponent);
 
 	}
 
 	@Override
-	public void updateRecipeComp(ReceptKompDTO receptkomponent) throws DALException {
-		dao.updateReceptKomp(receptkomponent);
+	public void updateRecipeComp(ReceptKompDTO recipeComponent) throws DALException {
+		dao.updateReceptKomp(recipeComponent);
 
 	}
 

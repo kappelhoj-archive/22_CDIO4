@@ -15,8 +15,8 @@ public class RawMaterialController implements IRawMaterialController {
 	RaavareDAO dao = new MyRaavareDAO();
 
 	@Override
-	public RaavareDTO getRawMaterial(int raavareId) throws InputException, DALException {
-		return dao.getRaavare(raavareId);
+	public RaavareDTO getRawMaterial(int id) throws InputException, DALException {
+		return dao.getRaavare(id);
 	}
 
 	@Override
@@ -25,13 +25,13 @@ public class RawMaterialController implements IRawMaterialController {
 	}
 
 	@Override
-	public void createRawMaterial(RaavareDTO raavare) throws CollisionException, InputException, DALException {
-		dao.createRaavare(raavare);
+	public void createRawMaterial(RaavareDTO rawMaterial) throws CollisionException, InputException, DALException {
+		dao.createRaavare(rawMaterial);
 	}
 
 	@Override
-	public void updateRawMaterial(RaavareDTO raavare) throws InputException, DALException {
-		dao.updateRaavare(raavare);
+	public void updateRawMaterial(RaavareDTO rawMaterial) throws InputException, DALException {
+		dao.updateRaavare(rawMaterial);
 	}
 
 }

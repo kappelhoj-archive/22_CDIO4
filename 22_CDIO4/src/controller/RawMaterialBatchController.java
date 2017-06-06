@@ -24,19 +24,19 @@ public class RawMaterialBatchController implements IRawMaterialBatchController {
 	}
 
 	@Override
-	public List<RaavareBatchDTO> getRawMaterialBatchList(int raavareId) throws DALException {
-		return dao.getRaavareBatchList(raavareId);
+	public List<RaavareBatchDTO> getRawMaterialBatchList(int rawMaterialId) throws DALException {
+		return dao.getRaavareBatchList(rawMaterialId);
 	}
 
 	@Override
-	public void createRawMaterialBatch(RaavareBatchDTO raavarebatch)
+	public void createRawMaterialBatch(RaavareBatchDTO rawMaterialBatch)
 			throws CollisionException, DALException {
-		dao.createRaavareBatch(raavarebatch);
+		dao.createRaavareBatch(rawMaterialBatch);
 	}
 
 	@Override
-	public void updateRawMaterialBatch(RaavareBatchDTO raavarebatch) throws DALException {
-		dao.updateRaavareBatch(raavarebatch);
+	public void updateRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) throws DALException {
+		dao.updateRaavareBatch(rawMaterialBatch);
 	}
 
 }

@@ -25,18 +25,18 @@ public class ProductBatchController implements IProductBatchController {
 	}
 
 	@Override
-	public void createProductBatch(ProduktBatchDTO produktbatch) //TODO check -1<status<3
+	public void createProductBatch(ProduktBatchDTO productBatch) //TODO check -1<status<3
 			throws CollisionException, InputException, DALException {
-		if(produktbatch.getStatus() <= 0 && produktbatch.getStatus() <= 2)
-			dao.createProduktBatch(produktbatch);
+		if(productBatch.getStatus() <= 0 && productBatch.getStatus() <= 2)
+			dao.createProduktBatch(productBatch);
 		else
 			throw new InputException("Status must be between 0 and 2");
 	}
 
 	@Override
-	public void updateProductBatch(ProduktBatchDTO produktbatch) throws InputException, DALException {
-		if(produktbatch.getStatus() <= 0 && produktbatch.getStatus() <= 2)
-			dao.updateProduktBatch(produktbatch);
+	public void updateProductBatch(ProduktBatchDTO productBatch) throws InputException, DALException {
+		if(productBatch.getStatus() <= 0 && productBatch.getStatus() <= 2)
+			dao.updateProduktBatch(productBatch);
 		else
 			throw new InputException("Status must be between 0 and 2");
 	}
