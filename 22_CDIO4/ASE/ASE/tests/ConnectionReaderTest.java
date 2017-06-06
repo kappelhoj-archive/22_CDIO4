@@ -71,8 +71,6 @@ public class ConnectionReaderTest {
 			assertEquals(expected[i], actual.get(i));
 
 		}
-		fileLocation = null;
-		connectionReader = null;
 	}
 
 }
