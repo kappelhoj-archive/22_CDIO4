@@ -13,7 +13,7 @@ import dataTransferObjects.ProduktBatchKompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-@Path("product_batch")
+@Path("product_batch_comp")
 public class ProductBatchCompCRUD {
 
 		IProductBatchCompController controller = new ProductBatchCompController();
