@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class ProduktBatchKompDTO
+public class ProductBatchCompDTO
 {
 	int pbId; 	  // produktbatchets id
 	int rbId;        // i omraadet 1-99999999
@@ -9,7 +9,7 @@ public class ProduktBatchKompDTO
 	int oprId;					// operatoer-nummer
 
 	
-	public ProduktBatchKompDTO(int pbId, int rbId, double tara, double netto, int oprId)
+	public ProductBatchCompDTO(int pbId, int rbId, double tara, double netto, int oprId)
 	{
 		this.pbId = pbId;
 		this.rbId = rbId;
@@ -32,7 +32,7 @@ public class ProduktBatchKompDTO
 		return pbId + "\t" + rbId +"\t" + tara +"\t" + netto + "\t" + oprId ; 
 	}
 	
-	public ProduktBatchKompDTO copy(){
-		return new ProduktBatchKompDTO(pbId, rbId, tara, netto, oprId);
+	public ProductBatchCompDTO copy(){
+		return new ProductBatchCompDTO(pbId, rbId, tara, netto, oprId);
 	}
 }

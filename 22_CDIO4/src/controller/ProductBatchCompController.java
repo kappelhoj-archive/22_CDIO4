@@ -4,40 +4,40 @@ import java.util.List;
 
 import controller.interfaces.IProductBatchCompController;
 import dataAccessObjects.MyProduktBatchKompDAO;
-import dataAccessObjects.interfaces.ProduktBatchKompDAO;
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataAccessObjects.interfaces.IProductBatchCompDAO;
+import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
 public class ProductBatchCompController implements IProductBatchCompController {
 
 	
-	ProduktBatchKompDAO dao = new MyProduktBatchKompDAO();
+	IProductBatchCompDAO dao = new MyProduktBatchKompDAO();
 	
 	@Override
-	public ProduktBatchKompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
-		return dao.getProduktBatchKomp(pbId, rbId);
+	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
+		return dao.getProductBatchComp(pbId, rbId);
 	}
 
 	@Override
-	public List<ProduktBatchKompDTO> getProductBatchCompList(int pbId) throws DALException {
-		return dao.getProduktBatchKompList(pbId);
+	public List<ProductBatchCompDTO> getProductBatchCompList(int pbId) throws DALException {
+		return dao.getProductBatchCompList(pbId);
 	}
 
 	@Override
-	public List<ProduktBatchKompDTO> getProductBatchCompList() throws DALException {
-		return dao.getProduktBatchKompList();
+	public List<ProductBatchCompDTO> getProductBatchCompList() throws DALException {
+		return dao.getProductBatchCompList();
 	}
 
 	@Override
-	public void createProductBatchComp(ProduktBatchKompDTO produktbatchkomponent)
+	public void createProductBatchComp(ProductBatchCompDTO produktbatchkomponent)
 			throws CollisionException, DALException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateProductBatchComp(ProduktBatchKompDTO produktbatchkomponent) throws DALException {
+	public void updateProductBatchComp(ProductBatchCompDTO produktbatchkomponent) throws DALException {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,12 +1,12 @@
 package dataTransferObjects;
 
-public class ProduktBatchDTO implements IWeightControlDTO
+public class ProductBatchDTO implements IWeightControlDTO
 {
 	int pbId;                     // i omraadet 1-99999999
 	int status;					// 0: ikke paabegyndt, 1: under produktion, 2: afsluttet
 	int receptId;
 	
-	public ProduktBatchDTO(int pbId, int status, int receptId)
+	public ProductBatchDTO(int pbId, int status, int receptId)
 	{
 		this.pbId = pbId;
 		this.status = status;
@@ -21,8 +21,8 @@ public class ProduktBatchDTO implements IWeightControlDTO
 	public void setReceptId(int receptId) { this.receptId = receptId; }
 	public String toString() { return pbId + "\t" + status + "\t" + receptId; }
 
-	public ProduktBatchDTO copy() {
-		return new ProduktBatchDTO(pbId, status, receptId);
+	public ProductBatchDTO copy() {
+		return new ProductBatchDTO(pbId, status, receptId);
 	}
 
 	@Override

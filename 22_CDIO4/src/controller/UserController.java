@@ -69,7 +69,7 @@ public class UserController implements IUserController{
 		try{
 			Validator.validateUserID(id);
 
-			return dao.getOperatoer(id);
+			return dao.getUser(id);
 
 		}catch(InputException e){
 			throw new InputException(e.toString());
@@ -85,7 +85,7 @@ public class UserController implements IUserController{
 	public List<OperatoerDTO> getUserList() throws DALException{
 		try{
 
-			return dao.getOperatoerList();
+			return dao.getUserList();
 
 		}catch(DALException e){
 			System.out.println(e.toString());

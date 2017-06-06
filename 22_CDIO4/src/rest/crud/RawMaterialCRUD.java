@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import controller.RawMaterialController;
 import controller.interfaces.IRawMaterialController;
-import dataTransferObjects.RaavareDTO;
+import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
@@ -25,7 +25,7 @@ public class RawMaterialCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public RaavareDTO readRawMaterial(String id) {
+	public RawMaterialDTO readRawMaterial(String id) {
 		try {
 			return controller.getRawMaterial(Integer.parseInt(id));
 		} catch (InputException e) {
@@ -43,7 +43,7 @@ public class RawMaterialCRUD {
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareDTO> readRawMaterialList() {
+	public List<RawMaterialDTO> readRawMaterialList() {
 		try {
 			return controller.getRawMaterialList();
 		} catch (DALException e) {
@@ -56,7 +56,7 @@ public class RawMaterialCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createRawMaterial(RaavareDTO rawMaterial) {
+	public String createRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
 			controller.createRawMaterial(rawMaterial);
 			return "success";
@@ -78,7 +78,7 @@ public class RawMaterialCRUD {
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateRawMaterial(RaavareDTO rawMaterial) {
+	public String updateRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
 			controller.updateRawMaterial(rawMaterial);
 			return "success";

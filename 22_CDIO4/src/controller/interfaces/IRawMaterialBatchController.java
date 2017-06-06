@@ -2,13 +2,13 @@ package controller.interfaces;
 
 import java.util.List;
 
-import dataTransferObjects.RaavareBatchDTO;
+import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.*;
 
 public interface IRawMaterialBatchController {
-	RaavareBatchDTO getRawMaterialBatch(int rbId) throws InputException, DALException;
-	List<RaavareBatchDTO> getRawMaterialBatchList() throws DALException;
-	List<RaavareBatchDTO> getRawMaterialBatchList(int raavareId) throws InputException, DALException;
-	void createRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) throws CollisionException, InputException, DALException;
-	void updateRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) throws InputException, DALException;
+	RawMaterialBatchDTO getRawMaterialBatch(int rbId) throws InputException, DALException;
+	List<RawMaterialBatchDTO> getRawMaterialBatchList() throws DALException;
+	List<RawMaterialBatchDTO> getRawMaterialBatchList(int raavareId) throws InputException, DALException;
+	void createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws CollisionException, InputException, DALException;
+	void updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws InputException, DALException;
 }

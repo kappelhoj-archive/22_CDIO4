@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class ReceptDTO
+public class RecipeDTO
 {
 	/** Recept nr i omraadet 1-99999999 */
 	int receptId;
@@ -16,7 +16,7 @@ public class ReceptDTO
 	/** liste af kompenenter i recepten */
 	
     
-	public ReceptDTO(int receptId, String receptNavn)
+	public RecipeDTO(int receptId, String receptNavn)
 	{
         this.receptId = receptId;
         this.receptNavn = receptNavn;
@@ -30,7 +30,7 @@ public class ReceptDTO
 		return receptId + "\t" + receptNavn; 
 	}
 	
-	public ReceptDTO copy(){
-		return new ReceptDTO(receptId, receptNavn);
+	public RecipeDTO copy(){
+		return new RecipeDTO(receptId, receptNavn);
 	}
 }

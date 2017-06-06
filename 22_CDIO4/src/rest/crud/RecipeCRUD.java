@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import controller.RecipeController;
 import controller.interfaces.IRecipeController;
-import dataTransferObjects.ReceptDTO;
+import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
@@ -23,7 +23,7 @@ public class RecipeCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ReceptDTO getRecipe(String recipeId)
+	public RecipeDTO getRecipe(String recipeId)
 	{
 		try
 		{
@@ -47,7 +47,7 @@ public class RecipeCRUD {
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ReceptDTO> getRecipeList()
+	public List<RecipeDTO> getRecipeList()
 
 	{
 		try{
@@ -62,7 +62,7 @@ public class RecipeCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createRecipe(ReceptDTO recipe)
+	public String createRecipe(RecipeDTO recipe)
 	{	
 		try
 		{
@@ -86,7 +86,7 @@ public class RecipeCRUD {
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String updataRecipeBatch(ReceptDTO recipe)
+	public String updataRecipeBatch(RecipeDTO recipe)
 	{
 		
 		try

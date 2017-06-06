@@ -5,17 +5,17 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
-import dataAccessObjects.interfaces.ProduktBatchKompDAO;
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataAccessObjects.interfaces.IProductBatchCompDAO;
+import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
+public class MyProduktBatchKompDAO implements IProductBatchCompDAO {
 
-	static Hashtable<Integer, ProduktBatchKompDTO> productBatchCompList = new Hashtable<Integer, ProduktBatchKompDTO>();
+	static Hashtable<Integer, ProductBatchCompDTO> productBatchCompList = new Hashtable<Integer, ProductBatchCompDTO>();
 
 	@Override
-	public ProduktBatchKompDTO getProduktBatchKomp(int pbId, int rbId) throws DALException {
+	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
 
 		if(productBatchCompList.get(pbId) != null && productBatchCompList.get(pbId).getRbId() == rbId)
 			return productBatchCompList.get(new DoubleInteger(pbId, rbId)).copy();
@@ -25,7 +25,7 @@ public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 	}
 
 	@Override
-	public List<ProduktBatchKompDTO> getProduktBatchKompList(int pbId) throws DALException {
+	public List<ProductBatchCompDTO> getProductBatchCompList(int pbId) throws DALException {
 		//List<ProduktBatchKompDTO> productbsc = new ArrayList<ProduktBatchKompDTO>();
 
 		//Set<DoubleInteger> keys = productBatchCompList.keySet();
@@ -41,7 +41,7 @@ public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 	}
 
 	@Override
-	public List<ProduktBatchKompDTO> getProduktBatchKompList() throws DALException {
+	public List<ProductBatchCompDTO> getProductBatchCompList() throws DALException {
 	//	List<ProduktBatchKompDTO> productbsc = new ArrayList<ProduktBatchKompDTO>();
 //
 	//	Set<DoubleInteger> keys = productBatchCompList.keySet();
@@ -56,7 +56,7 @@ public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 	}
 
 	@Override
-	public void createProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws DALException {
+	public void createProductBatchComp(ProductBatchCompDTO produktbatchkomponent) throws DALException {
 
 		if (productBatchCompList.putIfAbsent(produktbatchkomponent.getPbId(), produktbatchkomponent.copy()) == null)
 			return;
@@ -68,7 +68,7 @@ public class MyProduktBatchKompDAO implements ProduktBatchKompDAO {
 	}
 
 	@Override
-	public void updateProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws DALException {
+	public void updateProductBatchComp(ProductBatchCompDTO produktbatchkomponent) throws DALException {
 		//productBatchCompList.replace(produktbatchkomponent.getPbId(), produktbatchkomponent.getRbId()), produktbatchkomponent.copy());
 
 	}

@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.Set;
 
 import dataAccessObjects.interfaces.IWeightControlDAO;
-import dataAccessObjects.interfaces.ProduktBatchDAO;
+import dataAccessObjects.interfaces.IProductBatchDAO;
 import dataTransferObjects.IWeightControlDTO;
-import dataTransferObjects.ProduktBatchDTO;
+import dataTransferObjects.ProductBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyProduktBatchDAO implements ProduktBatchDAO, IWeightControlDAO {
+public class MyProduktBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 
-	static Hashtable<Integer, ProduktBatchDTO> productBatchList = new Hashtable<Integer, ProduktBatchDTO>();
+	static Hashtable<Integer, ProductBatchDTO> productBatchList = new Hashtable<Integer, ProductBatchDTO>();
 
 	@Override
-	public ProduktBatchDTO getProduktBatch(int pbId) throws DALException {
+	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
 		
 		if(productBatchList.get(pbId) != null)
 			return productBatchList.get(pbId).copy();
@@ -29,8 +29,8 @@ public class MyProduktBatchDAO implements ProduktBatchDAO, IWeightControlDAO {
 	
 
 	@Override
-	public List<ProduktBatchDTO> getProduktBatchList() throws DALException {
-		List<ProduktBatchDTO> productbs = new ArrayList<ProduktBatchDTO>();
+	public List<ProductBatchDTO> getProductBatchList() throws DALException {
+		List<ProductBatchDTO> productbs = new ArrayList<ProductBatchDTO>();
 
 		Set<Integer> keys = productBatchList.keySet();
 		
@@ -43,7 +43,7 @@ public class MyProduktBatchDAO implements ProduktBatchDAO, IWeightControlDAO {
 	
 
 	@Override
-	public void createProduktBatch(ProduktBatchDTO produktbatch) throws DALException {
+	public void createProductBatch(ProductBatchDTO produktbatch) throws DALException {
 		if (productBatchList.putIfAbsent(produktbatch.getPbId(), produktbatch.copy()) == null)
 			return;
 		
@@ -53,7 +53,7 @@ public class MyProduktBatchDAO implements ProduktBatchDAO, IWeightControlDAO {
 	}
 
 	@Override
-	public void updateProduktBatch(ProduktBatchDTO produktbatch) throws DALException {
+	public void updateProductBatch(ProductBatchDTO produktbatch) throws DALException {
 		productBatchList.replace(produktbatch.getPbId(), produktbatch.copy());
 
 	}

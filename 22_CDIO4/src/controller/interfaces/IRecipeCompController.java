@@ -2,13 +2,13 @@ package controller.interfaces;
 
 import java.util.List;
 
-import dataTransferObjects.ReceptKompDTO;
+import dataTransferObjects.RecipeCompDTO;
 import exceptions.DALException;
 
 public interface IRecipeCompController {
-	ReceptKompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException;
-	List<ReceptKompDTO> getRecipeComp(int recipeId) throws DALException;
-	List<ReceptKompDTO> getRecipeCompList() throws DALException;
-	void createRecipeComp(ReceptKompDTO recipeComponent) throws DALException;
-	void updateRecipeComp(ReceptKompDTO recipeComponent) throws DALException;
+	RecipeCompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException;
+	List<RecipeCompDTO> getRecipeComp(int recipeId) throws DALException;
+	List<RecipeCompDTO> getRecipeCompList() throws DALException;
+	void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException;
+	void updateRecipeComp(RecipeCompDTO recipeComponent) throws DALException;
 }

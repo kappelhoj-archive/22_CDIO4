@@ -1,12 +1,12 @@
 package dataTransferObjects;
 
-public class RaavareBatchDTO implements IWeightControlDTO
+public class RawMaterialBatchDTO implements IWeightControlDTO
 {
 	int rbId;                     // i omraadet 1-99999999
 	int raavareId;             // i omraadet 1-99999999
 	double maengde;             // kan vaere negativ 
 
-	public RaavareBatchDTO(int rbId, int raavareId, double maengde)
+	public RawMaterialBatchDTO(int rbId, int raavareId, double maengde)
 	{
 		this.rbId = rbId;
 		this.raavareId = raavareId;
@@ -23,8 +23,8 @@ public class RaavareBatchDTO implements IWeightControlDTO
 		return rbId + "\t" + raavareId +"\t" + maengde; 
 	}
 	
-	public RaavareBatchDTO copy(){
-		return new RaavareBatchDTO(rbId, raavareId, maengde);
+	public RawMaterialBatchDTO copy(){
+		return new RawMaterialBatchDTO(rbId, raavareId, maengde);
 	}
 
 	@Override

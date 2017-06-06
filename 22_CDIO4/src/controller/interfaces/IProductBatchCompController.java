@@ -2,13 +2,13 @@ package controller.interfaces;
 
 import java.util.List;
 
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.*;
 
 public interface IProductBatchCompController {
-	ProduktBatchKompDTO getProductBatchComp(int pbId, int rbId) throws DALException;
-	List<ProduktBatchKompDTO> getProductBatchCompList(int pbId) throws DALException;
-	List<ProduktBatchKompDTO> getProductBatchCompList() throws DALException;
-	void createProductBatchComp(ProduktBatchKompDTO productBatchComponent) throws CollisionException, DALException;
-	void updateProductBatchComp(ProduktBatchKompDTO productBatchComponent) throws DALException;	
+	ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException;
+	List<ProductBatchCompDTO> getProductBatchCompList(int pbId) throws DALException;
+	List<ProductBatchCompDTO> getProductBatchCompList() throws DALException;
+	void createProductBatchComp(ProductBatchCompDTO productBatchComponent) throws CollisionException, DALException;
+	void updateProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException;	
 }

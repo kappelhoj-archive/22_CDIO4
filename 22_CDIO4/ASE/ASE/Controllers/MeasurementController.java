@@ -5,16 +5,16 @@ import java.util.Queue;
 
 import ASE.interfaces.IMeasurementController;
 import dataAccessObjects.TestSimonProduktBatchKompDAO;
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.DALException;
 
 public class MeasurementController implements IMeasurementController, Runnable {
 	TestSimonProduktBatchKompDAO produktBatchKomp = new TestSimonProduktBatchKompDAO();
-	ProduktBatchKompDTO temp;
-	Queue<ProduktBatchKompDTO> measurements;
+	ProductBatchCompDTO temp;
+	Queue<ProductBatchCompDTO> measurements;
 
 	public MeasurementController() {
-		this.measurements = new LinkedList<ProduktBatchKompDTO>();
+		this.measurements = new LinkedList<ProductBatchCompDTO>();
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		}
 	}
 
-	public void enqueue(ProduktBatchKompDTO measurement) {
+	public void enqueue(ProductBatchCompDTO measurement) {
 		measurements.add(measurement);
 	}
 
@@ -41,7 +41,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 			try {
 				System.out.println(measurements);
 				temp = measurements.remove();
-				produktBatchKomp.createProduktBatchKomp(temp);
+				produktBatchKomp.createProductBatchComp(temp);
 
 			} catch (DALException e) {
 				measurements.add(temp);

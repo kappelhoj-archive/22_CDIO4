@@ -4,38 +4,38 @@ import java.util.List;
 
 import controller.interfaces.IRecipeCompController;
 import dataAccessObjects.MyReceptKompDAO;
-import dataAccessObjects.interfaces.ReceptKompDAO;
-import dataTransferObjects.ReceptKompDTO;
+import dataAccessObjects.interfaces.IRecipeCompDAO;
+import dataTransferObjects.RecipeCompDTO;
 import exceptions.DALException;
 
 public class RecipeCompController implements IRecipeCompController {
 	
-	ReceptKompDAO dao = new MyReceptKompDAO();
+	IRecipeCompDAO dao = new MyReceptKompDAO();
 
 	@Override
-	public ReceptKompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException {
-		return dao.getReceptKomp(recipeId, rawMaterialId);
+	public RecipeCompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException {
+		return dao.getRecipeComp(recipeId, rawMaterialId);
 	}
 
 	@Override
-	public List<ReceptKompDTO> getRecipeComp(int recipeId) throws DALException {
-		return dao.getReceptKompList(recipeId);
+	public List<RecipeCompDTO> getRecipeComp(int recipeId) throws DALException {
+		return dao.getRecipeCompList(recipeId);
 	}
 
 	@Override
-	public List<ReceptKompDTO> getRecipeCompList() throws DALException {
-		return dao.getReceptKompList();
+	public List<RecipeCompDTO> getRecipeCompList() throws DALException {
+		return dao.getRecipeCompList();
 	}
 
 	@Override
-	public void createRecipeComp(ReceptKompDTO recipeComponent) throws DALException {
-		dao.createReceptKomp(recipeComponent);
+	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
+		dao.createRecipeComp(recipeComponent);
 
 	}
 
 	@Override
-	public void updateRecipeComp(ReceptKompDTO recipeComponent) throws DALException {
-		dao.updateReceptKomp(recipeComponent);
+	public void updateRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
+		dao.updateRecipeComp(recipeComponent);
 
 	}
 

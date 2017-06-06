@@ -4,34 +4,34 @@ import java.util.List;
 
 import controller.interfaces.IRecipeController;
 import dataAccessObjects.MyReceptDAO;
-import dataAccessObjects.interfaces.ReceptDAO;
-import dataTransferObjects.ReceptDTO;
+import dataAccessObjects.interfaces.IRecipeDAO;
+import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
 public class RecipeController implements IRecipeController {
 	
-	ReceptDAO dao = new MyReceptDAO();
+	IRecipeDAO dao = new MyReceptDAO();
 
 	@Override
-	public ReceptDTO getRecipe(int recipeId) throws DALException {
-		return dao.getRecept(recipeId);
+	public RecipeDTO getRecipe(int recipeId) throws DALException {
+		return dao.getRecipe(recipeId);
 	}
 
 	@Override
-	public List<ReceptDTO> getRecipeList() throws DALException {
-		return dao.getReceptList();
+	public List<RecipeDTO> getRecipeList() throws DALException {
+		return dao.getRecipeList();
 	}
 
 	@Override
-	public void createRecipe(ReceptDTO recipe) throws CollisionException, DALException {
-		dao.createRecept(recipe);
+	public void createRecipe(RecipeDTO recipe) throws CollisionException, DALException {
+		dao.createRecipe(recipe);
 
 	}
 
 	@Override
-	public void updateRecipe(ReceptDTO recipe) throws DALException {
-		dao.updateRecept(recipe);
+	public void updateRecipe(RecipeDTO recipe) throws DALException {
+		dao.updateRecipe(recipe);
 
 	}
 

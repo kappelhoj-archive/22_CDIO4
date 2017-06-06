@@ -5,17 +5,17 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
-import dataAccessObjects.interfaces.ReceptKompDAO;
-import dataTransferObjects.ReceptKompDTO;
+import dataAccessObjects.interfaces.IRecipeCompDAO;
+import dataTransferObjects.RecipeCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyReceptKompDAO implements ReceptKompDAO {
+public class MyReceptKompDAO implements IRecipeCompDAO {
 	
-	static Hashtable<DoubleInteger, ReceptKompDTO> recipeCompList = new Hashtable<DoubleInteger, ReceptKompDTO>();
+	static Hashtable<DoubleInteger, RecipeCompDTO> recipeCompList = new Hashtable<DoubleInteger, RecipeCompDTO>();
 
 	@Override
-	public ReceptKompDTO getReceptKomp(int receptId, int raavareId) throws DALException {
+	public RecipeCompDTO getRecipeComp(int receptId, int raavareId) throws DALException {
 		if(recipeCompList.get(new DoubleInteger(receptId, raavareId)) != null)
 			return recipeCompList.get(new DoubleInteger(receptId, raavareId)).copy();
 
@@ -24,8 +24,8 @@ public class MyReceptKompDAO implements ReceptKompDAO {
 	}
 
 	@Override
-	public List<ReceptKompDTO> getReceptKompList(int receptId) throws DALException {
-		List<ReceptKompDTO> recipeComps = new ArrayList<ReceptKompDTO>();
+	public List<RecipeCompDTO> getRecipeCompList(int receptId) throws DALException {
+		List<RecipeCompDTO> recipeComps = new ArrayList<RecipeCompDTO>();
 
 		Set<DoubleInteger> keys = recipeCompList.keySet();
 
@@ -38,8 +38,8 @@ public class MyReceptKompDAO implements ReceptKompDAO {
 	}
 
 	@Override
-	public List<ReceptKompDTO> getReceptKompList() throws DALException {
-		List<ReceptKompDTO> recipeComps = new ArrayList<ReceptKompDTO>();
+	public List<RecipeCompDTO> getRecipeCompList() throws DALException {
+		List<RecipeCompDTO> recipeComps = new ArrayList<RecipeCompDTO>();
 
 		Set<DoubleInteger> keys = recipeCompList.keySet();
 
@@ -51,7 +51,7 @@ public class MyReceptKompDAO implements ReceptKompDAO {
 	}
 
 	@Override
-	public void createReceptKomp(ReceptKompDTO receptkomponent) throws DALException {
+	public void createRecipeComp(RecipeCompDTO receptkomponent) throws DALException {
 		if (recipeCompList.putIfAbsent(new DoubleInteger(receptkomponent.getReceptId(), receptkomponent.getRaavareId()), receptkomponent.copy()) == null)
 			return;
 
@@ -61,7 +61,7 @@ public class MyReceptKompDAO implements ReceptKompDAO {
 	}
 
 	@Override
-	public void updateReceptKomp(ReceptKompDTO receptkomponent) throws DALException {
+	public void updateRecipeComp(RecipeCompDTO receptkomponent) throws DALException {
 		recipeCompList.replace(new DoubleInteger(receptkomponent.getReceptId(), receptkomponent.getRaavareId()), receptkomponent.copy());
 
 	}

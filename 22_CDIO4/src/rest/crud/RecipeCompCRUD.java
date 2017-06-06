@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import controller.RecipeCompController;
 import controller.interfaces.IRecipeCompController;
-import dataTransferObjects.ReceptKompDTO;
+import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.RecipeCompPOJO;
 import exceptions.DALException;
 import exceptions.InputException;
@@ -26,7 +26,7 @@ public class RecipeCompCRUD {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ReceptKompDTO readRecipeComp(RecipeCompPOJO ids) {
+	public RecipeCompDTO readRecipeComp(RecipeCompPOJO ids) {
 		try {
 			return controller.getRecipeComp(Integer.parseInt(ids.getId()), Integer.parseInt(ids.getRaw_material_id()));
 		} catch (InputException e) {
@@ -44,7 +44,7 @@ public class RecipeCompCRUD {
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ReceptKompDTO> readRecipeComp(String recipeId) {
+	public List<RecipeCompDTO> readRecipeComp(String recipeId) {
 		try {
 			return controller.getRecipeComp(Integer.parseInt(recipeId));
 		} catch (DALException e) {
@@ -58,7 +58,7 @@ public class RecipeCompCRUD {
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ReceptKompDTO> readRecipeCompList() {
+	public List<RecipeCompDTO> readRecipeCompList() {
 		try {
 			return controller.getRecipeCompList();
 		} catch (DALException e) {
@@ -71,7 +71,7 @@ public class RecipeCompCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createRecipeComp(ReceptKompDTO recipeComp) {
+	public String createRecipeComp(RecipeCompDTO recipeComp) {
 		try {
 			controller.createRecipeComp(recipeComp);
 			return "succes";
@@ -85,7 +85,7 @@ public class RecipeCompCRUD {
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateRecipeComp(ReceptKompDTO recipeComp) {
+	public String updateRecipeComp(RecipeCompDTO recipeComp) {
 		try {
 			controller.updateRecipeComp(recipeComp);
 			return "success";

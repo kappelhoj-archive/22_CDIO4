@@ -5,17 +5,17 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
-import dataAccessObjects.interfaces.RaavareDAO;
-import dataTransferObjects.RaavareDTO;
+import dataAccessObjects.interfaces.IRawMaterialDAO;
+import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyRaavareDAO implements RaavareDAO {
+public class MyRaavareDAO implements IRawMaterialDAO {
 	
-	static Hashtable<Integer, RaavareDTO> rawmatList = new Hashtable<Integer, RaavareDTO>();
+	static Hashtable<Integer, RawMaterialDTO> rawmatList = new Hashtable<Integer, RawMaterialDTO>();
 
 	@Override
-	public RaavareDTO getRaavare(int raavareId) throws DALException {
+	public RawMaterialDTO getRawMaterial(int raavareId) throws DALException {
 		if(rawmatList.get(raavareId) != null)
 			return rawmatList.get(raavareId).copy();
 	
@@ -24,8 +24,8 @@ public class MyRaavareDAO implements RaavareDAO {
 	}
 
 	@Override
-	public List<RaavareDTO> getRaavareList() throws DALException {
-		List<RaavareDTO> rawmats = new ArrayList<RaavareDTO>();
+	public List<RawMaterialDTO> getRawMaterialList() throws DALException {
+		List<RawMaterialDTO> rawmats = new ArrayList<RawMaterialDTO>();
 
 		Set<Integer> keys = rawmatList.keySet();
 		
@@ -37,7 +37,7 @@ public class MyRaavareDAO implements RaavareDAO {
 	}
 
 	@Override
-	public void createRaavare(RaavareDTO raavare) throws DALException {
+	public void createRawMaterial(RawMaterialDTO raavare) throws DALException {
 		if (rawmatList.putIfAbsent(raavare.getId(), raavare.copy()) == null)
 			return;
 		
@@ -47,7 +47,7 @@ public class MyRaavareDAO implements RaavareDAO {
 	}
 
 	@Override
-	public void updateRaavare(RaavareDTO raavare) throws DALException {
+	public void updateRawMaterial(RawMaterialDTO raavare) throws DALException {
 		rawmatList.replace(raavare.getId(), raavare.copy());
 
 	}

@@ -33,7 +33,7 @@ public class MyOperatoerDAO implements IUserDAO,IWeightControlDAO {
 	}
 
 	
-	public OperatoerDTO getOperatoer(int oprId) throws DALException {
+	public OperatoerDTO getUser(int oprId) throws DALException {
 
 		if(userList.get(oprId) != null)
 			return userList.get(oprId).copy();
@@ -61,7 +61,7 @@ public class MyOperatoerDAO implements IUserDAO,IWeightControlDAO {
 	}
 	
 
-	public List<OperatoerDTO> getOperatoerList() throws DALException {
+	public List<OperatoerDTO> getUserList() throws DALException {
 		List<OperatoerDTO> users = new ArrayList<OperatoerDTO>();
 
 		Set<Integer> keys = userList.keySet();

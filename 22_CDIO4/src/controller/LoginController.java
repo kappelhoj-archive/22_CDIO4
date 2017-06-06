@@ -31,7 +31,7 @@ public class LoginController implements ILoginController {
 
 		}catch(Exception e){
 			try{
-				if(dao.getOperatoer(Integer.parseInt(user.getId())).getPassword().equals(user.getPassword()))
+				if(dao.getUser(Integer.parseInt(user.getId())).getPassword().equals(user.getPassword()))
 					return LoginState.TRUE;
 				else
 					return LoginState.FALSE;
@@ -45,7 +45,7 @@ public class LoginController implements ILoginController {
 	
 	@Override
 	public void setNewPassword(int id, String password) throws InputException, DALException{
-		OperatoerDTO user = dao.getOperatoer(id).copy();
+		OperatoerDTO user = dao.getUser(id).copy();
 
 		user.setPassword(password);
 
@@ -66,7 +66,7 @@ public class LoginController implements ILoginController {
 		try{
 			Validator.validateUserID(id);
 
-			OperatoerDTO user = dao.getOperatoer(id).copy();
+			OperatoerDTO user = dao.getUser(id).copy();
 
 			user.setPassword(generatePassword());
 

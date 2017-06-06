@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import controller.ProductBatchCompController;
 import controller.interfaces.IProductBatchCompController;
 import dataTransferObjects.ProductBatchCompPOJO;
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
@@ -22,7 +22,7 @@ public class ProductBatchCompCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProduktBatchKompDTO getProductBatchComp(ProductBatchCompPOJO ids) {
+	public ProductBatchCompDTO getProductBatchComp(ProductBatchCompPOJO ids) {
 		try {
 			return controller.getProductBatchComp(Integer.parseInt(ids.getPbId()), Integer.parseInt(ids.getRbId()));
 		}
@@ -38,7 +38,7 @@ public class ProductBatchCompCRUD {
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ProduktBatchKompDTO> getProductBatchCompList(String pbId) {
+	public List<ProductBatchCompDTO> getProductBatchCompList(String pbId) {
 		try {
 			return controller.getProductBatchCompList(Integer.parseInt(pbId));
 		} catch (DALException e) {
@@ -51,7 +51,7 @@ public class ProductBatchCompCRUD {
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ProduktBatchKompDTO> getProductBatchCompList() {
+	public List<ProductBatchCompDTO> getProductBatchCompList() {
 		try {
 			return controller.getProductBatchCompList();
 		} catch (DALException e) {
@@ -63,7 +63,7 @@ public class ProductBatchCompCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createProductBatchComp(ProduktBatchKompDTO productbatchcomp) {
+	public String createProductBatchComp(ProductBatchCompDTO productbatchcomp) {
 		try {
 			controller.createProductBatchComp(productbatchcomp);
 			return "success";
@@ -82,7 +82,7 @@ public class ProductBatchCompCRUD {
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateProductBatchComp(ProduktBatchKompDTO productbatchComp) {
+	public String updateProductBatchComp(ProductBatchCompDTO productbatchComp) {
 		try {
 			controller.updateProductBatchComp(productbatchComp);
 			return "success";

@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.Set;
 
 import dataAccessObjects.interfaces.IWeightControlDAO;
-import dataAccessObjects.interfaces.RaavareBatchDAO;
+import dataAccessObjects.interfaces.IRawMaterialBatchDAO;
 import dataTransferObjects.IWeightControlDTO;
-import dataTransferObjects.RaavareBatchDTO;
+import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyRaavareBatchDAO implements RaavareBatchDAO, IWeightControlDAO {
+public class MyRaavareBatchDAO implements IRawMaterialBatchDAO, IWeightControlDAO {
 
-	static Hashtable<Integer, RaavareBatchDTO> rawmatBatchList = new Hashtable<Integer, RaavareBatchDTO>();
+	static Hashtable<Integer, RawMaterialBatchDTO> rawmatBatchList = new Hashtable<Integer, RawMaterialBatchDTO>();
 
 	@Override
-	public RaavareBatchDTO getRaavareBatch(int rbId) throws DALException {
+	public RawMaterialBatchDTO getRawMaterialBatch(int rbId) throws DALException {
 		if(rawmatBatchList.get(rbId) != null)
 			return rawmatBatchList.get(rbId).copy();
 
@@ -26,8 +26,8 @@ public class MyRaavareBatchDAO implements RaavareBatchDAO, IWeightControlDAO {
 	}
 
 	@Override
-	public List<RaavareBatchDTO> getRaavareBatchList() throws DALException {
-		List<RaavareBatchDTO> rawmatbs = new ArrayList<RaavareBatchDTO>();
+	public List<RawMaterialBatchDTO> getRawMaterialBatchList() throws DALException {
+		List<RawMaterialBatchDTO> rawmatbs = new ArrayList<RawMaterialBatchDTO>();
 
 		Set<Integer> keys = rawmatBatchList.keySet();
 
@@ -39,8 +39,8 @@ public class MyRaavareBatchDAO implements RaavareBatchDAO, IWeightControlDAO {
 	}
 
 	@Override
-	public List<RaavareBatchDTO> getRaavareBatchList(int raavareId) throws DALException {
-		List<RaavareBatchDTO> rawmatbs = new ArrayList<RaavareBatchDTO>();
+	public List<RawMaterialBatchDTO> getRawMaterialBatchList(int raavareId) throws DALException {
+		List<RawMaterialBatchDTO> rawmatbs = new ArrayList<RawMaterialBatchDTO>();
 
 		Set<Integer> keys = rawmatBatchList.keySet();
 
@@ -53,7 +53,7 @@ public class MyRaavareBatchDAO implements RaavareBatchDAO, IWeightControlDAO {
 	}
 
 	@Override
-	public void createRaavareBatch(RaavareBatchDTO raavarebatch) throws DALException {
+	public void createRawMaterialBatch(RawMaterialBatchDTO raavarebatch) throws DALException {
 		if (rawmatBatchList.putIfAbsent(raavarebatch.getRbId(), raavarebatch.copy()) == null)
 			return;
 		
@@ -63,7 +63,7 @@ public class MyRaavareBatchDAO implements RaavareBatchDAO, IWeightControlDAO {
 	}
 
 	@Override
-	public void updateRaavareBatch(RaavareBatchDTO raavarebatch) throws DALException {
+	public void updateRawMaterialBatch(RawMaterialBatchDTO raavarebatch) throws DALException {
 		rawmatBatchList.replace(raavarebatch.getRbId(), raavarebatch.copy());
 
 	}

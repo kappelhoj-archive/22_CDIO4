@@ -1,9 +1,9 @@
 package ASE.interfaces;
 
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataTransferObjects.ProductBatchCompDTO;
 
 public interface IMeasurementController {
 
-	public void enqueue(ProduktBatchKompDTO measurement);
+	public void enqueue(ProductBatchCompDTO measurement);
 	
 }

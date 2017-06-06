@@ -2,38 +2,38 @@ package dataAccessObjects;
 
 import java.util.List;
 
-import dataTransferObjects.ProduktBatchDTO;
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataTransferObjects.ProductBatchDTO;
+import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.DALException;
-public class TestSimonProduktBatchKompDAO implements dataAccessObjects.interfaces.ProduktBatchKompDAO {
+public class TestSimonProduktBatchKompDAO implements dataAccessObjects.interfaces.IProductBatchCompDAO {
 
 	@Override
-	public ProduktBatchKompDTO getProduktBatchKomp(int pbId, int rbId) throws DALException {
+	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<ProduktBatchKompDTO> getProduktBatchKompList(int pbId) throws DALException {
+	public List<ProductBatchCompDTO> getProductBatchCompList(int pbId) throws DALException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<ProduktBatchKompDTO> getProduktBatchKompList() throws DALException {
+	public List<ProductBatchCompDTO> getProductBatchCompList() throws DALException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void createProduktBatchKomp(ProduktBatchKompDTO produktbatch) throws DALException {
+	public void createProductBatchComp(ProductBatchCompDTO produktbatch) throws DALException {
 		System.out.println(produktbatch.getPbId()+produktbatch.toString());
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateProduktBatchKomp(ProduktBatchKompDTO produktbatchkomponent) throws DALException {
+	public void updateProductBatchComp(ProductBatchCompDTO produktbatchkomponent) throws DALException {
 		// TODO Auto-generated method stub
 		
 	}

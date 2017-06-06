@@ -79,14 +79,14 @@ public class testUnitLogin {
 			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword","Admin"));
 			dao.createOperatoer(new OperatoerDTO(1111, "Peter2", "PE2", "cpr2", "testpassword2","Admin"));
 			
-			System.out.println(dao.getOperatoerList().toString());
+			System.out.println(dao.getUserList().toString());
 		}catch (DALException e){
 			actual = true;
 			System.out.println(e);
 		}
 		
 		try {
-			System.out.println(dao.getOperatoerList().toString());
+			System.out.println(dao.getUserList().toString());
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

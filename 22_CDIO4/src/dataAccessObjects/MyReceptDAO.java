@@ -5,17 +5,17 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
-import dataAccessObjects.interfaces.ReceptDAO;
-import dataTransferObjects.ReceptDTO;
+import dataAccessObjects.interfaces.IRecipeDAO;
+import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyReceptDAO implements ReceptDAO {
+public class MyReceptDAO implements IRecipeDAO {
 	
-	static Hashtable<Integer, ReceptDTO> recipeList = new Hashtable<Integer, ReceptDTO>();
+	static Hashtable<Integer, RecipeDTO> recipeList = new Hashtable<Integer, RecipeDTO>();
 
 	@Override
-	public ReceptDTO getRecept(int receptId) throws DALException {
+	public RecipeDTO getRecipe(int receptId) throws DALException {
 		if(recipeList.get(receptId) != null)
 			return recipeList.get(receptId).copy();
 	
@@ -24,8 +24,8 @@ public class MyReceptDAO implements ReceptDAO {
 	}
 
 	@Override
-	public List<ReceptDTO> getReceptList() throws DALException {
-		List<ReceptDTO> recipes = new ArrayList<ReceptDTO>();
+	public List<RecipeDTO> getRecipeList() throws DALException {
+		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
 
 		Set<Integer> keys = recipeList.keySet();
 		
@@ -37,7 +37,7 @@ public class MyReceptDAO implements ReceptDAO {
 	}
 
 	@Override
-	public void createRecept(ReceptDTO recept) throws DALException {
+	public void createRecipe(RecipeDTO recept) throws DALException {
 		if (recipeList.putIfAbsent(recept.getReceptId(), recept.copy()) == null)
 			return;
 		
@@ -47,7 +47,7 @@ public class MyReceptDAO implements ReceptDAO {
 	}
 
 	@Override
-	public void updateRecept(ReceptDTO recept) throws DALException {
+	public void updateRecipe(RecipeDTO recept) throws DALException {
 		recipeList.replace(recept.getReceptId(), recept.copy());
 
 	}

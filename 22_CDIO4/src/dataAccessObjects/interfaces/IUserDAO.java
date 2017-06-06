@@ -6,8 +6,8 @@ import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
 
 public interface IUserDAO {
-	OperatoerDTO getOperatoer(int oprId) throws DALException;
-	List<OperatoerDTO> getOperatoerList() throws DALException;
-	void createOperatoer(OperatoerDTO opr) throws DALException;
-	void updateOperatoer(OperatoerDTO opr) throws DALException;
+	OperatoerDTO getUser(int id) throws DALException;
+	List<OperatoerDTO> getUserList() throws DALException;
+	void createOperatoer(OperatoerDTO user) throws DALException;
+	void updateOperatoer(OperatoerDTO user) throws DALException;
 }

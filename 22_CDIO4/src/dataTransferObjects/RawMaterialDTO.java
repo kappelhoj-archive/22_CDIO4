@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class RaavareDTO
+public class RawMaterialDTO
 {
     /** between 1 and 99999999 chosen by the user. */
     int id;                     
@@ -16,7 +16,7 @@ public class RaavareDTO
     /** between 2 and 20 characters */
     String supplier;         
 	
-	public RaavareDTO(int raavareId, String raavareNavn, String leverandoer)
+	public RawMaterialDTO(int raavareId, String raavareNavn, String leverandoer)
 	{
 		this.id = raavareId;
 		this.name = raavareNavn;
@@ -33,7 +33,7 @@ public class RaavareDTO
 		return id + "\t" + name +"\t" + supplier; 
 	}
     
-    public RaavareDTO copy(){
-    	return new RaavareDTO (id, name, supplier);
+    public RawMaterialDTO copy(){
+    	return new RawMaterialDTO (id, name, supplier);
     }
 }

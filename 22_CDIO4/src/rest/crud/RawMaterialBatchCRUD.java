@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import controller.RawMaterialBatchController;
 import controller.interfaces.IRawMaterialBatchController;
-import dataTransferObjects.RaavareBatchDTO;
+import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
@@ -25,7 +25,7 @@ public class RawMaterialBatchCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public RaavareBatchDTO readRawMaterialBatch(String id) {
+	public RawMaterialBatchDTO readRawMaterialBatch(String id) {
 		try {
 			return controller.getRawMaterialBatch(Integer.parseInt(id));
 		} catch (InputException e) {
@@ -43,7 +43,7 @@ public class RawMaterialBatchCRUD {
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareBatchDTO> readRawMaterialBatchList() {
+	public List<RawMaterialBatchDTO> readRawMaterialBatchList() {
 		try {
 			return controller.getRawMaterialBatchList();
 		} catch (DALException e) {
@@ -57,7 +57,7 @@ public class RawMaterialBatchCRUD {
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareBatchDTO> readRawMaterialBatchList(String raavareId) {
+	public List<RawMaterialBatchDTO> readRawMaterialBatchList(String raavareId) {
 		try {
 			return controller.getRawMaterialBatchList(Integer.parseInt(raavareId));
 		} catch (InputException e) {
@@ -74,7 +74,7 @@ public class RawMaterialBatchCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) {
+	public String createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) {
 
 		try {
 			controller.createRawMaterialBatch(rawMaterialBatch);
@@ -97,7 +97,7 @@ public class RawMaterialBatchCRUD {
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) {
+	public String updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) {
 		try {
 			controller.updateRawMaterialBatch(rawMaterialBatch);
 			return "success";
