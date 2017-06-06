@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class OperatoerDTO
+public class OperatoerDTO implements IWeightControlDTO
 {
 	/** Operatoer-identifikationsnummer (opr_id) i omraadet 1-99999999. Vaelges af brugerne */
 	int oprId;                     
@@ -59,5 +59,10 @@ public class OperatoerDTO
 		
 		return new OperatoerDTO(oprId, oprNavn, ini, cpr, password, rolle);
 		
+	}
+
+	@Override
+	public String getIdentity() {
+		return oprNavn;
 	}
 }

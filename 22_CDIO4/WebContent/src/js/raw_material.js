@@ -16,11 +16,13 @@ $(document).ready(function(){
 			success: function(data) {
 				if(data == "success")
 				{
-					
+					$.get("src/rawMaterialAdministration/raw_material_list.html", function(template) {
+			            $("#content").html(Mustache.render($(template).html(), getRawMaterialList())		            
+			        });
 				}
 				else
 				{
-					
+					alert("data");
 				}
 			},
 			error: function(data){
@@ -29,3 +31,18 @@ $(document).ready(function(){
 		});
 	});
 });
+	
+
+function getRawMaterialList(){
+	var json;
+	$.ajax({
+		url: "rest/raw_material/read_list",
+		type: "GET",
+		contentType: "application/json",
+		success: function(data){
+			json = data;
+		}
+	});
+	return { getJson : function () {
+		if(json) return json;
+}
