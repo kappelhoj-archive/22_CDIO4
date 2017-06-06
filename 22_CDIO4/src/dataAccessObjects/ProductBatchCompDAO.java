@@ -1,7 +1,7 @@
 package dataAccessObjects;
 
 
-import java.util.Hashtable;
+import java.util.ArrayList;
 import java.util.List;
 
 import dataAccessObjects.interfaces.IProductBatchCompDAO;
@@ -11,64 +11,59 @@ import exceptions.DALException;
 
 public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
-	static Hashtable<Integer, ProductBatchCompDTO> productBatchCompList = new Hashtable<Integer, ProductBatchCompDTO>();
+	static List<ProductBatchCompDTO> productBatchCompList = new ArrayList<ProductBatchCompDTO>();
 
 	@Override
 	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
 
-		if(productBatchCompList.get(pbId) != null && productBatchCompList.get(pbId).getRbId() == rbId)
-			return productBatchCompList.get(new DoubleInteger(pbId, rbId)).copy();
+		for(ProductBatchCompDTO productbatchcomp : productBatchCompList){
 
-		else
-			throw new DALException("Unknown Product Batch Comp ID: " + new DoubleInteger(pbId, rbId));
+			if(productbatchcomp.getPbId() == pbId && productbatchcomp.getRbId() == rbId)
+				return productbatchcomp.copy();
+		}
+		throw new DALException("Unknown Product Batch Comp ID: " + pbId + " " + rbId);
 	}
 
 	@Override
 	public List<ProductBatchCompDTO> getProductBatchCompList(int pbId) throws DALException {
-		//List<ProduktBatchKompDTO> productbsc = new ArrayList<ProduktBatchKompDTO>();
+		List<ProductBatchCompDTO> productBatchCompListget = new ArrayList<ProductBatchCompDTO>();
 
-		//Set<DoubleInteger> keys = productBatchCompList.keySet();
+		for(ProductBatchCompDTO productbatchcomp : productBatchCompList){
 
-		//for(DoubleInteger key : keys){
-			//if(productBatchCompList.get(key).getPbId() == pbId)
-				//productbsc.add(productBatchCompList.get(key).copy());
-		//}
+			if(productbatchcomp.getPbId() == pbId)
+				productBatchCompListget.add(productbatchcomp);
 
-		//return productbsc;
-		
-		return null;
+		}
+
+		return productBatchCompListget;
 	}
 
 	@Override
 	public List<ProductBatchCompDTO> getProductBatchCompList() throws DALException {
-	//	List<ProduktBatchKompDTO> productbsc = new ArrayList<ProduktBatchKompDTO>();
-//
-	//	Set<DoubleInteger> keys = productBatchCompList.keySet();
+		return productBatchCompList;
 
-		//for(DoubleInteger key : keys){
-			//productbsc.add(productBatchCompList.get(key).copy());
-		//}
-
-		//return productbsc;
-	return null;
-	
 	}
 
 	@Override
 	public void createProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {
 
-		if (productBatchCompList.putIfAbsent(productBatchComponent.getPbId(), productBatchComponent.copy()) == null)
+		try{
+			getProductBatchComp(productBatchComponent.getPbId(), productBatchComponent.getRbId());
+			
+		}catch (DALException e){ //if it can not find it, so it can create it
+			productBatchCompList.add(productBatchComponent.copy());
 			return;
-
-		else
-			throw new CollisionException("Product Batch ID:"+productBatchComponent.getPbId()+" already exists !");
+		}
+		//if it can find it, so it already exists
+		throw new CollisionException(productBatchComponent + " already exists !");
 
 
 	}
 
 	@Override
 	public void updateProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {
-		//productBatchCompList.replace(produktbatchkomponent.getPbId(), produktbatchkomponent.getRbId()), produktbatchkomponent.copy());
+		productBatchCompList.remove(productBatchComponent);
+		productBatchCompList.add(productBatchComponent.copy());
 
 	}
 
