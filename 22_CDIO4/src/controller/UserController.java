@@ -93,4 +93,25 @@ public class UserController implements IUserController{
 
 		}
 	}
+	
+	/**
+	 * Generates initials from a given name.
+	 * 
+	 * @param name
+	 *            The name the initials needs to be created from.
+	 * @return The generated initials.
+	 */
+	public String generateInitials(String name) {
+		String[] nameParts = name.split(" ");
+		String newIni = "";
+		if (nameParts.length == 1) {
+			newIni = nameParts[0].substring(0, 2);
+		} else {
+			int length = Math.min(nameParts.length, 4);
+			for (int i = 0; i < length; i++) {
+				newIni = newIni + nameParts[i].substring(0, 1);
+			}
+		}
+		return newIni;
+	}
 }
