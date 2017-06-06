@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import controller.interfaces.ILoginController;
 import dataAccessObjects.MyOperatoerDAO;
 import dataAccessObjects.interfaces.OperatoerDAO;
+import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
 import exceptions.InputException;
 import staticClasses.Validator;
@@ -48,9 +49,24 @@ public class LoginController implements ILoginController {
 		return key;
 	}
 	
-	public void resetPassword(int id){
+	@Override
+	public int resetPassword(int id) throws InputException, DALException{
 		try{
+			Validator.validateUserID(id);
 			
+			OperatoerDTO user = dao.getOperatoer(id).copy();
+			
+			user.setPassword(generatePassword());
+			
+			dao.updateOperatoer(user);
+			
+			return generateAdminKey(id);
+			
+		}catch(InputException e){
+			throw new InputException(e.getMessage());
+		}catch(DALException e){
+			e.printStackTrace();
+			throw new DALException(e.getMessage());
 		}
 	}
 	
