@@ -28,14 +28,14 @@ public class RecipeCompController implements IRecipeCompController {
 	}
 
 	@Override
-	public void createRecipeComp(ReceptKompDTO recipecomponent) throws DALException {
-		// TODO Auto-generated method stub
+	public void createRecipeComp(ReceptKompDTO receptkomponent) throws DALException {
+		dao.createReceptKomp(receptkomponent);
 
 	}
 
 	@Override
-	public void updateRecipeComp(ReceptKompDTO recipecomponent) throws DALException {
-		// TODO Auto-generated method stub
+	public void updateRecipeComp(ReceptKompDTO receptkomponent) throws DALException {
+		dao.updateReceptKomp(receptkomponent);
 
 	}
 
