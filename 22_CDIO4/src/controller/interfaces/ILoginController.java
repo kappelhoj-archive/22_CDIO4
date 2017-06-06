@@ -4,7 +4,14 @@ import exceptions.DALException;
 import exceptions.InputException;
 
 public interface ILoginController {
-	boolean checkLogin(int id, String password);
+	
+	public enum LoginState{
+		TRUE,
+		FALSE,
+		NEW
+	}
+	
+	LoginState checkLogin(int id, String password);
 	int generateAdminKey(int id);
 	int resetPassword(int id) throws InputException, DALException;
 }
