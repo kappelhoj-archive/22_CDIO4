@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class ConnectionManager implements Runnable {
 
-	ConnectionReader connectionReader = new ConnectionReader();
+	ConnectionReader connectionReader = new ConnectionReader(null);
 	WeightController[] weightController;
 	MeasurementController measurementController;
 	Socket weightSocket;
@@ -16,20 +16,21 @@ public class ConnectionManager implements Runnable {
 	@Override
 	public void run() {
 		try {
-			weightSocket = new Socket(connectionReader.getIPString(), connectionReader.getPortInt());
-			System.out.println("Connection established.");
+			for (int i = 0; i < connectionReader.getAllPortNumbers().size(); i++) {
+				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+				System.out.println("Connection established.");
+			}
 		} catch (UnknownHostException e) {
 			System.out.println("Error occured: Host unknown " + e);
 		} catch (IOException e) {
 			System.out.println("Error occured: Port number unknown " + e);
 		}
-
 	}
 
 	public void threadStarter() {
-		for (int i = 0; i < connectionReader.getIPArray().length; i++) {
+		for (int i = 0; i < connectionReader.getAllIPAdresses().size(); i++) {
 			try {
-				weightSocket = new Socket(connectionReader.getIPString(), connectionReader.getPortInt());
+				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
 			} catch (IOException e) {
 				System.out.println("Connection failed: " + e);
 			}
@@ -37,7 +38,6 @@ public class ConnectionManager implements Runnable {
 			try {
 				weightController[i] = new WeightController(measurementController, weightSocket);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			(new Thread(weightController[i])).start();
