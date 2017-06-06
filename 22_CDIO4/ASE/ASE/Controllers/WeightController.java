@@ -10,15 +10,12 @@ import ASE.interfaces.IMeasurementController;
 import ASE.interfaces.IWeightCommunicator;
 import ASE.interfaces.IWeightCommunicator.Buttons;
 import dataAccessObjects.interfaces.IWeightControlDAO;
-import dataAccessObjects.interfaces.OperatoerDAO;
-import dataAccessObjects.interfaces.ProduktBatchDAO;
-import dataAccessObjects.interfaces.RaavareBatchDAO;
 import dataTransferObjects.IWeightControlDTO;
 import dataTransferObjects.OperatoerDTO;
 import dataTransferObjects.ProduktBatchDTO;
 import dataTransferObjects.ProduktBatchKompDTO;
 import dataTransferObjects.RaavareBatchDTO;
-import dataTransferObjects.RaavareDTO;
+
 
 /**
  * 

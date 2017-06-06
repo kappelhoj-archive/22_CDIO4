@@ -56,25 +56,25 @@ public class WeightCommunicatorStub implements IWeightCommunicator {
 
 	@Override
 	public void taraWeight() throws ProtocolErrorException{
-		// TODO Auto-generated method stub
+		System.out.println("Tara weight");
 
 	}
 
 	@Override
 	public double getWeight() throws ProtocolErrorException{
-		// TODO Auto-generated method stub
+		System.out.println("Measure weight");
 		return measurementFromWeight.remove();
 	}
 
 	@Override
 	public void restartWeightDisplay() {
-		// TODO Auto-generated method stub
+		System.out.println("Display reset.");
 
 	}
 
 	@Override
 	public void stopWeight() throws ProtocolErrorException{
-		// TODO Auto-generated method stub
+		System.out.println("You cant stop this weight.");
 
 	}
 
