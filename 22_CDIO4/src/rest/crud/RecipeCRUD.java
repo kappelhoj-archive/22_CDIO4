@@ -25,7 +25,6 @@ public class RecipeCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ReceptDTO getRecipe(int recipeId)
 	{
-		
 		try
 		{
 			return controller.getRecipe(recipeId);
@@ -43,7 +42,6 @@ public class RecipeCRUD {
 			return null;
 		}
 	}
-	
 	
 	//TODO: Kig på HTTP ERROR
 	@Path("read_list")
@@ -65,8 +63,7 @@ public class RecipeCRUD {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createRecipe(ReceptDTO recipe)
-	{
-		
+	{	
 		try
 		{
 			controller.createRecipe(recipe);
@@ -76,7 +73,7 @@ public class RecipeCRUD {
 		{
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede en råvare med det indtastede id.";
+			return "Fejl: Der findes allerede en recept med det indtastede id.";
 		}
 		catch(DALException e)
 		{
@@ -96,13 +93,6 @@ public class RecipeCRUD {
 		{
 			controller.updateRecipe(recipe);
 			return "success";
-		}
-		catch(InputException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";		
-			
 		}
 		catch(DALException e)
 		{
