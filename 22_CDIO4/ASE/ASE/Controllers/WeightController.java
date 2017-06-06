@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.net.Socket;
 
 import ASE.exceptions.InvalidReturnMessageException;
-import ASE.exceptions.ProtocolErrorException;
 import ASE.exceptions.LogOutException;
+import ASE.exceptions.ProtocolErrorException;
 import ASE.interfaces.IMeasurementController;
 import ASE.interfaces.IWeightCommunicator;
 import ASE.interfaces.IWeightCommunicator.Buttons;
 import dataAccessObjects.interfaces.IWeightControlDAO;
 import dataTransferObjects.IWeightControlDTO;
-import dataTransferObjects.OperatoerDTO;
-import dataTransferObjects.ProduktBatchDTO;
-import dataTransferObjects.ProduktBatchKompDTO;
-import dataTransferObjects.RaavareBatchDTO;
+import dataTransferObjects.ProductBatchCompDTO;
+import dataTransferObjects.ProductBatchDTO;
+import dataTransferObjects.RawMaterialBatchDTO;
+import dataTransferObjects.UserDTO;
 
 
 /**
@@ -30,9 +30,9 @@ public class WeightController implements Runnable {
 	IWeightControlDAO rbDAO;
 	IWeightControlDAO pbDAO;
 
-	OperatoerDTO operatorDTO;
-	RaavareBatchDTO rbDTO;
-	ProduktBatchDTO pbDTO;
+	UserDTO operatorDTO;
+	RawMaterialBatchDTO rbDTO;
+	ProductBatchDTO pbDTO;
 
 	public WeightController(IMeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
@@ -53,7 +53,7 @@ public class WeightController implements Runnable {
 				login();
 				while (true) {
 					registerProduction();
-					ProduktBatchKompDTO measurement = measureProduct();
+					ProductBatchCompDTO measurement = measureProduct();
 					if (measurement == null) {
 						continue;
 					}
@@ -110,9 +110,9 @@ public class WeightController implements Runnable {
 	 * @throws ProtocolErrorException
 	 * @throws LogOutException
 	 */
-	private ProduktBatchKompDTO measureProduct() throws ProtocolErrorException, LogOutException {
-		ProduktBatchKompDTO measurement = new ProduktBatchKompDTO(pbDTO.getPbId(), rbDTO.getRbId(), 0.0, 0.0,
-				operatorDTO.getOprId());
+	private ProductBatchCompDTO measureProduct() throws ProtocolErrorException, LogOutException {
+		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbDTO.getPbId(), rbDTO.getRbId(), 0.0, 0.0,
+				operatorDTO.getId());
 		while (true) {
 			weightCommunication.taraWeight();
 			Double currentWeight = getCurrentWeight("Please clear the weight ->]");

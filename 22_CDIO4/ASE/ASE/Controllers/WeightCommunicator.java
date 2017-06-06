@@ -144,6 +144,18 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 	}
 
+	@Override
+	public void taraWeight() throws ProtocolErrorException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getWeight() throws ProtocolErrorException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 
 }
