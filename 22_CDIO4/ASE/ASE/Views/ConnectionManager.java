@@ -21,10 +21,12 @@ public class ConnectionManager implements Runnable {
 		try {
 			for (int i = 0; i < connectionReader.getAllPortNumbers().size(); i++) {
 				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+				// Add the newly connected IP/Socket to a list of successfully
+				// connected weights.
 				allConnectedIPAdresses.add(connectionReader.getIPString(i));
 				allConnectedPortNumbers.add(connectionReader.getPortInt(i));
 				System.out.println("Connection established.");
-				
+
 			}
 		} catch (UnknownHostException e) {
 			System.out.println("Error occured: Host unknown " + e);
@@ -48,5 +50,13 @@ public class ConnectionManager implements Runnable {
 			}
 			(new Thread(weightController[i])).start();
 		}
+	}
+
+	public ArrayList<String> getAllConnectedIPAdresses() {
+		return allConnectedIPAdresses;
+	}
+
+	public ArrayList<Integer> getAllConnectedPortNumbers() {
+		return allConnectedPortNumbers;
 	}
 }
