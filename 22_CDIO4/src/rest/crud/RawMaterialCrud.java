@@ -5,6 +5,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import dataTransferObjects.RaavareDTO;
+import exceptions.CollisionException;
+import exceptions.DALException;
+import exceptions.InputException;
+
 @Path("raw_material")
 public class RawMaterialCrud {
 	
@@ -20,9 +25,17 @@ public class RawMaterialCrud {
 		controller.create(RaavareDTO);
 		return "success";
 		}
-		catch (InputException e)
+		catch (CollisionException e)
 		{
 			return "failure";
+		}
+		catch (InputException e)
+		{
+			
+		}
+		catch (DALException e)
+		{
+			
 		}
 	}
 }
