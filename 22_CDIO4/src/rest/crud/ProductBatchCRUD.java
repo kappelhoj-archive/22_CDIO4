@@ -23,9 +23,9 @@ public class ProductBatchCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProduktBatchDTO getProductBatch(int id) {
+	public ProduktBatchDTO getProductBatch(String id) {
 		try {
-			return controller.getProductBatch(id);
+			return controller.getProductBatch(Integer.parseInt(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

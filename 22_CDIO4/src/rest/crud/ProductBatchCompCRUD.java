@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import controller.ProductBatchCompController;
 import controller.interfaces.IProductBatchCompController;
+import dataTransferObjects.ProductBatchCompPOJO;
 import dataTransferObjects.ProduktBatchKompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
@@ -21,9 +22,9 @@ public class ProductBatchCompCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProduktBatchKompDTO getProductCompBatch(int pbId, int rbId) {
+	public ProduktBatchKompDTO getProductBatchComp(ProductBatchCompPOJO ids) {
 		try {
-			return controller.getProductBatchComp(pbId, rbId);
+			return controller.getProductBatchComp(Integer.parseInt(ids.getPbId()), Integer.parseInt(ids.getRbId()));
 		}
 
 		catch (DALException e) {
@@ -37,9 +38,9 @@ public class ProductBatchCompCRUD {
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ProduktBatchKompDTO> getProductBatchCompList(int pbId) {
+	public List<ProduktBatchKompDTO> getProductBatchCompList(String pbId) {
 		try {
-			return controller.getProductBatchCompList(pbId);
+			return controller.getProductBatchCompList(Integer.parseInt(pbId));
 		} catch (DALException e) {
 			System.out.println(e.getMessage());
 			return null;

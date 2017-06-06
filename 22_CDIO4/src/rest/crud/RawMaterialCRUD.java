@@ -25,9 +25,9 @@ public class RawMaterialCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public RaavareDTO readRawMaterial(int id) {
+	public RaavareDTO readRawMaterial(String id) {
 		try {
-			return controller.getRawMaterial(id);
+			return controller.getRawMaterial(Integer.parseInt(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
