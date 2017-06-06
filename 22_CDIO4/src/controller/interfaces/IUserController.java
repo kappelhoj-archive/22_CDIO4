@@ -2,13 +2,13 @@ package controller.interfaces;
 
 import java.util.List;
 
-import dataTransferObjects.OperatoerDTO;
+import dataTransferObjects.UserDTO;
 import exceptions.*;
 
 public interface IUserController {
-	public void createUser(OperatoerDTO user) throws InputException, CollisionException, DALException;
-	public void updateUser(OperatoerDTO user) throws InputException, DALException;
-	public OperatoerDTO getUser(int userID) throws InputException, DALException;
-	public List<OperatoerDTO> getUserList() throws DALException;
+	public void createUser(UserDTO user) throws InputException, CollisionException, DALException;
+	public void updateUser(UserDTO user) throws InputException, DALException;
+	public UserDTO getUser(int id) throws InputException, DALException;
+	public List<UserDTO> getUserList() throws DALException;
 
 }

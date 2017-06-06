@@ -1,38 +1,41 @@
 package dataTransferObjects;
 
-import java.io.Serializable;
-
 /**
- * The objects of the UserDTO is used as data transfer object. The class
- * contains methods to add or remove information from the data transfer object.
- * In addition the class also contains a few utility methods.
+ * Operatoer Data Access Objekt
  * 
- * @author Group 22
- *
+ * @author mn/tb
+ * @version 1.2
  */
-public class UserDTO implements Serializable {
 
-	// The serial id making us able to identify the object when saved and
-	// loaded.
-	private static final long serialVersionUID = 4545864587995944260L;
+public class UserDTO implements IWeightControlDTO
+{
+	//Instance variables of the object UserDTO
+	int id;                     
+	String name;                
+	String ini;                 
+	String cpr;                 
+	String password;    
+	String role;
 
-	// Instance variables of the object UserDTO
-	private int id;
-	private String name;
-	private String ini;
-	private String cpr;
-	private String password;
-	private String role;
-
-	
-	public UserDTO(UserDTO user){
-		this.id = user.id;
-		this.name = user.name;
-		this.ini = user.ini;
-		this.cpr = user.cpr;
-		this.password = user.password;
-		this.role = user.role;
+	public UserDTO(int oprId, String oprNavn, String ini, String cpr, String password, String rolle)
+	{
+		this.id = oprId;
+		this.name = oprNavn;
+		this.ini = ini;
+		this.cpr = cpr;
+		this.password = password;
+		this.role = rolle;
 	}
+	
+    public UserDTO(UserDTO opr)
+    {
+    	this.id = opr.getId();
+    	this.name = opr.getName();
+    	this.ini = opr.getIni();
+    	this.cpr = opr.getCpr();
+    	this.password = opr.getPassword();
+    }
+    
 
 	public int getId() {
 		return id;
@@ -77,55 +80,22 @@ public class UserDTO implements Serializable {
 	public String getRole() {
 		return role;
 	}
-	
-	public void setRole(String role){
+
+	public void setRole(String role) {
 		this.role = role;
 	}
 
-	/**
-	 * Checks if the userDTO has the given role.
-	 * 
-	 * @param role
-	 *            The role to be checked.
-	 * @return True if the userDTO has the role, false otherwise.
-	 */
-	public boolean hasRole(String role) {
-		return this.role.equals(role);
+	public String toString() { return id + "\t" + name + "\t" + ini + "\t" + cpr + "\t" + password; }
+
+
+	public UserDTO copy() {
+		
+		return new UserDTO(id, name, ini, cpr, password, role);
+		
 	}
 
-	/**
-	 * Creates a string representation of the object without showing the
-	 * password and CPR of the userDTO.
-	 */
 	@Override
-	public String toString() {
-		String newString = "ID: " + id + ", name: " + name + ", Initials: " + ini + ", Role: " + role;
-
-		return newString;
-	}
-	
-	/**
-	 * Checks if the given user is equal to this user.
-	 * 
-	 * @param user
-	 *            The user to be checked.
-	 * @return True if the given user is equal to this user, false otherwise.
-	 */
-	public boolean equals(UserDTO user) {
-
-		if (this.getId() != user.getId()) {
-			return false;
-		} else if (!this.getName().equals(user.getName())) {
-			return false;
-		} else if (!this.getIni().equals(user.getIni())) {
-			return false;
-		} else if (!this.getCpr().equals(user.getCpr())) {
-			return false;
-		} else if (!this.getPassword().equals(user.getPassword())) {
-			return false;
-		} else if (!this.getRole().equals(user.getRole())) {
-			return false;
-		}
-		return true;
+	public String getIdentity() {
+		return name;
 	}
 }

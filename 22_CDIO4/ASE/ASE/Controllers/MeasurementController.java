@@ -2,22 +2,22 @@ package ASE.Controllers;
 
 import java.util.LinkedList;
 import java.util.Queue;
-
 import ASE.interfaces.IMeasurementController;
-import dataAccessObjects.TestSimonProduktBatchKompDAO;
+import dataAccessObjects.interfaces.ProduktBatchKompDAO;
 import dataTransferObjects.ProduktBatchKompDTO;
 import exceptions.DALException;
 
 public class MeasurementController implements IMeasurementController, Runnable {
-	TestSimonProduktBatchKompDAO produktBatchKomp = new TestSimonProduktBatchKompDAO();
+
 	ProduktBatchKompDTO temp;
 	Queue<ProduktBatchKompDTO> measurements;
+	public ProduktBatchKompDAO produktBatchKomp;
 
-	public MeasurementController() {
+	public MeasurementController(ProduktBatchKompDAO produktBatchKomp) {
+		this.produktBatchKomp =produktBatchKomp;
 		this.measurements = new LinkedList<ProduktBatchKompDTO>();
 	}
 
-	@Override
 	public void run() {
 		while (true) {
 			if (measurements != null) {
@@ -32,7 +32,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		}
 	}
 
-	public void enqueue(ProduktBatchKompDTO measurement) {
+	public void enqueue(ProductBatchCompDTO measurement) {
 		measurements.add(measurement);
 	}
 
@@ -40,7 +40,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		while (measurements.size() != 0) {
 			try {
 				temp = measurements.remove();
-				produktBatchKomp.createProduktBatchKomp(temp);
+				produktBatchKomp.createProductBatchComp(temp);
 
 			} catch (DALException e) {
 				measurements.add(temp);

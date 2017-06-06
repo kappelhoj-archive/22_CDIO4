@@ -3,9 +3,10 @@ package controller;
 import java.util.Hashtable;
 
 import controller.interfaces.ILoginController;
-import dataAccessObjects.MyOperatoerDAO;
-import dataAccessObjects.interfaces.OperatoerDAO;
-import dataTransferObjects.OperatoerDTO;
+import dataAccessObjects.UserDAO;
+import dataAccessObjects.interfaces.IUserDAO;
+import dataTransferObjects.LoginPOJO;
+import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 import exceptions.InputException;
 import staticClasses.Validator;
@@ -13,33 +14,44 @@ import staticClasses.Validator;
 public class LoginController implements ILoginController {
 
 	static Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
-	OperatoerDAO dao = new MyOperatoerDAO();
+	IUserDAO dao = new UserDAO();
 
-	public LoginController(){
-
-	}
 
 	@Override
-	public boolean checkLogin(int id, String password) {
+	public LoginState checkLogin(LoginPOJO user) {
 		try{
-			if (adminKeyTable.remove(id) == Integer.parseInt(password))
-				return true;
+			if(user.isSuperAdmin())
+				return LoginState.SUPER;
+			
+		    else if (adminKeyTable.remove(user.getId()) == Integer.parseInt(user.getPassword()))
+				return LoginState.NEW;
+			
 			else
-				return false;
+				return LoginState.FALSE;
 
 		}catch(Exception e){
 			try{
-				if(dao.getOperatoer(id).getPassword().equals(password))
-					return true;
+				if(dao.getUser(Integer.parseInt(user.getId())).getPassword().equals(user.getPassword()))
+					return LoginState.TRUE;
 				else
-					return false;
+					return LoginState.FALSE;
 
-			}catch(DALException e2){
+			}catch(Exception e2){
 				System.out.println(e2);
-				return false;
+				return LoginState.FALSE;
 			}
 		}
 	}
+	
+	@Override
+	public void setNewPassword(int id, String password) throws InputException, DALException{
+		UserDTO user = dao.getUser(id).copy();
+
+		user.setPassword(password);
+
+		dao.updateOperatoer(user);
+	}
+
 
 
 	@Override
@@ -48,20 +60,20 @@ public class LoginController implements ILoginController {
 		adminKeyTable.put(id, key);
 		return key;
 	}
-	
+
 	@Override
 	public int resetPassword(int id) throws InputException, DALException{
 		try{
 			Validator.validateUserID(id);
-			
-			OperatoerDTO user = dao.getOperatoer(id).copy();
-			
+
+			UserDTO user = dao.getUser(id).copy();
+
 			user.setPassword(generatePassword());
-			
+
 			dao.updateOperatoer(user);
-			
+
 			return generateAdminKey(id);
-			
+
 		}catch(InputException e){
 			throw new InputException(e.getMessage());
 		}catch(DALException e){
@@ -69,8 +81,8 @@ public class LoginController implements ILoginController {
 			throw new DALException(e.getMessage());
 		}
 	}
-	
-	
+
+
 	/**
 	 * Generates a password for the userDTO accepting the rules of DTU
 	 * passwords.
@@ -78,45 +90,9 @@ public class LoginController implements ILoginController {
 	 * @return The generated password.
 	 */
 	public String generatePassword() {
-		String password = "";
-		int passLength = 8;
-		boolean passwordValid = false;
-		while (!passwordValid) {
-			password = "";
-			for (int i = 0; i < passLength; i++) {
-				char newCharacther;
-				int randGroup = (int) (Math.random() * 100);
-				// Add a special characther
-				if (randGroup < 5) {
-					String specialCharacthers = ".-_+!?=";
-					int rand = (int) (Math.random() * specialCharacthers.length());
-					newCharacther = specialCharacthers.charAt(rand);
-				}
-				// Add a small letter.
-				else if (randGroup < 30) {
-					int rand = (int) (Math.random() * (122 - 97 + 1) + 97);
-					newCharacther = (char) rand;
-				}
-				// Add a large letter.
-				else if (randGroup < 55) {
-					int rand = (int) (Math.random() * (90 - 65 + 1) + 65);
-					newCharacther = (char) rand;
-				}
-				// Add a number.
-				else {
-					int rand = (int) (Math.random() * (57 - 48 + 1) + 48);
-					newCharacther = (char) rand;
-				}
-				password += newCharacther + "";
-			}
-			try {
-				Validator.validatePassword(password);
-				passwordValid = true;
-			} catch (InputException e) {
-				// Catches invalid passwords and creates a new one.
-			}
-		}
-		return password;
+		String password = "XX";
+		int rand = (int) (Math.random() * 1000000000);
+		return password+rand;
 	}
 
 }
