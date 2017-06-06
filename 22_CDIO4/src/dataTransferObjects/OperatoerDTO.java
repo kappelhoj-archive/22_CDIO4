@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class OperatoerDTO extends DTO
+public class OperatoerDTO implements IWeightControlDTO
 {
 	/** Operatoer-identifikationsnummer (opr_id) i omraadet 1-99999999. Vaelges af brugerne */
 	int oprId;                     
@@ -21,13 +21,14 @@ public class OperatoerDTO extends DTO
 	String password;    
 	String rolle;
 
-	public OperatoerDTO(int oprId, String oprNavn, String ini, String cpr, String password)
+	public OperatoerDTO(int oprId, String oprNavn, String ini, String cpr, String password, String rolle)
 	{
 		this.oprId = oprId;
 		this.oprNavn = oprNavn;
 		this.ini = ini;
 		this.cpr = cpr;
 		this.password = password;
+		this.rolle = rolle;
 	}
 	
     public OperatoerDTO(OperatoerDTO opr)
@@ -53,10 +54,15 @@ public class OperatoerDTO extends DTO
 	public void setRolle(String rolle) { this.rolle = rolle; }
 	public String toString() { return oprId + "\t" + oprNavn + "\t" + ini + "\t" + cpr + "\t" + password; }
 
+
+	public OperatoerDTO copy() {
+		
+		return new OperatoerDTO(oprId, oprNavn, ini, cpr, password, rolle);
+		
+	}
+
 	@Override
-	public DTO copy() {
-		
-		return new OperatoerDTO(oprId, oprNavn, ini, cpr, password);
-		
+	public String getIdentity() {
+		return oprNavn;
 	}
 }

@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import controller.LoginController;
 import controller.interfaces.ILoginController;
-import dataAccessObjects.MySQLOperatoerDAO;
+import dataAccessObjects.MyOperatoerDAO;
 import dataAccessObjects.interfaces.OperatoerDAO;
 import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
@@ -21,7 +21,7 @@ public class testUnitLogin {
 	@Before
 	public void setUp() throws Exception {
 		controller = new LoginController();
-		dao = new MySQLOperatoerDAO();
+		dao = new MyOperatoerDAO();
 	}
 
 	@After
@@ -36,6 +36,8 @@ public class testUnitLogin {
 		boolean actual;
 
 		int newKey = controller.generateAdminKey(1111);
+		
+		System.out.println("Admin key: "+new Integer(newKey).toString());
 
 		expected = true;
 		actual = controller.checkLogin(1111, new Integer(newKey).toString());
@@ -53,7 +55,7 @@ public class testUnitLogin {
 		boolean expected;
 		boolean actual;
 		try{
-			dao.createOperatoer(new OperatoerDTO(1, "Peter", "PE", "cpr", "testpassword"));
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword", "Admin"));
 		}catch (DALException e){
 			fail(e.getMessage());
 		}
@@ -69,4 +71,32 @@ public class testUnitLogin {
 			assertEquals(expected, actual);
 		}
 
+	@Test
+	public void testCreateUserFail() {
+		boolean expected;
+		boolean actual = false;
+		try{
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword","Admin"));
+			dao.createOperatoer(new OperatoerDTO(1111, "Peter2", "PE2", "cpr2", "testpassword2","Admin"));
+			
+			System.out.println(dao.getOperatoerList().toString());
+		}catch (DALException e){
+			actual = true;
+			System.out.println(e);
+		}
+		
+		try {
+			System.out.println(dao.getOperatoerList().toString());
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			expected = true;
+
+			assertEquals(expected, actual);
+
+		}
+
+	
 	}

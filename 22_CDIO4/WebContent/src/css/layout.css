@@ -1,13 +1,18 @@
+body, html {
+	width: 100%;
+	height: 100%;
+}
+
 .master-container {
 	display: block;
 	width: 100%;
 	height: 100%;
-	background-color: red;
 }
 
 .side-panel {
-	width: 30%;
-	background-color: green;
 	display: block;
+	width: 300px;
 	height: 100%;
+	background-color: black;
+	color: #fff;
 }

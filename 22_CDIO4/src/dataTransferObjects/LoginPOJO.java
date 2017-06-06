@@ -17,7 +17,7 @@ public class LoginPOJO implements Serializable {
 	private static final long serialVersionUID = 4545864587995999260L;
 
 	// Instance variables of the object UserDTO
-	private String userName;
+	private String id;
 	private String password;
 
 	
@@ -25,30 +25,33 @@ public class LoginPOJO implements Serializable {
 		
 	}
 
-	public LoginPOJO(String username, String password) {
-		this.userName=username;
+	public LoginPOJO(String id, String password) {
+		this.id=id;
 		this.password=password;
 	}
 
 	
-	public String getUserName() {
-		return userName;
+	public String getId() {
+		return id;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getPassword(){
+		return password;
+	}
 	public boolean isSuperAdmin(){
-		if(userName.equals("root") && password.equals("test"))
+		if(id.equals("admin")  && password.equals("root"))
 			return true;
 		
 		return false;
 	}
 	
 	public String toString(){
-		return "[username: " + userName + ", password: " + password + "]";
+		return "[username: " + id + ", password: " + password + "]";
 	}
 
 }
