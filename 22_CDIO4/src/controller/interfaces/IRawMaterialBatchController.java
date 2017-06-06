@@ -9,6 +9,6 @@ public interface IRawMaterialBatchController {
 	RaavareBatchDTO getRawMaterialBatch(int rbId) throws InputException, DALException;
 	List<RaavareBatchDTO> getRawMaterialBatchList() throws DALException;
 	List<RaavareBatchDTO> getRawMaterialBatchList(int raavareId) throws InputException, DALException;
-	void createRawMaterialBatch(RaavareBatchDTO raavarebatch) throws CollisionException, InputException, DALException;
-	void updateRawMaterialBatch(RaavareBatchDTO raavarebatch) throws InputException, DALException;
+	void createRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) throws CollisionException, InputException, DALException;
+	void updateRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) throws InputException, DALException;
 }

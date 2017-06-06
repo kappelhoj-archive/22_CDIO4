@@ -9,12 +9,12 @@ import exceptions.CollisionException;
 import exceptions.DALException;
 import dataAccessObjects.interfaces.IWeightControlDAO;
 //import staticClasses.FileManagement;
-import dataAccessObjects.interfaces.OperatoerDAO;
+import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.IWeightControlDTO;
 import dataTransferObjects.OperatoerDTO;
 
 
-public class MyOperatoerDAO implements OperatoerDAO,IWeightControlDAO {
+public class MyOperatoerDAO implements IUserDAO,IWeightControlDAO {
 
 	static Hashtable<Integer, OperatoerDTO> userList = new Hashtable<Integer, OperatoerDTO>();
 

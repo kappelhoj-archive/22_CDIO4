@@ -9,14 +9,14 @@ import org.junit.Test;
 import controller.LoginController;
 import controller.interfaces.ILoginController;
 import dataAccessObjects.MyOperatoerDAO;
-import dataAccessObjects.interfaces.OperatoerDAO;
+import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
 
 public class testUnitLogin {
 
 	ILoginController controller;
-	OperatoerDAO dao;
+	IUserDAO dao;
 
 	@Before
 	public void setUp() throws Exception {

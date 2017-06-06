@@ -8,6 +8,6 @@ import exceptions.*;
 public interface IProductBatchController {
 	ProduktBatchDTO getProductBatch(int pbId) throws DALException;
 	List<ProduktBatchDTO> getProductBatchList() throws DALException;
-	void createProductBatch(ProduktBatchDTO produktbatch) throws InputException, CollisionException, DALException;
-	void updateProductBatch(ProduktBatchDTO produktbatch) throws InputException, DALException;
+	void createProductBatch(ProduktBatchDTO productBatch) throws InputException, CollisionException, DALException;
+	void updateProductBatch(ProduktBatchDTO productBatch) throws InputException, DALException;
 }

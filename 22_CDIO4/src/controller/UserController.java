@@ -4,14 +4,14 @@ import java.util.List;
 
 import controller.interfaces.IUserController;
 import dataAccessObjects.MyOperatoerDAO;
-import dataAccessObjects.interfaces.OperatoerDAO;
+import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.OperatoerDTO;
 import exceptions.*;
 import staticClasses.Validator;
 
 public class UserController implements IUserController{
 
-	OperatoerDAO dao = new MyOperatoerDAO();
+	IUserDAO dao = new MyOperatoerDAO();
 
 	public void validation(OperatoerDTO user) throws InputException{
 		Validator.validateUserID(user.getOprId());

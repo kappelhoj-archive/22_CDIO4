@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 import controller.interfaces.ILoginController;
 import dataAccessObjects.MyOperatoerDAO;
-import dataAccessObjects.interfaces.OperatoerDAO;
+import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.LoginPOJO;
 import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
@@ -14,7 +14,7 @@ import staticClasses.Validator;
 public class LoginController implements ILoginController {
 
 	static Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
-	OperatoerDAO dao = new MyOperatoerDAO();
+	IUserDAO dao = new MyOperatoerDAO();
 
 
 	@Override
