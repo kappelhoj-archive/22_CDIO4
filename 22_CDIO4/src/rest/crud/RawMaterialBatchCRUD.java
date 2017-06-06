@@ -21,67 +21,50 @@ public class RawMaterialBatchCRUD {
 
 	IRawMaterialBatchController controller = new RawMaterialBatchController();
 
-	//TODO: Kig på HTTP ERROR
+	// TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public RaavareBatchDTO readRawMaterialBatch(int id)
-	{
-		try
-		{
+	public RaavareBatchDTO readRawMaterialBatch(int id) {
+		try {
 			return controller.getRawMaterialBatch(id);
-		}
-		catch (InputException e)
-		{
+		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
-		}
-		catch (DALException e)
-		{
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 
-
-	//TODO: Kig på HTTP ERROR
+	// TODO: Kig på HTTP ERROR
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareBatchDTO> readRawMaterialBatchList()
-	{
-		try 
-		{
+	public List<RaavareBatchDTO> readRawMaterialBatchList() {
+		try {
 			return controller.getRawMaterialBatchList();
-		}
-		catch (DALException e)
-		{
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
 		}
 	}
 
-	//TODO: KIG PÅ HTTP ERROR
+	// TODO: KIG PÅ HTTP ERROR
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareBatchDTO> readRawMaterialBatchList(int raavareId)
-	{
-		try
-		{
+	public List<RaavareBatchDTO> readRawMaterialBatchList(int raavareId) {
+		try {
 			return controller.getRawMaterialBatchList(raavareId);
-		}
-		catch (InputException e)
-		{
+		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
-		}
-		catch (DALException e)
-		{
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println();
 			return null;
@@ -91,57 +74,42 @@ public class RawMaterialBatchCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createRawMaterialBatch(RaavareBatchDTO rawMaterialBatch){
+	public String createRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) {
 
-		try
-		{
+		try {
 			controller.createRawMaterialBatch(rawMaterialBatch);
 			return "success";
-		}
-		catch (CollisionException e)
-		{
+		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "Fejl: Der findes allerede en råvare med det indtastede id.";
-		}
-		catch (InputException e)
-		{
+		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "Fejl: Det indtastede er ugyldigt..";
-		}
-		catch (DALException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet."; 
-		}
-	}
-
-
-	@Path("update")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateRawMaterialBatch(RaavareBatchDTO rawMaterialBatch)
-	{
-		try 
-		{
-			controller.updateRawMaterialBatch(rawMaterialBatch);
-			return "success";
-		}
-		catch (InputException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
-		}
-		catch (DALException e)
-		{
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "Fejl: Der skete en fejl i systemet.";
 		}
 	}
 
+	@Path("update")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String updateRawMaterialBatch(RaavareBatchDTO rawMaterialBatch) {
+		try {
+			controller.updateRawMaterialBatch(rawMaterialBatch);
+			return "success";
+		} catch (InputException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Det indtastede er ugyldigt..";
+		} catch (DALException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Der skete en fejl i systemet.";
+		}
+	}
 
 }
