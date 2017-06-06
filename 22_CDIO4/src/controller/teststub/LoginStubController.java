@@ -38,7 +38,7 @@ public class LoginStubController implements ILoginController {
 		{
 			return LoginState.TRUE;
 		}
-		else if(Integer.parseInt(user.getId()) == Integer.parseInt(admin.getId()) && user.getPassword().equals(admin.getPassword())) {
+		else if(user.isSuperAdmin()) {
 			return LoginState.SUPER;
 		}
 		else {
