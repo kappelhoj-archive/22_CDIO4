@@ -16,10 +16,15 @@ public class ConnectionManager implements Runnable {
 	MeasurementController measurementController;
 	Socket weightSocket;
 
+	/**
+	 * Method which tries to establish a connection to all of the listed weights
+	 * in the WeightTable.txt file, while adding each successfull IP/Port number
+	 * to an array.
+	 */
 	@Override
 	public void run() {
 		try {
-			for (int i = 0; i < connectionReader.getAllPortNumbers().size(); i++) {
+			for (int i = 0; i < connectionReader.getAllIPAdresses().size(); i++) {
 				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
 				// Add the newly connected IP/Socket to a list of successfully
 				// connected weights.
@@ -35,6 +40,9 @@ public class ConnectionManager implements Runnable {
 		}
 	}
 
+	/**
+	 * Starts each individual thread for each socket connection established.
+	 */
 	public void threadStarter() {
 		for (int i = 0; i < connectionReader.getAllIPAdresses().size(); i++) {
 			try {
@@ -52,10 +60,20 @@ public class ConnectionManager implements Runnable {
 		}
 	}
 
+	/**
+	 * Method to return all of the connected IP adresses in an Array.
+	 * 
+	 * @return Returns an array of all the connected IP adresses.
+	 */
 	public ArrayList<String> getAllConnectedIPAdresses() {
 		return allConnectedIPAdresses;
 	}
 
+	/**
+	 * Method to return all of the connected Port Numbers in an Array.
+	 * 
+	 * @return Returns an array of all the connected Port numbers.
+	 */
 	public ArrayList<Integer> getAllConnectedPortNumbers() {
 		return allConnectedPortNumbers;
 	}
