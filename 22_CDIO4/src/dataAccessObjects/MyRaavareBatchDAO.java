@@ -5,12 +5,14 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
+import dataAccessObjects.interfaces.IWeightControlDAO;
 import dataAccessObjects.interfaces.RaavareBatchDAO;
+import dataTransferObjects.IWeightControlDTO;
 import dataTransferObjects.RaavareBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyRaavareBatchDAO implements RaavareBatchDAO {
+public class MyRaavareBatchDAO implements RaavareBatchDAO, IWeightControlDAO {
 
 	static Hashtable<Integer, RaavareBatchDTO> rawmatBatchList = new Hashtable<Integer, RaavareBatchDTO>();
 
@@ -64,6 +66,12 @@ public class MyRaavareBatchDAO implements RaavareBatchDAO {
 	public void updateRaavareBatch(RaavareBatchDTO raavarebatch) throws DALException {
 		rawmatBatchList.replace(raavarebatch.getRbId(), raavarebatch.copy());
 
+	}
+
+	@Override
+	public IWeightControlDTO getDTOById(int Id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

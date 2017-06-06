@@ -5,12 +5,14 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
 
+import dataAccessObjects.interfaces.IWeightControlDAO;
 import dataAccessObjects.interfaces.ProduktBatchDAO;
+import dataTransferObjects.IWeightControlDTO;
 import dataTransferObjects.ProduktBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-public class MyProduktBatchDAO implements ProduktBatchDAO {
+public class MyProduktBatchDAO implements ProduktBatchDAO, IWeightControlDAO {
 
 	static Hashtable<Integer, ProduktBatchDTO> productBatchList = new Hashtable<Integer, ProduktBatchDTO>();
 
@@ -54,6 +56,13 @@ public class MyProduktBatchDAO implements ProduktBatchDAO {
 	public void updateProduktBatch(ProduktBatchDTO produktbatch) throws DALException {
 		productBatchList.replace(produktbatch.getPbId(), produktbatch.copy());
 
+	}
+
+
+	@Override
+	public IWeightControlDTO getDTOById(int Id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
