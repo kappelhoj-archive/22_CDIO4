@@ -47,6 +47,18 @@ public interface IWeightCommunicator {
 	public String askForInformation(String message) throws InvalidReturnMessageException;
 
 	/**
+	 * Tara the weight.
+	 */
+	public void taraWeight()throws ProtocolErrorException;
+	
+	/**
+	 * Get the weight measured on the weight.
+	 * @return Get the current weight displayed on the weight.
+	 */
+	public double getWeight()throws ProtocolErrorException;
+	
+	
+	/**
 	 * Clears the display on the weight and all currently ungoing functions.
 	 * Then resets the weight to begin state.
 	 */
@@ -55,6 +67,6 @@ public interface IWeightCommunicator {
 	/**
 	 * Turn of the weight.
 	 */
-	public void stopWeight();
+	public void stopWeight()throws ProtocolErrorException;
 
 }

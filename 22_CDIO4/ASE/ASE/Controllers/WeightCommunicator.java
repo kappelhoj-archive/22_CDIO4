@@ -10,7 +10,11 @@ import java.util.concurrent.TimeUnit;
 import ASE.exceptions.InvalidReturnMessageException;
 import ASE.exceptions.ProtocolErrorException;
 import ASE.interfaces.IWeightCommunicator;
-
+/**
+ * 
+ * @author arvid
+ *
+ */
 public class WeightCommunicator implements IWeightCommunicator {
 
 	Socket mySocket;
