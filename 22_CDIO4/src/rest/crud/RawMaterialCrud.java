@@ -46,4 +46,9 @@ public class RawMaterialCrud {
 			return "Fejl: Der skete en fejl i systemet."; 
 		}
 	}
+	
+	public Arraylist<RawMaterial>
+	{
+		
+	}
 }
