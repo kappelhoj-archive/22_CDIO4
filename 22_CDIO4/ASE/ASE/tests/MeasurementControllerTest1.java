@@ -9,6 +9,7 @@ import org.junit.Test;
 import ASE.Controllers.MeasurementController;
 import dataAccessObjects.MyProduktBatchKompDAO;
 import dataAccessObjects.interfaces.ProduktBatchKompDAO;
+import dataTransferObjects.ProductBatchCompDTO;
 import dataTransferObjects.ProduktBatchKompDTO;
 import exceptions.DALException;
 
@@ -25,12 +26,12 @@ public class MeasurementControllerTest1 {
 
 	@Test
 	public void test() {
-		ProduktBatchKompDAO produktBatchKomp = new MyProduktBatchKompDAO();
+		ProductBatchCompDTO produktBatchKomp = new MyProduktBatchKompDAO();
 		MeasurementController test = new MeasurementController(produktBatchKomp);
 		(new Thread(test)).start();
 		int pbId=1;
 		int rbId=1;
-		ProduktBatchKompDTO measurement = new ProduktBatchKompDTO(pbId, rbId, 1.1, 1.1, 1);
+		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbId, rbId, 1.1, 1.1, 1);
 
 		test.enqueue(measurement);
 		
