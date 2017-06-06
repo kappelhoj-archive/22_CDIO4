@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class ConnectionReader {
 
-	private String WeightIP, WeightPort;
+	private String weightIP, WeightPort;
 	private String[] IPArray;
 	private String fileLocation;
 
@@ -79,7 +79,7 @@ public class ConnectionReader {
 	 * @return Returns the value of the IP number as a String.
 	 */
 	public String getIPString() {
-		return WeightIP;
+		return weightIP;
 	}
 
 	/**
@@ -119,9 +119,9 @@ public class ConnectionReader {
 		}
 
 		// Check to see if the IP is invalid/unknown, i.e. 0.0.0.0.
-		if (weightIP == "0.0.0.0") {
+		if (weightIP.equals("0.0.0.0")) {
 			System.out.println("Error: IP reference invalid/unknown!");
-			System.out.println("Error source: ");
+			System.out.print("Error source: ");
 		}
 
 		// Check to see if any of the numbers are too small or too big.
