@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$("body").load("src/login.html");
+	$("body").load("src/html/login.html");
 
 	/*
 	 * On sumbit login post request
@@ -22,14 +22,14 @@ $(document).ready(function() {
 			data : $(this).serializeJSON(),
 			success : function(data) {
 				if(data == "new_log_in") {
-					$.get("src/login_new_pass.html", function(template) {
+					$.get("src/html/login_new_pass.html", function(template) {
 			            $("body").html(template)		            
 			        });
 				}
 				else if(data == "super_admin" || data == "logged_in") {		
 					var userId = $("#user_id").val();
 					getUser(userId).done(function(data) {
-						$.get("src/master.html", function(template) {
+						$.get("src/html/master.html", function(template) {
 				            $("body").html(Mustache.render($(template).html(), data))		            
 				        });
 					})
