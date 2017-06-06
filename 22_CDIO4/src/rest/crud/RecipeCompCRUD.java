@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import controller.RecipeCompController;
 import controller.interfaces.IRecipeCompController;
 import dataTransferObjects.ReceptKompDTO;
+import dataTransferObjects.RecipeCompPOJO;
 import exceptions.DALException;
 import exceptions.InputException;
 
@@ -23,10 +24,11 @@ public class RecipeCompCRUD {
 	// TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ReceptKompDTO readRecipeComp(int recipeId, int rawMaterialId) {
+	public ReceptKompDTO readRecipeComp(RecipeCompPOJO ids) {
 		try {
-			return controller.getRecipeComp(recipeId, rawMaterialId);
+			return controller.getRecipeComp(Integer.parseInt(ids.getId()), Integer.parseInt(ids.getRaw_material_id()));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -42,9 +44,9 @@ public class RecipeCompCRUD {
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ReceptKompDTO> readRecipeComp(int recipeId) {
+	public List<ReceptKompDTO> readRecipeComp(String recipeId) {
 		try {
-			return controller.getRecipeComp(recipeId);
+			return controller.getRecipeComp(Integer.parseInt(recipeId));
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println();
