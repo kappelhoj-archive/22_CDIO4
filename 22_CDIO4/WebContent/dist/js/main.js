@@ -1,32 +1,12 @@
 $(document).ready(function() {
 	// Vis min bruger
-	
 	$(document).on("click", ".user_edit_link", function(event) {
 		event.preventDefault();
-		console.log("trkkede på knappen")
 		var userid = "1";
 		var userData = getUser(userid);
 		$.get("src/userAdministration/user_edit.html", function(template) {
             $("#content").html(Mustache.render($(template).html(), userData.getJson()))		            
         });
-//		$.ajax({
-//			url : "rest/user/get-user",
-//			type : "POST",
-//			data : userid,
-//			contentType: "application/json",
-//			success : function(data){
-//				console.log(data);
-//				$.get("src/userAdministration/user_edit.html", function(template) {
-//		            $("#content").html(Mustache.render($(template).html(), data))		            
-//		        });
-//
-//				
-//			},
-//			error: function(data){
-//				console.log(data);
-//				alert("fail data: " + data);
-//			}
-//		});
 	});
 });$(document).ready(function() {
 
@@ -46,17 +26,15 @@ $(document).ready(function() {
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
 			success : function(data) {
-				if(data == "super_admin" || data == "logged_in") {
-					
-					//template = Mustache.render("<h1>{{rolle}}</h1>", userData.getJson());
-					
+				if(data == "new_log_in") {
+					$.get("src/login_new_pass.html", function(template) {
+			            $("body").html(template)		            
+			        });
+				}
+				else if(data == "super_admin" || data == "logged_in") {		
 					$.get("src/master.html", function(template) {
 			            $("body").html(Mustache.render($(template).html(), userData.getJson()))		            
 			        });
-//					$("body").load("src/master.html", function() {
-//						console.log(userId);
-//						getUser(userId);
-//					});
 				}
 				else {
 					console.log(data);
