@@ -1,5 +1,5 @@
 package dataTransferObjects;
 
 public interface IWeightControlDTO {
-public String getIdentity();
+	public String getIdentity();
 }
