@@ -2,13 +2,15 @@ package ASE.Views;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class ConnectionReader {
 
 	private String weightIP, WeightPort;
-	private String[] IPArray;
+	private ArrayList<String> allIPAdresses = new ArrayList<String>();
+	private ArrayList<String> allPortNumbers = new ArrayList<String>();
 	private String fileLocation;
 
 	public ConnectionReader(String fileLocation) {
@@ -32,7 +34,6 @@ public class ConnectionReader {
 
 		// Creation of the scanner
 		Scanner weightScanner = new Scanner(new FileInputStream(fileLocation));
-
 		// Attempt to retrieve information from the WeightTable.txt file.
 		// Retrieve information.
 		while (weightScanner.hasNext()) {
@@ -41,14 +42,17 @@ public class ConnectionReader {
 
 				// Syntax check.
 				if (tokenCheck.equals("IP")) {
-					String weightIP = weightScanner.nextLine().trim();
+					weightIP = weightScanner.nextLine().trim();
 					weightScanner.skip("PORT");
 					String weightPort = weightScanner.nextLine().trim();
 
-					IPChecker(weightIP);
+					if (IPChecker(weightIP)) {
+						allIPAdresses.add(weightIP);
+					}
 
-					PORTChecker(weightPort);
-
+					if (PORTChecker(weightPort)) {
+						allPortNumbers.add(weightPort);
+					}
 					System.out.println(weightIP + " " + weightPort);
 
 				} else if (tokenCheck != "IP") {
@@ -65,21 +69,16 @@ public class ConnectionReader {
 	}
 
 	/**
-	 * Method to return size of IPArray
-	 * 
-	 * @return Returns the value of the IP Array as a String[] (Array).
-	 */
-	public String[] getIPArray() {
-		return IPArray;
-	}
-
-	/**
 	 * Method to return IP number as String.
 	 * 
 	 * @return Returns the value of the IP number as a String.
 	 */
-	public String getIPString() {
-		return weightIP;
+	public ArrayList<String> getAllIPAdresses() {
+		return allIPAdresses;
+	}
+
+	public ArrayList<String> getAllPortNumbers() {
+		return allPortNumbers;
 	}
 
 	/**
@@ -102,11 +101,12 @@ public class ConnectionReader {
 	private boolean IPChecker(String weightIP) {
 
 		// Check to see if the IP contains the right number of periods.
-		IPArray = weightIP.split(Pattern.quote("."));
+		String[] IPArray = weightIP.split(Pattern.quote("."));
 
 		if (IPArray.length != 4) {
 			System.out.println("Error: Invalid number of periods!");
 			System.out.print("Error source: ");
+			return false;
 		}
 
 		// Check to see if any characters are letters.
@@ -116,12 +116,15 @@ public class ConnectionReader {
 			}
 		} catch (Exception e) {
 			System.out.println("Error: IP contains invalid characters!");
+			System.out.print("Error source: ");
+			return false;
 		}
 
 		// Check to see if the IP is invalid/unknown, i.e. 0.0.0.0.
 		if (weightIP.equals("0.0.0.0")) {
 			System.out.println("Error: IP reference invalid/unknown!");
 			System.out.print("Error source: ");
+			return false;
 		}
 
 		// Check to see if any of the numbers are too small or too big.
@@ -131,6 +134,7 @@ public class ConnectionReader {
 				if (a < 0 || a > 255) {
 					System.out.println("Error: IP Contains invalid numbers!");
 					System.out.print("Error source: ");
+					return false;
 				}
 			}
 		} catch (Exception e) {
