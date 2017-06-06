@@ -17,23 +17,23 @@ public class UserDTO implements IWeightControlDTO
 	String password;    
 	String role;
 
-	public UserDTO(int oprId, String oprNavn, String ini, String cpr, String password, String rolle)
+	public UserDTO(int id, String name, String ini, String cpr, String password, String role)
 	{
-		this.id = oprId;
-		this.name = oprNavn;
+		this.id = id;
+		this.name = name;
 		this.ini = ini;
 		this.cpr = cpr;
 		this.password = password;
-		this.role = rolle;
+		this.role = role;
 	}
 	
-    public UserDTO(UserDTO opr)
+    public UserDTO(UserDTO user)
     {
-    	this.id = opr.getId();
-    	this.name = opr.getName();
-    	this.ini = opr.getIni();
-    	this.cpr = opr.getCpr();
-    	this.password = opr.getPassword();
+    	this.id = user.getId();
+    	this.name = user.getName();
+    	this.ini = user.getIni();
+    	this.cpr = user.getCpr();
+    	this.password = user.getPassword();
     }
     
 
