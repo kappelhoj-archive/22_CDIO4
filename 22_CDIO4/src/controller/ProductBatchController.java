@@ -23,7 +23,7 @@ public class ProductBatchController implements IProductBatchController {
 	}
 
 	@Override
-	public void createProductBatch(ProduktBatchDTO productbatch)
+	public void createProductBatch(ProduktBatchDTO productbatch) //TODO check -1<status<3
 			throws CollisionException, InputException, DALException {
 		// TODO Auto-generated method stub
 
