@@ -92,17 +92,19 @@ public class ConnectionReader {
 	/**
 	 * Method to return IP number as a String.
 	 * 
-	 * @param i The specified index to return.
+	 * @param i
+	 *            The specified index to return.
 	 * @return
 	 */
-	public String getIPString (int i){
+	public String getIPString(int i) {
 		return allIPAdresses.get(i);
 	}
-	
+
 	/**
 	 * Method to return Port number as an Integer.
 	 * 
-	 * @param i The specified index to return.
+	 * @param i
+	 *            The specified index to return.
 	 * @return Returns the value of the Port number as an integer.
 	 */
 	public int getPortInt(int i) {
@@ -172,22 +174,20 @@ public class ConnectionReader {
 
 		// Checks to see if the Port number contains letters.
 		try {
-			// We are aware of the warning.
-			@SuppressWarnings("unused")
 			int weightPortInt = Integer.parseInt(weightPort);
+
+			// Check to see if the Port number is within the acceptable range.
+			if (weightPortInt < 0 || weightPortInt > 65535) {
+				System.out.println("Error: Port Number Not Valid!");
+				System.out.print("Error source: ");
+				return false;
+			}
+			return true;
+
 		} catch (Exception e) {
 			System.out.println("Error: Port contains invalid characters!");
 			return false;
-		}
-		int weightPortInt = Integer.parseInt(weightPort);
 
-		// Check to see if the Port number is within the acceptable range.
-		if (weightPortInt < 0 || weightPortInt > 65535) {
-			System.out.println("Error: Port Number Not Valid!");
-			System.out.print("Error source: ");
-			return false;
 		}
-
-		return true;
 	}
 }
