@@ -18,14 +18,81 @@ import exceptions.InputException;
 
 @Path("raw_material_batch")
 public class RawMaterialBatchCRUD {
-	
+
 	IRawMaterialBatchController controller = new RawMaterialBatchController();
-	
+
+	//TODO: Kig på HTTP ERROR
+	@Path("read")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public RaavareBatchDTO readRawMaterialBatch(int id)
+	{
+		try
+		{
+			return controller.getRawMaterialBatch(id);
+		}
+		catch (InputException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
+		catch (DALException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+
+	//TODO: Kig på HTTP ERROR
+	@Path("read_list")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<RaavareBatchDTO> readRawMaterialBatchList()
+	{
+		try 
+		{
+			return controller.getRawMaterialBatchList();
+		}
+		catch (DALException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	//TODO: KIG PÅ HTTP ERROR
+	@Path("read_list_specific")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<RaavareBatchDTO> readRawMaterialBatchList(int raavareId)
+	{
+		try
+		{
+			return controller.getRawMaterialBatchList(raavareId);
+		}
+		catch (InputException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
+		catch (DALException e)
+		{
+			e.printStackTrace();
+			System.out.println();
+			return null;
+		}
+	}
+
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createRawMaterialBatch(RaavareBatchDTO rawMaterialBatch){
-		
+
 		try
 		{
 			controller.createRawMaterialBatch(rawMaterialBatch);
@@ -50,94 +117,31 @@ public class RawMaterialBatchCRUD {
 			return "Fejl: Der skete en fejl i systemet."; 
 		}
 	}
-	
-	
-	//TODO: Kig på HTTP ERROR
-		@Path("read_list")
-		@GET
-		@Produces(MediaType.APPLICATION_JSON)
-		public List<RaavareBatchDTO> readRawMaterialBatchList()
+
+
+	@Path("update")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String updateRawMaterialBatch(RaavareBatchDTO rawMaterialBatch)
+	{
+		try 
 		{
-			try 
-			{
-				return controller.getRawMaterialBatchList();
-			}
-			catch (DALException e)
-			{
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				return null;
-			}
+			controller.updateRawMaterialBatch(rawMaterialBatch);
+			return "success";
 		}
-		
-		@Path("read_list_specific")
-		@POST
-		@Produces(MediaType.APPLICATION_JSON)
-		public List<RaavareBatchDTO> readRawMaterialBatchList(int raavareId)
+		catch (InputException e)
 		{
-			try
-			{
-				return controller.getRawMaterialBatchList(raavareId);
-			}
-			catch (InputException e)
-			{
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				return null;
-			}
-			catch (DALException e)
-			{
-				e.printStackTrace();
-				System.out.println();
-				return null;
-			}
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Det indtastede er ugyldigt..";
 		}
-		
-		@Path("update")
-		@POST
-		@Consumes(MediaType.APPLICATION_JSON)
-		public String updateRawMaterialBatch(RaavareBatchDTO rawMaterialBatch)
+		catch (DALException e)
 		{
-			try 
-			{
-				controller.updateRawMaterialBatch(rawMaterialBatch);
-				return "success";
-			}
-			catch (InputException e)
-			{
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				return "Fejl: Det indtastede er ugyldigt..";
-			}
-			catch (DALException e)
-			{
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				return "Fejl: Der skete en fejl i systemet.";
-			}
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Der skete en fejl i systemet.";
 		}
-		
-		//TODO: Kig på HTTP ERROR
-		@Path("read")
-		@POST
-		@Produces(MediaType.APPLICATION_JSON)
-		public RaavareBatchDTO readRawMaterialBatch(int id)
-		{
-			try
-			{
-			return controller.getRawMaterialBatch(id);
-			}
-			catch (InputException e)
-			{
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				return null;
-			}
-			catch (DALException e)
-			{
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				return null;
-			}
-		}
+	}
+
+
 }

@@ -9,27 +9,26 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import controller.RawMaterialController;
-import controller.interfaces.IRawMaterialController;
-import dataTransferObjects.RaavareDTO;
-import exceptions.CollisionException;
+import controller.RecipeCompController;
+import controller.interfaces.IRecipeCompController;
+import dataTransferObjects.ReceptKompDTO;
 import exceptions.DALException;
 import exceptions.InputException;
 
-@Path("raw_material")
-public class RawMaterialCRUD {
+@Path("recipe_component")
+public class RecipeCompCRUD {
 
-	IRawMaterialController controller = new RawMaterialController();
+	IRecipeCompController controller = new RecipeCompController();
 
 	//TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public RaavareDTO readRawMaterial(int id)
+	public ReceptKompDTO readRecipeComp(int recipeId, int rawMaterialId)
 	{
 		try
 		{
-			return controller.getRawMaterial(id);
+			return controller.getRecipeComp(recipeId, rawMaterialId);
 		}
 		catch (InputException e)
 		{
@@ -44,16 +43,36 @@ public class RawMaterialCRUD {
 			return null;
 		}
 	}
+
+
+	//TODO: Kig på HTTP ERROR
+	@Path("read_list_specific")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<ReceptKompDTO> readRecipeComp(int recipeId)
+	{
+		try
+		{
+			return controller.getRecipeComp(recipeId);
+		}
+		catch (DALException e)
+		{
+			e.printStackTrace();
+			System.out.println();
+			return null;
+		}
+	}
+
 
 	//TODO: Kig på HTTP ERROR
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareDTO> readRawMaterialList()
+	public List<ReceptKompDTO> readRecipeCompList()
 	{
 		try 
 		{
-			return controller.getRawMaterialList();
+			return controller.getRecipeCompList();
 		}
 		catch (DALException e)
 		{
@@ -63,51 +82,18 @@ public class RawMaterialCRUD {
 		}
 	}
 
+
+
+
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createRawMaterial(RaavareDTO rawMaterial)
+	public String createRecipeComp(ReceptKompDTO recipeComp)
 	{
 		try
 		{
-			controller.createRawMaterial(rawMaterial);
-			return "success";
-		}
-		catch (CollisionException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede en råvare med det indtastede id.";
-		}
-		catch (InputException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
-		}
-		catch (DALException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet."; 
-		}
-	}
-
-	@Path("update")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateRawMaterial(RaavareDTO rawMaterial)
-	{
-		try 
-		{
-			controller.updateRawMaterial(rawMaterial);
-			return "success";
-		}
-		catch (InputException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
+			controller.createRecipeComp(recipeComp);
+			return "succes";
 		}
 		catch (DALException e)
 		{
@@ -116,6 +102,26 @@ public class RawMaterialCRUD {
 			return "Fejl: Der skete en fejl i systemet.";
 		}
 	}
+
+	@Path("update")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String updateRecipeComp(ReceptKompDTO recipeComp)
+	{
+		try 
+		{
+			controller.updateRecipeComp(recipeComp);
+			return "success";
+		}
+		catch (DALException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return "Fejl: Der skete en fejl i systemet.";
+		}
+	}
+
+
 
 
 }
