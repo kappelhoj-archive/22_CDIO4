@@ -7,13 +7,14 @@ import java.util.Hashtable;
 
 import exceptions.CollisionException;
 import exceptions.DALException;
+import dataAccessObjects.interfaces.IWeightControlDAO;
 //import staticClasses.FileManagement;
 import dataAccessObjects.interfaces.OperatoerDAO;
-
+import dataTransferObjects.IWeightControlDTO;
 import dataTransferObjects.OperatoerDTO;
 
 
-public class MyOperatoerDAO implements OperatoerDAO {
+public class MyOperatoerDAO implements OperatoerDAO,IWeightControlDAO {
 
 	static Hashtable<Integer, OperatoerDTO> userList = new Hashtable<Integer, OperatoerDTO>();
 
@@ -70,6 +71,13 @@ public class MyOperatoerDAO implements OperatoerDAO {
 		}
 
 		return users;
+	}
+
+
+	@Override
+	public IWeightControlDTO getDTOById(int Id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
