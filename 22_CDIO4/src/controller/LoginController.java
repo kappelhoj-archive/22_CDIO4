@@ -3,14 +3,17 @@ package controller;
 import java.util.Hashtable;
 
 import controller.interfaces.ILoginController;
-import dataAccessObjects.MySQLOperatoerDAO;
+import dataAccessObjects.MyOperatoerDAO;
 import dataAccessObjects.interfaces.OperatoerDAO;
+import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
+import exceptions.InputException;
+import staticClasses.Validator;
 
 public class LoginController implements ILoginController {
 
-	Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
-	OperatoerDAO dao = new MySQLOperatoerDAO();
+	static Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
+	OperatoerDAO dao = new MyOperatoerDAO();
 
 	public LoginController(){
 
@@ -26,12 +29,13 @@ public class LoginController implements ILoginController {
 
 		}catch(Exception e){
 			try{
-				if(dao.getOperatoer(id).getPassword() == password)
+				if(dao.getOperatoer(id).getPassword().equals(password))
 					return true;
 				else
 					return false;
 
 			}catch(DALException e2){
+				System.out.println(e2);
 				return false;
 			}
 		}
@@ -43,6 +47,76 @@ public class LoginController implements ILoginController {
 		Integer key = new Integer((int) Math.floor(Math.random()*10000));
 		adminKeyTable.put(id, key);
 		return key;
+	}
+	
+	@Override
+	public int resetPassword(int id) throws InputException, DALException{
+		try{
+			Validator.validateUserID(id);
+			
+			OperatoerDTO user = dao.getOperatoer(id).copy();
+			
+			user.setPassword(generatePassword());
+			
+			dao.updateOperatoer(user);
+			
+			return generateAdminKey(id);
+			
+		}catch(InputException e){
+			throw new InputException(e.getMessage());
+		}catch(DALException e){
+			e.printStackTrace();
+			throw new DALException(e.getMessage());
+		}
+	}
+	
+	
+	/**
+	 * Generates a password for the userDTO accepting the rules of DTU
+	 * passwords.
+	 * 
+	 * @return The generated password.
+	 */
+	public String generatePassword() {
+		String password = "";
+		int passLength = 8;
+		boolean passwordValid = false;
+		while (!passwordValid) {
+			password = "";
+			for (int i = 0; i < passLength; i++) {
+				char newCharacther;
+				int randGroup = (int) (Math.random() * 100);
+				// Add a special characther
+				if (randGroup < 5) {
+					String specialCharacthers = ".-_+!?=";
+					int rand = (int) (Math.random() * specialCharacthers.length());
+					newCharacther = specialCharacthers.charAt(rand);
+				}
+				// Add a small letter.
+				else if (randGroup < 30) {
+					int rand = (int) (Math.random() * (122 - 97 + 1) + 97);
+					newCharacther = (char) rand;
+				}
+				// Add a large letter.
+				else if (randGroup < 55) {
+					int rand = (int) (Math.random() * (90 - 65 + 1) + 65);
+					newCharacther = (char) rand;
+				}
+				// Add a number.
+				else {
+					int rand = (int) (Math.random() * (57 - 48 + 1) + 48);
+					newCharacther = (char) rand;
+				}
+				password += newCharacther + "";
+			}
+			try {
+				Validator.validatePassword(password);
+				passwordValid = true;
+			} catch (InputException e) {
+				// Catches invalid passwords and creates a new one.
+			}
+		}
+		return password;
 	}
 
 }

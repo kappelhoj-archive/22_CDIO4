@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class ReceptDTO extends DTO
+public class ReceptDTO
 {
 	/** Recept nr i omraadet 1-99999999 */
 	int receptId;
@@ -28,5 +28,9 @@ public class ReceptDTO extends DTO
 	public void setReceptNavn(String receptNavn) { this.receptNavn = receptNavn; }
 	public String toString() { 
 		return receptId + "\t" + receptNavn; 
+	}
+	
+	public ReceptDTO copy(){
+		return new ReceptDTO(receptId, receptNavn);
 	}
 }

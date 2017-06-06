@@ -1,12 +1,12 @@
 package dataTransferObjects;
 
-public class ReceptKompDTO extends DTO
+public class ReceptKompDTO
 {
 	int receptId;                  // auto genereres fra 1..n   
 	int raavareId;             // i omraadet 1-99999999
 	double nomNetto;            // skal vaere positiv og passende stor
 	double tolerance;           // skal vaere positiv og passende stor
-	
+
 	public ReceptKompDTO(int receptId, int raavareId, double nomNetto, double tolerance)
 	{
 		this.receptId = receptId;
@@ -25,5 +25,9 @@ public class ReceptKompDTO extends DTO
 	public void setTolerance(double tolerance) { this.tolerance = tolerance; }
 	public String toString() { 
 		return receptId + "\t" + raavareId + "\t" + nomNetto + "\t" + tolerance; 
+	}
+
+	public ReceptKompDTO copy(){
+		return new ReceptKompDTO(receptId, raavareId, nomNetto, tolerance);
 	}
 }

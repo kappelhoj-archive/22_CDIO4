@@ -3,7 +3,7 @@ $(document).ready(function() {
 	/*
 	 * User Edit link and page
 	 * */
-	$(document).on("click", ".user-edit", function(event) {
+	$(document).on("click", ".user_edit_link", function(event) {
 		event.preventDefault();
 		var userid = $(this).parents("tr").children("td:first").text();
 		$.ajax({
@@ -24,11 +24,11 @@ $(document).ready(function() {
 //					return "New information not saved. Do you wish to leave the page?";
 //					}
 //					}
-					$("input[name=\"userId\"]").val(data.userId);
-					$("input[name=\"userName\"]").val(data.userName);
-					$("input[name=\"ini\"]").val(data.ini);
-					$("input[name=\"cpr\"]").val(data.cpr);
-					$("input[name=\"roles[]\"]").val(data.roles);
+					$("#user_id").val(data.userId);
+					$("#name").val(data.userName);
+					$("#initials").val(data.ini);
+					$("#cpr").val(data.cpr);
+					$("#rolle").val(data.roles);
 				});
 			},
 			error: function(data){
@@ -105,6 +105,24 @@ $(document).ready(function() {
 			}
 		});
 		return false; //for at undgå at knappen poster data (default behavior).
-	});
-	
+	});	
 });
+
+function getUser(userId) {
+	var json;
+	$.ajax({
+		url : "rest/user/get-user",
+		type : "POST",
+		data: userId,
+		contentType: "application/json",
+		success : function(data){
+			json = data;
+		},
+		error: function(data){
+			console.log("Fejl! " + data);
+		}
+	});
+	return { getJson : function () {
+		if(json) return json;
+	}};
+}

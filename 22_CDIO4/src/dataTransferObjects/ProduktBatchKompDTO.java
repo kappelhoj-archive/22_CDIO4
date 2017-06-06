@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class ProduktBatchKompDTO extends DTO
+public class ProduktBatchKompDTO
 {
 	int pbId; 	  // produktbatchets id
 	int rbId;        // i omraadet 1-99999999
@@ -30,5 +30,9 @@ public class ProduktBatchKompDTO extends DTO
 	public void setOprId(int oprId) { this.oprId = oprId; }
 	public String toString() { 
 		return pbId + "\t" + rbId +"\t" + tara +"\t" + netto + "\t" + oprId ; 
+	}
+	
+	public ProduktBatchKompDTO copy(){
+		return new ProduktBatchKompDTO(pbId, rbId, tara, netto, oprId);
 	}
 }
