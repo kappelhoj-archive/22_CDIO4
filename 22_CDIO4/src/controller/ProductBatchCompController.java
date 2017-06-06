@@ -26,7 +26,7 @@ public class ProductBatchCompController implements IProductBatchCompController {
 
 	@Override
 	public List<ProduktBatchKompDTO> getProductBatchCompList() throws DALException {
-		return dao.getProduktBatchKompListt();
+		return dao.getProduktBatchKompList();
 	}
 
 	@Override
