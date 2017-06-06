@@ -70,6 +70,7 @@ public class RawMaterialBatchCRUD {
 			}
 		}
 		
+		//TODO: KIG PÅ HTTP ERROR
 		@Path("read_list_specific")
 		@POST
 		@Produces(MediaType.APPLICATION_JSON)
