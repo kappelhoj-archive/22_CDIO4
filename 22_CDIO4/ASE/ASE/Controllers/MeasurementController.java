@@ -32,7 +32,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		}
 	}
 
-	public void enqueue(ProduktBatchKompDTO measurement) {
+	public void enqueue(ProductBatchCompDTO measurement) {
 		measurements.add(measurement);
 	}
 
@@ -40,7 +40,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		while (measurements.size() != 0) {
 			try {
 				temp = measurements.remove();
-				produktBatchKomp.createProduktBatchKomp(temp);
+				produktBatchKomp.createProductBatchComp(temp);
 
 			} catch (DALException e) {
 				measurements.add(temp);

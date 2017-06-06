@@ -3,27 +3,27 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IUserController;
-import dataAccessObjects.MyOperatoerDAO;
-import dataAccessObjects.interfaces.OperatoerDAO;
-import dataTransferObjects.OperatoerDTO;
+import dataAccessObjects.UserDAO;
+import dataAccessObjects.interfaces.IUserDAO;
+import dataTransferObjects.UserDTO;
 import exceptions.*;
 import staticClasses.Validator;
 
 public class UserController implements IUserController{
 
-	OperatoerDAO dao = new MyOperatoerDAO();
+	IUserDAO dao = new UserDAO();
 
-	public void validation(OperatoerDTO user) throws InputException{
-		Validator.validateUserID(user.getOprId());
-		Validator.validateUsername(user.getOprNavn());
+	public void validation(UserDTO user) throws InputException{
+		Validator.validateUserID(user.getId());
+		Validator.validateUsername(user.getName());
 		Validator.validateInitials(user.getIni());
 		Validator.validateCPR(user.getCpr());
 		Validator.validatePassword(user.getPassword());
-		Validator.validateRole(user.getRolle());
+		Validator.validateRole(user.getRole());
 	}
 
 	@Override
-	public void createUser(OperatoerDTO user) throws InputException, CollisionException, DALException{
+	public void createUser(UserDTO user) throws InputException, CollisionException, DALException{
 		try{
 
 			validation(user);
@@ -45,7 +45,7 @@ public class UserController implements IUserController{
 	}
 
 	@Override
-	public void updateUser(OperatoerDTO user) throws InputException, DALException{
+	public void updateUser(UserDTO user) throws InputException, DALException{
 		try{
 
 			validation(user);
@@ -65,11 +65,11 @@ public class UserController implements IUserController{
 	}
 
 	@Override
-	public OperatoerDTO getUser(int userID) throws InputException, DALException{
+	public UserDTO getUser(int id) throws InputException, DALException{
 		try{
-			Validator.validateUserID(userID);
+			Validator.validateUserID(id);
 
-			return dao.getOperatoer(userID);
+			return dao.getUser(id);
 
 		}catch(InputException e){
 			throw new InputException(e.toString());
@@ -82,10 +82,10 @@ public class UserController implements IUserController{
 	}
 
 	@Override
-	public List<OperatoerDTO> getUserList() throws DALException{
+	public List<UserDTO> getUserList() throws DALException{
 		try{
 
-			return dao.getOperatoerList();
+			return dao.getUserList();
 
 		}catch(DALException e){
 			System.out.println(e.toString());

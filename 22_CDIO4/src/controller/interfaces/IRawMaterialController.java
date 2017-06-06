@@ -2,13 +2,13 @@ package controller.interfaces;
 
 import java.util.List;
 
-import dataTransferObjects.RaavareDTO;
+import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.*;
 
 public interface IRawMaterialController {
-	RaavareDTO getRawMaterial(int raavareId) throws InputException, DALException;
-	List<RaavareDTO> getRawMaterial() throws DALException;
-	void createRawMaterial(RaavareDTO raavare) throws CollisionException, InputException, DALException;
-	void updateRawMaterial(RaavareDTO raavare) throws InputException, DALException;
+	RawMaterialDTO getRawMaterial(int id) throws InputException, DALException;
+	List<RawMaterialDTO> getRawMaterialList() throws DALException;
+	void createRawMaterial(RawMaterialDTO rawMaterial) throws CollisionException, InputException, DALException;
+	void updateRawMaterial(RawMaterialDTO rawMaterial) throws InputException, DALException;
 }

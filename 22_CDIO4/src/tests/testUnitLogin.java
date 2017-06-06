@@ -8,20 +8,20 @@ import org.junit.Test;
 
 import controller.LoginController;
 import controller.interfaces.ILoginController;
-import dataAccessObjects.MyOperatoerDAO;
-import dataAccessObjects.interfaces.OperatoerDAO;
-import dataTransferObjects.OperatoerDTO;
+import dataAccessObjects.UserDAO;
+import dataAccessObjects.interfaces.IUserDAO;
+import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 
 public class testUnitLogin {
 
 	ILoginController controller;
-	OperatoerDAO dao;
+	IUserDAO dao;
 
 	@Before
 	public void setUp() throws Exception {
 		controller = new LoginController();
-		dao = new MyOperatoerDAO();
+		dao = new UserDAO();
 	}
 
 	@After
@@ -55,7 +55,7 @@ public class testUnitLogin {
 		boolean expected;
 		boolean actual;
 		try{
-			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword", "Admin"));
+			dao.createOperatoer(new UserDTO(1111, "Peter", "PE", "cpr", "testpassword", "Admin"));
 		}catch (DALException e){
 			fail(e.getMessage());
 		}
@@ -76,17 +76,17 @@ public class testUnitLogin {
 		boolean expected;
 		boolean actual = false;
 		try{
-			dao.createOperatoer(new OperatoerDTO(1111, "Peter", "PE", "cpr", "testpassword","Admin"));
-			dao.createOperatoer(new OperatoerDTO(1111, "Peter2", "PE2", "cpr2", "testpassword2","Admin"));
+			dao.createOperatoer(new UserDTO(1111, "Peter", "PE", "cpr", "testpassword","Admin"));
+			dao.createOperatoer(new UserDTO(1111, "Peter2", "PE2", "cpr2", "testpassword2","Admin"));
 			
-			System.out.println(dao.getOperatoerList().toString());
+			System.out.println(dao.getUserList().toString());
 		}catch (DALException e){
 			actual = true;
 			System.out.println(e);
 		}
 		
 		try {
-			System.out.println(dao.getOperatoerList().toString());
+			System.out.println(dao.getUserList().toString());
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

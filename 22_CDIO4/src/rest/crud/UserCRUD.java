@@ -1,15 +1,16 @@
 package rest.crud;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import controller.UserController;
 import controller.interfaces.IUserController;
 import controller.teststub.UserStubController;
-import dataTransferObjects.OperatoerDTO;
+import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 import exceptions.InputException;
 
@@ -31,7 +32,7 @@ public class UserCRUD {
 	@Path("get-user")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public OperatoerDTO readUser(String userId)
+	public UserDTO readUser(String userId)
 	{
 		int id = Integer.parseInt(userId);
 		try {
@@ -40,6 +41,20 @@ public class UserCRUD {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@Path("get-users")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<UserDTO> readUsers()
+	{
+		try {
+			return userController.getUserList();
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

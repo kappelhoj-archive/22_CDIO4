@@ -22,14 +22,14 @@ public class Validator {
 	 * Checks if the given userID has the valid size. It does not check if it is
 	 * in the database.
 	 * 
-	 * @param userID
+	 * @param id
 	 *            The userID to be checked.
 	 * @return True if the userID is valid, throws InputException otherwise.
 	 * @throws InputException
 	 *             The exception to be thrown if the given userID is not valid.
 	 */
-	public static boolean validateUserID(int userID) throws InputException {
-		if (userID < 11 || userID > 99) {
+	public static boolean validateUserID(int id) throws InputException {
+		if (id < 11 || id > 99) {
 			throw new InputException("This user id is invalid. User ID's has to be between 11 and 99");
 		}
 		return true;
@@ -38,19 +38,19 @@ public class Validator {
 	/**
 	 * Checks if the given username has the valid size.
 	 * 
-	 * @param username
+	 * @param name
 	 *            The username to be checked.
 	 * @return True if the username is valid, throws InputException otherwise.
 	 * @throws InputException
 	 *             The exception to be thrown if the given username is not
 	 *             valid.
 	 */
-	public static boolean validateUsername(String username) throws InputException {
-		if (username == null) {
+	public static boolean validateUsername(String name) throws InputException {
+		if (name == null) {
 			throw new InputException("Username can't be null");
 		}
 
-		if (username.length() < 2 || username.length() > 20) {
+		if (name.length() < 2 || name.length() > 20) {
 			throw new InputException(
 					"This username is invalid. Usernames has to be between 2 and 20 characthers long.");
 		}
