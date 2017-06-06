@@ -39,7 +39,6 @@ public class MeasurementController implements IMeasurementController, Runnable {
 	public void dequeue() {
 		while (measurements.size() != 0) {
 			try {
-				System.out.println(measurements);
 				temp = measurements.remove();
 				produktBatchKomp.createProduktBatchKomp(temp);
 
