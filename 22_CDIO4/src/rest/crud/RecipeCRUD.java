@@ -9,26 +9,31 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import controller.ProductBatchController;
-import controller.interfaces.IProductBatchController;
-import dataTransferObjects.ProduktBatchDTO;
+
+import controller.RecipeController;
+
+import controller.interfaces.IRecipeController;
+
+import dataTransferObjects.ReceptDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
 
-@Path("product_batch")
-public class ProductBatchCRUD {
-	IProductBatchController controller = new ProductBatchController();
+@Path("recipe")
+
+public class RecipeCRUD {
+	
+	IRecipeController controller = new RecipeController();
 
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProduktBatchDTO getProductBatch(int pbId)
+	public ReceptDTO getRecipe(int recipeId)
 	{
 		
 		try
 		{
-			return controller.getProductBatch(pbId);
+			return controller.getRecipe(recipeId);
 		}
 		catch(InputException e)
 		{
@@ -49,11 +54,11 @@ public class ProductBatchCRUD {
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ProduktBatchDTO> getProductBatchList()
+	public List<ReceptDTO> getRecipeList()
 
 	{
 		try{
-			return controller.getProductBatchList();
+			return controller.getRecipeList();
 		}
 		catch(DALException e){
 			System.out.println(e.getMessage());
@@ -64,12 +69,12 @@ public class ProductBatchCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createProductBatch(ProduktBatchDTO productbatch)
+	public String createRecipe(ReceptDTO recipe)
 	{
 		
 		try
 		{
-			controller.createProductBatch(productbatch);
+			controller.createRecipe(recipe);
 			return "success";
 		}
 		catch(CollisionException e)
@@ -77,13 +82,6 @@ public class ProductBatchCRUD {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "Fejl: Der findes allerede en råvare med det indtastede id.";
-		}
-		catch(InputException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";		
-			
 		}
 		catch(DALException e)
 		{
@@ -93,16 +91,15 @@ public class ProductBatchCRUD {
 	
 		}
 	}
-	
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateProductBatch(ProduktBatchDTO productbatch)
+	public String updataRecipeBatch(ReceptDTO recipe)
 	{
 		
 		try
 		{
-			controller.updateProductBatch(productbatch);
+			controller.updateRecipe(recipe);
 			return "success";
 		}
 		catch(InputException e)
