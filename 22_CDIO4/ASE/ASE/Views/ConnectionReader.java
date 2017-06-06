@@ -161,6 +161,8 @@ public class ConnectionReader {
 
 		// Checks to see if the Port number contains letters.
 		try {
+			// We are aware of the warning.
+			@SuppressWarnings("unused")
 			int weightPortInt = Integer.parseInt(weightPort);
 		} catch (Exception e) {
 			System.out.println("Error: Port contains invalid characters!");
