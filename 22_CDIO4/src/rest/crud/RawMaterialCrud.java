@@ -5,6 +5,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import controller.RawMaterialController;
+import controller.interfaces.IRawMaterialController;
 import dataTransferObjects.RaavareDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
@@ -13,7 +15,7 @@ import exceptions.InputException;
 @Path("raw_material")
 public class RawMaterialCrud {
 	
-	IRawMaterialController controller = new rawMaterialController();
+	IRawMaterialController controller = new RawMaterialController();
 	
 	@Path("create")
 	@POST
@@ -22,7 +24,7 @@ public class RawMaterialCrud {
 	{
 		try
 		{
-		controller.create(RaavareDTO);
+		controller.createRawMaterial(rawMaterial);
 		return "success";
 		}
 		catch (CollisionException e)
