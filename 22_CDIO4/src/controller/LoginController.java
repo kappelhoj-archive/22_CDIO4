@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import controller.interfaces.ILoginController;
 import dataAccessObjects.MyOperatoerDAO;
 import dataAccessObjects.interfaces.OperatoerDAO;
+import dataTransferObjects.LoginPOJO;
 import dataTransferObjects.OperatoerDTO;
 import exceptions.DALException;
 import exceptions.InputException;
@@ -17,21 +18,25 @@ public class LoginController implements ILoginController {
 
 
 	@Override
-	public LoginState checkLogin(int id, String password) {
+	public LoginState checkLogin(LoginPOJO user) {
 		try{
-			if (adminKeyTable.remove(id) == Integer.parseInt(password))
+			if(user.isSuperAdmin())
+				return LoginState.SUPER;
+			
+		    else if (adminKeyTable.remove(user.getId()) == Integer.parseInt(user.getPassword()))
 				return LoginState.NEW;
+			
 			else
 				return LoginState.FALSE;
 
 		}catch(Exception e){
 			try{
-				if(dao.getOperatoer(id).getPassword().equals(password))
+				if(dao.getOperatoer(Integer.parseInt(user.getId())).getPassword().equals(user.getPassword()))
 					return LoginState.TRUE;
 				else
 					return LoginState.FALSE;
 
-			}catch(DALException e2){
+			}catch(Exception e2){
 				System.out.println(e2);
 				return LoginState.FALSE;
 			}
