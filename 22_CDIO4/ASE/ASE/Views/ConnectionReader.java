@@ -156,6 +156,7 @@ public class ConnectionReader {
 			int weightPortInt = Integer.parseInt(weightPort);
 		} catch (Exception e) {
 			System.out.println("Error: Port contains invalid characters!");
+			return false;
 		}
 		int weightPortInt = Integer.parseInt(weightPort);
 
@@ -163,6 +164,7 @@ public class ConnectionReader {
 		if (weightPortInt < 0 || weightPortInt > 65535) {
 			System.out.println("Error: Port Number Not Valid!");
 			System.out.print("Error source: ");
+			return false;
 		}
 
 		return true;
