@@ -46,10 +46,13 @@ public class ConnectionReader {
 					weightScanner.skip("PORT");
 					String weightPort = weightScanner.nextLine().trim();
 
+					// Adds the scanned IP adresses if, and only if, it passes
+					// the check.
 					if (IPChecker(weightIP)) {
 						allIPAdresses.add(weightIP);
 					}
-
+					// Adds the scanned Port number if, and only if, it passes
+					// the check.
 					if (PORTChecker(weightPort)) {
 						allPortNumbers.add(weightPort);
 					}
@@ -69,14 +72,19 @@ public class ConnectionReader {
 	}
 
 	/**
-	 * Method to return IP number as String.
+	 * Method to return IP numbers as Arraylist.
 	 * 
-	 * @return Returns the value of the IP number as a String.
+	 * @return Returns an Arraylist of all the correctly typed-in IP adresses
 	 */
 	public ArrayList<String> getAllIPAdresses() {
 		return allIPAdresses;
 	}
 
+	/**
+	 * Method to return Port numbers as Arraylist.
+	 * 
+	 * @return Returns an Arraylist of all the correctly typed-in Port numbers
+	 */
 	public ArrayList<String> getAllPortNumbers() {
 		return allPortNumbers;
 	}
