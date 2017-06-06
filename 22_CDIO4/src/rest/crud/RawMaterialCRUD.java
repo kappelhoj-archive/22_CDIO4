@@ -18,9 +18,51 @@ import exceptions.InputException;
 
 @Path("raw_material")
 public class RawMaterialCRUD {
-	
+
 	IRawMaterialController controller = new RawMaterialController();
-	
+
+	//TODO: Kig på HTTP ERROR
+	@Path("read")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public RaavareDTO readRawMaterial(int id)
+	{
+		try
+		{
+			return controller.getRawMaterial(id);
+		}
+		catch (InputException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
+		catch (DALException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	//TODO: Kig på HTTP ERROR
+	@Path("read_list")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<RaavareDTO> readRawMaterialList()
+	{
+		try 
+		{
+			return controller.getRawMaterialList();
+		}
+		catch (DALException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -28,8 +70,8 @@ public class RawMaterialCRUD {
 	{
 		try
 		{
-		controller.createRawMaterial(rawMaterial);
-		return "success";
+			controller.createRawMaterial(rawMaterial);
+			return "success";
 		}
 		catch (CollisionException e)
 		{
@@ -50,25 +92,7 @@ public class RawMaterialCRUD {
 			return "Fejl: Der skete en fejl i systemet."; 
 		}
 	}
-	
-	//TODO: Kig på HTTP ERROR
-	@Path("read_list")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<RaavareDTO> readRawMaterialList()
-	{
-		try 
-		{
-			return controller.getRawMaterialList();
-		}
-		catch (DALException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
-	
+
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -92,28 +116,6 @@ public class RawMaterialCRUD {
 			return "Fejl: Der skete en fejl i systemet.";
 		}
 	}
-	
-	//TODO: Kig på HTTP ERROR
-	@Path("read")
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	public RaavareDTO readRawMaterial(int id)
-	{
-		try
-		{
-		return controller.getRawMaterial(id);
-		}
-		catch (InputException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		}
-		catch (DALException e)
-		{
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
+
+
 }
