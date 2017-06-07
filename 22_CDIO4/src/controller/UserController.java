@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IUserController;
-import dataAccessObjects.UserDAO;
 import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.UserDTO;
 import exceptions.*;
@@ -11,7 +10,15 @@ import staticClasses.Validator;
 
 public class UserController implements IUserController{
 
-	IUserDAO dao = new UserDAO();
+	IUserDAO dao;
+	
+	public UserController(IUserDAO dao){
+		this.dao = dao;
+	}	
+
+	public IUserDAO getDao() {
+		return dao;
+	}
 
 	public void validation(UserDTO user) throws InputException{
 		Validator.validateUserID(user.getId());
