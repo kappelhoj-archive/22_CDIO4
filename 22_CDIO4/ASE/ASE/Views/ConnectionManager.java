@@ -2,6 +2,8 @@ package ASE.Views;
 
 import ASE.Views.ConnectionReader;
 import ASE.Controllers.*;
+
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -26,25 +28,33 @@ public class ConnectionManager {
 		connectionReader = new ConnectionReader(fileLocation);
 	}
 
+	/**
+	 * Attempt to establish connection to the weights listed on the
+	 * WeightTable.txt.
+	 */
 	public void getConnections() {
-		/**
-		 * Attempt to establish connection to the weights listed on the
-		 * WeightTable.txt.
-		 */
+
 		try {
+			connectionReader.WeightReader();
 			for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
-				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+				try {
+					weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+
+				} catch (ConnectException e) {
+					System.out.println("Error: Attempted connection failed!");
+					System.out.println(
+							"Error source: " + connectionReader.getIPString(i) + " " + connectionReader.getPortInt(i));
+				}
 				// Add the newly connected IP/Socket to a list of successfully
 				// connected weights.
-				allConnectedIPAddresses.add(connectionReader.getIPString(i));
-
-				allConnectedPortNumbers.add(connectionReader.getPortInt(i));
 			}
 
 		} catch (UnknownHostException e) {
 			System.out.println("Error occured: Host unknown " + e);
 		} catch (IOException e) {
-			System.out.println("Error occured: Port number unknown " + e);
+			System.out.println(e);
+			e.printStackTrace();
+
 		}
 	}
 

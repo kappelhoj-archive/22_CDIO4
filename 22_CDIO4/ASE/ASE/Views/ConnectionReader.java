@@ -56,8 +56,7 @@ public class ConnectionReader {
 					if (PORTChecker(weightPort)) {
 						allPortNumbers.add(weightPort);
 					}
-					System.out.println(weightIP + " " + weightPort);
-
+					
 				} else if (tokenCheck != "IP") {
 					System.out.println("Error: Invalid syntax in file!");
 				}
@@ -65,6 +64,7 @@ public class ConnectionReader {
 
 			catch (Exception e) {
 				System.out.println("Error occured: " + e);
+				e.printStackTrace();
 			}
 		}
 		weightScanner.close();
