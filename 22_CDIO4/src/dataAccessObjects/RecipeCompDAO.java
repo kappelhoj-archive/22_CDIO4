@@ -1,9 +1,7 @@
 package dataAccessObjects;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Set;
 
 import dataAccessObjects.interfaces.IRecipeCompDAO;
 import dataTransferObjects.RecipeCompDTO;
@@ -12,57 +10,63 @@ import exceptions.DALException;
 
 public class RecipeCompDAO implements IRecipeCompDAO {
 	
-	static Hashtable<DoubleInteger, RecipeCompDTO> recipeCompList = new Hashtable<DoubleInteger, RecipeCompDTO>();
+	static List<RecipeCompDTO> recipeCompList = new ArrayList<RecipeCompDTO>();
 
 	@Override
 	public RecipeCompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException {
-		if(recipeCompList.get(new DoubleInteger(recipeId, rawMaterialId)) != null)
-			return recipeCompList.get(new DoubleInteger(recipeId, rawMaterialId)).copy();
+		for(RecipeCompDTO recipecomp : recipeCompList){
 
-		else
-			throw new DALException("Unknown Recipe Comp ID: " +new DoubleInteger(recipeId, rawMaterialId));
+			if(recipecomp.getRecipeId() == recipeId && recipecomp.getRawMaterialId() == rawMaterialId)
+				return recipecomp.copy();
+		}
+		throw new DALException("Unknown Recipe Comp ID: " + recipeId + " " + rawMaterialId);
 	}
 
 	@Override
 	public List<RecipeCompDTO> getRecipeCompList(int recipeId) throws DALException {
-		List<RecipeCompDTO> recipeComps = new ArrayList<RecipeCompDTO>();
+		List<RecipeCompDTO> recipecompListget = new ArrayList<RecipeCompDTO>();
 
-		Set<DoubleInteger> keys = recipeCompList.keySet();
+		for(RecipeCompDTO recipecomp : recipeCompList){
 
-		for(DoubleInteger key : keys){
-			if(recipeCompList.get(key).getRecipeId() == recipeId)
-				recipeComps.add(recipeCompList.get(key).copy());
+			if(recipecomp.getRecipeId() == recipeId)
+				recipecompListget.add(recipecomp);
+
 		}
 
-		return recipeComps;
+		return recipecompListget;
 	}
 
 	@Override
 	public List<RecipeCompDTO> getRecipeCompList() throws DALException {
-		List<RecipeCompDTO> recipeComps = new ArrayList<RecipeCompDTO>();
-
-		Set<DoubleInteger> keys = recipeCompList.keySet();
-
-		for(DoubleInteger key : keys){
-			recipeComps.add(recipeCompList.get(key).copy());
-		}
-
-		return recipeComps;
+		return recipeCompList;
 	}
 
 	@Override
 	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
-		if (recipeCompList.putIfAbsent(new DoubleInteger(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId()), recipeComponent.copy()) == null)
+		try{
+			getRecipeComp(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId());
+
+		}catch (DALException e){ //if it can not find it, so it can create it
+			recipeCompList.add(recipeComponent.copy());
 			return;
-
-		else
-			throw new CollisionException("Recipe Comp ID:"+new DoubleInteger(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId())+" already exists !");
-
+		}
+		//if it can find it, so it already exists
+		throw new CollisionException(recipeComponent + " already exists !");
 	}
 
 	@Override
 	public void updateRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
-		recipeCompList.replace(new DoubleInteger(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId()), recipeComponent.copy());
+		getRecipeComp(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId());
+
+		for(RecipeCompDTO recipecomp : recipeCompList){
+			if(recipecomp.getRecipeId() == recipeComponent.getRecipeId() 
+					&& recipecomp.getRawMaterialId() == recipeComponent.getRawMaterialId()){
+
+				recipeCompList.remove(recipecomp);
+				recipeCompList.add(recipeComponent.copy());
+
+			}
+		}
 
 	}
 

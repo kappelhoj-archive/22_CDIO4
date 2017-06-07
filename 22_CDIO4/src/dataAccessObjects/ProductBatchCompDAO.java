@@ -49,7 +49,7 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
 		try{
 			getProductBatchComp(productBatchComponent.getPbId(), productBatchComponent.getRbId());
-			
+
 		}catch (DALException e){ //if it can not find it, so it can create it
 			productBatchCompList.add(productBatchComponent.copy());
 			return;
@@ -62,8 +62,19 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
 	@Override
 	public void updateProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {
-		productBatchCompList.remove(productBatchComponent);
-		productBatchCompList.add(productBatchComponent.copy());
+
+		getProductBatchComp(productBatchComponent.getPbId(), productBatchComponent.getRbId());
+
+		for(ProductBatchCompDTO productbatchcomp : productBatchCompList){
+			if(productbatchcomp.getPbId() == productBatchComponent.getPbId() 
+					&& productbatchcomp.getRbId() == productBatchComponent.getRbId()){
+
+				productBatchCompList.remove(productbatchcomp);
+				productBatchCompList.add(productBatchComponent.copy());
+
+			}
+		}
+
 
 	}
 
