@@ -2,6 +2,9 @@ package ASE.tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,11 +27,19 @@ public class MeasurementControllerTest {
 	public void test() {
 		ProductBatchCompDAOStub produktBatchComp = new ProductBatchCompDAOStub();
 		MeasurementController test = new MeasurementController(produktBatchComp);
+		Queue<ProductBatchCompDTO> measurements = new LinkedList<ProductBatchCompDTO>();
 		(new Thread(test)).start();
 		int pbId=1;
 		int rbId=1;
 		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbId, rbId, 1.1, 1.1, 1);
 
+		for(int i =0; i<5 ; i++)
+		{
+			measurement.setPbId(pbId);
+			measurement.setRbId(rbId);
+			measurements.add(measurement);
+			test.enqueue(measurement);
+		}
 		System.out.println(measurement);
 		test.enqueue(measurement);	
 
@@ -41,7 +52,10 @@ public class MeasurementControllerTest {
 		}
 		try 
 		{		
-			assertEquals(measurement,produktBatchComp.getProductBatchComp(pbId,rbId));	
+			while(!measurements.isEmpty())
+			{
+			assertEquals(measurements.remove(),produktBatchComp.getProductBatchComp(pbId,rbId));
+			}
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

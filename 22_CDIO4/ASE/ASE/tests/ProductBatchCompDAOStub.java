@@ -9,7 +9,7 @@ import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.DALException;
 
 public class ProductBatchCompDAOStub implements IProductBatchCompDAO{
-	Queue<ProductBatchCompDTO> measurements = new LinkedList<ProductBatchCompDTO>();;
+	Queue<ProductBatchCompDTO> measurements = new LinkedList<ProductBatchCompDTO>();
 	int i =1;
 	@Override
 	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
