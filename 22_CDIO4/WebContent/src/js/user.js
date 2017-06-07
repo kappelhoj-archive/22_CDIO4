@@ -33,48 +33,82 @@ $(document).ready(function() {
         });
 	});
 	
+	// Rediger bruger link
+	$(document).on("click", ".user_edit_table_link", function(event) {
+		event.preventDefault();
+		var userId = $(this).parents("tr").children("td:first").text();
+		getUser(userId).done(function(data) {
+			$.get("src/html/user/user_edit.html", function(template) {
+	            $("#content").html(Mustache.render($(template).html(),data))		            
+	        });
+		})
+		.fail(function(x) {
+			console.log("Fejl!");
+		});
+	});
+	
 	/** 
 	 * Form submits
 	 * **/
 	$(document).on("submit", "#user_create_form", function(event) {
 		event.preventDefault();
-		var userId = $("#user_id").val();
-		getUser(userId).done(function(r) {
-			$.ajax({
-				url : 'rest/user/login-user',
-				type : 'POST',
-				contentType : "application/json",
-				data : $(this).serializeJSON(),
-				success : function(data) {
-					if(data == "new_log_in") {
-						$.get("src/html/login_new_pass.html", function(template) {
-				            $("body").html(template)		            
-				        });
-					}
-					else if(data == "super_admin" || data == "logged_in") {		
-						var userId = $("#user_id").val();
-						getUser(userId).done(function(data) {
-							$.get("src/html/master.html", function(template) {
-					            $("body").html(Mustache.render($(template).html(), data))		            
-					        });
-						})
-						.fail(function(x) {
-							console.log("Fejl!");
-						});
-					}
-					else {
-						console.log(data);
-					}
-				},
-				error: function(data){
-					console.log(data);
+		
+		$.ajax({
+			url : 'rest/user/create-user',
+			type : 'POST',
+			contentType : "application/json",
+			data : $(this).serializeJSON(),
+			success : function(data) {
+				console.log(data);
+				switch(data) {
+			    case "success":
+			        alert("Brugeren blev oprettet");
+			        showUserListPage();
+			        break;
+			    case "input-error":
+			        alert("Input fejl");
+			        break;
+			    case "id-error":
+			        alert("ID fejl");
+			    default:
+			    	alert("System fejl");
 				}
-			});
-		})
-		.fail(function(x) {
-			console.log("Fejl!");
+			},
+			error: function(data){
+				console.log("Fejl!")
+				console.log(data);
+			}
 		});
 		
+	});
+	
+	$(document).on("submit", "#user_edit_form", function(event) {
+		event.preventDefault();
+		
+		$.ajax({
+			url : 'rest/user/update-user',
+			type : 'PUT',
+			contentType : "application/json",
+			data : $(this).serializeJSON(),
+			success : function(data) {
+				console.log(data);
+				switch(data) {
+			    case "success":
+			        alert("Brugeren blev redigeret");
+			        showUserListPage();
+			        break;
+			    case "input-error":
+			        alert("Input fejl");
+			        break;
+			    default:
+			    	alert("System fejl");
+				}
+			},
+			error: function(data){
+				console.log("Fejl!")
+				console.log(data);
+			}
+		});
 		
 	});
 	
@@ -98,7 +132,7 @@ function showUserListPage() {
 
 function getUser(userId) {
 	return $.ajax({
-		url : "rest/user/get-user",
+		url : "rest/user/read-user",
 		type : "POST",
 		data: userId,
 		contentType: "application/json"
@@ -108,7 +142,7 @@ function getUser(userId) {
 
 function getUsers() {
 	return $.ajax({
-		url : "rest/user/get-users",
+		url : "rest/user/read-users",
 		type : "GET",
 		contentType: "application/json"
 	});
