@@ -23,7 +23,7 @@ public class LoginController implements ILoginController {
 			if(user.isSuperAdmin())
 				return LoginState.SUPER;
 			
-		    else if (adminKeyTable.remove(user.getId()) == Integer.parseInt(user.getPassword()))
+		    else if (adminKeyTable.remove(Integer.parseInt(user.getId())).intValue() == Integer.parseInt(user.getPassword()))
 				return LoginState.NEW;
 			
 			else
@@ -57,7 +57,7 @@ public class LoginController implements ILoginController {
 	@Override
 	public int generateAdminKey(int id) {
 		Integer key = new Integer((int) Math.floor(Math.random()*10000));
-		adminKeyTable.put(id, key);
+		adminKeyTable.putIfAbsent(id, key);
 		return key;
 	}
 

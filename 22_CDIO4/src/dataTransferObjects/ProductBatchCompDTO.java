@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class ProductBatchCompDTO
+public class ProductBatchCompDTO extends DTO
 {
 	int pbId; 	  // produktbatchets id
 	int rbId;        // i omraadet 1-99999999
@@ -8,7 +8,7 @@ public class ProductBatchCompDTO
 	double netto;
 	int userId;					// operatoer-nummer
 
-	
+
 	public ProductBatchCompDTO(int pbId, int rbId, double tara, double netto, int oprId)
 	{
 		this.pbId = pbId;
@@ -17,7 +17,7 @@ public class ProductBatchCompDTO
 		this.netto = netto;
 		this.userId = oprId;
 	}
-	
+
 	public int getPbId() { return pbId; }
 	public void setPbId(int pbId) { this.pbId = pbId; }
 	public int getRbId() { return rbId; }
@@ -31,8 +31,15 @@ public class ProductBatchCompDTO
 	public String toString() { 
 		return pbId + "\t" + rbId +"\t" + tara +"\t" + netto + "\t" + userId ; 
 	}
-	
+
 	public ProductBatchCompDTO copy(){
 		return new ProductBatchCompDTO(pbId, rbId, tara, netto, userId);
+	}
+
+	public boolean equals(ProductBatchCompDTO dto){
+		if(this.toString().equals(dto.toString()))
+			return true;
+		else
+			return false;
 	}
 }

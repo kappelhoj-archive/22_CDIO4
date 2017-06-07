@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class ProductBatchDTO implements IWeightControlDTO
+public class ProductBatchDTO extends DTO implements IWeightControlDTO
 {
 	int pbId;                     // i omraadet 1-99999999
 	int status;					// 0: ikke paabegyndt, 1: under produktion, 2: afsluttet
@@ -42,5 +42,6 @@ public class ProductBatchDTO implements IWeightControlDTO
 			throw new RuntimeException("Invalid DTO");
 		}
 	}
+	
 }
 
