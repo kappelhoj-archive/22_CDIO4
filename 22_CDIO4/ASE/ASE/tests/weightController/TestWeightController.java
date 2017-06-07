@@ -19,12 +19,15 @@ public class TestWeightController {
 	WeightControlDAOStub userDAO;
 	WeightControlDAOStub rbDAO;
 	WeightControlDAOStub pbDAO;
+	
+	Thread myThread;
 
 	@Before
 	public void setUp() throws Exception {
 		measureCon=new MeasurementControllerStub();
 		comStub=new WeightCommunicatorStub();
 		wCon=new WeightController(measureCon, comStub);
+		myThread=new Thread(wCon);
 
 		
 	}
@@ -48,7 +51,11 @@ public class TestWeightController {
 		rbDAO=new WeightControlDAOStub(rb);
 		pbDAO=new WeightControlDAOStub(pb);
 		
+		wCon.setDAO(userDAO, rbDAO, pbDAO);
 		
+		//TODO: Setup communication.
+		
+		myThread.start();
 	}
 	
 	@Test
