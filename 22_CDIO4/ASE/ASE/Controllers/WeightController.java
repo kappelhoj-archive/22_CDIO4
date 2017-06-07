@@ -26,11 +26,11 @@ public class WeightController implements Runnable {
 	IMeasurementController measurementAdder;
 	IWeightCommunicator weightCommunication;
 
-	IWeightControlDAO operatorDAO;
+	IWeightControlDAO userDAO;
 	IWeightControlDAO rbDAO;
 	IWeightControlDAO pbDAO;
 
-	UserDTO operatorDTO;
+	UserDTO userDTO;
 	RawMaterialBatchDTO rbDTO;
 	ProductBatchDTO pbDTO;
 
@@ -44,8 +44,8 @@ public class WeightController implements Runnable {
 	}
 	
 
-	public void setDAO(IWeightControlDAO operatorDAO, IWeightControlDAO rbDAO, IWeightControlDAO pbDAO) {
-		this.operatorDAO=operatorDAO;
+	public void setDAO(IWeightControlDAO userDAO, IWeightControlDAO rbDAO, IWeightControlDAO pbDAO) {
+		this.userDAO=userDAO;
 		this.rbDAO=rbDAO;
 		this.pbDAO=pbDAO;
 	}
@@ -79,7 +79,7 @@ public class WeightController implements Runnable {
 		Buttons buttonConfirmation = Buttons.NULL;
 		do {
 			try {
-				buttonConfirmation = getDTOAndConfirm(operatorDTO, operatorDAO, "user id", "name");
+				buttonConfirmation = getDTOAndConfirm(userDTO, userDAO, "user id", "name");
 				if (buttonConfirmation == Buttons.BACK)
 					continue;
 			} catch (LogOutException e) {
@@ -117,7 +117,11 @@ public class WeightController implements Runnable {
 	 */
 	private ProductBatchCompDTO measureProduct() throws ProtocolErrorException, LogOutException {
 		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbDTO.getPbId(), rbDTO.getRbId(), 0.0, 0.0,
-				operatorDTO.getId());
+				userDTO.getId());
+		
+		measurement.setPbId(pbDTO.getPbId());
+		measurement.setRbId(rbDTO.getRbId());
+		
 		while (true) {
 			weightCommunication.taraWeight();
 			Double currentWeight = getCurrentWeight("Please clear the weight ->]");
