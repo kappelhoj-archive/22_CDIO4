@@ -38,6 +38,11 @@ public class WeightController implements Runnable {
 		this.measurementAdder = measurementAdder;
 		weightCommunication = new WeightCommunicator(weightConnection);
 	}
+	public WeightController(IMeasurementController measurementAdder, IWeightCommunicator weightCommunication) throws IOException {
+		this.measurementAdder = measurementAdder;
+		this.weightCommunication = weightCommunication;
+	}
+	
 
 	public void setDAO(IWeightControlDAO operatorDAO, IWeightControlDAO rbDAO, IWeightControlDAO pbDAO) {
 		this.operatorDAO=operatorDAO;
