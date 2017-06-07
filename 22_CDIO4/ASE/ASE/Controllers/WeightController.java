@@ -2,6 +2,7 @@ package ASE.Controllers;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import ASE.exceptions.InvalidReturnMessageException;
 import ASE.exceptions.LogOutException;
@@ -9,13 +10,17 @@ import ASE.exceptions.ProtocolErrorException;
 import ASE.interfaces.IMeasurementController;
 import ASE.interfaces.IWeightCommunicator;
 import ASE.interfaces.IWeightCommunicator.Buttons;
+import dataAccessObjects.RecipeDAO;
+import dataAccessObjects.interfaces.IRecipeCompDAO;
+import dataAccessObjects.interfaces.IRecipeDAO;
 import dataAccessObjects.interfaces.IWeightControlDAO;
 import dataTransferObjects.IWeightControlDTO;
 import dataTransferObjects.ProductBatchCompDTO;
 import dataTransferObjects.ProductBatchDTO;
 import dataTransferObjects.RawMaterialBatchDTO;
+import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.UserDTO;
-
+import exceptions.DALException;
 
 /**
  * 
@@ -29,25 +34,29 @@ public class WeightController implements Runnable {
 	IWeightControlDAO userDAO;
 	IWeightControlDAO rbDAO;
 	IWeightControlDAO pbDAO;
+	IRecipeCompDAO recipeCompDAO;
 
-	UserDTO userDTO=new UserDTO(0, null, null, null, null, null);
-	RawMaterialBatchDTO rbDTO=new RawMaterialBatchDTO(0, 0, 0);
-	ProductBatchDTO pbDTO=new ProductBatchDTO(0, 0, 0);
+	UserDTO userDTO = new UserDTO(0, null, null, null, null, null);
+	RawMaterialBatchDTO rbDTO = new RawMaterialBatchDTO(0, 0, 0);
+	ProductBatchDTO pbDTO = new ProductBatchDTO(0, 0, 0);
 
 	public WeightController(IMeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
 		weightCommunication = new WeightCommunicator(weightConnection);
 	}
-	public WeightController(IMeasurementController measurementAdder, IWeightCommunicator weightCommunication) throws IOException {
+
+	public WeightController(IMeasurementController measurementAdder, IWeightCommunicator weightCommunication)
+			throws IOException {
 		this.measurementAdder = measurementAdder;
 		this.weightCommunication = weightCommunication;
 	}
-	
 
-	public void setDAO(IWeightControlDAO userDAO, IWeightControlDAO rbDAO, IWeightControlDAO pbDAO) {
-		this.userDAO=userDAO;
-		this.rbDAO=rbDAO;
-		this.pbDAO=pbDAO;
+	public void setDAO(IWeightControlDAO userDAO, IWeightControlDAO rbDAO, IWeightControlDAO pbDAO,
+			IRecipeCompDAO recipeCompDAO) {
+		this.userDAO = userDAO;
+		this.rbDAO = rbDAO;
+		this.pbDAO = pbDAO;
+		this.recipeCompDAO = recipeCompDAO;
 	}
 
 	@Override
@@ -118,8 +127,16 @@ public class WeightController implements Runnable {
 	private ProductBatchCompDTO measureProduct() throws ProtocolErrorException, LogOutException {
 		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbDTO.getPbId(), rbDTO.getRbId(), 0.0, 0.0,
 				userDTO.getId());
-		
-		
+
+		RecipeCompDTO myRecipeComp = null;
+		try {
+			myRecipeComp = recipeCompDAO.getRecipeComp(pbDTO.getReceptId(), rbDTO.getRawMaterialId());
+			
+		} catch (DALException e) {
+			sendMessageAndConfirm("Could not find a matching recipe, try again ->]");
+			return null;
+		}
+
 		while (true) {
 			weightCommunication.taraWeight();
 			Double currentWeight = getCurrentWeight("Please clear the weight ->]");
@@ -146,8 +163,26 @@ public class WeightController implements Runnable {
 			} else {
 				measurement.setNetto(currentWeight);
 			}
+			weightCommunication.taraWeight();
+			currentWeight = getCurrentWeight("Please remove the product ->]");
+			
+			// Try do another measurement.
+			if (currentWeight == null) {
+				continue;
+			}
+			
+			//Check if the measurement is as expected from the recipe
+			double weightedTolerance = myRecipeComp.getTolerance()
+					- Math.abs(currentWeight + measurement.getTara() + measurement.getNetto());
 
+			if(weightedTolerance>=Math.abs(measurement.getNetto()-myRecipeComp.getNomNetto())){
 			return measurement;
+			}else{
+				sendMessageAndConfirm("Measurement dosen't match expected tolerance. ->]");
+				sendMessageAndConfirm("Measurement wasn't added to the database. ->]");
+				//TODO: Text should be updated to dansk! Maybe add option to force a measurement, even if it dosen't match.
+				return null;
+			}
 		}
 
 	}
@@ -170,7 +205,7 @@ public class WeightController implements Runnable {
 			String expectedIdentity) throws ProtocolErrorException, LogOutException {
 		try {
 			String id = weightCommunication.askForInformation("Indtast " + questionSubject + " og tryk ok.");
-			dto = dao.getDTOById(Integer.parseInt(id));
+			dto.copy(dao.getDTOById(Integer.parseInt(id)));
 			String identity = dto.getIdentity();
 
 			weightCommunication.sendMessage("Befrækt info: " + expectedIdentity + ": " + identity + " ->]");
