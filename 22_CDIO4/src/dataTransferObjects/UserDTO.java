@@ -98,4 +98,21 @@ public class UserDTO implements IWeightControlDTO
 	public String getIdentity() {
 		return name;
 	}
+
+	@Override
+	public void copy(IWeightControlDTO dto) throws RuntimeException {
+		if(dto instanceof UserDTO){
+			UserDTO castDTO=(UserDTO) dto;
+			this.cpr=castDTO.getCpr();
+			this.id=castDTO.getId();
+			this.ini=castDTO.getIni();
+			this.name=castDTO.getName();
+			this.password=castDTO.getPassword();
+			this.role=castDTO.getRole();
+		}
+		else{
+			throw new RuntimeException("Invalid DTO");
+		}
+		
+	}
 }

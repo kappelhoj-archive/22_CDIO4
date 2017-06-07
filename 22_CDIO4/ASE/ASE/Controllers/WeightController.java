@@ -26,21 +26,26 @@ public class WeightController implements Runnable {
 	IMeasurementController measurementAdder;
 	IWeightCommunicator weightCommunication;
 
-	IWeightControlDAO operatorDAO;
+	IWeightControlDAO userDAO;
 	IWeightControlDAO rbDAO;
 	IWeightControlDAO pbDAO;
 
-	UserDTO operatorDTO;
-	RawMaterialBatchDTO rbDTO;
-	ProductBatchDTO pbDTO;
+	UserDTO userDTO=new UserDTO(0, null, null, null, null, null);
+	RawMaterialBatchDTO rbDTO=new RawMaterialBatchDTO(0, 0, 0);
+	ProductBatchDTO pbDTO=new ProductBatchDTO(0, 0, 0);
 
 	public WeightController(IMeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
 		weightCommunication = new WeightCommunicator(weightConnection);
 	}
+	public WeightController(IMeasurementController measurementAdder, IWeightCommunicator weightCommunication) throws IOException {
+		this.measurementAdder = measurementAdder;
+		this.weightCommunication = weightCommunication;
+	}
+	
 
-	public void setDAO(IWeightControlDAO operatorDAO, IWeightControlDAO rbDAO, IWeightControlDAO pbDAO) {
-		this.operatorDAO=operatorDAO;
+	public void setDAO(IWeightControlDAO userDAO, IWeightControlDAO rbDAO, IWeightControlDAO pbDAO) {
+		this.userDAO=userDAO;
 		this.rbDAO=rbDAO;
 		this.pbDAO=pbDAO;
 	}
@@ -74,7 +79,7 @@ public class WeightController implements Runnable {
 		Buttons buttonConfirmation = Buttons.NULL;
 		do {
 			try {
-				buttonConfirmation = getDTOAndConfirm(operatorDTO, operatorDAO, "user id", "name");
+				buttonConfirmation = getDTOAndConfirm(userDTO, userDAO, "user id", "name");
 				if (buttonConfirmation == Buttons.BACK)
 					continue;
 			} catch (LogOutException e) {
@@ -112,7 +117,9 @@ public class WeightController implements Runnable {
 	 */
 	private ProductBatchCompDTO measureProduct() throws ProtocolErrorException, LogOutException {
 		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbDTO.getPbId(), rbDTO.getRbId(), 0.0, 0.0,
-				operatorDTO.getId());
+				userDTO.getId());
+		
+		
 		while (true) {
 			weightCommunication.taraWeight();
 			Double currentWeight = getCurrentWeight("Please clear the weight ->]");

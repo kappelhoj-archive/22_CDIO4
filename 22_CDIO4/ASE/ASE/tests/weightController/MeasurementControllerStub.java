@@ -1,16 +1,16 @@
 package ASE.tests.weightController;
 
 import ASE.interfaces.IMeasurementController;
-import dataTransferObjects.ProduktBatchKompDTO;
+import dataTransferObjects.ProductBatchCompDTO;
 
 public class MeasurementControllerStub implements IMeasurementController {
-	ProduktBatchKompDTO measurement;
+	ProductBatchCompDTO measurement;
 	@Override
-	public void enqueue(ProduktBatchKompDTO measurement) {
+	public void enqueue(ProductBatchCompDTO measurement) {
 		this.measurement=measurement;
 	}
 	
-	public ProduktBatchKompDTO getMeasurement(){
+	public ProductBatchCompDTO getMeasurement(){
 		return measurement;
 	}
 
