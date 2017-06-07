@@ -8,10 +8,13 @@ import org.junit.Test;
 
 import controller.LoginController;
 import controller.interfaces.ILoginController;
+import controller.interfaces.ILoginController.LoginState;
 import dataAccessObjects.UserDAO;
 import dataAccessObjects.interfaces.IUserDAO;
+import dataTransferObjects.LoginPOJO;
 import dataTransferObjects.UserDTO;
 import exceptions.DALException;
+import exceptions.InputException;
 
 public class testUnitLogin {
 
@@ -32,41 +35,56 @@ public class testUnitLogin {
 
 	@Test
 	public void testCheckLoginKey() {
-		boolean expected;
-		boolean actual;
+		LoginState expected;
+		LoginState actual;
 
-		int newKey = controller.generateAdminKey(1111);
+		int newKey = 0;
+		try {
+			newKey = controller.resetPassword(11);
+		} catch (InputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		System.out.println("Admin key: "+new Integer(newKey).toString());
+	
 
-		expected = true;
-		actual = controller.checkLogin(1111, new Integer(newKey).toString());
+		expected = LoginState.NEW;
+		actual = controller.checkLogin(new LoginPOJO("11", new Integer(newKey).toString()));
+		
+		System.out.println(actual);
+		
+		System.out.println(newKey);
 
 		assertEquals(expected, actual);
 
-		expected = false;
-		actual = controller.checkLogin(1111, new Integer(newKey).toString());
+		expected = LoginState.FALSE;
+		actual = controller.checkLogin(new LoginPOJO("11", new Integer(newKey).toString()));
 
 		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void testCheckLoginPassword() {
-		boolean expected;
-		boolean actual;
+		LoginState expected;
+		LoginState actual;
+		
 		try{
-			dao.createOperatoer(new UserDTO(1111, "Peter", "PE", "cpr", "testpassword", "Admin"));
+			dao.createOperatoer(new UserDTO(11, "Peter", "PE", "cpr", "testpassword", "Admin"));
 		}catch (DALException e){
 			fail(e.getMessage());
 		}
 
-			expected = true;
-			actual = controller.checkLogin(1111, "testpassword");
+			expected = LoginState.TRUE;
+			actual = controller.checkLogin(new LoginPOJO("11", "testpassword"));
 
 			assertEquals(expected, actual);
 
-			expected = false;
-			actual = controller.checkLogin(1111, "testpassword22222222");
+			expected = LoginState.FALSE;
+			actual = controller.checkLogin(new LoginPOJO("11", "testpassword2222222"));
 
 			assertEquals(expected, actual);
 		}
@@ -76,8 +94,8 @@ public class testUnitLogin {
 		boolean expected;
 		boolean actual = false;
 		try{
-			dao.createOperatoer(new UserDTO(1111, "Peter", "PE", "cpr", "testpassword","Admin"));
-			dao.createOperatoer(new UserDTO(1111, "Peter2", "PE2", "cpr2", "testpassword2","Admin"));
+			dao.createOperatoer(new UserDTO(12, "Peter", "PE", "cpr", "testpassword","Admin"));
+			dao.createOperatoer(new UserDTO(12, "Peter2", "PE2", "cpr2", "testpassword2","Admin"));
 			
 			System.out.println(dao.getUserList().toString());
 		}catch (DALException e){
