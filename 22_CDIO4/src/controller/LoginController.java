@@ -3,7 +3,6 @@ package controller;
 import java.util.Hashtable;
 
 import controller.interfaces.ILoginController;
-import dataAccessObjects.UserDAO;
 import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.LoginPOJO;
 import dataTransferObjects.UserDTO;
@@ -12,9 +11,19 @@ import exceptions.InputException;
 import staticClasses.Validator;
 
 public class LoginController implements ILoginController {
+	
+	IUserDAO dao;
+	
+	public IUserDAO getDao() {
+		return dao;
+	}
+
+	public LoginController(IUserDAO dao){
+		this.dao = dao;
+	}
+	
 
 	static Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
-	IUserDAO dao = new UserDAO();
 
 
 	@Override

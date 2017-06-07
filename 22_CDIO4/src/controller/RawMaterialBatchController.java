@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IRawMaterialBatchController;
-import dataAccessObjects.RawMaterialBatchDAO;
 import dataAccessObjects.interfaces.IRawMaterialBatchDAO;
 import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.CollisionException;
@@ -11,7 +10,17 @@ import exceptions.DALException;
 
 public class RawMaterialBatchController implements IRawMaterialBatchController {
 
-	IRawMaterialBatchDAO dao = new RawMaterialBatchDAO();
+	IRawMaterialBatchDAO dao;
+	
+	public RawMaterialBatchController(IRawMaterialBatchDAO dao){
+		this.dao = dao;
+	}	
+
+
+	public IRawMaterialBatchDAO getDao() {
+		return dao;
+	}
+
 
 	@Override
 	public RawMaterialBatchDTO getRawMaterialBatch(int rbId) throws DALException {

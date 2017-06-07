@@ -28,7 +28,20 @@ public class testUserDAO {
 	//Positiv test
 	@Test
 	public void testCreateUser(){
+		try {
 
+			UserDTO expected = new UserDTO(99, "Peter99", "PE", "cpr", "testpassword77","Admin");
+			
+			dao.createOperatoer(expected);
+
+			UserDTO actual = dao.getUser(99);
+
+			assertTrue(expected.equals(actual));
+
+		} catch (DALException e) {
+			fail(e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 

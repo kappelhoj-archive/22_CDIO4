@@ -21,6 +21,20 @@ $(document).ready(function()
 		});
 	});
 	
+	/* Edit raw material*/
+	$(document).on("click", ".raw_material_edit_table_link", function(event) {
+		event.preventDefault();
+		var rawMaterialId = $(this).parents("tr").children("td:first").text();
+		getRawMaterial(rawMaterialId).done(function (data) {
+			$.get("src/html/raw_material/raw_material/edit.html", function(template) {
+				$("#content").html(Mustache.render($(template).html(), data))
+			});
+		})
+		.fail(function(data) {
+			console.log(data);
+		});
+	});
+	
 	/* ######################### Create page button functions ########################################## */
 	
 	/* Returns to material list page from both create and edit page*/
@@ -107,6 +121,15 @@ function getRawMaterialList(){
 	return $.ajax({
 		url: "rest/raw_material/read_list",
 		type: "GET",
+		contentType: "application/json"
+	});
+}
+
+function getRawMaterial(rawMaterialId){
+	return $.ajax({
+		url: "rest/raw_material/read",
+		type: "POST",
+		data: rawMaterialId,
 		contentType: "application/json"
 	});
 }
