@@ -37,8 +37,13 @@ $(document).ready(function()
 		});
 	});
 	
+	
+	/* Create raw material table. */
+	
 });
 	
+
+
 
 function getRawMaterialList(){
 	return $.ajax({
