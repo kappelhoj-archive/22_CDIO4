@@ -32,7 +32,7 @@ public class ProductBatchDTO implements IWeightControlDTO
 
 	@Override
 	public void copy(IWeightControlDTO dto) throws RuntimeException {
-		if(dto instanceof ProductBatchCompDTO){
+		if(dto instanceof ProductBatchDTO){
 			ProductBatchDTO castDTO=(ProductBatchDTO) dto;
 			this.pbId=castDTO.getPbId();
 			this.recipeId=castDTO.getReceptId();
