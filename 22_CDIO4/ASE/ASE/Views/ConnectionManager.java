@@ -2,6 +2,8 @@ package ASE.Views;
 
 import ASE.Views.ConnectionReader;
 import ASE.Controllers.*;
+
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -9,8 +11,8 @@ import java.io.IOException;
 
 public class ConnectionManager {
 
-	ConnectionReader connectionReader = new ConnectionReader(null);
-	private ArrayList<String> allConnectedIPAdresses = new ArrayList<String>();
+	ConnectionReader connectionReader;
+	private ArrayList<String> allConnectedIPAddresses = new ArrayList<String>();
 	private ArrayList<Integer> allConnectedPortNumbers = new ArrayList<Integer>();
 	WeightController[] weightController;
 	MeasurementController measurementController;
@@ -18,26 +20,40 @@ public class ConnectionManager {
 
 	/**
 	 * Method which tries to establish a connection to all of the listed weights
-	 * in the WeightTable.txt file, while adding each successfull IP/Port number
+	 * in the WeightTable.txt file, while adding each successful IP/Port number
 	 * to an array.
 	 */
 
+	public ConnectionManager(String fileLocation) {
+		connectionReader = new ConnectionReader(fileLocation);
+	}
+
+	/**
+	 * Attempt to establish connection to the weights listed on the
+	 * WeightTable.txt. The method runs through the IPs two times.
+	 */
 	public void getConnections() {
+
 		try {
-			System.out.println(connectionReader.getAllIPAdresses().size());
-			for (int i = 0; i < connectionReader.getAllIPAdresses().size(); i++) {
-				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+			connectionReader.WeightReader();
+			for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
+				try {
+					weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+				} catch (ConnectException e) {
+					System.out.println("Error: Attempted connection failed!");
+					System.out.println(
+							"Error source: " + connectionReader.getIPString(i) + " " + connectionReader.getPortInt(i));
+				}
 				// Add the newly connected IP/Socket to a list of successfully
 				// connected weights.
-				allConnectedIPAdresses.add(connectionReader.getIPString(i));
-			
-				allConnectedPortNumbers.add(connectionReader.getPortInt(i));
 			}
-			
+
 		} catch (UnknownHostException e) {
 			System.out.println("Error occured: Host unknown " + e);
 		} catch (IOException e) {
-			System.out.println("Error occured: Port number unknown " + e);
+			System.out.println(e);
+			e.printStackTrace();
+
 		}
 	}
 
@@ -45,7 +61,7 @@ public class ConnectionManager {
 	 * Starts each individual thread for each socket connection established.
 	 */
 	public void threadStarter() {
-		for (int i = 0; i < connectionReader.getAllIPAdresses().size(); i++) {
+		for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
 			try {
 				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
 			} catch (IOException e) {
@@ -62,12 +78,12 @@ public class ConnectionManager {
 	}
 
 	/**
-	 * Method to return all of the connected IP adresses in an Array.
+	 * Method to return all of the connected IP addresses in an Array.
 	 * 
-	 * @return Returns an arraylist of all the connected IP adresses.
+	 * @return Returns an arraylist of all the connected IP addresses.
 	 */
-	public ArrayList<String> getAllConnectedIPAdresses() {
-		return allConnectedIPAdresses;
+	public ArrayList<String> getAllConnectedIPAddresses() {
+		return allConnectedIPAddresses;
 	}
 
 	/**
@@ -86,6 +102,6 @@ public class ConnectionManager {
 	 *         connected IP's), as an Integer.
 	 */
 	public int getNumberOfConnectedIPs() {
-		return allConnectedIPAdresses.size();
+		return allConnectedIPAddresses.size();
 	}
 }

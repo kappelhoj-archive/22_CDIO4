@@ -39,7 +39,7 @@ public class ConnectionReaderTest {
 		String[] expected = { "12.245.231.201", "91.23.110.232" };
 
 		ArrayList<String> actual;
-		actual = connectionReader.getAllIPAdresses();
+		actual = connectionReader.getAllIPAddresses();
 
 		for (int i = 0; i < expected.length; i++) {
 			assertEquals(expected[i], actual.get(i));

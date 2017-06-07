@@ -3,32 +3,28 @@ package ASE.tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import ASE.Views.ConnectionManager;
-import ASE.Views.ConnectionReader;
 
 public class ConnectionManagerTest {
 
-	ConnectionReader connectionReader;
 	ConnectionManager connectionManager;
+
 	String fileLocation;
 
 	@Before
 	public void setUp() throws Exception {
-
-		connectionManager = new ConnectionManager();
-		fileLocation = "ASE/ASE/test/WeightTableConManagerTest.txt";
+		fileLocation = "ASE/ASE/tests/WeightTableConManagerTest.txt";
+		connectionManager = new ConnectionManager(fileLocation);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		fileLocation = null;
-		connectionReader = null;
 		connectionManager = null;
 	}
 
@@ -39,30 +35,34 @@ public class ConnectionManagerTest {
 	@Test
 	public void testCorrectInformationRetrievel() {
 		connectionManager.getConnections();
-
-		ArrayList<String> resultsIP = connectionManager.getAllConnectedIPAdresses();
+		
+		ArrayList<String> resultsIP = connectionManager.getAllConnectedIPAddresses();
 		ArrayList<Integer> resultsPorts = connectionManager.getAllConnectedPortNumbers();
 
-		String[] expectedIP = { "43.210.240.45", "43.210.240.46", "43.210.240.47", "43.210.240.48", "43.210.240.49" };
+		String[] expectedIP = { ""};
 		ArrayList<String> actualIP = resultsIP;
 
-		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size(); i++) {
+		for (int i = 0; i < connectionManager.getNumberOfConnectedIPs(); i++) {
 			assertEquals(expectedIP[i], actualIP.get(i));
 		}
 
-		String[] expectedPort = { "23421", "23422", "23423", "23424", "23425" };
+		String[] expectedPort = { ""};
 		ArrayList<Integer> actualPort = resultsPorts;
 
-		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size(); i++) {
+		for (int i = 0; i < connectionManager.getNumberOfConnectedIPs(); i++) {
 			assertEquals(expectedPort[i], actualPort.get(i));
 		}
 	}
 
+	/**
+	 * Test to see if the amount of connections made is correct.
+	 */
 	@Test
 	public void testCorrectNumberOfWeightsConnected() {
+
 		connectionManager.getConnections();
-		
-		int expectedConnections = 5;
+
+		int expectedConnections = 0;
 
 		int actualConnections = connectionManager.getNumberOfConnectedIPs();
 
