@@ -2,9 +2,8 @@ package ASE.Controllers;
 
 import java.util.LinkedList;
 import java.util.Queue;
-
 import ASE.interfaces.IMeasurementController;
-import dataAccessObjects.ProductBatchCompDAO;
+import dataAccessObjects.interfaces.IProductBatchCompDAO;
 import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.DALException;
 
@@ -12,10 +11,10 @@ public class MeasurementController implements IMeasurementController, Runnable {
 
 	ProductBatchCompDTO temp;
 	Queue<ProductBatchCompDTO> measurements;
-	public ProductBatchCompDAO produktBatchKomp;
+	public IProductBatchCompDAO productBatchComp;
 
-	public MeasurementController(ProductBatchCompDAO produktBatchKomp) {
-		this.produktBatchKomp =produktBatchKomp;
+	public MeasurementController(IProductBatchCompDAO produktBatchComp) {
+		this.productBatchComp =produktBatchComp;
 		this.measurements = new LinkedList<ProductBatchCompDTO>();
 	}
 
@@ -25,7 +24,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 				dequeue();
 			}
 			try {
-				Thread.sleep(100);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 
 				e.printStackTrace();
@@ -35,13 +34,15 @@ public class MeasurementController implements IMeasurementController, Runnable {
 
 	public void enqueue(ProductBatchCompDTO measurement) {
 		measurements.add(measurement);
+		
 	}
 
 	public void dequeue() {
-		while (measurements.size() != 0) {
+		while (measurements.size()>0) {
 			try {
+
 				temp = measurements.remove();
-				produktBatchKomp.createProductBatchComp(temp);
+				productBatchComp.createProductBatchComp(temp);
 
 			} catch (DALException e) {
 				measurements.add(temp);
