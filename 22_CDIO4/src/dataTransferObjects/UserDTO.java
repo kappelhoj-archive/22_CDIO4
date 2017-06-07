@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class UserDTO implements IWeightControlDTO
+public class UserDTO extends DTO implements IWeightControlDTO
 {
 	//Instance variables of the object UserDTO
 	int id;                     
@@ -17,6 +17,10 @@ public class UserDTO implements IWeightControlDTO
 	String password;    
 	String role;
 
+	public UserDTO() {
+		
+	}
+	
 	public UserDTO(int id, String name, String ini, String cpr, String password, String role)
 	{
 		this.id = id;
@@ -29,11 +33,12 @@ public class UserDTO implements IWeightControlDTO
 	
     public UserDTO(UserDTO user)
     {
-    	this.id = user.getId();
-    	this.name = user.getName();
-    	this.ini = user.getIni();
-    	this.cpr = user.getCpr();
-    	this.password = user.getPassword();
+    	id = user.getId();
+    	name = user.getName();
+    	ini = user.getIni();
+    	cpr = user.getCpr();
+    	password = user.getPassword();
+    	role = user.getRole();
     }
     
 
@@ -85,7 +90,7 @@ public class UserDTO implements IWeightControlDTO
 		this.role = role;
 	}
 
-	public String toString() { return id + "\t" + name + "\t" + ini + "\t" + cpr + "\t" + password; }
+	public String toString() { return id + "\t" + name + "\t" + ini + "\t" + cpr + "\t" + password + role; }
 
 
 	public UserDTO copy() {
