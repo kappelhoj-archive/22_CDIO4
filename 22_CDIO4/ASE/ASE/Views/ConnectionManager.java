@@ -10,6 +10,7 @@ import java.io.IOException;
 public class ConnectionManager implements Runnable {
 
 	ConnectionReader connectionReader = new ConnectionReader(null);
+	ConnectionManager connectionManager = new ConnectionManager();
 	private ArrayList<String> allConnectedIPAdresses = new ArrayList<String>();
 	private ArrayList<Integer> allConnectedPortNumbers = new ArrayList<Integer>();
 	WeightController[] weightController;
@@ -76,5 +77,15 @@ public class ConnectionManager implements Runnable {
 	 */
 	public ArrayList<Integer> getAllConnectedPortNumbers() {
 		return allConnectedPortNumbers;
+	}
+
+	/**
+	 * Method to quickly get the number of connected weights
+	 * 
+	 * @return Returns the number of connected weights (defined by the number of
+	 *         connected IP's), as an Integer.
+	 */
+	public int getNumberOfConnectedIP() {
+		return connectionManager.allConnectedIPAdresses.size();
 	}
 }
