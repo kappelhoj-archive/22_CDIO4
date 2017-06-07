@@ -7,7 +7,7 @@ package dataTransferObjects;
  * @version 1.2
  */
 
-public class RawMaterialDTO
+public class RawMaterialDTO extends DTO
 {
     /** between 1 and 99999999 chosen by the user. */
     int id;                     

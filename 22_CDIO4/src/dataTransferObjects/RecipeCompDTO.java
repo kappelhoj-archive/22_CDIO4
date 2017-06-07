@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class RecipeCompDTO
+public class RecipeCompDTO extends DTO
 {
 	int recipeId;                  // auto genereres fra 1..n   
 	int rawMaterialId;             // i omraadet 1-99999999

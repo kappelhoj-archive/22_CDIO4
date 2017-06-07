@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class RawMaterialBatchDTO implements IWeightControlDTO
+public class RawMaterialBatchDTO extends DTO implements IWeightControlDTO
 {
 	int rbId;                     // i omraadet 1-99999999
 	int rawMaterialId;             // i omraadet 1-99999999
