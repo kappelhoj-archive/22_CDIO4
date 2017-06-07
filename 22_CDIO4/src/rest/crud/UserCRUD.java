@@ -22,7 +22,7 @@ public class UserCRUD {
 //	IUserController userController = new UserController();
 	IUserController userController = new UserStubController();
 	
-	@Path("read-user")
+	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserDTO readUser(String userId)
@@ -41,7 +41,7 @@ public class UserCRUD {
 		}
 	}
 	
-	@Path("read-users")
+	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<UserDTO> readUsers()
@@ -55,7 +55,7 @@ public class UserCRUD {
 		}
 	}
 	
-	@Path("create-user")
+	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createUser(UserDTO user)
@@ -75,7 +75,7 @@ public class UserCRUD {
 		}
 	}
 	
-	@Path("update-user")
+	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateUser(UserDTO user) {

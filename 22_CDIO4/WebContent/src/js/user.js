@@ -54,7 +54,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		$.ajax({
-			url : 'rest/user/create-user',
+			url : 'rest/user/create',
 			type : 'POST',
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
@@ -86,7 +86,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		$.ajax({
-			url : 'rest/user/update-user',
+			url : 'rest/user/update',
 			type : 'PUT',
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
@@ -115,7 +115,7 @@ $(document).ready(function() {
 });
 
 function showUserListPage() {
-	getUsers().done(function(data) {
+	getUserList().done(function(data) {
 		$.get("src/html/user/user_list.html", function(template) {
 			$("#content").html(template);
 			$.each(data, function(i, data){
@@ -132,7 +132,7 @@ function showUserListPage() {
 
 function getUser(userId) {
 	return $.ajax({
-		url : "rest/user/read-user",
+		url : "rest/user/read",
 		type : "POST",
 		data: userId,
 		contentType: "application/json"
@@ -140,9 +140,9 @@ function getUser(userId) {
 	
 }
 
-function getUsers() {
+function getUserList() {
 	return $.ajax({
-		url : "rest/user/read-users",
+		url : "rest/user/read_list",
 		type : "GET",
 		contentType: "application/json"
 	});
