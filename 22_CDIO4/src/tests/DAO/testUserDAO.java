@@ -119,8 +119,52 @@ public class testUserDAO {
 	public void testGetAndUpdateUserList(){
 
 		try {
-			dao.createOperatoer(new UserDTO(44, "Peter3", "PE3", "cpr3", "testpassword3","Admin"));
+			dao.createOperatoer(new UserDTO(46, "Peter3", "PE3", "cpr3", "testpassword3","Admin"));
 			dao.updateOperatoer(new UserDTO(12, "PeterChanged", "PE", "cpr", "testpassword","Admin"));
+
+			System.out.println(dao.getUserList());
+
+		} catch (DALException e) {
+			fail(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+
+	//Positiv test
+	@Test
+	public void testUpdateUserList(){
+
+		try {
+
+			UserDTO expected = new UserDTO(88, "PeterChanged88", "PE", "cpr", "testpassword88","Admin");
+			
+			dao.createOperatoer(new UserDTO(88, "Peter3", "PE3", "cpr3", "testpassword3","Admin"));
+			dao.updateOperatoer(new UserDTO(88, "PeterChanged88", "PE", "cpr", "testpassword88","Admin"));
+
+			UserDTO actual = dao.getUser(88);
+
+			assertTrue(expected.equals(actual));
+
+		} catch (DALException e) {
+			fail(e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+
+	//Positiv test
+	@Test
+	public void testGetUser(){
+
+
+		try {
+			UserDTO expected = new UserDTO(44, "Peter3", "PE3", "cpr3", "testpassword3","Admin");
+
+			dao.createOperatoer(expected);
+			UserDTO actual = dao.getUser(44);
+
+			assertTrue(expected.equals(actual));
 
 			System.out.println(dao.getUserList());
 
