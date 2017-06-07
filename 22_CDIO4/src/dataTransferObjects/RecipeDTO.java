@@ -1,6 +1,6 @@
 package dataTransferObjects;
 
-public class RecipeDTO
+public class RecipeDTO extends DTO
 {
 	int recipeId;
 	String recipeName;
