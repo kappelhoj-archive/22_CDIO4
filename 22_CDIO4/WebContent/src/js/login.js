@@ -7,13 +7,6 @@ $(document).ready(function() {
 	 * */
 	$(document).on("submit", "#login_form", function(event) {
 		event.preventDefault();
-		var userId = $("#user_id").val();
-		getUser(userId).done(function(r) {
-			
-		})
-		.fail(function(x) {
-			console.log("Fejl!");
-		});
 		
 		$.ajax({
 			url : 'rest/login/login-user',
@@ -30,7 +23,21 @@ $(document).ready(function() {
 					var userId = $("#user_id").val();
 					getUser(userId).done(function(data) {
 						$.get("src/html/master.html", function(template) {
-				            $("body").html(Mustache.render($(template).html(), data))		            
+				            $("body").html(Mustache.render($(template).html(), data))
+				            switch(data.role) {
+				            case "Admin":
+				            	$(".top_nav_role").addClass("role_admin");
+				            	break;
+				            case "Farmaceut":
+				            	$(".top_nav_role").addClass("role_pharmacist");
+				            	break;
+				            case "Værkfører":
+				            	$(".top_nav_role").addClass("role_foreman");
+				            	break;
+				            case "Laborant":
+				            	$(".top_nav_role").addClass("role_labtech");
+				            	break;
+				            }
 				        });
 					})
 					.fail(function(x) {

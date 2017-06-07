@@ -1,15 +1,38 @@
 <div id="master_container">
-	<div id="side_panel">
-		<h1>CDIO 4</h1>
-		<nav>
-			<ul>
-				<li><a class="user_edit_link" href="#">Min bruger</a></li>
-				<li><a class="user_list_link" href="#">Vis brugere</a></li>
-				<li><a class="user_create_link" href="#">Opret bruger</a></li>
-				<li><a class="raw_material_list_link" href="#"> Vis råvare liste</a><li>
-			</ul>
-		</nav>
-	</div>
-	<div id="content">
+	<header id="top">
+		<div class="wrapper clearfix">
+			<h1 id="logo" class="float-left">
+				<a href="#">Medicinal Administration</a>
+			</h1>
+			<nav id="top_nav" class="float-right">
+				<ul>
+					<li>
+						<a href="#" class="user_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="top_nav_role">{{role}}</span>{{name}}<span class="arrow_down"></span></a>
+						<div id="user_dropdown_menu" class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item user_edit_link" href="#">Profil</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">Log ud</a>
+						</div>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+	<div id="content_container" class="wrapper clearfix">
+		<div id="side_panel" class="float-left">
+			<nav id="side_nav">
+				<ul>
+					<li>
+						<b>Brugeradministration</b>
+						<ul>
+							<li><a class="user_list_link" href="#">Alle brugere</a></li>
+							<li><a class="user_create_link" href="#">Opret bruger</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div id="content" class="float-left">
+		</div>
 	</div>
 </div>
