@@ -12,6 +12,7 @@ import exceptions.InputException;
 public class UserStubController implements IUserController {
 	UserDTO testUser = new UserDTO(1, "Jeppe", "JTN", "300389-2793", "test", "Admin");
 	UserDTO testUser2 = new UserDTO(2, "Mikkel", "MHL", "300389-2793", "test", "Farmaceut");
+	UserDTO testUser3 = new UserDTO(3, "Arvid", "AKL", "300389-2793", "test", "Laborant");
 	ArrayList<UserDTO> userList = new ArrayList<UserDTO>();
 	
 	@Override
@@ -35,6 +36,7 @@ public class UserStubController implements IUserController {
 	public List<UserDTO> getUserList() throws DALException {
 		userList.add(testUser);
 		userList.add(testUser2);
+		userList.add(testUser3);
 		return userList;
 	}
 	

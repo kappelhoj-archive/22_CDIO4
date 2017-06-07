@@ -1,2 +1,3 @@
 /target/
-/WebContent/dist/
+
+/WebContent/dist/*
