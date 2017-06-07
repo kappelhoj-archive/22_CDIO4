@@ -20,6 +20,8 @@ public class ConnectionManagerTest {
 	@Before
 	public void setUp() throws Exception {
 		connectionManager = new ConnectionManager();
+		fileLocation = "ASE/ASE/test/WeightTableConManagerTest.txt";
+
 	}
 
 	@After
@@ -35,27 +37,29 @@ public class ConnectionManagerTest {
 	 */
 	@Test
 	public void testCorrectInformationRetrievel() {
-
-		fileLocation = "ASE/ASE/test/WeightTableConManagerTest.txt";
-
 		connectionManager.run();
 
 		ArrayList<String> resultsIP = connectionManager.getAllConnectedIPAdresses();
 		ArrayList<Integer> resultsPorts = connectionManager.getAllConnectedPortNumbers();
 
-		String[] expectedIP = { "123.64.223.12", "43.210.240.46" };
+		String[] expectedIP = { "43.210.240.45", "43.210.240.46", "43.210.240.47", "43.210.240.48", "43.210.240.49" };
 		ArrayList<String> actualIP = resultsIP;
 
-		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size(); i++) {
+		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size();i++) {
 			assertEquals(expectedIP[i], actualIP.get(i));
 		}
 
-		String[] expectedPort = { "32132", "23422" };
+		String[] expectedPort = { "23421", "23422", "23423", "23424", "23425" };
 		ArrayList<Integer> actualPort = resultsPorts;
 
 		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size(); i++) {
 			assertEquals(expectedPort[i], actualPort.get(i));
 		}
+	}
+	
+	@Test
+	public void testCorrectNumberOfWeightsConnected(){
+	
 	}
 
 }
