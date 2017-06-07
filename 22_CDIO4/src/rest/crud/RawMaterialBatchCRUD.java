@@ -40,7 +40,7 @@ public class RawMaterialBatchCRUD {
 	}
 
 	// TODO: Kig på HTTP ERROR
-	@Path("read_list")
+	@Path("read_all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RawMaterialBatchDTO> readRawMaterialBatchList() {
@@ -54,12 +54,12 @@ public class RawMaterialBatchCRUD {
 	}
 
 	// TODO: KIG PÅ HTTP ERROR
-	@Path("read_list_specific")
+	@Path("read_all_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<RawMaterialBatchDTO> readRawMaterialBatchList(String raavareId) {
+	public List<RawMaterialBatchDTO> readRawMaterialBatchList(String rawMaterialId) {
 		try {
-			return controller.getRawMaterialBatchList(Integer.parseInt(raavareId));
+			return controller.getRawMaterialBatchList(Integer.parseInt(rawMaterialId));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -78,19 +78,19 @@ public class RawMaterialBatchCRUD {
 
 		try {
 			controller.createRawMaterialBatch(rawMaterialBatch);
-			return "success";
+			return "success: Råvarebatched med id " + rawMaterialBatch.getRbId() + " blev oprettet.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede en råvare med det indtastede id.";
+			return "id-error: Der findes allerede en råvare med det indtastede id.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt..";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 
