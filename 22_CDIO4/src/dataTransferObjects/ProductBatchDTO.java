@@ -29,5 +29,18 @@ public class ProductBatchDTO implements IWeightControlDTO
 	public String getIdentity() {
 		return recipeId+"";
 	}
+
+	@Override
+	public void copy(IWeightControlDTO dto) throws RuntimeException {
+		if(dto instanceof ProductBatchCompDTO){
+			ProductBatchDTO castDTO=(ProductBatchDTO) dto;
+			this.pbId=castDTO.getPbId();
+			this.recipeId=castDTO.getReceptId();
+			this.status=castDTO.getStatus();
+		}
+		else{
+			throw new RuntimeException("Invalid DTO");
+		}
+	}
 }
 
