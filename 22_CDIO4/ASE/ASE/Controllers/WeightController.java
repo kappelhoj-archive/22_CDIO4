@@ -30,9 +30,9 @@ public class WeightController implements Runnable {
 	IWeightControlDAO rbDAO;
 	IWeightControlDAO pbDAO;
 
-	UserDTO userDTO;
-	RawMaterialBatchDTO rbDTO;
-	ProductBatchDTO pbDTO;
+	UserDTO userDTO=new UserDTO(0, null, null, null, null, null);
+	RawMaterialBatchDTO rbDTO=new RawMaterialBatchDTO(0, 0, 0);
+	ProductBatchDTO pbDTO=new ProductBatchDTO(0, 0, 0);
 
 	public WeightController(IMeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
@@ -119,8 +119,6 @@ public class WeightController implements Runnable {
 		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbDTO.getPbId(), rbDTO.getRbId(), 0.0, 0.0,
 				userDTO.getId());
 		
-		measurement.setPbId(pbDTO.getPbId());
-		measurement.setRbId(rbDTO.getRbId());
 		
 		while (true) {
 			weightCommunication.taraWeight();
