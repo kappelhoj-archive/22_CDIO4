@@ -3,6 +3,7 @@ package ASE.tests;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,9 +20,9 @@ public class ConnectionManagerTest {
 
 	@Before
 	public void setUp() throws Exception {
+
 		connectionManager = new ConnectionManager();
 		fileLocation = "ASE/ASE/test/WeightTableConManagerTest.txt";
-
 	}
 
 	@After
@@ -37,7 +38,7 @@ public class ConnectionManagerTest {
 	 */
 	@Test
 	public void testCorrectInformationRetrievel() {
-		connectionManager.run();
+		connectionManager.getConnections();
 
 		ArrayList<String> resultsIP = connectionManager.getAllConnectedIPAdresses();
 		ArrayList<Integer> resultsPorts = connectionManager.getAllConnectedPortNumbers();
@@ -45,7 +46,7 @@ public class ConnectionManagerTest {
 		String[] expectedIP = { "43.210.240.45", "43.210.240.46", "43.210.240.47", "43.210.240.48", "43.210.240.49" };
 		ArrayList<String> actualIP = resultsIP;
 
-		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size();i++) {
+		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size(); i++) {
 			assertEquals(expectedIP[i], actualIP.get(i));
 		}
 
@@ -56,10 +57,16 @@ public class ConnectionManagerTest {
 			assertEquals(expectedPort[i], actualPort.get(i));
 		}
 	}
-	
+
 	@Test
-	public void testCorrectNumberOfWeightsConnected(){
-	
+	public void testCorrectNumberOfWeightsConnected() {
+		connectionManager.getConnections();
+		
+		int expectedConnections = 5;
+
+		int actualConnections = connectionManager.getNumberOfConnectedIPs();
+
+		assertEquals(expectedConnections, actualConnections);
 	}
 
 }
