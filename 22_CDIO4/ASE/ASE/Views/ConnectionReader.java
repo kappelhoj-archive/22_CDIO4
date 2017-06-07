@@ -9,14 +9,14 @@ import java.util.regex.Pattern;
 public class ConnectionReader {
 
 	private String weightIP;
-	private ArrayList<String> allIPAdresses = new ArrayList<String>();
+	private ArrayList<String> allIPAddresses = new ArrayList<String>();
 	private ArrayList<String> allPortNumbers = new ArrayList<String>();
 	private String fileLocation;
 
 	public ConnectionReader(String fileLocation) {
 		this.fileLocation = fileLocation;
 
-		if (fileLocation == null) {
+		if (fileLocation.equals(null)) {
 			fileLocation = "src/WeightTable.txt";
 		}
 	}
@@ -49,7 +49,7 @@ public class ConnectionReader {
 					// Adds the scanned IP addresses if, and only if, it passes
 					// the check.
 					if (IPChecker(weightIP)) {
-						allIPAdresses.add(weightIP);
+						allIPAddresses.add(weightIP);
 					}
 					// Adds the scanned Port number if, and only if, it passes
 					// the check.
@@ -65,7 +65,6 @@ public class ConnectionReader {
 
 			catch (Exception e) {
 				System.out.println("Error occured: " + e);
-				e.printStackTrace();
 			}
 		}
 		weightScanner.close();
@@ -74,10 +73,10 @@ public class ConnectionReader {
 	/**
 	 * Method to return IP numbers as Arraylist.
 	 * 
-	 * @return Returns an Arraylist of all the correctly typed-in IP adresses
+	 * @return Returns an Arraylist of all the correctly typed-in IP addresses
 	 */
-	public ArrayList<String> getAllIPAdresses() {
-		return allIPAdresses;
+	public ArrayList<String> getAllIPAddresses() {
+		return allIPAddresses;
 	}
 
 	/**
@@ -97,7 +96,7 @@ public class ConnectionReader {
 	 * @return
 	 */
 	public String getIPString(int i) {
-		return allIPAdresses.get(i);
+		return allIPAddresses.get(i);
 	}
 
 	/**
