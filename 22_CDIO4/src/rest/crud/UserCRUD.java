@@ -62,16 +62,16 @@ public class UserCRUD {
 	{
 		try {
 			userController.createUser(user);
-			return "success";
+			return "success: Successbesked";
 		} catch (InputException e) {
 			e.printStackTrace();
-			return "input-error";
+			return "input-error: Fejlbesked";
 		} catch (CollisionException e) {
 			e.printStackTrace();
-			return "id-error";
+			return "id-error: Fejlbesked";
 		} catch (DALException e) {
 			e.printStackTrace();
-			return "system-error";
+			return "system-error: Fejlbesked";
 		}
 	}
 	
@@ -81,13 +81,13 @@ public class UserCRUD {
 	public String updateUser(UserDTO user) {
 		try {
 			userController.updateUser(user);
-			return "success";
+			return "success: Successbesked";
 		} catch (InputException e) {
 			e.printStackTrace();
-			return "input-error";
+			return "input-error: Fejlbesked";
 		} catch (DALException e) {
 			e.printStackTrace();
-			return "system-error";
+			return "system-error: Fejlbesked";
 		}
 	}
 }
