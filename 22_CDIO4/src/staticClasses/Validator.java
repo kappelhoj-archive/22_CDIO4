@@ -29,7 +29,7 @@ public class Validator {
 	 *             The exception to be thrown if the given userID is not valid.
 	 */
 	public static boolean validateUserID(int id) throws InputException {
-		if (id < 11 || id > 99) {
+		if (id < 0 || id > 1000000000) {
 			throw new InputException("This user id is invalid. User ID's has to be between 11 and 99");
 		}
 		return true;
