@@ -3,39 +3,19 @@ $(document).ready(function() {
 });
 
 function getUser(userId) {
-	var json;
-	$.ajax({
+	return $.ajax({
 		url : "rest/user/get-user",
 		type : "POST",
 		data: userId,
-		contentType: "application/json",
-		success : function(data){
-			json = data;
-		},
-		error: function(data){
-			console.log("Fejl! " + data);
-		}
+		contentType: "application/json"
 	});
-	return { getJson : function () {
-		return json;
-	}};
+	
 }
 
 function getUsers() {
-	$.ajax({
+	return $.ajax({
 		url : "rest/user/get-users",
 		type : "GET",
-		data: userId,
-		async: false,
-		contentType: "application/json",
-		success : function(data){
-			json = data;
-		},
-		error: function(data){
-			console.log("Fejl! " + data);
-		}
+		contentType: "application/json"
 	});
-	return { getJson : function () {
-		return json;
-	}};
 }

@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.io.IOException;
 
-public class ConnectionManager implements Runnable {
+public class ConnectionManager {
 
 	ConnectionReader connectionReader = new ConnectionReader(null);
 	private ArrayList<String> allConnectedIPAdresses = new ArrayList<String>();
@@ -21,18 +21,19 @@ public class ConnectionManager implements Runnable {
 	 * in the WeightTable.txt file, while adding each successfull IP/Port number
 	 * to an array.
 	 */
-	@Override
-	public void run() {
+
+	public void getConnections() {
 		try {
+			System.out.println(connectionReader.getAllIPAdresses().size());
 			for (int i = 0; i < connectionReader.getAllIPAdresses().size(); i++) {
 				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
 				// Add the newly connected IP/Socket to a list of successfully
 				// connected weights.
 				allConnectedIPAdresses.add(connectionReader.getIPString(i));
+			
 				allConnectedPortNumbers.add(connectionReader.getPortInt(i));
-				System.out.println("Connection established.");
-
 			}
+			
 		} catch (UnknownHostException e) {
 			System.out.println("Error occured: Host unknown " + e);
 		} catch (IOException e) {
@@ -63,7 +64,7 @@ public class ConnectionManager implements Runnable {
 	/**
 	 * Method to return all of the connected IP adresses in an Array.
 	 * 
-	 * @return Returns an array of all the connected IP adresses.
+	 * @return Returns an arraylist of all the connected IP adresses.
 	 */
 	public ArrayList<String> getAllConnectedIPAdresses() {
 		return allConnectedIPAdresses;
@@ -72,9 +73,19 @@ public class ConnectionManager implements Runnable {
 	/**
 	 * Method to return all of the connected Port Numbers in an Array.
 	 * 
-	 * @return Returns an array of all the connected Port numbers.
+	 * @return Returns an arraylist of all the connected Port numbers.
 	 */
 	public ArrayList<Integer> getAllConnectedPortNumbers() {
 		return allConnectedPortNumbers;
+	}
+
+	/**
+	 * Method to quickly get the number of connected weights
+	 * 
+	 * @return Returns the number of connected weights (defined by the number of
+	 *         connected IP's), as an Integer.
+	 */
+	public int getNumberOfConnectedIPs() {
+		return allConnectedIPAdresses.size();
 	}
 }

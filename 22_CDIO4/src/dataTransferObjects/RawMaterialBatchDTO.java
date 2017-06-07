@@ -56,4 +56,19 @@ public class RawMaterialBatchDTO implements IWeightControlDTO
 	public String getIdentity() {
 		return rawMaterialId+"";
 	}
+
+
+	@Override
+	public void copy(IWeightControlDTO dto) throws RuntimeException {
+		if(dto instanceof RawMaterialBatchDTO){
+			RawMaterialBatchDTO castDTO=(RawMaterialBatchDTO) dto;
+			this.amount=castDTO.getAmount();
+			this.rawMaterialId=castDTO.getRawMaterialId();
+			this.rbId=castDTO.getRbId();
+		}
+		else{
+			throw new RuntimeException("Invalid DTO");
+		}
+		
+	}
 }

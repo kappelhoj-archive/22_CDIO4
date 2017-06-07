@@ -46,7 +46,7 @@ public class ConnectionReader {
 					weightScanner.skip("PORT");
 					String weightPort = weightScanner.nextLine().trim();
 
-					// Adds the scanned IP adresses if, and only if, it passes
+					// Adds the scanned IP addresses if, and only if, it passes
 					// the check.
 					if (IPChecker(weightIP)) {
 						allIPAdresses.add(weightIP);
