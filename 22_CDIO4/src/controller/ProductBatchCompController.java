@@ -30,15 +30,15 @@ public class ProductBatchCompController implements IProductBatchCompController {
 	}
 
 	@Override
-	public void createProductBatchComp(ProductBatchCompDTO produktbatchkomponent)
+	public void createProductBatchComp(ProductBatchCompDTO productBatchComponent)
 			throws CollisionException, DALException {
-		// TODO Auto-generated method stub
+		dao.createProductBatchComp(productBatchComponent);
 		
 	}
 
 	@Override
-	public void updateProductBatchComp(ProductBatchCompDTO produktbatchkomponent) throws DALException {
-		// TODO Auto-generated method stub
+	public void updateProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {
+		dao.updateProductBatchComp(productBatchComponent);
 		
 	}
 
