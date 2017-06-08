@@ -29,32 +29,34 @@ public class MeasurementControllerTest {
 		MeasurementController test = new MeasurementController(produktBatchComp);
 		Queue<ProductBatchCompDTO> measurements = new LinkedList<ProductBatchCompDTO>();
 		(new Thread(test)).start();
-		int pbId=1;
-		int rbId=1;
-		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbId, rbId, 1.1, 1.1, 1);
+		int pbId = 1;
+		int rbId = 1;
 
-		for(int i =0; i<5 ; i++)
-		{
-			measurement.setPbId(pbId);
-			measurement.setRbId(rbId);
+
+		for (int i = 0; i < 1000; i++) {
+			ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbId, rbId, 1.1, 1.1, 1);
+			System.out.println(measurement);
 			measurements.add(measurement);
 			test.enqueue(measurement);
+			pbId++;
+			rbId++;
 		}
-		System.out.println(measurement);
-		test.enqueue(measurement);	
 
-		//This is just to let the other thread keep up, as it has a thread sleep, to prevent unnesceary CPU usage.
+//		for (int i = 0; i < 5; i++) {
+//			System.out.println(measurements.remove() + "efter");
+//		}
+
+		// This is just to let the other thread keep up, as it has a thread
+		// sleep, to prevent unnesceary CPU usage.
 		try {
-			Thread.sleep(50);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try 
-		{		
-			while(!measurements.isEmpty())
-			{
-			assertEquals(measurements.remove(),produktBatchComp.getProductBatchComp(pbId,rbId));
+		try {
+			while (!measurements.isEmpty()) {
+				assertEquals(measurements.remove(), produktBatchComp.getProductBatchComp(pbId, rbId));
 			}
 		} catch (DALException e) {
 			// TODO Auto-generated catch block

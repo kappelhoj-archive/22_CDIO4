@@ -7,9 +7,9 @@ import ASE.exceptions.ProtocolErrorException;
 
 public interface IWeightCommunicator {
 	public enum Buttons {
-		CONFIRM, /* When the user confirms some information */
-		BACK, /* When the user wants to go back to the last "menu" */
-		LOGOUT, /* When the user dosen't want to do anymore measurement. */
+		CONFIRM, /* When the user confirms some information  K C 4 */
+		BACK, /* When the user wants to go back to the last "menu" K C 2 */
+		LOGOUT, /* When the user dosen't want to do anymore measurement. K R 3 */
 		NULL /* Standard value.*/
 	}
 

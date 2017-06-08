@@ -10,7 +10,7 @@ import exceptions.DALException;
 
 public class ProductBatchCompDAOStub implements IProductBatchCompDAO{
 	Queue<ProductBatchCompDTO> measurements = new LinkedList<ProductBatchCompDTO>();
-	int i =1;
+
 	@Override
 	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
 		// TODO Auto-generated method stub
@@ -31,7 +31,6 @@ public class ProductBatchCompDAOStub implements IProductBatchCompDAO{
 
 	@Override
 	public void createProductBatchComp(ProductBatchCompDTO produktBatchComponent) throws DALException {
-	System.out.println(i++);
 		measurements.add(produktBatchComponent);
 		
 	}

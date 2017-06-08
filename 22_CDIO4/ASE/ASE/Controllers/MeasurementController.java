@@ -8,8 +8,8 @@ import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.DALException;
 
 public class MeasurementController implements IMeasurementController, Runnable {
-
 	ProductBatchCompDTO temp;
+
 	Queue<ProductBatchCompDTO> measurements;
 	public IProductBatchCompDAO productBatchComp;
 
@@ -24,7 +24,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 				dequeue();
 			}
 			try {
-				Thread.sleep(10);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 
 				e.printStackTrace();
