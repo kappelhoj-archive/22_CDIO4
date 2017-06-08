@@ -33,6 +33,11 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 		}
 	}
 
+	/**
+	 * Method which returns a copy of a RawMaterialBatchDTO from the data
+	 * @param rbId : rawmaterialbatchId
+	 * @return RawMaterialBatchDTO
+	 */
 	@Override
 	public RawMaterialBatchDTO getRawMaterialBatch(int rbId) throws DALException {
 		if(rawmatBatchList.get(rbId) != null)
@@ -41,7 +46,11 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 		else
 			throw new DALException("Unknown Raw Material Batch ID: " + rbId);
 	}
-
+	
+	/**
+	 * Method which returns a list of RawMaterialBatchDTOs from the data
+	 * @return List<RawMaterialBatchDTO>
+	 */
 	@Override
 	public List<RawMaterialBatchDTO> getRawMaterialBatchList() throws DALException {
 		List<RawMaterialBatchDTO> rawmatbs = new ArrayList<RawMaterialBatchDTO>();
@@ -55,6 +64,10 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 		return rawmatbs;
 	}
 
+	 /* Method which returns a list of RawMaterialBatchDTOs from the data
+	 * @param rawMaterialId
+	 * @return List<RawMaterialBatchDTO>
+	 */
 	@Override
 	public List<RawMaterialBatchDTO> getRawMaterialBatchList(int rawMaterialId) throws DALException {
 		List<RawMaterialBatchDTO> rawmatbs = new ArrayList<RawMaterialBatchDTO>();
@@ -69,6 +82,11 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 		return rawmatbs;
 	}
 
+	/**
+	 * Method which adds a RawMaterialBatchDTO to the saved data
+	 * @param RawMaterialBatchDTO
+	 * @return void
+	 */
 	@Override
 	public void createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
 		if (rawmatBatchList.putIfAbsent(rawMaterialBatch.getRbId(), rawMaterialBatch.copy()) == null){
@@ -81,6 +99,11 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 
 	}
 
+	/**
+	 * Method which updates a RawMaterialBatchDTO in the saved data
+	 * @param RawMaterialBatchDTO
+	 * @return void
+	 */
 	@Override
 	public void updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
 		rawmatBatchList.replace(rawMaterialBatch.getRbId(), rawMaterialBatch.copy());
