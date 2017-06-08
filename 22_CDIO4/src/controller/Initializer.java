@@ -62,12 +62,19 @@ public class Initializer implements ServletContextListener {
 		if (!initialized) {
 
 			try {
+				System.out.println("Creating default users...");
+				
 				u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "1111111118", "Peterpeter1", "Admin"));
 				u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "1111111118", "Simonsimon1", "Farmaceut"));
 				u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "1111111118", "Arvidarvid1", "Laborant"));
 				u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "1111111118", "Mikkelmikkel1", "Farmaceut"));
 				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "Jeppejeppe1", "Værkfører"));
 				u.createUser(new UserDTO(16524, "Mads Stege", "MS", "1111111118", "Madsmads1", "Værkfører"));
+				
+				System.out.println("Done.");
+				System.out.println(u.getUserList());
+				
+				System.out.println("Creating misc DTO...");
 				
 				pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));
 				
@@ -83,6 +90,8 @@ public class Initializer implements ServletContextListener {
 				rc.createRecipeComp(new RecipeCompDTO(1, 2, 3.1, 2.1));
 				
 				r.createRecipe(new RecipeDTO(1, "Salty water"));
+				
+				System.out.println("All done.");
 				
 
 			} catch (DALException e) {

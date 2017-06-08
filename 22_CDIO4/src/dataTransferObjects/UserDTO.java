@@ -90,7 +90,7 @@ public class UserDTO extends DTO implements IWeightControlDTO
 		this.role = role;
 	}
 
-	public String toString() { return id + "\t" + name + "\t" + ini + "\t" + cpr + "\t" + password + role; }
+	public String toString() { return id + "\t" + name + "\t" + ini + "\t" + cpr + "\t" + password + "\t" + role; }
 
 
 	public UserDTO copy() {
