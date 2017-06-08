@@ -30,7 +30,7 @@ public class ConnectionManager {
 
 	/**
 	 * Attempt to establish connection to the weights listed on the
-	 * WeightTable.txt. The method runs through the IPs two times.
+	 * WeightTable.txt. The method runs through the IPs once.
 	 */
 	public void getConnections() {
 
@@ -39,6 +39,8 @@ public class ConnectionManager {
 			for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
 				try {
 					weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+					allConnectedIPAddresses.add(connectionReader.getIPString(i));
+					allConnectedPortNumbers.add(connectionReader.getPortInt(i));
 				} catch (ConnectException e) {
 					System.out.println("Error: Attempted connection failed!");
 					System.out.println(
