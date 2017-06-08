@@ -1,82 +1,102 @@
 package staticClasses;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import dataTransferObjects.DTO;
-import exceptions.DALException;
+/**
+ * Reads and decodes a file with data and converts the data into
+ * objects.
+ * 
+ * @param type : What type of DTO. Operatoer, ProduktBatch, ...
+ * @return An ArrayList of DTO data from the given type.
+ * @throws DALException
+ *             The exception to be thrown something goes wrong under the
+ *             reading and decoding.
+ * 
+ */
+
 
 public class FileManagement {
 
-	
-	/**
-	 * Reads and decodes a file with data and converts the data into
-	 * objects.
-	 * 
-	 * @param type : What type of DTO. Operatoer, ProduktBatch, ...
-	 * @return An ArrayList of DTO data from the given type.
-	 * @throws DALException
-	 *             The exception to be thrown something goes wrong under the
-	 *             reading and decoding.
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public static List<DTO> retrieveFrom(String type) throws DALException {
-		import java.io.File;
-		import java.io.FileInputStream;
-		import java.io.FileNotFoundException;
-		import java.io.FileOutputStream;
-		import java.io.IOException;
-		import java.io.ObjectInputStream;
-		import java.io.ObjectOutputStream;
 
-		public class WriterReader {
+	public enum TypeOfData{
+		PRODUCTBATCHCOMP,
+		PRODUCTBATCH,
+		RAWMATERIALBATCH,
+		RAWMATERIAL,
+		RECIPECOMP,
+		RECIPE,
+		USER
+	}
 
-			public static void main(String[] args) {
+	public static void writeData(Object dto, TypeOfData type){
+		FileOutputStream f = null;
+		ObjectOutputStream o = null;
 
-				Person p1 = new Person("John", 30, "Male");
-				Person p2 = new Person("Rachel", 25, "Female");
+		try {
+			f = new FileOutputStream(new File(type.toString()+".data"));
+			o = new ObjectOutputStream(f);
 
-				try {
-					FileOutputStream f = new FileOutputStream(new File("myObjects.txt"));
-					ObjectOutputStream o = new ObjectOutputStream(f);
+			o.writeObject(dto);
 
-					// Write objects to file
-					o.writeObject(p1);
-					o.writeObject(p2);
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		} catch (IOException e) {
+			System.out.println("Error initializing stream " +e);
 
-					o.close();
-					f.close();
-
-					FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
-					ObjectInputStream oi = new ObjectInputStream(fi);
-
-					// Read objects
-					Person pr1 = (Person) oi.readObject();
-					Person pr2 = (Person) oi.readObject();
-
-					System.out.println(pr1.toString());
-					System.out.println(pr2.toString());
-
-					oi.close();
-					fi.close();
-
-				} catch (FileNotFoundException e) {
-					System.out.println("File not found");
-				} catch (IOException e) {
-					System.out.println("Error initializing stream");
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+		}finally{
+			try {
+				o.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
+			try {
+				f.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+	}
+
+
+	public static Object retrieveData(TypeOfData type){
+
+		FileInputStream fi = null;
+		ObjectInputStream oi = null;
+
+		try{
+			fi = new FileInputStream(new File(type.toString()+".data"));
+			oi = new ObjectInputStream(fi);
+
+			Object dto = (Object) oi.readObject();
+
+			return dto;
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		} catch (IOException e) {
+			System.out.println("Error initializing stream "+e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+
+		}finally{
+			try {
+				oi.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				fi.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+
+	}
 }
