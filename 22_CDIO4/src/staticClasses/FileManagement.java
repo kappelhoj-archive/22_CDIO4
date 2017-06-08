@@ -23,7 +23,7 @@ import java.io.ObjectOutputStream;
 
 public class FileManagement {
 	
-	final static String PATH = "C:\\22_CDIO4\\";
+	final static String PATH = "C:\\Users\\Public\\Documents\\";
 
 
 	public enum TypeOfData{
