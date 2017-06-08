@@ -2,6 +2,7 @@ package controller;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import exceptions.DALException;
 import controller.interfaces.*;
@@ -14,6 +15,7 @@ import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.RecipeDTO;
 import dataTransferObjects.UserDTO;
 
+@WebListener
 public class Initializer implements ServletContextListener {
 
 	private static boolean initialized = false;
