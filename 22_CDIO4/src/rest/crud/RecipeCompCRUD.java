@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import controller.Initializer;
 import controller.RecipeCompController;
 import controller.interfaces.IRecipeCompController;
 import dataTransferObjects.RecipeCompDTO;
@@ -19,26 +20,24 @@ import exceptions.InputException;
 @Path("recipe_component")
 public class RecipeCompCRUD {
 
-	IRecipeCompController controller = new RecipeCompController();
-
-	// TODO: Kig på HTTP ERROR
-	@Path("read")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public RecipeCompDTO readRecipeComp(RecipeCompPOJO ids) {
-		try {
-			return controller.getRecipeComp(Integer.parseInt(ids.getId()), Integer.parseInt(ids.getRaw_material_id()));
-		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
-		}
-	}
+//	// TODO: Kig på HTTP ERROR
+//	@Path("read")
+//	@POST
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public RecipeCompDTO readRecipeComp(RecipeCompPOJO i) {
+//		try {
+//			return Initializer.getRecipeCompController().getgetRecipeComp(i.getRawMaterialId(), i.getNomNetto(), i.getTolerance());
+//		} catch (InputException e) {
+//			e.printStackTrace();
+//			System.out.println(e.getMessage());
+//			return null;
+//		} catch (DALException e) {
+//			e.printStackTrace();
+//			System.out.println(e.getMessage());
+//			return null;
+//		}
+//	}
 
 	// TODO: Kig på HTTP ERROR
 	@Path("read_list_specific")
@@ -46,7 +45,7 @@ public class RecipeCompCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RecipeCompDTO> readRecipeComp(String recipeId) {
 		try {
-			return controller.getRecipeComp(Integer.parseInt(recipeId));
+			return Initializer.getRecipeCompController().getRecipeCompList(Integer.parseInt(recipeId));
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println();
@@ -60,7 +59,7 @@ public class RecipeCompCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RecipeCompDTO> readRecipeCompList() {
 		try {
-			return controller.getRecipeCompList();
+			return Initializer.getRecipeCompController().getRecipeCompList();
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -73,7 +72,7 @@ public class RecipeCompCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createRecipeComp(RecipeCompDTO recipeComp) {
 		try {
-			controller.createRecipeComp(recipeComp);
+			Initializer.getRecipeCompController().createRecipeComp(recipeComp);
 			return "succes";
 		} catch (DALException e) {
 			e.printStackTrace();
@@ -87,7 +86,7 @@ public class RecipeCompCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateRecipeComp(RecipeCompDTO recipeComp) {
 		try {
-			controller.updateRecipeComp(recipeComp);
+			Initializer.getRecipeCompController().updateRecipeComp(recipeComp);
 			return "success";
 		} catch (DALException e) {
 			e.printStackTrace();

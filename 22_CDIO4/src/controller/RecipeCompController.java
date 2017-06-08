@@ -8,13 +8,14 @@ import dataAccessObjects.interfaces.IRecipeCompDAO;
 import dataAccessObjects.interfaces.IRecipeDAO;
 import dataTransferObjects.RecipeCompDTO;
 import exceptions.DALException;
+import exceptions.InputException;
 
 public class RecipeCompController implements IRecipeCompController {
-	
+
 	IRecipeCompDAO dao;
 	IRecipeDAO rDAO;
 	IRawMaterialDAO rmDAO;
-	
+
 	public RecipeCompController(IRecipeCompDAO dao, IRecipeDAO rDAO, IRawMaterialDAO rmDAO){
 		this.dao = dao;
 		this.rDAO = rDAO;
@@ -31,7 +32,7 @@ public class RecipeCompController implements IRecipeCompController {
 	}
 
 	@Override
-	public List<RecipeCompDTO> getRecipeComp(int recipeId) throws DALException {
+	public List<RecipeCompDTO> getRecipeCompList(int recipeId) throws DALException {
 		return dao.getRecipeCompList(recipeId);
 	}
 
@@ -42,8 +43,16 @@ public class RecipeCompController implements IRecipeCompController {
 
 	@Override
 	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
-		rDAO.getRecipe(recipeComponent.getRecipeId());
-		rmDAO.getRawMaterial(recipeComponent.getRawMaterialId());
+		try{
+			rDAO.getRecipe(recipeComponent.getRecipeId());
+		}catch(DALException e){
+			throw new InputException(e.getMessage());
+		}
+		try{
+			rmDAO.getRawMaterial(recipeComponent.getRawMaterialId());
+		}catch(DALException e){
+			throw new InputException(e.getMessage());
+		}
 		dao.createRecipeComp(recipeComponent);
 
 	}

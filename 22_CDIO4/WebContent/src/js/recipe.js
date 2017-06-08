@@ -19,17 +19,17 @@ $(document).on("click", ".recipe_list_link", function(event) {
 $(document).on("click", "#create_recipe", function(event){
 	event.preventDefault();
 	$.get("src/html/recipe/recipe_create.html", function(template) {
-		$("content").html(template);
+		$("#content").html(template);
 	});
 })
 
 /* Shows the recipe id and the recipe name and all of its components */
-$(document).on("click", ".recipe_comp_table_list_link", function(event) {
+$(document).on("click", ".recipe_edit_table_link", function(event) {
 	event.preventDefault();
 	var recipeId = $(this).parents("tr").children("td:first").text();
 	getRecipe(recipeId).done(function(data) {
-		$.get("src/html/recipe/recipe_edit", function(template) {
-			$(".input_fields").html(Mustache.render($(template).html(), data))
+		$.get("src/html/recipe/recipe_edit.html", function(template) {
+			$("#content").html(Mustache.render($(template).html(), data))
 		});
 	})
 	.fail(function(data){
@@ -47,7 +47,7 @@ function showRecipeListPage() {
 		$.get("src/html/recipe/recipe_list.html", function(template) {
 			$("#content").html(template);
 			$.each(data, function(i, data) {
-				$.get("src/html/recipe_list_row.html", function(template) {
+				$.get("src/html/recipe/recipe_list_row.html", function(template) {
 					$("#recipe_list .table tbody").append(Mustache.render($(template).html(), data))
 				});
 			});
@@ -61,12 +61,13 @@ function showRecipeListPage() {
 
 /* Creates a table of all the recipe components in a specific recipe. */
 function showRecipeCompsPage(recipeId) {
-	getRecipeContent(recipeid).done(function(data) {
+	getRecipeContent(recipeId).done(function(data) {
 		$.get("src/html/recipe/recipe_edit.html", function(template) {
 			$("#recipe_component_list").html(template);
 			$.each(data, function(i, data) {
-				$.get("src/html/recipe_comp_list_row.html", function(template) {
-					$("recipe_component_list .table tbody").append(Mustache.render($(template).html(), data))
+				console.log(data);
+				$.get("src/html/recipe/recipe_comp_list_row.html", function(template) {
+					$("#recipe_component_list .table tbody").append(Mustache.render($(template).html(), data))
 				});
 			});
 		});
