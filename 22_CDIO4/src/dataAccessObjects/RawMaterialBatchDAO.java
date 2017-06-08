@@ -11,10 +11,27 @@ import dataTransferObjects.IWeightControlDTO;
 import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.FileManagement;
+import staticClasses.FileManagement.TypeOfData;
 
 public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControlDAO {
 
 	static Hashtable<Integer, RawMaterialBatchDTO> rawmatBatchList = new Hashtable<Integer, RawMaterialBatchDTO>();
+	
+	@SuppressWarnings("unchecked")
+	public RawMaterialBatchDAO(){
+		try{
+			System.out.println("Retrieving RawMaterialBatch Data...");
+			rawmatBatchList = (Hashtable<Integer, RawMaterialBatchDTO>) FileManagement.retrieveData(TypeOfData.RAWMATERIALBATCH);
+			System.out.println("Done.");
+
+		}catch(Exception e){
+			System.out.println(e);
+			System.out.println("Trying to create the saving file...");
+			FileManagement.writeData(rawmatBatchList, TypeOfData.RAWMATERIALBATCH);
+			System.out.println("Done.");
+		}
+	}
 
 	@Override
 	public RawMaterialBatchDTO getRawMaterialBatch(int rbId) throws DALException {
@@ -54,8 +71,10 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 
 	@Override
 	public void createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
-		if (rawmatBatchList.putIfAbsent(rawMaterialBatch.getRbId(), rawMaterialBatch.copy()) == null)
+		if (rawmatBatchList.putIfAbsent(rawMaterialBatch.getRbId(), rawMaterialBatch.copy()) == null){
+			FileManagement.writeData(rawmatBatchList, TypeOfData.RAWMATERIALBATCH);
 			return;
+		}
 		
 		else
 			throw new CollisionException("Product Batch ID:"+rawMaterialBatch.getRbId()+" already exists !");
@@ -65,7 +84,7 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 	@Override
 	public void updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
 		rawmatBatchList.replace(rawMaterialBatch.getRbId(), rawMaterialBatch.copy());
-
+		FileManagement.writeData(rawmatBatchList, TypeOfData.RAWMATERIALBATCH);
 	}
 
 	@Override

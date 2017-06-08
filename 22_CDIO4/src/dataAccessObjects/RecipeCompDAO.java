@@ -7,10 +7,27 @@ import dataAccessObjects.interfaces.IRecipeCompDAO;
 import dataTransferObjects.RecipeCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.FileManagement;
+import staticClasses.FileManagement.TypeOfData;
 
 public class RecipeCompDAO implements IRecipeCompDAO {
 	
 	static List<RecipeCompDTO> recipeCompList = new ArrayList<RecipeCompDTO>();
+	
+	@SuppressWarnings("unchecked")
+	public RecipeCompDAO(){
+		try{
+			System.out.println("Retrieving RecipeComp Data...");
+			recipeCompList = (ArrayList<RecipeCompDTO>) FileManagement.retrieveData(TypeOfData.RECIPECOMP);
+			System.out.println("Done.");
+
+		}catch(Exception e){
+			System.out.println(e);
+			System.out.println("Trying to create the saving file...");
+			FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
+			System.out.println("Done.");
+		}
+	}
 
 	@Override
 	public RecipeCompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException {
@@ -48,6 +65,7 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 
 		}catch (DALException e){ //if it can not find it, so it can create it
 			recipeCompList.add(recipeComponent.copy());
+			FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
 			return;
 		}
 		//if it can find it, so it already exists
@@ -64,6 +82,7 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 
 				recipeCompList.remove(recipecomp);
 				recipeCompList.add(recipeComponent.copy());
+				FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
 
 			}
 		}

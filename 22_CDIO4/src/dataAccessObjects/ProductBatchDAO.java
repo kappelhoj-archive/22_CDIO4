@@ -11,10 +11,27 @@ import dataTransferObjects.IWeightControlDTO;
 import dataTransferObjects.ProductBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.FileManagement;
+import staticClasses.FileManagement.TypeOfData;
 
 public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 
 	static Hashtable<Integer, ProductBatchDTO> productBatchList = new Hashtable<Integer, ProductBatchDTO>();
+	
+	@SuppressWarnings("unchecked")
+	public ProductBatchDAO(){
+		try{
+			System.out.println("Retrieving ProductBatch Data...");
+			productBatchList = (Hashtable<Integer, ProductBatchDTO>) FileManagement.retrieveData(TypeOfData.PRODUCTBATCH);
+			System.out.println("Done.");
+
+		}catch(Exception e){
+			System.out.println(e);
+			System.out.println("Trying to create the saving file...");
+			FileManagement.writeData(productBatchList, TypeOfData.PRODUCTBATCH);
+			System.out.println("Done.");
+		}
+	}
 
 	@Override
 	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
@@ -44,8 +61,10 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 
 	@Override
 	public void createProductBatch(ProductBatchDTO productBatch) throws DALException {
-		if (productBatchList.putIfAbsent(productBatch.getPbId(), productBatch.copy()) == null)
+		if (productBatchList.putIfAbsent(productBatch.getPbId(), productBatch.copy()) == null){
+			FileManagement.writeData(productBatchList, TypeOfData.PRODUCTBATCH);
 			return;
+		}
 		
 		else
 			throw new CollisionException("Product Batch ID:"+productBatch.getPbId()+" already exists !");
@@ -55,7 +74,7 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 	@Override
 	public void updateProductBatch(ProductBatchDTO productBatch) throws DALException {
 		productBatchList.replace(productBatch.getPbId(), productBatch.copy());
-
+		FileManagement.writeData(productBatchList, TypeOfData.PRODUCTBATCH);
 	}
 
 

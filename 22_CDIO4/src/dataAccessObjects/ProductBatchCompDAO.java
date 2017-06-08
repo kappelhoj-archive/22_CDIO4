@@ -8,10 +8,27 @@ import dataAccessObjects.interfaces.IProductBatchCompDAO;
 import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.FileManagement;
+import staticClasses.FileManagement.TypeOfData;
 
 public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
 	static List<ProductBatchCompDTO> productBatchCompList = new ArrayList<ProductBatchCompDTO>();
+	
+	@SuppressWarnings("unchecked")
+	public ProductBatchCompDAO(){
+		try{
+			System.out.println("Retrieving ProductBatchComp Data...");
+			productBatchCompList = (ArrayList<ProductBatchCompDTO>) FileManagement.retrieveData(TypeOfData.PRODUCTBATCHCOMP);
+			System.out.println("Done.");
+
+		}catch(Exception e){
+			System.out.println(e);
+			System.out.println("Trying to create the saving file...");
+			FileManagement.writeData(productBatchCompList, TypeOfData.PRODUCTBATCHCOMP);
+			System.out.println("Done.");
+		}
+	}
 
 	@Override
 	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
@@ -52,6 +69,7 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
 		}catch (DALException e){ //if it can not find it, so it can create it
 			productBatchCompList.add(productBatchComponent.copy());
+			FileManagement.writeData(productBatchCompList, TypeOfData.PRODUCTBATCHCOMP);
 			return;
 		}
 		//if it can find it, so it already exists
@@ -71,6 +89,7 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
 				productBatchCompList.remove(productbatchcomp);
 				productBatchCompList.add(productBatchComponent.copy());
+				FileManagement.writeData(productBatchCompList, TypeOfData.PRODUCTBATCHCOMP);
 
 			}
 		}
