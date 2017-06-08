@@ -86,6 +86,6 @@ $(document).ready(function() {
 
 function getRoleTemplate(template) {
 	$.get(template, function(template) {
-		$("#side_panel").append(template);
+		$("#side_panel > #side_nav > ul").append(template);
 	});
 }
