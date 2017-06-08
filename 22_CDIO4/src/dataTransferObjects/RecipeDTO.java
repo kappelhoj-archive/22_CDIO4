@@ -9,6 +9,10 @@ public class RecipeDTO extends DTO
 	int recipeId;
 	String recipeName;
 	
+	
+	public RecipeDTO(){
+		
+	}
     
 	public RecipeDTO(int recipeId, String recipeName)
 	{
