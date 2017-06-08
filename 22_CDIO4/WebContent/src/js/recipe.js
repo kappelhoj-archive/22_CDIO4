@@ -47,7 +47,7 @@ function showRecipeListPage() {
 		$.get("src/html/recipe/recipe_list.html", function(template) {
 			$("#content").html(template);
 			$.each(data, function(i, data) {
-				$.get("src/html/recipe_list_row.html", function(template) {
+				$.get("src/html/recipe/recipe_list_row.html", function(template) {
 					$("#recipe_list .table tbody").append(Mustache.render($(template).html(), data))
 				});
 			});
@@ -65,7 +65,7 @@ function showRecipeCompsPage(recipeId) {
 		$.get("src/html/recipe/recipe_edit.html", function(template) {
 			$("#recipe_component_list").html(template);
 			$.each(data, function(i, data) {
-				$.get("src/html/recipe_comp_list_row.html", function(template) {
+				$.get("src/html/recipe/recipe_comp_list_row.html", function(template) {
 					$("recipe_component_list .table tbody").append(Mustache.render($(template).html(), data))
 				});
 			});
