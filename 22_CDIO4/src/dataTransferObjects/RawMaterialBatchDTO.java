@@ -6,6 +6,10 @@ public class RawMaterialBatchDTO extends DTO implements IWeightControlDTO
 	int rawMaterialId;             // i omraadet 1-99999999
 	double amount;             // kan vaere negativ 
 
+	public RawMaterialBatchDTO() {
+		
+	}
+	
 	public RawMaterialBatchDTO(int rbId, int rawMaterialId, double amount)
 	{
 		this.rbId = rbId;

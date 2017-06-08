@@ -6,31 +6,28 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
-import controller.interfaces.ILoginController;
-import controller.teststub.LoginStubController;
+import controller.Initializer;
 import dataTransferObjects.LoginPOJO;
 import exceptions.DALException;
 import exceptions.InputException;
 
 @Path("login")
 public class Login {
-//	ILoginController loginController = new LoginController();
-	ILoginController loginController = new LoginStubController();
-
+	
 	@Path("login-user")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String loginUser(LoginPOJO login) {
 		System.out.println(login);
-		switch(loginController.checkLogin(login)) {
+		switch(Initializer.getLoginController().checkLogin(login)) {
 		case TRUE:
-			return "logged_in";
+			return "true_login";
 		case SUPER:
-			return "super_admin";
+			return "super_login";
 		case NEW:
-			return "new_log_in";
+			return "new_login";
 		default:
-			return "not_logged_in";
+			return "not_login";
 		}
 	}
 	
@@ -39,7 +36,7 @@ public class Login {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String newPassword(LoginPOJO login) {
 		try {
-			loginController.setNewPassword(Integer.parseInt(login.getId()), login.getPassword());
+			Initializer.getLoginController().setNewPassword(Integer.parseInt(login.getId()), login.getPassword());
 			return "success";
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
