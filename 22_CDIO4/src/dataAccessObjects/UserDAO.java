@@ -7,6 +7,8 @@ import java.util.Hashtable;
 
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.FileManagement;
+import staticClasses.FileManagement.TypeOfData;
 import dataAccessObjects.interfaces.IWeightControlDAO;
 //import staticClasses.FileManagement;
 import dataAccessObjects.interfaces.IUserDAO;
@@ -18,26 +20,25 @@ public class UserDAO implements IUserDAO,IWeightControlDAO {
 
 	static Hashtable<Integer, UserDTO> userList = new Hashtable<Integer, UserDTO>();
 
+	@SuppressWarnings("unchecked")
 	public UserDAO(){
-		//try{
-		//	userList = FileManagement.retrieveFrom("operatoer");
-		//}catch (DALException e){
-		//	try {
-		//		FileManagement.saveData(new ArrayList<DTO>(), "operatoer");
-		//	} catch (DALException e1) {
-		//		System.out.println(e1);
-		//	}
-		//}
+		try{
+			userList = (Hashtable<Integer, UserDTO>) FileManagement.retrieveData(TypeOfData.USER);
+			System.out.println("Data retrieved");
 
-		//userList = new ArrayList<DTO>();
+		}catch(Exception e){
+			System.out.println(e);
+
+			FileManagement.writeData(userList, TypeOfData.USER);
+		}
 	}
 
-	
+
 	public UserDTO getUser(int id) throws DALException {
 
 		if(userList.get(id) != null)
 			return userList.get(id).copy();
-	
+
 		else
 			throw new DALException("Unknown UserID: " + id);
 
@@ -45,27 +46,28 @@ public class UserDAO implements IUserDAO,IWeightControlDAO {
 
 
 	public void createOperatoer(UserDTO user) throws DALException {
-		if (userList.putIfAbsent(user.getId(), user.copy()) == null)
+		if (userList.putIfAbsent(user.getId(), user.copy()) == null){
+			FileManagement.writeData(userList, TypeOfData.USER);
 			return;
-		
+		}
+
 		else
 			throw new CollisionException("User ID:"+user.getId()+" already exists !");
 
-		//FileManagement.saveData(userList, "operatoer");
 
 	}
 
 	public void updateOperatoer(UserDTO user) throws DALException {
 		userList.replace(user.getId(), user.copy());
-		//FileManagement.saveData(userList, "operatoer");
+		FileManagement.writeData(userList, TypeOfData.USER);
 	}
-	
+
 
 	public List<UserDTO> getUserList() throws DALException {
 		List<UserDTO> users = new ArrayList<UserDTO>();
 
 		Set<Integer> keys = userList.keySet();
-		
+
 		for(Integer key : keys){
 			users.add(userList.get(key).copy());
 		}

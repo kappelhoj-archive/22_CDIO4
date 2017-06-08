@@ -22,6 +22,8 @@ import java.io.ObjectOutputStream;
 
 
 public class FileManagement {
+	
+	final static String PATH = "C:\\22_CDIO4\\";
 
 
 	public enum TypeOfData{
@@ -39,7 +41,7 @@ public class FileManagement {
 		ObjectOutputStream o = null;
 
 		try {
-			f = new FileOutputStream(new File(type.toString()+".data"));
+			f = new FileOutputStream(new File(PATH+type.toString()+".data"));
 			o = new ObjectOutputStream(f);
 
 			o.writeObject(dto);
@@ -70,7 +72,7 @@ public class FileManagement {
 		ObjectInputStream oi = null;
 
 		try{
-			fi = new FileInputStream(new File(type.toString()+".data"));
+			fi = new FileInputStream(new File(PATH+type.toString()+".data"));
 			oi = new ObjectInputStream(fi);
 
 			Object dto = (Object) oi.readObject();
