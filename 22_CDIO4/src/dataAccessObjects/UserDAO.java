@@ -35,7 +35,11 @@ public class UserDAO implements IUserDAO,IWeightControlDAO {
 		}
 	}
 
-
+	/**
+	 * Method which returns a copy of a UserDTO from the data
+	 * @param userId
+	 * @return UserDTO
+	 */
 	public UserDTO getUser(int id) throws DALException {
 
 		if(userList.get(id) != null)
@@ -46,7 +50,11 @@ public class UserDAO implements IUserDAO,IWeightControlDAO {
 
 	}
 
-
+	/**
+	 * Method which adds a UserDTO to the saved data
+	 * @param UserDTO
+	 * @return void
+	 */
 	public void createOperatoer(UserDTO user) throws DALException {
 		if (userList.putIfAbsent(user.getId(), user.copy()) == null){
 			FileManagement.writeData(userList, TypeOfData.USER);
@@ -59,12 +67,20 @@ public class UserDAO implements IUserDAO,IWeightControlDAO {
 
 	}
 
+	/**
+	 * Method which updates a UserDTO in the saved data
+	 * @param UserDTO
+	 * @return void
+	 */
 	public void updateOperatoer(UserDTO user) throws DALException {
 		userList.replace(user.getId(), user.copy());
 		FileManagement.writeData(userList, TypeOfData.USER);
 	}
 
-
+	/**
+	 * Method which returns a list of UserDTOs from the data
+	 * @return List<UserDTO>
+	 */
 	public List<UserDTO> getUserList() throws DALException {
 		List<UserDTO> users = new ArrayList<UserDTO>();
 
