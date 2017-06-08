@@ -14,7 +14,7 @@ $(document).ready(function()
 	
 	/* ################################# List page button functions #####################################*/
 	/* Goes to raw_material_create.html when button with id="create_raw_material" is clicked. */
-	$(document).on("click", "#create_raw_material", function(event){
+	$(document).on("click", ".raw_material_create_link", function(event){
 		event.preventDefault();
 		$.get("src/html/raw_material/raw_material_create.html", function(template) {
 			$("#content").html(template);
@@ -104,7 +104,7 @@ function showRawMaterialListPage() {
 		$.get("src/html/raw_material/raw_material_list.html", function(template) {
 			$("#content").html(template);
 			$.each(data, function(i, data) {
-				$.get("src/html/raw_material_list_row.html", function(template) {
+				$.get("src/html/raw_material/raw_material_list_row.html", function(template) {
 					$("#raw_material_list .table tbody").append(Mustache.render($(template).html(), data))
 				});
 			});
