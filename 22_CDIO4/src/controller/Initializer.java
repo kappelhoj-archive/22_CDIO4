@@ -11,32 +11,39 @@ public class Initializer {
 
 	private static boolean initialized = false;
 	
+	static ProductBatchCompDAO productBatchCompDAO = new ProductBatchCompDAO();
+	static ProductBatchDAO productBatchDAO = new ProductBatchDAO();
+	static RawMaterialBatchDAO rawMaterialBatchDAO = new RawMaterialBatchDAO();
+	static RawMaterialDAO rawMaterialDAO = new RawMaterialDAO();
+	static RecipeCompDAO recipeCompDAO = new RecipeCompDAO();
+	static RecipeDAO recipeDAO = new RecipeDAO();
+	static UserDAO userDAO = new UserDAO();
 	
-	ILoginController login = new LoginController(getUserDAO());
-	IProductBatchCompController pbc = new ProductBatchCompController(getProductBatchCompDAO());
-	IProductBatchController pb = new ProductBatchController(getProductBatchDAO());
-	IRawMaterialBatchController rmb = new RawMaterialBatchController( getRawMaterialBatchDAO());
-	IRawMaterialController rm = new RawMaterialController(getRawMaterialDAO());
-	IRecipeCompController rc = new RecipeCompController(getRecipeCompDAO());
-	IRecipeController r = new RecipeController(getRecipeDAO());
-	IUserController u = new UserController(getUserDAO());
+	public static ProductBatchCompDAO getProductBatchCompDAO() {return productBatchCompDAO;}
+	public static ProductBatchDAO getProductBatchDAO() {return productBatchDAO;}
+	public static RawMaterialBatchDAO getRawMaterialBatchDAO() {return rawMaterialBatchDAO;}
+	public static RawMaterialDAO getRawMaterialDAO() {return rawMaterialDAO;}
+	public static RecipeCompDAO getRecipeCompDAO() {return recipeCompDAO;}
+	public static RecipeDAO getRecipeDAO() {return recipeDAO;}
+	public static UserDAO getUserDAO() {return userDAO;}
 
-	public ProductBatchCompDAO getProductBatchCompDAO(){return new ProductBatchCompDAO();}
-	public ProductBatchDAO getProductBatchDAO(){return new ProductBatchDAO();}
-	public RawMaterialBatchDAO getRawMaterialBatchDAO(){return new RawMaterialBatchDAO();}
-	public RawMaterialDAO getRawMaterialDAO(){return new RawMaterialDAO();}
-	public RecipeCompDAO getRecipeCompDAO(){return new RecipeCompDAO();}
-	public RecipeDAO getRecipeDAO(){return new RecipeDAO();}
-	public UserDAO getUserDAO(){return new UserDAO();}
+	static ILoginController login = new LoginController(userDAO);
+	static IProductBatchCompController pbc = new ProductBatchCompController(productBatchCompDAO);
+	static IProductBatchController pb = new ProductBatchController(productBatchDAO);
+	static IRawMaterialBatchController rmb = new RawMaterialBatchController(rawMaterialBatchDAO);
+	static IRawMaterialController rm = new RawMaterialController(rawMaterialDAO);
+	static IRecipeCompController rc = new RecipeCompController(recipeCompDAO);
+	static IRecipeController r = new RecipeController(recipeDAO);
+	static IUserController u = new UserController(userDAO);
 
-	public ILoginController getLoginController() {return login;}
-	public IProductBatchCompController getProductBatchCompController() {return pbc;}
-	public IProductBatchController getProductBatchController() {return pb;}
-	public IRawMaterialBatchController getRawMaterialBatchController() {return rmb;}
-	public IRawMaterialController getRawMaterialController() {return rm;}
-	public IRecipeCompController getRecipeCompController() {return rc;}
-	public IRecipeController getRecipeController() {return r;}
-	public IUserController getUserController() {return u;}
+	static public ILoginController getLoginController() {return login;}
+	static public IProductBatchCompController getProductBatchCompController() {return pbc;}
+	static public IProductBatchController getProductBatchController() {return pb;}
+	static public IRawMaterialBatchController getRawMaterialBatchController() {return rmb;}
+	static public IRawMaterialController getRawMaterialController() {return rm;}
+	static public IRecipeCompController getRecipeCompController() {return rc;}
+	static public IRecipeController getRecipeController() {return r;}
+	static public IUserController getUserController() {return u;}
 
 	public void contextInitialized(ServletContextEvent sce) {
 
