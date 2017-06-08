@@ -62,12 +62,12 @@ public class Initializer implements ServletContextListener {
 		if (!initialized) {
 
 			try {
-				u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "1111111118", "peter", "Admin"));
-				u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "1111111118", "simon", "Admin"));
-				u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "1111111118", "arvid", "Admin"));
-				u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "1111111118", "mikkel", "Admin"));
-				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "jeppe", "Admin"));
-				u.createUser(new UserDTO(16524, "Mads Stege", "MS", "1111111118", "mads", "Admin"));
+				u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "1111111118", "peterpeter", "Admin"));
+				u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "1111111118", "simonsimon", "Admin"));
+				u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "1111111118", "arvidarvid", "Admin"));
+				u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "1111111118", "mikkelmikkel", "Admin"));
+				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "jeppejeppe", "Admin"));
+				u.createUser(new UserDTO(16524, "Mads Stege", "MS", "1111111118", "madsmads", "Admin"));
 				
 				pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));
 				
