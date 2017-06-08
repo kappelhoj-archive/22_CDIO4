@@ -29,12 +29,29 @@ public class WeightCommunicator implements IWeightCommunicator {
 		RM20, P111, Tara, Measurement, Brutto, DisplayClean, Quit, StartUp
 	}
 
+	/**
+	 * Creation of mySocket, outToWeight and inFromWeight as a socket,
+	 * DataOutputStream and BufferedReader respectively.
+	 * 
+	 * @param mySocket
+	 *            Socket recieved from WeightController.
+	 * @throws IOException
+	 *             In case any of an error, an IOException is thrown.
+	 */
 	public WeightCommunicator(Socket mySocket) throws IOException {
 		this.mySocket = mySocket;
 		outToWeight = new DataOutputStream(mySocket.getOutputStream());
 		inFromWeight = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
 	}
 
+	/**
+	 * Method to send a Protocol to the weight on the this socket.
+	 * 
+	 * @param protocol
+	 *            The protocal that is sent to the weight.
+	 * @param message
+	 *            The message sent alongside the protocol.
+	 */
 	public void sendProtocol(Protocol protocol, String message) {
 		try {
 			switch (protocol) {
@@ -71,34 +88,42 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 	}
 
+	/**
+	 * Method which looks for which buttons have been pressed on the weight, and
+	 * responds in kind.
+	 */
 	@Override
 	public Buttons receiveButtonPush() throws ProtocolErrorException, LogOutException {
-			answerReceived = waitForAnswer();
-			if (answerReceived.contains("K C 4")) {
-				return Buttons.CONFIRM;
-			}
+		answerReceived = waitForAnswer();
+		if (answerReceived.contains("K C 4")) {
+			return Buttons.CONFIRM;
+		}
 
-			if (answerReceived.contains("K R 3")) {
-				return Buttons.BACK;
-			}
+		if (answerReceived.contains("K R 3")) {
+			return Buttons.BACK;
+		}
 
-			if (answerReceived.contains("K C 2")) {
-				throw new LogOutException(answerReceived);
-			} else
-				throw new ProtocolErrorException(answerReceived);
+		if (answerReceived.contains("K C 2")) {
+			throw new LogOutException(answerReceived);
+		} else
+			throw new ProtocolErrorException(answerReceived);
 
 	}
 
+	/**
+	 * Method which sends a String message, and then checks to see if it
+	 * receives a response.
+	 */
 	@Override
 	public void sendMessage(String message) throws InvalidReturnMessageException {
 		sendProtocol(Protocol.P111, message);
 
-			try {
-				answerReceived = waitForAnswer();
-			} catch (ProtocolErrorException e1) {
-				// TODO Auto-generated catch block
-				throw new InvalidReturnMessageException(e1.getMessage());
-			}
+		try {
+			answerReceived = waitForAnswer();
+		} catch (ProtocolErrorException e1) {
+			// TODO Auto-generated catch block
+			throw new InvalidReturnMessageException(e1.getMessage());
+		}
 		try {
 			checkReturnMessage(message, answerReceived);
 		} catch (ProtocolErrorException e) {
@@ -107,19 +132,21 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 	}
 
+	/**
+	 * Method to return the answer given by the weight back to the user.
+	 */
 	@Override
 	// ..............................
 	public String askForInformation(String message) throws InvalidReturnMessageException {
 		// TODO Auto-generated method stub
 		sendProtocol(Protocol.RM20, message);
 
-			try {
-				answerReceived = waitForAnswer();
-			} catch (ProtocolErrorException e1) {
-				// TODO Auto-generated catch block
-				throw new InvalidReturnMessageException(e1.getMessage());
-			}
-
+		try {
+			answerReceived = waitForAnswer();
+		} catch (ProtocolErrorException e1) {
+			// TODO Auto-generated catch block
+			throw new InvalidReturnMessageException(e1.getMessage());
+		}
 
 		try {
 			checkReturnMessage(message, answerReceived);
@@ -129,62 +156,74 @@ public class WeightCommunicator implements IWeightCommunicator {
 		return answerReceived;
 	}
 
+	/**
+	 * Simple method to restart the weight display.
+	 */
 	@Override
 	public void restartWeightDisplay() {
 		cleanStream();
 		sendProtocol(Protocol.DisplayClean, null);
 
-			try {
-				answerReceived =waitForAnswer();
-			} catch (ProtocolErrorException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		try {
+			answerReceived = waitForAnswer();
+		} catch (ProtocolErrorException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
-			if(checkAcknowledgement(Protocol.DisplayClean, answerReceived))
-			{
-				
+			if (checkAcknowledgement(Protocol.DisplayClean, answerReceived)) {
+
 				// TODO Er dette farligt ????
-			}else restartWeightDisplay();
+			} else
+				restartWeightDisplay();
 		} catch (ProtocolErrorException e) {
 			e.printStackTrace();
 		}
-		
-		
 
 	}
 
+	/**
+	 * Simple method to stop the weight in it's current operation and quit.
+	 */
 	@Override
 	public void stopWeight() {
 		sendProtocol(Protocol.Quit, null);
 	}
 
+	/**
+	 * Method to tara the weight. It looks to see if the weight responds
+	 * positively to its command.
+	 */
 	@Override
 	public void taraWeight() throws ProtocolErrorException {
 		sendProtocol(Protocol.Tara, null);
-			answerReceived=waitForAnswer();
-		if(checkAcknowledgement(Protocol.Tara, answerReceived))
-		{	
-		}
-		else throw new ProtocolErrorException(answerReceived);
+		answerReceived = waitForAnswer();
+		if (checkAcknowledgement(Protocol.Tara, answerReceived)) {
+		} else
+			throw new ProtocolErrorException(answerReceived);
 
 	}
 
+	/**
+	 * Returns the currently weighted amount from the weight to the user.
+	 */
 	@Override
 	public double getWeight() throws ProtocolErrorException {
 
 		sendProtocol(Protocol.Measurement, null);
-				answerReceived = waitForAnswer();
-			if (checkAcknowledgement(Protocol.Measurement, answerReceived))
-			{
-				return Double.parseDouble(splitAnswer[2]);
+		answerReceived = waitForAnswer();
+		if (checkAcknowledgement(Protocol.Measurement, answerReceived)) {
+			return Double.parseDouble(splitAnswer[2]);
 		} else {
 			throw new ProtocolErrorException(answerReceived);
 		}
 
 	}
 
+	/**
+	 * Method to clean the current stream of information from the weight.
+	 */
 	// TODO Look at exception
 	public void cleanStream() {
 		try {
@@ -195,6 +234,19 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 	}
 
+	/**
+	 * Method to check what kind of acknowledgement is sent back from the
+	 * weight.
+	 * 
+	 * @param prevProtocol
+	 *            The previous protocol sent of to the weight.
+	 * @param answer
+	 *            The answer returned by the weight.
+	 * @return Returns False in case the method fails.
+	 * @throws ProtocolErrorException
+	 *             Throws an exception in case the acknowledgement is not
+	 *             recognized.
+	 */
 	public boolean checkAcknowledgement(Protocol prevProtocol, String answer) throws ProtocolErrorException {
 		splitAnswer = answer.split(" ");
 		switch (prevProtocol) {
@@ -268,6 +320,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 * error.
 	 * 
 	 * @param answerReceived
+	 *            The answer received by the user.
 	 */
 	public String checkReturnMessage(String previousMessageSent, String answerReceived) throws ProtocolErrorException {
 		if (previousMessageSent != null) {
@@ -303,6 +356,15 @@ public class WeightCommunicator implements IWeightCommunicator {
 		return answerReceived;
 	}
 
+	/**
+	 * Method to await the answer from the weight. The method checks if there's
+	 * a new information from the weight every 0,1 second.
+	 * 
+	 * @return Returns the answer received.
+	 * @throws ProtocolErrorException
+	 *             The exception thrown in case something goes wrong with the
+	 *             thread.sleep method.
+	 */
 	public String waitForAnswer() throws ProtocolErrorException {
 		try {
 			while (!inFromWeight.ready()) {
@@ -325,7 +387,6 @@ public class WeightCommunicator implements IWeightCommunicator {
 		return answerReceived;
 	}
 
-	
 	// Not for use in final project.
 	// @Override
 	// public void flush() {
