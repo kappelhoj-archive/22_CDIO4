@@ -1,13 +1,20 @@
 package controller;
 
 import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 import exceptions.DALException;
 import controller.interfaces.*;
 import dataAccessObjects.*;
+import dataTransferObjects.ProductBatchCompDTO;
+import dataTransferObjects.ProductBatchDTO;
+import dataTransferObjects.RawMaterialBatchDTO;
+import dataTransferObjects.RawMaterialDTO;
+import dataTransferObjects.RecipeCompDTO;
+import dataTransferObjects.RecipeDTO;
 import dataTransferObjects.UserDTO;
 
-public class Initializer {
+public class Initializer implements ServletContextListener {
 
 	private static boolean initialized = false;
 	
@@ -58,6 +65,22 @@ public class Initializer {
 				u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "1111111118", "mikkel", "Admin"));
 				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "jeppe", "Admin"));
 				u.createUser(new UserDTO(16524, "Mads Stege", "MS", "1111111118", "mads", "Admin"));
+				
+				pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));
+				
+				pb.createProductBatch(new ProductBatchDTO(1, 0, 1));
+				
+				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(1, 1, 8.6));
+				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(2, 2, 10.7));
+				
+				rm.createRawMaterial(new RawMaterialDTO(1, "Water", "Water-Corp"));
+				rm.createRawMaterial(new RawMaterialDTO(2, "Salt", "Salt-Corp"));
+				
+				rc.createRecipeComp(new RecipeCompDTO(1, 1, 1.1, 0.6));
+				rc.createRecipeComp(new RecipeCompDTO(1, 2, 3.1, 2.1));
+				
+				r.createRecipe(new RecipeDTO(1, "Salty water"));
+				
 
 			} catch (DALException e) {
 				System.out.println(e.getMessage());
