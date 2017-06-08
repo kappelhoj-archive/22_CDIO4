@@ -19,7 +19,7 @@ import dataTransferObjects.UserDTO;
 public class Initializer implements ServletContextListener {
 
 	private static boolean initialized = false;
-	
+
 	private static int numberOfErrors = 0;
 
 	static ProductBatchCompDAO productBatchCompDAO = new ProductBatchCompDAO();
@@ -72,37 +72,37 @@ public class Initializer implements ServletContextListener {
 				System.out.println(e);
 				++numberOfErrors;
 			}
-			
+
 			try{
-			u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "1111111118", "Simonsimon1", "Farmaceut"));
+				u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "1111111118", "Simonsimon1", "Farmaceut"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-			u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "1111111118", "Arvidarvid1", "Laborant"));
+				u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "1111111118", "Arvidarvid1", "Laborant"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-			u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "1111111118", "Mikkelmikkel1", "Farmaceut"));
+				u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "1111111118", "Mikkelmikkel1", "Farmaceut"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-			u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "Jeppejeppe1", "Værkfører"));
+				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "Jeppejeppe1", "Værkfører"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-			u.createUser(new UserDTO(16524, "Mads Stege", "MS", "1111111118", "Madsmads1", "Værkfører"));
+				u.createUser(new UserDTO(16524, "Mads Stege", "MS", "1111111118", "Madsmads1", "Værkfører"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
@@ -110,10 +110,10 @@ public class Initializer implements ServletContextListener {
 			}
 
 			System.out.println("Done.");
-			
+
 			try{
-			System.out.println(u.getUserList());
-			
+				System.out.println(u.getUserList());
+
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
@@ -121,41 +121,25 @@ public class Initializer implements ServletContextListener {
 			}
 
 			System.out.println("Creating misc DTO...");
-			
-			try{
 
-			pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));
-			} catch (DALException e) {
-				System.out.println("ERROR");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-			
 			try{
-			pb.createProductBatch(new ProductBatchDTO(1, 0, 1));
+				r.createRecipe(new RecipeDTO(1, "Salty water"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 
-			try{
-			r.createRecipe(new RecipeDTO(1, "Salty water"));
-			} catch (DALException e) {
-				System.out.println("ERROR");
-				System.out.println(e);
-				++numberOfErrors;
-			}
 
 			try{
-			rmb.createRawMaterialBatch(new RawMaterialBatchDTO(1, 1, 8.6));
+				rm.createRawMaterial(new RawMaterialDTO(1, "Water", "Water-Corp"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-			rmb.createRawMaterialBatch(new RawMaterialBatchDTO(2, 2, 10.7));
+				rm.createRawMaterial(new RawMaterialDTO(2, "Salt", "Salt-Corp"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
@@ -163,22 +147,14 @@ public class Initializer implements ServletContextListener {
 			}
 
 			try{
-			rm.createRawMaterial(new RawMaterialDTO(1, "Water", "Water-Corp"));
+				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(1, 1, 8.6));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-			rm.createRawMaterial(new RawMaterialDTO(2, "Salt", "Salt-Corp"));
-			} catch (DALException e) {
-				System.out.println("ERROR");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-			try{
-			rc.createRecipeComp(new RecipeCompDTO(1, 1, 1.1, 0.6));
+				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(2, 2, 10.7));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
@@ -186,7 +162,32 @@ public class Initializer implements ServletContextListener {
 			}
 			
 			try{
-			rc.createRecipeComp(new RecipeCompDTO(1, 2, 3.1, 2.1));
+				pb.createProductBatch(new ProductBatchDTO(1, 0, 1));
+			} catch (DALException e) {
+				System.out.println("ERROR");
+				System.out.println(e);
+				++numberOfErrors;
+			}
+
+			try{
+
+				pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));
+			} catch (DALException e) {
+				System.out.println("ERROR");
+				System.out.println(e);
+				++numberOfErrors;
+			}
+
+			try{
+				rc.createRecipeComp(new RecipeCompDTO(1, 1, 1.1, 0.6));
+			} catch (DALException e) {
+				System.out.println("ERROR");
+				System.out.println(e);
+				++numberOfErrors;
+			}
+
+			try{
+				rc.createRecipeComp(new RecipeCompDTO(1, 2, 3.1, 2.1));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);

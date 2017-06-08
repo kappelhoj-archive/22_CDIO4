@@ -23,13 +23,15 @@ public class UserDAO implements IUserDAO,IWeightControlDAO {
 	@SuppressWarnings("unchecked")
 	public UserDAO(){
 		try{
+			System.out.println("Retrieving User Data...");
 			userList = (Hashtable<Integer, UserDTO>) FileManagement.retrieveData(TypeOfData.USER);
-			System.out.println("Data retrieved");
+			System.out.println("Done.");
 
 		}catch(Exception e){
 			System.out.println(e);
-
+			System.out.println("Trying to create the saving file...");
 			FileManagement.writeData(userList, TypeOfData.USER);
+			System.out.println("Done.");
 		}
 	}
 
