@@ -62,12 +62,12 @@ function showRecipeListPage() {
 /* Creates a table of all the recipe components in a specific recipe. */
 function showRecipeCompsPage(recipeId) {
 	getRecipeContent(recipeId).done(function(data) {
-		$.get("src/html/recipe/recipe_edit.html", function(template) {
-			$("#recipe_component_list").html(template);
+		$.get("src/html/recipe/recipe_comp_list.html", function(template) {
+			$("#recipe_edit_form").append(template);
 			$.each(data, function(i, data) {
 				console.log(data);
 				$.get("src/html/recipe/recipe_comp_list_row.html", function(template) {
-					$("#recipe_component_list .table tbody").append(Mustache.render($(template).html(), data))
+					$("#recipe_comp_list .table tbody").append(Mustache.render($(template).html(), data))
 				});
 			});
 		});
