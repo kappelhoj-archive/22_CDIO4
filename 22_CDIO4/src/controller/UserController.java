@@ -11,7 +11,7 @@ import staticClasses.Validator;
 public class UserController implements IUserController{
 
 	IUserDAO dao;
-	
+
 	public UserController(IUserDAO dao){
 		this.dao = dao;
 	}	
@@ -31,61 +31,34 @@ public class UserController implements IUserController{
 
 	@Override
 	public void createUser(UserDTO user) throws InputException, CollisionException, DALException{
-		try{
 
-			validation(user);
 
-			dao.createOperatoer(user);
+		validation(user);
 
-			return;
+		dao.createOperatoer(user);
 
-		}catch(InputException e){
-			throw new InputException(e.toString());
-			
-		}catch(CollisionException e){
-			throw new CollisionException(e.toString());
+		return;
 
-		}catch(DALException e){
-			System.out.println(e.toString());
-			throw new DALException (e.toString());
-		}
 	}
 
 	@Override
 	public void updateUser(UserDTO user) throws InputException, DALException{
-		try{
 
-			validation(user);
+		validation(user);
 
-			dao.updateOperatoer(user);
+		dao.updateOperatoer(user);
 
-			return;
+		return;
 
-		}catch(InputException e){
-			throw new InputException(e.toString());
-
-		}catch(DALException e){
-			System.out.println(e.toString());
-			throw new DALException (e.toString());
-
-		}
 	}
 
 	@Override
 	public UserDTO getUser(int id) throws InputException, DALException{
-		try{
-			Validator.validateUserID(id);
 
-			return dao.getUser(id);
+		Validator.validateUserID(id);
 
-		}catch(InputException e){
-			throw new InputException(e.toString());
+		return dao.getUser(id);
 
-		}catch(DALException e){
-			System.out.println(e.toString());
-			throw new DALException (e.toString());
-
-		}
 	}
 
 	@Override
@@ -100,7 +73,7 @@ public class UserController implements IUserController{
 
 		}
 	}
-	
+
 	/**
 	 * Generates initials from a given name.
 	 * 
