@@ -1,15 +1,16 @@
+<div id="recipe_edit">
 <h2>Recept</h2>
 <form id="recipe_create_form">
 	<div class="form-group input_fields">
     	<label>Recept id</label>
-    	<input type="text" class="form-control" name="id" value="{{recipeId}}" readonly>
+    	<input type="text" class="form-control" name="recipeId" value="{{recipeId}}" readonly>
     </div>
     
     <div class="form-group input_fields">
     	<label>Navn</label>
-    	<input type="text" class="form-control" name="name" value="{{recipeName}}" readonly>
+    	<input type="text" class="form-control" name="recipeName" value="{{recipeName}}" readonly>
     </div>
-    
+    <!-- Nedenstående html skal ind i en ny template -->
     <h2>Receptkomponenter</h2>
     <div id="recipe_component_list">
     	<table class="table table-hover">
@@ -36,7 +37,7 @@
 	</div>0
 	
 </form>
-    
+</div>    
     
     
     

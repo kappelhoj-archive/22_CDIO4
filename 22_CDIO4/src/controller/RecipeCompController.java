@@ -31,7 +31,7 @@ public class RecipeCompController implements IRecipeCompController {
 	}
 
 	@Override
-	public List<RecipeCompDTO> getRecipeComp(int recipeId) throws DALException {
+	public List<RecipeCompDTO> getRecipeCompList(int recipeId) throws DALException {
 		return dao.getRecipeCompList(recipeId);
 	}
 
