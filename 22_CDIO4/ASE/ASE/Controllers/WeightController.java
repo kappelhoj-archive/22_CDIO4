@@ -74,7 +74,7 @@ public class WeightController implements Runnable {
 					measurementAdder.enqueue(measurement);
 				}
 			} catch (LogOutException e) {
-				// Let the user log out if he presses that button.
+				//TODO Let the user log out if he presses that button.
 			} catch (ProtocolErrorException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
