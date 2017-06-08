@@ -14,7 +14,6 @@ import ASE.exceptions.ProtocolErrorException;
 import ASE.interfaces.IMeasurementController;
 import ASE.interfaces.IWeightCommunicator;
 import ASE.interfaces.IWeightCommunicator.Buttons;
-import dataAccessObjects.RecipeDAO;
 import dataAccessObjects.interfaces.IProductBatchDAO;
 import dataAccessObjects.interfaces.IRecipeCompDAO;
 import dataAccessObjects.interfaces.IRecipeDAO;
