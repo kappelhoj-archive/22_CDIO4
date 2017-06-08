@@ -403,7 +403,7 @@ public class WeightController implements Runnable {
 			return weightCommunication.receiveButtonPush();
 		}
 
-	}
+	} 
 
 /**
  * 
