@@ -66,6 +66,7 @@ public class WeightController implements Runnable {
 			try {
 				login();
 				while (true) {
+					//TODO: Ændre på rækkefølgen af en afvejning.
 					registerProduction();
 					ProductBatchCompDTO measurement = measureProduct();
 					if (measurement == null) {
