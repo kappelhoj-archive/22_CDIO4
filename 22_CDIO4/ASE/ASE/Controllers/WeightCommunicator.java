@@ -179,9 +179,9 @@ public class WeightCommunicator implements IWeightCommunicator {
 			if (checkAcknowledgement(Protocol.Measurement, answerReceived))
 			{
 				return Double.parseDouble(splitAnswer[2]);
-			}
-			else{throw new ProtocolErrorException(answerReceived);
-			}
+		} else {
+			throw new ProtocolErrorException(answerReceived);
+		}
 
 	}
 
@@ -325,6 +325,8 @@ public class WeightCommunicator implements IWeightCommunicator {
 		return answerReceived;
 	}
 
+	
+	// Not for use in final project.
 	// @Override
 	// public void flush() {
 	// // TODO: Redo this method at some point.
