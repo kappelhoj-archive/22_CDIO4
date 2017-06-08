@@ -58,6 +58,7 @@
         <concat destfile="${JS}">
         	<!-- Indsæt alle js filer her -->
         	<fileset dir="${SRC_JS_DIR}" includes="navigation.js" />
+        	<fileset dir="${SRC_JS_DIR}" includes="product_batch.js" />
         	<fileset dir="${SRC_JS_DIR}" includes="raw_material_batch.js" />
         	<fileset dir="${SRC_JS_DIR}" includes="recipe.js"/>
         	<fileset dir="${SRC_JS_DIR}" includes="raw_material.js"/>
