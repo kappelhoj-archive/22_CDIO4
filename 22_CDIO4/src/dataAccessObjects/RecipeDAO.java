@@ -9,10 +9,27 @@ import dataAccessObjects.interfaces.IRecipeDAO;
 import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.FileManagement;
+import staticClasses.FileManagement.TypeOfData;
 
 public class RecipeDAO implements IRecipeDAO {
 	
 	static Hashtable<Integer, RecipeDTO> recipeList = new Hashtable<Integer, RecipeDTO>();
+	
+	@SuppressWarnings("unchecked")
+	public RecipeDAO() {
+		try{
+			System.out.println("Retrieving Recipe Data...");
+			recipeList = (Hashtable<Integer, RecipeDTO>) FileManagement.retrieveData(TypeOfData.RECIPE);
+			System.out.println("Done.");
+
+		}catch(Exception e){
+			System.out.println(e);
+			System.out.println("Trying to create the saving file...");
+			FileManagement.writeData(recipeList, TypeOfData.USER);
+			System.out.println("Done.");
+		}
+	}
 
 	@Override
 	public RecipeDTO getRecipe(int recipeId) throws DALException {
@@ -38,8 +55,10 @@ public class RecipeDAO implements IRecipeDAO {
 
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws DALException {
-		if (recipeList.putIfAbsent(recipe.getRecipeId(), recipe.copy()) == null)
+		if (recipeList.putIfAbsent(recipe.getRecipeId(), recipe.copy()) == null){
+			FileManagement.writeData(recipeList, TypeOfData.RECIPE);
 			return;
+		}
 		
 		else
 			throw new CollisionException("Recpipe ID:"+recipe.getRecipeId()+" already exists !");
@@ -49,7 +68,7 @@ public class RecipeDAO implements IRecipeDAO {
 	@Override
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
 		recipeList.replace(recipe.getRecipeId(), recipe.copy());
-
+		FileManagement.writeData(recipeList, TypeOfData.RECIPE);
 	}
 
 }
