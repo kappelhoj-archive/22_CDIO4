@@ -26,7 +26,7 @@ $(document).ready(function()
 		event.preventDefault();
 		var rawMaterialId = $(this).parents("tr").children("td:first").text();
 		getRawMaterial(rawMaterialId).done(function (data) {
-			$.get("src/html/raw_material/raw_material/edit.html", function(template) {
+			$.get("src/html/raw_material/raw_material_edit.html", function(template) {
 				$("#content").html(Mustache.render($(template).html(), data))
 			});
 		})
@@ -98,7 +98,7 @@ $(document).ready(function()
 });
 
 /* Functions */
-/* Creates a table of all the raw materials in the system. And shows it in the tag with id="content" */
+/* Creates a table of all the raw materials in the system. And shows it in the section with id="content" */
 function showRawMaterialListPage() {
 	getRawMaterialList().done(function(data) {
 		$.get("src/html/raw_material/raw_material_list.html", function(template) {
