@@ -9,8 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import controller.RawMaterialBatchController;
-import controller.interfaces.IRawMaterialBatchController;
+import controller.Initializer;
 import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
@@ -19,15 +18,13 @@ import exceptions.InputException;
 @Path("raw_material_batch")
 public class RawMaterialBatchCRUD {
 
-	IRawMaterialBatchController controller = new RawMaterialBatchController();
-
 	// TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public RawMaterialBatchDTO readRawMaterialBatch(String id) {
 		try {
-			return controller.getRawMaterialBatch(Integer.parseInt(id));
+			return Initializer.getRawMaterialBatchController().getRawMaterialBatch(Integer.parseInt(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -45,7 +42,7 @@ public class RawMaterialBatchCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RawMaterialBatchDTO> readRawMaterialBatchList() {
 		try {
-			return controller.getRawMaterialBatchList();
+			return Initializer.getRawMaterialBatchController().getRawMaterialBatchList();
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -59,7 +56,7 @@ public class RawMaterialBatchCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RawMaterialBatchDTO> readRawMaterialBatchList(String rawMaterialId) {
 		try {
-			return controller.getRawMaterialBatchList(Integer.parseInt(rawMaterialId));
+			return Initializer.getRawMaterialBatchController().getRawMaterialBatchList(Integer.parseInt(rawMaterialId));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -77,7 +74,7 @@ public class RawMaterialBatchCRUD {
 	public String createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) {
 
 		try {
-			controller.createRawMaterialBatch(rawMaterialBatch);
+			Initializer.getRawMaterialBatchController().createRawMaterialBatch(rawMaterialBatch);
 			return "success: Råvarebatched med id " + rawMaterialBatch.getRbId() + " blev oprettet.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
@@ -99,7 +96,7 @@ public class RawMaterialBatchCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) {
 		try {
-			controller.updateRawMaterialBatch(rawMaterialBatch);
+			Initializer.getRawMaterialBatchController().updateRawMaterialBatch(rawMaterialBatch);
 			return "success";
 		} catch (InputException e) {
 			e.printStackTrace();

@@ -4,7 +4,20 @@ $(document).ready(function() {
 	 * Links
 	 * **/
 	
+	// Vis alle råvarebatches link
+	$(document).on("click", ".raw_material_batch_list_link", function(event) {
+		event.preventDefault();
+		showRawMaterialBatchListPage();
+	});
 	
+	$(document).on("click", ".raw_material_batch_create_link", function(event) {
+		event.preventDefault();
+		$.get("src/html/raw_material_batch/raw_material_batch_create.html", function(template) {
+            $("#content").html(template)
+        });
+	});
+	
+	// venter med den her
 	$(document).on("submit", "#raw_material_batch_create_form", function(event) {
 		event.preventDefault();
 		
@@ -35,7 +48,7 @@ $(document).ready(function() {
 	});
 });
 
-function showRawMaterialListPage() {
+function showRawMaterialBatchListPage() {
 	getRawMaterialBatchList().done(function(data) {
 		$.get("src/html/raw_material_batch/raw_material_batch_list.html", function(template) {
 			$("#content").html(template);

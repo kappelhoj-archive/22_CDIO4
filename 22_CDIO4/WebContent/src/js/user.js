@@ -7,7 +7,7 @@ $(document).ready(function() {
 	// Vis min bruger link
 	$(document).on("click", ".user_edit_link", function(event) {
 		event.preventDefault();
-		var userId = "1";
+		var userId = $(".top_nav_userid").text();
 		getUser(userId).done(function(data) {
 			$.get("src/html/user/user_edit.html", function(template) {
 	            $("#content").html(Mustache.render($(template).html(),data))		            
