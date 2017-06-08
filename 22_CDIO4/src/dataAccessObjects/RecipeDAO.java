@@ -30,7 +30,12 @@ public class RecipeDAO implements IRecipeDAO {
 			System.out.println("Done.");
 		}
 	}
-
+	
+	/**
+	 * Method which returns a copy of a RecipeDTO from the data
+	 * @param recipeId
+	 * @return RecipeDTO
+	 */
 	@Override
 	public RecipeDTO getRecipe(int recipeId) throws DALException {
 		if(recipeList.get(recipeId) != null)
@@ -40,6 +45,10 @@ public class RecipeDAO implements IRecipeDAO {
 			throw new DALException("Unknown Recipe ID: " + recipeId);
 	}
 
+	/**
+	 * Method which returns a list of RecipeDTOs from the data
+	 * @return List<RecipeDTO>
+	 */
 	@Override
 	public List<RecipeDTO> getRecipeList() throws DALException {
 		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
@@ -53,6 +62,11 @@ public class RecipeDAO implements IRecipeDAO {
 		return recipes;
 	}
 
+	/**
+	 * Method which adds a RecipeDTO to the saved data
+	 * @param RecipeDTO
+	 * @return void
+	 */
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws DALException {
 		if (recipeList.putIfAbsent(recipe.getRecipeId(), recipe.copy()) == null){
@@ -65,6 +79,11 @@ public class RecipeDAO implements IRecipeDAO {
 
 	}
 
+	/**
+	 * Method which updates a RecipeDTO in the saved data
+	 * @param RecipeDTO
+	 * @return void
+	 */
 	@Override
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
 		recipeList.replace(recipe.getRecipeId(), recipe.copy());
