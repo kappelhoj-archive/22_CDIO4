@@ -39,8 +39,8 @@ public class Initializer implements ServletContextListener {
 	public static UserDAO getUserDAO() {return userDAO;}
 
 	static ILoginController login = new LoginController(userDAO);
-	static IProductBatchCompController pbc = new ProductBatchCompController(productBatchCompDAO);
-	static IProductBatchController pb = new ProductBatchController(productBatchDAO);
+	static IProductBatchCompController pbc = new ProductBatchCompController(productBatchCompDAO, productBatchDAO, rawMaterialBatchDAO);
+	static IProductBatchController pb = new ProductBatchController(productBatchDAO, recipeDAO);
 	static IRawMaterialBatchController rmb = new RawMaterialBatchController(rawMaterialBatchDAO);
 	static IRawMaterialController rm = new RawMaterialController(rawMaterialDAO);
 	static IRecipeCompController rc = new RecipeCompController(recipeCompDAO, recipeDAO, rawMaterialDAO);

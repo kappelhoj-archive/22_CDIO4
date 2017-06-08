@@ -4,6 +4,7 @@ import java.util.List;
 
 import controller.interfaces.IProductBatchController;
 import dataAccessObjects.interfaces.IProductBatchDAO;
+import dataAccessObjects.interfaces.IRecipeDAO;
 import dataTransferObjects.ProductBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
@@ -12,9 +13,11 @@ import exceptions.InputException;
 public class ProductBatchController implements IProductBatchController {
 
 	IProductBatchDAO dao;
+	IRecipeDAO rdao;
 	
-	public ProductBatchController(IProductBatchDAO dao){
+	public ProductBatchController(IProductBatchDAO dao, IRecipeDAO rdao){
 		this.dao = dao;
+		this.rdao = rdao;
 	}
 
 	
@@ -36,6 +39,9 @@ public class ProductBatchController implements IProductBatchController {
 	@Override
 	public void createProductBatch(ProductBatchDTO productBatch) //TODO check -1<status<3
 			throws CollisionException, InputException, DALException {
+		
+		rdao.getRecipe(productBatch.getReceptId());
+		
 		if(productBatch.getStatus() <= 0 && productBatch.getStatus() <= 2)
 			dao.createProductBatch(productBatch);
 		else
