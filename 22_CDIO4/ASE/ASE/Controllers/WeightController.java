@@ -32,36 +32,65 @@ import exceptions.DALException;
  *
  */
 public class WeightController implements Runnable {
+	// Weightcommunication and class to handle the adding of new measurement.
 	IMeasurementController measurementAdder;
 	IWeightCommunicator weightCommunication;
 
+	// All kinds of DAO to perform different task.
 	IWeightControlDAO userDAO;
 	IWeightControlDAO rbDAO;
 	IWeightControlDAO pbDAO;
 	IRecipeCompDAO recipeCompDAO;
 	IRecipeDAO recipeDAO;
 
+	// Creates objects to allocate memory.
 	UserDTO userDTO = new UserDTO(0, null, null, null, null, null);
 	RawMaterialBatchDTO rbDTO = new RawMaterialBatchDTO(0, 0, 0);
 	ProductBatchDTO pbDTO = new ProductBatchDTO(0, 0, 0);
 
+	// HashMap that contains all the Recipe Components in a recipe.
 	HashMap<Integer, RecipeCompDTO> remainingReceptComp;
-
 	HashMap<Integer, RecipeCompDTO> finnishedReceptComp;
 
+	// The finished measureMents.
 	List<ProductBatchCompDTO> measurements;
 
+	/**
+	 * 
+	 * @param measurementAdder
+	 *            object that receives measurements.
+	 * @param weightConnection
+	 *            socket to communicate with the weight.
+	 * @throws IOException
+	 */
 	public WeightController(IMeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
 		weightCommunication = new WeightCommunicator(weightConnection);
 	}
 
+	/**
+	 * 
+	 * @param measurementAdder
+	 *            Object that receives measurements.
+	 * @param weightCommunication
+	 *            Object that controls communication with a weight.
+	 * @throws IOException
+	 */
 	public WeightController(IMeasurementController measurementAdder, IWeightCommunicator weightCommunication)
 			throws IOException {
 		this.measurementAdder = measurementAdder;
 		this.weightCommunication = weightCommunication;
 	}
 
+	/**
+	 * Set all the DAOs!
+	 * 
+	 * @param userDAO
+	 * @param rbDAO
+	 * @param pbDAO
+	 * @param recipeCompDAO
+	 * @param recipeDAO
+	 */
 	public void setDAO(IWeightControlDAO userDAO, IWeightControlDAO rbDAO, IWeightControlDAO pbDAO,
 			IRecipeCompDAO recipeCompDAO, IRecipeDAO recipeDAO) {
 		this.userDAO = userDAO;
@@ -71,41 +100,58 @@ public class WeightController implements Runnable {
 		this.recipeDAO = recipeDAO;
 	}
 
+	/**
+	 * The method that is called by the thread.
+	 */
 	@Override
 	public void run() {
+		// Restart the weight, to initialize.
 		weightCommunication.restartWeightDisplay();
 		while (true) {
 			try {
+				// Prompts the user to login.
 				login();
+				// Prompts the user to choose a product batch.
 				registerProduct();
-
+				// Starts measuring materials.
 				while (true) {
+					// Ask to enter Raw Material id.
 					registerRawMaterial();
-					ProductBatchCompDTO measurement = measureProduct();
+					// Measure materials.
+					ProductBatchCompDTO measurement = measureRawMaterial();
+					// Check that if the user pressed the back button.
 					if (measurement == null) {
 						continue;
 					}
+					// Add the ned measurement to the list.
 					measurements.add(measurement);
-					RecipeCompDTO finnishedComp=remainingReceptComp.remove(rbDTO.getRawMaterialId());
-					finnishedReceptComp.put(rbDTO.getRawMaterialId(),  finnishedComp);
-					if(remainingReceptComp.isEmpty()){
+					// Move the recipe Component to the finnished list.
+					RecipeCompDTO finnishedComp = remainingReceptComp.remove(rbDTO.getRawMaterialId());
+					finnishedReceptComp.put(rbDTO.getRawMaterialId(), finnishedComp);
+
+					// If the production is finished break the loop.
+					if (remainingReceptComp.isEmpty()) {
 						break;
 					}
 				}
-				
-				MeasurementDTO result= new MeasurementDTO(2, pbDTO.getPbId(), measurements);
+				// Add the result to the system.
+				MeasurementDTO result = new MeasurementDTO(2, pbDTO.getPbId(), measurements);
 				measurementAdder.enqueue(result);
-				
-			} catch (LogOutException e) {
+
+			}
+			// The user logged out
+			catch (LogOutException e) {
 				try {
 					sendMessageAndConfirm("Du er nu logget ud. ->]");
 				} catch (ProtocolErrorException | LogOutException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			} catch (ProtocolErrorException e) {
+			}
+			// System error
+			catch (ProtocolErrorException e) {
 				weightCommunication.restartWeightDisplay();
-				
+
 				try {
 					sendMessageAndConfirm("Der skete en systemfejl. ->]");
 				} catch (ProtocolErrorException | LogOutException e1) {
@@ -117,13 +163,21 @@ public class WeightController implements Runnable {
 		}
 	}
 
+	/**
+	 * Handles user login.
+	 * 
+	 * @throws ProtocolErrorException
+	 */
 	private void login() throws ProtocolErrorException {
 
 		Buttons buttonConfirmation = Buttons.NULL;
+		//Keep trying to login until successful.
 		do {
 			try {
 				try {
+					//Get a userDTO and receive confirmation from user.
 					buttonConfirmation = getDTOAndConfirm(userDTO, userDAO, "user id", "name");
+					//If they press back start over. 
 					if (buttonConfirmation == Buttons.BACK)
 						continue;
 				} catch (DALException e) {
@@ -141,6 +195,12 @@ public class WeightController implements Runnable {
 
 	}
 
+	/**
+	 * Handles registration of a product.
+	 * 
+	 * @throws ProtocolErrorException
+	 * @throws LogOutException
+	 */
 	private void registerProduct() throws ProtocolErrorException, LogOutException {
 		Buttons buttonConfirmation = Buttons.NULL;
 
@@ -155,7 +215,7 @@ public class WeightController implements Runnable {
 				continue;
 			}
 
-			// Lav liste med componenter der skal fremstilles
+			// Create list of recipe components that need to be created.
 			remainingReceptComp = new HashMap<Integer, RecipeCompDTO>();
 			finnishedReceptComp = new HashMap<Integer, RecipeCompDTO>();
 			measurements = new ArrayList<ProductBatchCompDTO>();
@@ -187,10 +247,16 @@ public class WeightController implements Runnable {
 
 	}
 
+	/**
+	 * Register a raw material.
+	 * 
+	 * @throws ProtocolErrorException
+	 * @throws LogOutException
+	 */
 	private void registerRawMaterial() throws ProtocolErrorException, LogOutException {
 		Buttons buttonConfirmation = Buttons.NULL;
 
-		// Register råvarebatch.
+		// Register rawmaterial.
 		do {
 			try {
 				buttonConfirmation = getDTOAndConfirm(rbDTO, rbDAO, "råvare batch id", "råvare id");
@@ -214,12 +280,13 @@ public class WeightController implements Runnable {
 	}
 
 	/**
+	 * Measure the raw material.
 	 * 
 	 * @return The produktBathKomponent. NULL if the user wants to go back.
 	 * @throws ProtocolErrorException
 	 * @throws LogOutException
 	 */
-	private ProductBatchCompDTO measureProduct() throws ProtocolErrorException, LogOutException {
+	private ProductBatchCompDTO measureRawMaterial() throws ProtocolErrorException, LogOutException {
 		ProductBatchCompDTO measurement = new ProductBatchCompDTO(pbDTO.getPbId(), rbDTO.getRbId(), 0.0, 0.0,
 				userDTO.getId());
 
@@ -228,13 +295,13 @@ public class WeightController implements Runnable {
 			myRecipeComp = recipeCompDAO.getRecipeComp(pbDTO.getReceptId(), rbDTO.getRawMaterialId());
 
 		} catch (DALException e) {
-			sendMessageAndConfirm("Could not find a matching recipe, try again ->]");
+			sendMessageAndConfirm("Kunne ikke finde recept. ->]");
 			return null;
 		}
 
 		while (true) {
 			weightCommunication.taraWeight();
-			Double currentWeight = getCurrentWeight("Please clear the weight ->]");
+			Double currentWeight = getCurrentWeight("Ryd vægten. ->]");
 
 			// If the user want to go back, go back to choosing a new product.
 			if (currentWeight == null) {
@@ -242,7 +309,7 @@ public class WeightController implements Runnable {
 			}
 
 			weightCommunication.taraWeight();
-			currentWeight = getCurrentWeight("Please put on the tara ->]");
+			currentWeight = getCurrentWeight("Placer tara. ->]");
 			// Try do another measurement.
 			if (currentWeight == null) {
 				continue;
@@ -251,7 +318,7 @@ public class WeightController implements Runnable {
 			}
 
 			weightCommunication.taraWeight();
-			currentWeight = getCurrentWeight("Please put on the netto ->]");
+			currentWeight = getCurrentWeight("Placer netto. ->]");
 			// Try do another measurement.
 			if (currentWeight == null) {
 				continue;
@@ -271,24 +338,32 @@ public class WeightController implements Runnable {
 					- Math.abs(currentWeight + measurement.getTara() + measurement.getNetto());
 
 			if (weightedTolerance >= Math.abs(measurement.getNetto() - myRecipeComp.getNomNetto())) {
-				// TODO: remove the recipeKomp from the list when its done.
 				return measurement;
 			} else {
 				sendMessageAndConfirm("Measurement dosen't match expected tolerance. ->]");
 				sendMessageAndConfirm("Measurement wasn't added to the production. ->]");
 				sendMessageAndConfirm("Please redo the measurement ->]");
-				// TODO: Text should be updated to dansk! Maybe add option to
-				// force a measurement, even if it dosen't match.
 				return null;
 			}
 		}
 
 	}
 
+	/**
+	 * Gets the current weight measured. After telling the user what to do.
+	 * 
+	 * @param message
+	 *            The message to send to the user.
+	 * @return
+	 * @throws ProtocolErrorException
+	 * @throws LogOutException
+	 */
 	private Double getCurrentWeight(String message) throws ProtocolErrorException, LogOutException {
+		//Send a message.
 		Buttons buttonPressed = sendMessageAndConfirm(message);
 		switch (buttonPressed) {
 		case CONFIRM:
+			//Read the current weight.
 			return weightCommunication.getWeight();
 		case BACK:
 			return null;
@@ -299,13 +374,28 @@ public class WeightController implements Runnable {
 
 	}
 
+	/**
+	 * Ask the user for an input and awaits answer.
+	 * 
+	 * @param dto
+	 * @param dao
+	 * @param questionSubject
+	 * @param expectedIdentity
+	 * @return
+	 * @throws ProtocolErrorException
+	 * @throws LogOutException
+	 * @throws DALException
+	 */
 	private Buttons getDTOAndConfirm(IWeightControlDTO dto, IWeightControlDAO dao, String questionSubject,
 			String expectedIdentity) throws ProtocolErrorException, LogOutException, DALException {
 		try {
+			//Ask for some id.
 			String id = weightCommunication.askForInformation("Indtast " + questionSubject + " og tryk ok.");
+			//Look up the id in the specified DAO.
 			dto.copy(dao.getDTOById(Integer.parseInt(id)));
 			String identity = dto.getIdentity();
 
+			//Send a message so the user can confirm the information. 
 			weightCommunication.sendMessage("Befrækt info: " + expectedIdentity + ": " + identity + " ->]");
 			return weightCommunication.receiveButtonPush();
 
@@ -315,9 +405,18 @@ public class WeightController implements Runnable {
 
 	}
 
+/**
+ * 
+ * @param message
+ * @return
+ * @throws ProtocolErrorException
+ * @throws LogOutException
+ */
 	private Buttons sendMessageAndConfirm(String message) throws ProtocolErrorException, LogOutException {
 		try {
+			//Send a message to the user.
 			weightCommunication.sendMessage(message + " ->]");
+			//Wait for user.
 			return weightCommunication.receiveButtonPush();
 		} catch (InvalidReturnMessageException e) {
 			return weightCommunication.receiveButtonPush();
