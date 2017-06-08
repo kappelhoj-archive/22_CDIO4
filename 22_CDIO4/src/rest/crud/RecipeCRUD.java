@@ -7,8 +7,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import controller.RecipeController;
-import controller.interfaces.IRecipeController;
+
+import controller.Initializer;
 import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
@@ -18,7 +18,6 @@ import exceptions.InputException;
 
 public class RecipeCRUD {
 	
-	IRecipeController controller = new RecipeController();
 
 	@Path("read")
 	@POST
@@ -27,7 +26,7 @@ public class RecipeCRUD {
 	{
 		try
 		{
-			return controller.getRecipe(Integer.parseInt(recipeId));
+			return Initializer.getRecipeController().getRecipe(Integer.parseInt(recipeId));
 		}
 		catch(InputException e)
 		{
@@ -51,7 +50,7 @@ public class RecipeCRUD {
 
 	{
 		try{
-			return controller.getRecipeList();
+			return Initializer.getRecipeController().getRecipeList();
 		}
 		catch(DALException e){
 			System.out.println(e.getMessage());
@@ -66,7 +65,7 @@ public class RecipeCRUD {
 	{	
 		try
 		{
-			controller.createRecipe(recipe);
+			Initializer.getRecipeController().createRecipe(recipe);
 			return "success";
 		}
 		catch(CollisionException e)
@@ -91,7 +90,7 @@ public class RecipeCRUD {
 		
 		try
 		{
-			controller.updateRecipe(recipe);
+			Initializer.getRecipeController().updateRecipe(recipe);
 			return "success";
 		}
 		catch(DALException e)
