@@ -50,6 +50,7 @@ public class RecipeCRUD {
 
 	{
 		try{
+			System.out.println(Initializer.getRecipeController().getRecipeList());
 			return Initializer.getRecipeController().getRecipeList();
 		}
 		catch(DALException e){
