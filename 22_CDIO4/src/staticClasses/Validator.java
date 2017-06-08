@@ -16,7 +16,7 @@ import exceptions.InputException;
 public class Validator {
 
 	// Constant of the class. Contains the valid roles in the system
-	public static final String[] validRoles = new String[] { "Admin", "Pharmacist", "Foreman", "Operator" };
+	public static final String[] validRoles = new String[] { "Admin", "Farmaceut", "Værkfører", "Laborant" };
 
 	/**
 	 * Checks if the given userID has the valid size. It does not check if it is

@@ -3,16 +3,22 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IRecipeCompController;
+import dataAccessObjects.interfaces.IRawMaterialDAO;
 import dataAccessObjects.interfaces.IRecipeCompDAO;
+import dataAccessObjects.interfaces.IRecipeDAO;
 import dataTransferObjects.RecipeCompDTO;
 import exceptions.DALException;
 
 public class RecipeCompController implements IRecipeCompController {
 	
 	IRecipeCompDAO dao;
+	IRecipeDAO rDAO;
+	IRawMaterialDAO rmDAO;
 	
-	public RecipeCompController(IRecipeCompDAO dao){
+	public RecipeCompController(IRecipeCompDAO dao, IRecipeDAO rDAO, IRawMaterialDAO rmDAO){
 		this.dao = dao;
+		this.rDAO = rDAO;
+		this.rmDAO = rmDAO;
 	}	
 
 	public IRecipeCompDAO getDao() {
@@ -36,6 +42,8 @@ public class RecipeCompController implements IRecipeCompController {
 
 	@Override
 	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
+		rDAO.getRecipe(recipeComponent.getRecipeId());
+		rmDAO.getRawMaterial(recipeComponent.getRawMaterialId());
 		dao.createRecipeComp(recipeComponent);
 
 	}

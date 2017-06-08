@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import controller.Initializer;
 import controller.interfaces.IUserController;
 import controller.teststub.UserStubController;
 import dataTransferObjects.UserDTO;
@@ -19,8 +20,6 @@ import exceptions.InputException;
 
 @Path("user")
 public class UserCRUD {
-//	IUserController userController = new UserController();
-	IUserController userController = new UserStubController();
 	
 	@Path("read")
 	@POST
@@ -29,7 +28,7 @@ public class UserCRUD {
 	{
 		int id = Integer.parseInt(userId);
 		try {
-			return userController.getUser(id);
+			return Initializer.getUserController().getUser(id);
 		} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -47,7 +46,7 @@ public class UserCRUD {
 	public List<UserDTO> readUsers()
 	{
 		try {
-			return userController.getUserList();
+			return Initializer.getUserController().getUserList();
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,7 +60,7 @@ public class UserCRUD {
 	public String createUser(UserDTO user)
 	{
 		try {
-			userController.createUser(user);
+			Initializer.getUserController().createUser(user);
 			return "success: Successbesked";
 		} catch (InputException e) {
 			e.printStackTrace();
@@ -80,7 +79,7 @@ public class UserCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateUser(UserDTO user) {
 		try {
-			userController.updateUser(user);
+			Initializer.getUserController().updateUser(user);
 			return "success: Successbesked";
 		} catch (InputException e) {
 			e.printStackTrace();

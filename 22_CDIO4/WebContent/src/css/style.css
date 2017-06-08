@@ -129,3 +129,7 @@ body {
 	height: 100%;
 }
 
+.top_nav_userid {
+	display: none;
+}
+
