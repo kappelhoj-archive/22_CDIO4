@@ -23,8 +23,8 @@ public class testUnitLogin {
 
 	@Before
 	public void setUp() throws Exception {
-		controller = new LoginController();
 		dao = new UserDAO();
+		controller = new LoginController(dao);
 	}
 
 	@After
