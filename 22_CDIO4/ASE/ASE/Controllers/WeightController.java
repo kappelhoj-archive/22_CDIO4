@@ -118,6 +118,24 @@ public class WeightController implements Runnable {
 
 		} while (buttonConfirmation != Buttons.CONFIRM);
 	}
+	private void registerProduction() throws ProtocolErrorException, LogOutException {
+		Buttons buttonConfirmation = Buttons.NULL;
+		// Register produkt batch
+		do {
+			buttonConfirmation = getDTOAndConfirm(pbDTO, pbDAO, "produkt batch id", "recept id");
+			if (buttonConfirmation == Buttons.BACK)
+				continue;
+
+		} while (buttonConfirmation != Buttons.CONFIRM);
+
+		// Register råvarebatch.
+		do {
+			buttonConfirmation = getDTOAndConfirm(rbDTO, rbDAO, "råvare batch id", "råvare id");
+			if (buttonConfirmation == Buttons.BACK)
+				continue;
+
+		} while (buttonConfirmation != Buttons.CONFIRM);
+	}
 
 	/**
 	 * 
