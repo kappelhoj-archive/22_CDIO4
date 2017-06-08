@@ -2,6 +2,8 @@ package ASE.Controllers;
 
 import java.util.LinkedList;
 import java.util.Queue;
+
+import ASE.DTOs.MeasurementDTO;
 import ASE.interfaces.IMeasurementController;
 import dataAccessObjects.interfaces.IProductBatchCompDAO;
 import dataTransferObjects.ProductBatchCompDTO;
@@ -32,10 +34,6 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		}
 	}
 
-	public void enqueue(ProductBatchCompDTO measurement) {
-		measurements.add(measurement);
-		
-	}
 
 	public void dequeue() {
 		while (measurements.size()>0) {
@@ -50,6 +48,12 @@ public class MeasurementController implements IMeasurementController, Runnable {
 			}
 
 		}
+	}
+
+	@Override
+	public void enqueue(MeasurementDTO measurement) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
