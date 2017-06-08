@@ -20,6 +20,10 @@ public class RawMaterialDTO extends DTO
     /** between 2 and 20 characters */
     String supplier;         
 	
+    public RawMaterialDTO(){
+    	
+    }
+    
 	public RawMaterialDTO(int raavareId, String raavareNavn, String leverandoer)
 	{
 		this.id = raavareId;
