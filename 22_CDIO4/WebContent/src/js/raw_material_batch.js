@@ -27,17 +27,18 @@ $(document).ready(function() {
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
 			success : function(data) {
+				console.log(data);
 				var splitData = data.split(": ");
-				switch(data[0]) {
+				switch(splitData[0]) {
 			    case "success":
-			        alert(data[1]);
+			        alert(splitData[1]);
 			        showUserListPage();
 			        break;
 			    case "input-error":
-			        alert(data[1]);
+			        alert(splitData[1]);
 			        break;
 			    default: // System error
-			    	alert(data[1]);
+			    	alert(splitData[1]);
 				}
 			},
 			error: function(data){
@@ -75,7 +76,7 @@ function getRawMaterialBatch(rbId) {
 
 function getRawMaterialBatchList() {
 	return $.ajax({
-		url : "rest/raw_material_batch/read_all",
+		url : "rest/raw_material_batch/read_list",
 		type : "GET",
 		contentType: "application/json"
 	});
@@ -83,7 +84,7 @@ function getRawMaterialBatchList() {
 
 function getRawMaterialBatchListSpecific(rawMaterialId) {
 	return $.ajax({
-		url : "rest/raw_material_batch/read_all_specific",
+		url : "rest/raw_material_batch/read_list_specific",
 		type : "POST",
 		data: rawMaterialId,
 		contentType: "application/json"

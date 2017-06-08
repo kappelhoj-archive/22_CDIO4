@@ -24,10 +24,13 @@ $(document).ready(function() {
 						$(".role_super").text("Super");
 						$(".top_nav_name").text("admin");
 						
-						getRoleTemplate("src/html/role_privilege/admin_privilege.html");
-		            	getRoleTemplate("src/html/role_privilege/pharmacist_privilege.html");
-		            	getRoleTemplate("src/html/role_privilege/foreman_privilege.html");
-		            	getRoleTemplate("src/html/role_privilege/labtech_privilege.html");
+						getRoleTemplate("src/html/role_privilege/admin_privilege.html").done(function() {
+							getRoleTemplate("src/html/role_privilege/pharmacist_privilege.html").done(function() {
+								getRoleTemplate("src/html/role_privilege/foreman_privilege.html").done(function() {
+									getRoleTemplate("src/html/role_privilege/labtech_privilege.html");
+								});
+							});
+						  });
 					});
 					console.log(data);
 					break;
@@ -85,7 +88,7 @@ $(document).ready(function() {
 });
 
 function getRoleTemplate(template) {
-	$.get(template, function(template) {
+	return $.get(template, function(template) {
 		$("#side_panel > #side_nav > ul").append(template);
 	});
 }

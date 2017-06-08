@@ -59,19 +59,19 @@ $(document).ready(function() {
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
 			success : function(data) {
-				console.log(data);
-				switch(data) {
+				var splitData = data.split(": ");
+				switch(splitData[0]) {
 			    case "success":
-			        alert("Brugeren blev oprettet");
+			        alert(splitData[1]);
 			        showUserListPage();
 			        break;
 			    case "input-error":
-			        alert("Input fejl");
+			    	alert(splitData[1]);
 			        break;
 			    case "id-error":
-			        alert("ID fejl");
+			    	alert(splitData[1]);
 			    default:
-			    	alert("System fejl");
+			    	alert(splitData[1]);
 				}
 			},
 			error: function(data){
