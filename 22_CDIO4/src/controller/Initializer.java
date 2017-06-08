@@ -41,7 +41,7 @@ public class Initializer implements ServletContextListener {
 	static IProductBatchController pb = new ProductBatchController(productBatchDAO);
 	static IRawMaterialBatchController rmb = new RawMaterialBatchController(rawMaterialBatchDAO);
 	static IRawMaterialController rm = new RawMaterialController(rawMaterialDAO);
-	static IRecipeCompController rc = new RecipeCompController(recipeCompDAO);
+	static IRecipeCompController rc = new RecipeCompController(recipeCompDAO, recipeDAO, rawMaterialDAO);
 	static IRecipeController r = new RecipeController(recipeDAO);
 	static IUserController u = new UserController(userDAO);
 
@@ -80,6 +80,8 @@ public class Initializer implements ServletContextListener {
 				
 				pb.createProductBatch(new ProductBatchDTO(1, 0, 1));
 				
+				r.createRecipe(new RecipeDTO(1, "Salty water"));
+				
 				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(1, 1, 8.6));
 				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(2, 2, 10.7));
 				
@@ -88,14 +90,14 @@ public class Initializer implements ServletContextListener {
 				
 				rc.createRecipeComp(new RecipeCompDTO(1, 1, 1.1, 0.6));
 				rc.createRecipeComp(new RecipeCompDTO(1, 2, 3.1, 2.1));
+			
 				
-				r.createRecipe(new RecipeDTO(1, "Salty water"));
-				
-				System.out.println("All done.");
+				System.out.println("All done without errors.");
 				
 
 			} catch (DALException e) {
-				System.out.println(e.getMessage());
+				System.out.println("ERROR");
+				System.out.println(e);
 			}
 
 		}
