@@ -31,6 +31,11 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 		}
 	}
 
+	/**
+	 * Method which returns a copy of a RawMaterialDTO from the data
+	 * @param rbId :rawmaterialId
+	 * @return RawMaterialDTO
+	 */
 	@Override
 	public RawMaterialDTO getRawMaterial(int rawMaterialId) throws DALException {
 		if(rawMaterialList.get(rawMaterialId) != null)
@@ -40,6 +45,10 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 			throw new DALException("Unknown Raw Material ID: " + rawMaterialId);
 	}
 
+	/**
+	 * Method which returns a list of RawMaterialDTOs from the data
+	 * @return List<RawMaterialDTO>
+	 */
 	@Override
 	public List<RawMaterialDTO> getRawMaterialList() throws DALException {
 		List<RawMaterialDTO> rawmaterials = new ArrayList<RawMaterialDTO>();
@@ -53,6 +62,11 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 		return rawmaterials;
 	}
 
+	/**
+	 * Method which adds a RawMaterialDTO to the saved data
+	 * @param RawMaterialDTO
+	 * @return void
+	 */
 	@Override
 	public void createRawMaterial(RawMaterialDTO raavare) throws DALException {
 		if (rawMaterialList.putIfAbsent(raavare.getId(), raavare.copy()) == null){
@@ -65,6 +79,11 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 
 	}
 
+	/**
+	 * Method which updates a RawMaterialDTO in the saved data
+	 * @param RawMaterialDTO
+	 * @return void
+	 */
 	@Override
 	public void updateRawMaterial(RawMaterialDTO raavare) throws DALException {
 		rawMaterialList.replace(raavare.getId(), raavare.copy());
