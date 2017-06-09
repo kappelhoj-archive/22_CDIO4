@@ -323,9 +323,8 @@ public class WeightCommunicator implements IWeightCommunicator {
 				throw new ProtocolErrorException(answer);
 			}
 		default:
-			break;
+			return false;
 		}
-		return false;
 
 	}
 	public String waitForAnswer() throws ProtocolErrorException {
