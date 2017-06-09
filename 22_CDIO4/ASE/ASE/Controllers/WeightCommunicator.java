@@ -271,7 +271,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 	public boolean checkAcknowledgement(Protocol prevProtocol, String answer) throws ProtocolErrorException {
 		splitAnswer = answer.split(" ");
-		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+		splitAnswer[splitAnswer.length]=String.valueOf(splitAnswer[splitAnswer.length].charAt(0));
 		switch (prevProtocol) {
 		case RM20:
 			switch (splitAnswer[1]) {
@@ -322,7 +322,6 @@ public class WeightCommunicator implements IWeightCommunicator {
 				previousMessageRecived = answer;
 				throw new ProtocolErrorException(answer);
 			}
-
 		default:
 			break;
 		}
