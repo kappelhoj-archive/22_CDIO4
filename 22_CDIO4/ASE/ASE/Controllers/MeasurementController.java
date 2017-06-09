@@ -18,9 +18,10 @@ public class MeasurementController implements IMeasurementController, Runnable {
 	IProductBatchCompDAO productBatchCompDAO;
 	IProductBatchDAO productBatchDAO;
 
-	public MeasurementController(IProductBatchCompDAO produktBatchComp) {
+	public MeasurementController(IProductBatchCompDAO produktBatchComp,IProductBatchDAO productBatchDAO) {
 		this.productBatchCompDAO = produktBatchComp;
 		this.measurements = new LinkedList<MeasurementDTO>();
+		this.productBatchDAO=productBatchDAO;
 	}
 
 	public void run() {

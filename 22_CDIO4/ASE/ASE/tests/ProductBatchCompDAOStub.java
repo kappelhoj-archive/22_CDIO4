@@ -31,7 +31,7 @@ public class ProductBatchCompDAOStub implements IProductBatchCompDAO{
 
 	@Override
 	public void createProductBatchComp(ProductBatchCompDTO produktBatchComponent) throws DALException {
-	System.out.println(i++);
+	System.out.println("Added ProductBatchComp number: "+i++);
 		measurements.add(produktBatchComponent);
 		
 	}
