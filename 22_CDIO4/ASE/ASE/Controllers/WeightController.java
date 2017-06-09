@@ -13,6 +13,7 @@ import ASE.exceptions.ProtocolErrorException;
 import ASE.interfaces.IMeasurementController;
 import ASE.interfaces.IWeightCommunicator;
 import ASE.interfaces.IWeightCommunicator.Buttons;
+import controller.Initializer;
 import dataAccessObjects.interfaces.IProductBatchDAO;
 import dataAccessObjects.interfaces.IRecipeCompDAO;
 import dataAccessObjects.interfaces.IRecipeDAO;
@@ -65,6 +66,8 @@ public class WeightController implements Runnable {
 	public WeightController(IMeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
 		weightCommunication = new WeightCommunicator(weightConnection);
+
+		setDAO(Initializer.getUserDAO(), Initializer.getRawMaterialBatchDAO(), Initializer.getProductBatchDAO(), Initializer.getRecipeCompDAO(), Initializer.getRecipeDAO());
 	}
 
 	/**
