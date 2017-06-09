@@ -332,7 +332,7 @@ public class WeightController implements Runnable {
 			if (currentWeight == null) {
 				continue;
 			}
-
+			
 			// Check if the measurement is as expected from the recipe
 			double weightedTolerance = myRecipeComp.getTolerance()
 					- Math.abs(currentWeight + measurement.getTara() + measurement.getNetto());
