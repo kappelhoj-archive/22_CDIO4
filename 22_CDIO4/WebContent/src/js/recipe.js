@@ -16,7 +16,7 @@ $(document).on("click", ".recipe_list_link", function(event) {
 /* ################################ List page button functions ######################################### */
 
 /* Goes to recipe_create.html when button with id="create_recipe" is clicked */
-$(document).on("click", "#create_recipe", function(event){
+$(document).on("click", ".recipe_create_link", function(event){
 	event.preventDefault();
 	$.get("src/html/recipe/recipe_create.html", function(template) {
 		$("#content").html(template);
