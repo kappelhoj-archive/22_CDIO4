@@ -56,6 +56,9 @@ public class Initializer implements ServletContextListener {
 	static public IRecipeController getRecipeController() {return r;}
 	static public IUserController getUserController() {return u;}
 
+	/**
+	 * Method which is used at the start of the server
+	 */
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 
@@ -201,6 +204,9 @@ public class Initializer implements ServletContextListener {
 		}
 	}
 
+	/**
+	 * Method which is used at the stop of the server
+	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 		System.out.println("Listener destroyed.\n");

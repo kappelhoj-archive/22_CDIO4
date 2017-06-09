@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -79,7 +80,7 @@ public class RawMaterialBatchCRUD {
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "id-error: Der findes allerede en råvare med det indtastede id.";
+			return "collision-error: Der findes allerede en råvare batch med det indtastede id.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -92,20 +93,20 @@ public class RawMaterialBatchCRUD {
 	}
 
 	@Path("update")
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) {
 		try {
 			Initializer.getRawMaterialBatchController().updateRawMaterialBatch(rawMaterialBatch);
-			return "success";
+			return "success: Råvare batchen blev ændret.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 

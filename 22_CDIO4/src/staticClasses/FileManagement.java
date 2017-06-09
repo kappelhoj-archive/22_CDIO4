@@ -8,18 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-/**
- * Reads and decodes a file with data and converts the data into
- * objects.
- * 
- * @param type : What type of DTO. Operatoer, ProduktBatch, ...
- * @return An ArrayList of DTO data from the given type.
- * @throws DALException
- *             The exception to be thrown something goes wrong under the
- *             reading and decoding.
- * 
- */
-
 
 public class FileManagement {
 	
@@ -36,6 +24,13 @@ public class FileManagement {
 		USER
 	}
 
+	/**
+	 * Writes the object data on a specific file.
+	 * @param dto
+	 * 			Data object which shall be stored
+	 * @param type
+	 * 			Type of the Data. For example : "User" -> TypeOfData.USER
+	 */
 	public static void writeData(Object dto, TypeOfData type){
 		FileOutputStream f = null;
 		ObjectOutputStream o = null;
@@ -65,7 +60,12 @@ public class FileManagement {
 		}
 	}
 
-
+	/**
+	 * Retrieves Data from a specific file.
+	 * @param type
+	 * 			Type of the Data. For example : "User" -> TypeOfData.USER
+	 * @return Retrieved Object
+	 */
 	public static Object retrieveData(TypeOfData type){
 
 		FileInputStream fi = null;
