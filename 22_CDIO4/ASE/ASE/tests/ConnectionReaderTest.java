@@ -32,7 +32,7 @@ public class ConnectionReaderTest {
 		connectionReader = new ConnectionReader(fileLocation);
 
 		try {
-			connectionReader.WeightReader();
+			connectionReader.getWeightIPs();
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
@@ -54,7 +54,7 @@ public class ConnectionReaderTest {
 		connectionReader = new ConnectionReader(fileLocation);
 
 		try {
-			connectionReader.WeightReader();
+			connectionReader.getWeightIPs();
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
