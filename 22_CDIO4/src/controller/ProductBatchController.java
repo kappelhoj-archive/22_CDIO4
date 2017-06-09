@@ -25,28 +25,44 @@ public class ProductBatchController implements IProductBatchController {
 		return dao;
 	}
 
-
+	/**
+	 * Returns a copy of a ProductBatchDTO from the data
+	 * @param pbId
+	 * @return ProductBatchDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
+	 */
 	@Override
 	public ProductBatchDTO getProductBatch(int pbId) throws InputException, DALException {
 		return dao.getProductBatch(pbId);
 	}
 
+	/**
+	 * Returns a list of ProductBatchDTOs from the data
+	 * @return List<ProductBatchDTO>
+	 */
 	@Override
 	public List<ProductBatchDTO> getProductBatchList() throws DALException {
 		return dao.getProductBatchList();
 	}
 
+	/**
+	 * Adds a ProductBatchDTO to the saved data
+	 * @param ProductBatchDTO
+	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
+	 * @throws InputException : Params not correct
+	 */
 	@Override
 	public void createProductBatch(ProductBatchDTO productBatch) //TODO check -1<status<3
 			throws CollisionException, InputException, DALException {
 
 		try{
-			rdao.getRecipe(productBatch.getReceptId());
+			rdao.getRecipe(productBatch.getReceptId()); //checks if the recipeID exists
 		}catch(DALException e){
 			throw new InputException(e.getMessage());
 		}
 
-		if(productBatch.getStatus() <= 0 && productBatch.getStatus() <= 2)
+		if(productBatch.getStatus() <= 0 && productBatch.getStatus() <= 2) //checks if the status is between 0 and 2
 			dao.createProductBatch(productBatch);
 		else
 			throw new InputException("Status must be between 0 and 2");

@@ -14,6 +14,11 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 	
 	static List<RecipeCompDTO> recipeCompList = new ArrayList<RecipeCompDTO>();
 	
+	/*
+	 * The warning "unchecked" is there because Java can not define if the file we try to convert
+	 * to an ArrayList is associated to this class.
+	 * We decided to ignore this warning in all our DAO.
+	 */
 	@SuppressWarnings("unchecked")
 	public RecipeCompDAO(){
 		try{
@@ -33,6 +38,7 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 	 * Method which returns a copy of a RecipeCompDTO from the data
 	 * @param recipeId, rawMaterialId
 	 * @return RecipeCompDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public RecipeCompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException {
@@ -63,7 +69,7 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 		return recipecompListget;
 	}
 
-	 /* Method which returns a list of RecipeCompDTOs from the data
+	/** Method which returns a list of RecipeCompDTOs from the data
 	 * @return List<RecipeCompDTO>
 	 */
 	@Override
@@ -75,6 +81,7 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 	 * Method which adds a RecipeCompDTO to the saved data
 	 * @param RecipeCompDTO
 	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
 	 */
 	@Override
 	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
@@ -94,6 +101,7 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 	 * Method which updates a RecipeCompDTO in the saved data
 	 * @param RecipeCompDTO
 	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public void updateRecipeComp(RecipeCompDTO recipeComponent) throws DALException {

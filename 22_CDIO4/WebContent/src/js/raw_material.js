@@ -74,7 +74,7 @@ $(document).ready(function()
 	$(document).on("submit", "#raw_material_edit_form", function(event){
 		event.preventDefault();
 		$.ajax({
-			url: "rest/raw_material/edit",
+			url: "rest/raw_material/update",
 			type: "PUT",
 			contentType: "application/json",
 			data: $("#raw_material_edit_form").serializeJSON(),

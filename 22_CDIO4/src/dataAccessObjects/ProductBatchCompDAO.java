@@ -15,6 +15,11 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
 	static List<ProductBatchCompDTO> productBatchCompList = new ArrayList<ProductBatchCompDTO>();
 	
+	/*
+	 * The warning "unchecked" is there because Java can not define if the file we try to convert
+	 * to an ArrayList is associated to this class.
+	 * We decided to ignore this warning in all our DAO.
+	 */
 	@SuppressWarnings("unchecked")
 	public ProductBatchCompDAO(){
 		try{
@@ -34,6 +39,7 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 	 * Method which returns a copy of a ProductBatchCompDTO from the data
 	 * @param productbatchID, rawmaterialbatchId
 	 * @return ProductBatchCompDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
@@ -79,6 +85,7 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 	 * Method which adds a ProductBatchCompDTO to the saved data
 	 * @param ProductBatchCompDTO
 	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
 	 */
 	@Override
 	public void createProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {
@@ -101,6 +108,7 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 	 * Method which updates a ProductBatchCompDTO in the saved data
 	 * @param ProductBatchCompDTO
 	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public void updateProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {

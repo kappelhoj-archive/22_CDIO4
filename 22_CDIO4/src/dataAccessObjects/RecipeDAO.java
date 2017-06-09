@@ -16,6 +16,11 @@ public class RecipeDAO implements IRecipeDAO {
 	
 	static Hashtable<Integer, RecipeDTO> recipeList = new Hashtable<Integer, RecipeDTO>();
 	
+	/*
+	 * The warning "unchecked" is there because Java can not define if the file we try to convert
+	 * to a HashTable is associated to this class.
+	 * We decided to ignore this warning in all our DAO.
+	 */
 	@SuppressWarnings("unchecked")
 	public RecipeDAO() {
 		try{
@@ -35,6 +40,7 @@ public class RecipeDAO implements IRecipeDAO {
 	 * Method which returns a copy of a RecipeDTO from the data
 	 * @param recipeId
 	 * @return RecipeDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public RecipeDTO getRecipe(int recipeId) throws DALException {
@@ -66,6 +72,7 @@ public class RecipeDAO implements IRecipeDAO {
 	 * Method which adds a RecipeDTO to the saved data
 	 * @param RecipeDTO
 	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
 	 */
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws DALException {
@@ -83,9 +90,12 @@ public class RecipeDAO implements IRecipeDAO {
 	 * Method which updates a RecipeDTO in the saved data
 	 * @param RecipeDTO
 	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public void updateRecipe(RecipeDTO recipe) throws DALException {
+		getRecipe(recipe.getRecipeId());
+		
 		recipeList.replace(recipe.getRecipeId(), recipe.copy());
 		FileManagement.writeData(recipeList, TypeOfData.RECIPE);
 	}
