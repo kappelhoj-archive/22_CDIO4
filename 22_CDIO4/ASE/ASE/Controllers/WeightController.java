@@ -66,7 +66,6 @@ public class WeightController implements Runnable {
 	public WeightController(IMeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
 		weightCommunication = new WeightCommunicator(weightConnection);
-
 		setDAO(Initializer.getUserDAO(), Initializer.getRawMaterialBatchDAO(), Initializer.getProductBatchDAO(), Initializer.getRecipeCompDAO(), Initializer.getRecipeDAO());
 	}
 
