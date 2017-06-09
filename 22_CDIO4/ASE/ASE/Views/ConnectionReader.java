@@ -189,6 +189,7 @@ public class ConnectionReader {
 
 		} catch (Exception e) {
 			System.out.println("Error: Port contains invalid characters!");
+			System.out.print("Error source: ");
 			return false;
 
 		}
