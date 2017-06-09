@@ -28,13 +28,28 @@ public class WeightCommunicator implements IWeightCommunicator {
 	public enum Protocol {
 		RM20, P111, Tara, Measurement, Brutto, DisplayClean, Quit, StartUp
 	}
-
+	/**
+	 * Creation of mySocket, outToWeight and inFromWeight as a socket,
+	 * DataOutputStream and BufferedReader respectively.
+	 * 
+	 * @param mySocket
+	 *            Socket recieved from WeightController.
+	 * @throws IOException
+	 *             In case any of an error, an IOException is thrown.
+	 */
 	public WeightCommunicator(Socket mySocket) throws IOException {
 		this.mySocket = mySocket;
 		outToWeight = new DataOutputStream(mySocket.getOutputStream());
 		inFromWeight = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
 	}
-
+	/**
+	 * Method to send a Protocol to the weight on the this socket.
+	 * 
+	 * @param protocol
+	 *            The protocal that is sent to the weight.
+	 * @param message
+	 *            The message sent alongside the protocol.
+	 */
 	public void sendProtocol(Protocol protocol, String message) {
 		try {
 			switch (protocol) {
@@ -70,7 +85,10 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 		}
 	}
-
+	/**
+	 * Method which looks for which buttons have been pressed on the weight, and
+	 * responds in kind.
+	 */
 	@Override
 	public Buttons receiveButtonPush() throws ProtocolErrorException, LogOutException {
 		answerReceived = waitForAnswer();
@@ -88,7 +106,10 @@ public class WeightCommunicator implements IWeightCommunicator {
 			throw new ProtocolErrorException(answerReceived);
 
 	}
-
+	/**
+	 * Method which sends a String message, and then checks to see if it
+	 * receives a response.
+	 */
 	@Override
 	public void sendMessage(String message) throws InvalidReturnMessageException {
 		sendProtocol(Protocol.P111, message);
@@ -106,7 +127,9 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 
 	}
-
+	/**
+	 * Method to return the answer given by the weight back to the user.
+	 */
 	@Override
 	// ..............................
 	public String askForInformation(String message) throws InvalidReturnMessageException {
@@ -122,7 +145,9 @@ public class WeightCommunicator implements IWeightCommunicator {
 		sendProtocol(Protocol.RM20, answerReceived);
 		return answerReceived;
 	}
-
+	/**
+	 * Simple method to restart the weight display.
+	 */
 	@Override
 	public void restartWeightDisplay() {
 		cleanStream();
@@ -149,12 +174,17 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 
 	}
-
+	/**
+	 * Simple method to stop the weight in it's current operation and quit.
+	 */
 	@Override
 	public void stopWeight() {
 		sendProtocol(Protocol.Quit, null);
 	}
-
+	/**
+	 * Method to tara the weight. It looks to see if the weight responds
+	 * positively to its command.
+	 */
 	@Override
 	public void taraWeight() throws ProtocolErrorException {
 		sendProtocol(Protocol.Tara, null);
@@ -166,7 +196,9 @@ public class WeightCommunicator implements IWeightCommunicator {
 		else throw new ProtocolErrorException(answerReceived);
 
 	}
-
+	/**
+	 * Returns the currently weighted amount from the weight to the user.
+	 */
 	@Override
 	public double getWeight() throws ProtocolErrorException {
 
@@ -180,7 +212,9 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 
 	}
-
+	/**
+	 * Method to clean the current stream of information from the weight.
+	 */
 	// TODO Look at exception
 	public void cleanStream(){
 
@@ -197,7 +231,19 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 	}
 
-
+	/**
+	 * Method to check what kind of acknowledgement is sent back from the
+	 * weight.
+	 * 
+	 * @param prevProtocol
+	 *            The previous protocol sent of to the weight.
+	 * @param answer
+	 *            The answer returned by the weight.
+	 * @return Returns False in case the method fails.
+	 * @throws ProtocolErrorException
+	 *             Throws an exception in case the acknowledgement is not
+	 *             recognized.
+	 */
 
 
 
