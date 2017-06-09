@@ -1,92 +1,104 @@
 package staticClasses;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import dataTransferObjects.DTO;
-import exceptions.DALException;
 
 public class FileManagement {
-
 	
-	/**
-	 * Reads and decodes a file with data and converts the data into
-	 * objects.
-	 * 
-	 * @param type : What type of DTO. Operatoer, ProduktBatch, ...
-	 * @return An ArrayList of DTO data from the given type.
-	 * @throws DALException
-	 *             The exception to be thrown something goes wrong under the
-	 *             reading and decoding.
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public static List<DTO> retrieveFrom(String type) throws DALException {
-		ArrayList<DTO> objects = new ArrayList<DTO>();
+	final static String PATH = "C:\\Users\\Public\\Documents\\";
 
-		ObjectInputStream OIS = null;
-		try {
-			FileInputStream fIS = new FileInputStream(type+".data");
-			OIS = new ObjectInputStream(fIS);
-			Object inObj = OIS.readObject();
-			if (inObj instanceof ArrayList<?>) {
-				objects = (ArrayList<DTO>) inObj;
-			} else {
-				throw new DALException("Wrong object in file");
-			}
-		} catch (FileNotFoundException e) {
-			return objects;
-		} catch (IOException e) {
-			throw new DALException("Error while reading disk! " + e.getMessage());
-		} catch (ClassNotFoundException e) {
-			throw new DALException("Error while reading file - Class not found! "+ e.getMessage());
-		} finally {
-			if (OIS != null) {
-				try {
-					OIS.close();
-				} catch (IOException e) {
-					throw new DALException("Error closing pObjectStream! " + e.getMessage());
-				}
-			}
-		}
-		return objects;
+
+	public enum TypeOfData{
+		PRODUCTBATCHCOMP,
+		PRODUCTBATCH,
+		RAWMATERIALBATCH,
+		RAWMATERIAL,
+		RECIPECOMP,
+		RECIPE,
+		USER
 	}
-	
+
 	/**
-	 * Saves the user data to a text file.
-	 * 
-	 * @param objects
-	 *            The array of data that shall be saved.
-	 * @param type 
-	 * 			  What type of DTO. Operatoer, ProduktBatch, ...
-	 * @throws DALException
-	 *             The exception to be thrown if something goes wrong under the
-	 *             saving.
+	 * Writes the object data on a specific file.
+	 * @param dto
+	 * 			Data object which shall be stored
+	 * @param type
+	 * 			Type of the Data. For example : "User" -> TypeOfData.USER
 	 */
-	public static void saveData(List<DTO> objects, String type) throws DALException {
-		ObjectOutputStream OOS = null;
+	public static void writeData(Object dto, TypeOfData type){
+		FileOutputStream f = null;
+		ObjectOutputStream o = null;
+
 		try {
-			FileOutputStream FOS = new FileOutputStream(type+".data");
-			OOS = new ObjectOutputStream(FOS);
-			OOS.writeObject(objects);
+			f = new FileOutputStream(new File(PATH+type.toString()+".data"));
+			o = new ObjectOutputStream(f);
+
+			o.writeObject(dto);
+
 		} catch (FileNotFoundException e) {
-			throw new DALException("Error locating file " + e.getMessage());
+			System.out.println("File not found");
 		} catch (IOException e) {
-			throw new DALException(type+".data "+" Error writing to disk " + e.getMessage() + objects.toString());
-		} finally {
-			if (OOS != null) {
-				try {
-					OOS.close();
-				} catch (IOException e) {
-					throw new DALException("Unable to close ObjectStream " + e.getMessage());
-				}
+			System.out.println("Error initializing stream " +e);
+
+		}finally{
+			try {
+				o.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				f.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
+	}
+
+	/**
+	 * Retrieves Data from a specific file.
+	 * @param type
+	 * 			Type of the Data. For example : "User" -> TypeOfData.USER
+	 * @return Retrieved Object
+	 */
+	public static Object retrieveData(TypeOfData type){
+
+		FileInputStream fi = null;
+		ObjectInputStream oi = null;
+
+		try{
+			fi = new FileInputStream(new File(PATH+type.toString()+".data"));
+			oi = new ObjectInputStream(fi);
+
+			Object dto = (Object) oi.readObject();
+
+			return dto;
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		} catch (IOException e) {
+			System.out.println("Error initializing stream "+e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+
+		}finally{
+			try {
+				oi.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				fi.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+
 	}
 }

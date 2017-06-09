@@ -2,6 +2,10 @@ package dataTransferObjects;
 
 public class RecipeCompDTO extends DTO
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6282952596437001174L;
 	int recipeId;                  // auto genereres fra 1..n   
 	int rawMaterialId;             // i omraadet 1-99999999
 	double nomNetto;            // skal vaere positiv og passende stor

@@ -1,6 +1,12 @@
 package dataTransferObjects;
 
-public abstract class DTO {
+import java.io.Serializable;
+
+public abstract class DTO implements Serializable  {
+	
+	private static final long serialVersionUID = 7145864589999999260L;
+	
+	
 	public boolean equals(DTO dto){
 		if(this.toString().equals(dto.toString()))
 			return true;

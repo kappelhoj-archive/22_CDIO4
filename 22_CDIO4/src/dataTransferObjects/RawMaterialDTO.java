@@ -9,13 +9,21 @@ package dataTransferObjects;
 
 public class RawMaterialDTO extends DTO
 {
-    /** between 1 and 99999999 chosen by the user. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8616405735113838978L;
+	/** between 1 and 99999999 chosen by the user. */
     int id;                     
     /** between 2 and 20 characters */
     String name;                
     /** between 2 and 20 characters */
     String supplier;         
 	
+    public RawMaterialDTO(){
+    	
+    }
+    
 	public RawMaterialDTO(int raavareId, String raavareNavn, String leverandoer)
 	{
 		this.id = raavareId;

@@ -2,6 +2,10 @@ package dataTransferObjects;
 
 public class ProductBatchCompDTO extends DTO
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1192760162109693059L;
 	int pbId; 	  // produktbatchets id
 	int rbId;        // i omraadet 1-99999999
 	double tara;

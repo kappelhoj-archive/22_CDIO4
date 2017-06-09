@@ -2,6 +2,10 @@ package dataTransferObjects;
 
 public class ProductBatchDTO extends DTO implements IWeightControlDTO
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5415559033194916090L;
 	int pbId;                     // i omraadet 1-99999999
 	int status;					// 0: ikke paabegyndt, 1: under produktion, 2: afsluttet
 	int recipeId;

@@ -9,6 +9,10 @@ package dataTransferObjects;
 
 public class UserDTO extends DTO implements IWeightControlDTO
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -931708485054177146L;
 	//Instance variables of the object UserDTO
 	int id;                     
 	String name;                
@@ -90,7 +94,7 @@ public class UserDTO extends DTO implements IWeightControlDTO
 		this.role = role;
 	}
 
-	public String toString() { return id + "\t" + name + "\t" + ini + "\t" + cpr + "\t" + password + role; }
+	public String toString() { return id + "\t" + name + "\t" + ini + "\t" + cpr + "\t" + password + "\t" + role; }
 
 
 	public UserDTO copy() {

@@ -7,7 +7,7 @@ $(document).ready(function() {
 	// Vis min bruger link
 	$(document).on("click", ".user_edit_link", function(event) {
 		event.preventDefault();
-		var userId = "1";
+		var userId = $(".top_nav_userid").text();
 		getUser(userId).done(function(data) {
 			$.get("src/html/user/user_edit.html", function(template) {
 	            $("#content").html(Mustache.render($(template).html(),data))		            
@@ -54,24 +54,24 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		$.ajax({
-			url : 'rest/user/create-user',
+			url : 'rest/user/create',
 			type : 'POST',
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
 			success : function(data) {
-				console.log(data);
-				switch(data) {
+				var splitData = data.split(": ");
+				switch(splitData[0]) {
 			    case "success":
-			        alert("Brugeren blev oprettet");
+			        alert(splitData[1]);
 			        showUserListPage();
 			        break;
 			    case "input-error":
-			        alert("Input fejl");
+			    	alert(splitData[1]);
 			        break;
 			    case "id-error":
-			        alert("ID fejl");
+			    	alert(splitData[1]);
 			    default:
-			    	alert("System fejl");
+			    	alert(splitData[1]);
 				}
 			},
 			error: function(data){
@@ -86,7 +86,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		$.ajax({
-			url : 'rest/user/update-user',
+			url : 'rest/user/update',
 			type : 'PUT',
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
@@ -115,7 +115,7 @@ $(document).ready(function() {
 });
 
 function showUserListPage() {
-	getUsers().done(function(data) {
+	getUserList().done(function(data) {
 		$.get("src/html/user/user_list.html", function(template) {
 			$("#content").html(template);
 			$.each(data, function(i, data){
@@ -132,7 +132,7 @@ function showUserListPage() {
 
 function getUser(userId) {
 	return $.ajax({
-		url : "rest/user/read-user",
+		url : "rest/user/read",
 		type : "POST",
 		data: userId,
 		contentType: "application/json"
@@ -140,9 +140,9 @@ function getUser(userId) {
 	
 }
 
-function getUsers() {
+function getUserList() {
 	return $.ajax({
-		url : "rest/user/read-users",
+		url : "rest/user/read_list",
 		type : "GET",
 		contentType: "application/json"
 	});

@@ -9,8 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import controller.ProductBatchController;
-import controller.interfaces.IProductBatchController;
+import controller.Initializer;
 import dataTransferObjects.ProductBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
@@ -18,14 +17,13 @@ import exceptions.InputException;
 
 @Path("product_batch")
 public class ProductBatchCRUD {
-	IProductBatchController controller = new ProductBatchController();
 
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProductBatchDTO getProductBatch(String id) {
 		try {
-			return controller.getProductBatch(Integer.parseInt(id));
+			return Initializer.getProductBatchController().getProductBatch(Integer.parseInt(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -43,7 +41,7 @@ public class ProductBatchCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProductBatchDTO> getProductBatchList() {
 		try {
-			return controller.getProductBatchList();
+			return Initializer.getProductBatchController().getProductBatchList();
 		} catch (DALException e) {
 			System.out.println(e.getMessage());
 			return null;
@@ -55,7 +53,7 @@ public class ProductBatchCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createProductBatch(ProductBatchDTO productbatch) {
 		try {
-			controller.createProductBatch(productbatch);
+			Initializer.getProductBatchController().createProductBatch(productbatch);
 			return "success";
 		} catch (CollisionException e) {
 			e.printStackTrace();
@@ -79,7 +77,7 @@ public class ProductBatchCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateProductBatch(ProductBatchDTO productbatch) {
 		try {
-			controller.updateProductBatch(productbatch);
+			Initializer.getProductBatchController().updateProductBatch(productbatch);
 			return "success";
 		} catch (InputException e) {
 			e.printStackTrace();
