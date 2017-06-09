@@ -9,12 +9,13 @@ import java.util.NoSuchElementException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ASE.Controllers.WeightController;
 import ASE.DTOs.MeasurementDTO;
 import ASE.interfaces.IWeightCommunicator.Buttons;
-import dataAccessObjects.ProductBatchCompDAO;
+import controller.Initializer;
 import dataAccessObjects.ProductBatchDAO;
 import dataAccessObjects.RawMaterialBatchDAO;
 import dataAccessObjects.RecipeCompDAO;
@@ -38,6 +39,8 @@ class ThreadStopHandler implements UncaughtExceptionHandler {
 		if (e instanceof NoSuchElementException) {
 			System.out.println("Thread stopped because the test class had no more inputs.");
 			e.printStackTrace();
+		} else {
+			System.out.println(e.getMessage());
 		}
 
 	}
@@ -57,6 +60,12 @@ public class TestWeightController {
 
 	Thread myThread;
 	ThreadStopHandler threadStopper = new ThreadStopHandler();
+
+	@BeforeClass
+	public static void setUpData() {
+
+		new Initializer().contextInitialized(null);
+	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -87,15 +96,16 @@ public class TestWeightController {
 
 	@Test
 	public void successTest() {
+
 		wCon.setDAO(userDAO, rbDAO, pbDAO, rcDAO, rDAO);
 		UserDTO user = null;
 		List<RawMaterialBatchDTO> rb = null;
 		ProductBatchDTO pb = null;
 		RecipeDTO r = null;
 		List<RecipeCompDTO> rcList = null;
-		
-		List<ProductBatchCompDTO> expectedMeasurements=new ArrayList<ProductBatchCompDTO>();
-		
+
+		List<ProductBatchCompDTO> expectedMeasurements = new ArrayList<ProductBatchCompDTO>();
+
 		try {
 			user = ((UserDAO) userDAO).getUserList().get(0);
 			pb = ((ProductBatchDAO) pbDAO).getProductBatchList().get(0);
@@ -116,23 +126,26 @@ public class TestWeightController {
 		comStub.textFromWeight.add(pb.getPbId() + "");
 		// Bekræft recept id.
 		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+		// Bekræft recept navn
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
 
 		for (RecipeCompDTO localRC : rcList) {
 			int rawMaterialID = localRC.getRawMaterialId();
-			double taraWeight =20+(Math.random()-0.5);
-			double nettoWeight=localRC.getNomNetto();
-			int rbID=-1;
+			double taraWeight = 20 + (Math.random() - 0.5);
+			double nettoWeight = localRC.getNomNetto();
+			int rbID = -1;
 			for (RawMaterialBatchDTO rbDTO : rb) {
 				if (rbDTO.getRawMaterialId() == rawMaterialID) {
 					// Indtast rb ID
 					comStub.textFromWeight.add(rbDTO.getRbId() + "");
-					rbID=rbDTO.getRbId();
+					rbID = rbDTO.getRbId();
 					// Bekræft råvare ID.
+					comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
 					comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
 					break;
 				}
 			}
-			if(rbID==-1){
+			if (rbID == -1) {
 				fail("Product does not exist.");
 			}
 			// Foretag Afvejning:
@@ -140,44 +153,246 @@ public class TestWeightController {
 			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
 			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
 			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
-			
+
 			comStub.measurementFromWeight.add(-10000.0);
 			comStub.measurementFromWeight.add(taraWeight);
 			comStub.measurementFromWeight.add(nettoWeight);
-			comStub.measurementFromWeight.add(nettoWeight+taraWeight);
-			
-			expectedMeasurements.add(new ProductBatchCompDTO(pb.getPbId(), rbID, taraWeight, nettoWeight, user.getId()));
-			
+			comStub.measurementFromWeight.add(-1 * (nettoWeight + taraWeight));
+
+			expectedMeasurements
+					.add(new ProductBatchCompDTO(pb.getPbId(), rbID, taraWeight, nettoWeight, user.getId()));
+
 		}
 		myThread.setUncaughtExceptionHandler(threadStopper);
 		myThread.start();
-		
+
 		while (measureCon.getMeasurement() == null)
-			;
-		
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		MeasurementDTO actualMeasurement = measureCon.getMeasurement();
-		
-		assertEquals(2,actualMeasurement.getNewStatus());
-		
-		for(ProductBatchCompDTO actualPBComp:actualMeasurement.getMeasurements()){
-			for(ProductBatchCompDTO expectedPBComp:expectedMeasurements){
-				if(expectedPBComp.getRbId()==actualPBComp.getRbId()){
+
+		assertEquals(2, actualMeasurement.getNewStatus());
+
+		for (ProductBatchCompDTO actualPBComp : actualMeasurement.getMeasurements()) {
+			for (ProductBatchCompDTO expectedPBComp : expectedMeasurements) {
+				if (expectedPBComp.getRbId() == actualPBComp.getRbId()) {
 					assertTrue(expectedPBComp.equals(actualPBComp));
 				}
 			}
 		}
-		
 
 	}
 
 	@Test
 	public void backButtonTest() {
+		wCon.setDAO(userDAO, rbDAO, pbDAO, rcDAO, rDAO);
+		UserDTO user = null;
+		List<RawMaterialBatchDTO> rb = null;
+		ProductBatchDTO pb = null;
+		RecipeDTO r = null;
+		List<RecipeCompDTO> rcList = null;
+
+		List<ProductBatchCompDTO> expectedMeasurements = new ArrayList<ProductBatchCompDTO>();
+
+		try {
+			user = ((UserDAO) userDAO).getUserList().get(0);
+			pb = ((ProductBatchDAO) pbDAO).getProductBatchList().get(0);
+			rb = ((RawMaterialBatchDAO) rbDAO).getRawMaterialBatchList();
+			r = ((RecipeDAO) rDAO).getRecipeList().get(0);
+			rcList = ((RecipeCompDAO) rcDAO).getRecipeCompList(r.getRecipeId());
+
+		} catch (DALException e) {
+			fail(e.getMessage());
+		}
+
+		// Indtast bruger ID
+		comStub.textFromWeight.add(user.getId() + "");
+		// Bekræft bruger.
+		comStub.buttonsPresssedOnWeight.add(Buttons.BACK);
+
+		// Indtast bruger ID
+		comStub.textFromWeight.add(user.getId() + "");
+		// Bekræft bruger.
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+
+		// Indtast pb ID
+		comStub.textFromWeight.add(pb.getPbId() + "");
+		// Bekræft recept id.
+		comStub.buttonsPresssedOnWeight.add(Buttons.BACK);
+
+		// Indtast pb ID
+		comStub.textFromWeight.add(pb.getPbId() + "");
+		// Bekræft recept id.
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+		// Bekræft recept navn
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+
+		for (RecipeCompDTO localRC : rcList) {
+			int rawMaterialID = localRC.getRawMaterialId();
+			double taraWeight = 20 + (Math.random() - 0.5);
+			double nettoWeight = localRC.getNomNetto();
+			int rbID = -1;
+			for (RawMaterialBatchDTO rbDTO : rb) {
+				if (rbDTO.getRawMaterialId() == rawMaterialID) {
+					// Indtast rb ID
+					comStub.textFromWeight.add(rbDTO.getRbId() + "");
+					rbID = rbDTO.getRbId();
+					// Bekræft råvare ID.
+					comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+					comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+					break;
+				}
+			}
+			if (rbID == -1) {
+				fail("Product does not exist.");
+			}
+			// Foretag Afvejning:
+			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+
+			comStub.measurementFromWeight.add(-10000.0);
+			comStub.measurementFromWeight.add(taraWeight);
+			comStub.measurementFromWeight.add(nettoWeight);
+			comStub.measurementFromWeight.add(-1 * (nettoWeight + taraWeight));
+
+			expectedMeasurements
+					.add(new ProductBatchCompDTO(pb.getPbId(), rbID, taraWeight, nettoWeight, user.getId()));
+
+		}
+		myThread.setUncaughtExceptionHandler(threadStopper);
+		myThread.start();
+
+		while (measureCon.getMeasurement() == null)
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		MeasurementDTO actualMeasurement = measureCon.getMeasurement();
+
+		assertEquals(2, actualMeasurement.getNewStatus());
+
+		for (ProductBatchCompDTO actualPBComp : actualMeasurement.getMeasurements()) {
+			for (ProductBatchCompDTO expectedPBComp : expectedMeasurements) {
+				if (expectedPBComp.getRbId() == actualPBComp.getRbId()) {
+					assertTrue(expectedPBComp.equals(actualPBComp));
+				}
+			}
+		}
 	}
 
 	@Test
 	public void logoutMidSessionTest() {
+		wCon.setDAO(userDAO, rbDAO, pbDAO, rcDAO, rDAO);
+		UserDTO user = null;
+		List<RawMaterialBatchDTO> rb = null;
+		ProductBatchDTO pb = null;
+		RecipeDTO r = null;
+		List<RecipeCompDTO> rcList = null;
 
+		List<ProductBatchCompDTO> expectedMeasurements = new ArrayList<ProductBatchCompDTO>();
+
+		try {
+			user = ((UserDAO) userDAO).getUserList().get(0);
+			pb = ((ProductBatchDAO) pbDAO).getProductBatchList().get(0);
+			rb = ((RawMaterialBatchDAO) rbDAO).getRawMaterialBatchList();
+			r = ((RecipeDAO) rDAO).getRecipeList().get(0);
+			rcList = ((RecipeCompDAO) rcDAO).getRecipeCompList(r.getRecipeId());
+
+		} catch (DALException e) {
+			fail(e.getMessage());
+		}
+
+		// Indtast bruger ID
+		comStub.textFromWeight.add(user.getId() + "");
+		// Bekræft bruger.
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+
+		// Indtast pb ID
+		comStub.textFromWeight.add(pb.getPbId() + "");
+		// Logud
+		comStub.buttonsPresssedOnWeight.add(Buttons.LOGOUT);
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+		
+		// Indtast bruger ID
+		comStub.textFromWeight.add(user.getId() + "");
+		// Bekræft bruger.
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+
+		// Indtast pb ID
+		comStub.textFromWeight.add(pb.getPbId() + "");
+		// Bekræft recept id.
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+		// Bekræft recept navn
+		comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+
+		for (RecipeCompDTO localRC : rcList) {
+			int rawMaterialID = localRC.getRawMaterialId();
+			double taraWeight = 20 + (Math.random() - 0.5);
+			double nettoWeight = localRC.getNomNetto();
+			int rbID = -1;
+			for (RawMaterialBatchDTO rbDTO : rb) {
+				if (rbDTO.getRawMaterialId() == rawMaterialID) {
+					// Indtast rb ID
+					comStub.textFromWeight.add(rbDTO.getRbId() + "");
+					rbID = rbDTO.getRbId();
+					// Bekræft råvare ID.
+					comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+					comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+					break;
+				}
+			}
+			if (rbID == -1) {
+				fail("Product does not exist.");
+			}
+			// Foretag Afvejning:
+			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+			comStub.buttonsPresssedOnWeight.add(Buttons.CONFIRM);
+
+			comStub.measurementFromWeight.add(-10000.0);
+			comStub.measurementFromWeight.add(taraWeight);
+			comStub.measurementFromWeight.add(nettoWeight);
+			comStub.measurementFromWeight.add(-1 * (nettoWeight + taraWeight));
+
+			expectedMeasurements
+					.add(new ProductBatchCompDTO(pb.getPbId(), rbID, taraWeight, nettoWeight, user.getId()));
+
+		}
+		myThread.setUncaughtExceptionHandler(threadStopper);
+		myThread.start();
+
+		while (measureCon.getMeasurement() == null)
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		MeasurementDTO actualMeasurement = measureCon.getMeasurement();
+
+		assertEquals(2, actualMeasurement.getNewStatus());
+
+		for (ProductBatchCompDTO actualPBComp : actualMeasurement.getMeasurements()) {
+			for (ProductBatchCompDTO expectedPBComp : expectedMeasurements) {
+				if (expectedPBComp.getRbId() == actualPBComp.getRbId()) {
+					assertTrue(expectedPBComp.equals(actualPBComp));
+				}
+			}
+		}
 	}
+
 
 	@Test
 	public void toleraceTest() {

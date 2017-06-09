@@ -107,9 +107,9 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 
 
 	@Override
-	public IWeightControlDTO getDTOById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public IWeightControlDTO getDTOById(int id) throws DALException{
+		
+		return getProductBatch(id);
 	}
 
 }

@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
 
 import ASE.DTOs.MeasurementDTO;
 import ASE.exceptions.InvalidReturnMessageException;
@@ -221,8 +220,10 @@ public class WeightController implements Runnable {
 			measurements = new ArrayList<ProductBatchCompDTO>();
 
 			try {
-				Stack<RecipeCompDTO> myRecipe = (Stack<RecipeCompDTO>) recipeCompDAO
+				
+				ArrayList<RecipeCompDTO> myRecipe = (ArrayList<RecipeCompDTO>) recipeCompDAO
 						.getRecipeCompList(pbDTO.getReceptId());
+				
 				for (RecipeCompDTO comp : myRecipe) {
 					remainingReceptComp.put(comp.getRawMaterialId(), comp);
 				}
@@ -333,10 +334,11 @@ public class WeightController implements Runnable {
 				continue;
 			}
 			
+			
 			// Check if the measurement is as expected from the recipe
 			double weightedTolerance = myRecipeComp.getTolerance()
 					- Math.abs(currentWeight + measurement.getTara() + measurement.getNetto());
-
+			
 			if (weightedTolerance >= Math.abs(measurement.getNetto() - myRecipeComp.getNomNetto())) {
 				return measurement;
 			} else {
