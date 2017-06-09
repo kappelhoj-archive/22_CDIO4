@@ -3,7 +3,6 @@ package controller;
 import java.util.List;
 
 import controller.interfaces.IUserController;
-import dataAccessObjects.UserDAO;
 import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.UserDTO;
 import exceptions.*;
@@ -11,8 +10,22 @@ import staticClasses.Validator;
 
 public class UserController implements IUserController{
 
-	IUserDAO dao = new UserDAO();
+	IUserDAO dao;
 
+	public UserController(IUserDAO dao){
+		this.dao = dao;
+	}	
+
+	public IUserDAO getDao() {
+		return dao;
+	}
+
+	/**
+	 * Verifies the userDTO Input
+	 * @param userId
+	 * @return UserDTO
+	 * @throws InputException : params are not correct
+	 */
 	public void validation(UserDTO user) throws InputException{
 		Validator.validateUserID(user.getId());
 		Validator.validateUsername(user.getName());
@@ -22,77 +35,61 @@ public class UserController implements IUserController{
 		Validator.validateRole(user.getRole());
 	}
 
+	/**
+	 * Adds a UserDTO to the saved data
+	 * @param UserDTO
+	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
+	 * @throws InputException : params are not correct
+	 */
 	@Override
 	public void createUser(UserDTO user) throws InputException, CollisionException, DALException{
-		try{
+		validation(user);
 
-			validation(user);
+		dao.createOperatoer(user);
 
-			dao.createOperatoer(user);
-
-			return;
-
-		}catch(InputException e){
-			throw new InputException(e.toString());
-			
-		}catch(CollisionException e){
-			throw new CollisionException(e.toString());
-
-		}catch(DALException e){
-			System.out.println(e.toString());
-			throw new DALException (e.toString());
-		}
+		return;
 	}
 
+	/**
+	 * Updates a UserDTO in the saved data
+	 * @param UserDTO
+	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
+	 * @throws InputException : params are not correct
+	 */
 	@Override
 	public void updateUser(UserDTO user) throws InputException, DALException{
-		try{
+		validation(user);
 
-			validation(user);
+		dao.updateOperatoer(user);
 
-			dao.updateOperatoer(user);
-
-			return;
-
-		}catch(InputException e){
-			throw new InputException(e.toString());
-
-		}catch(DALException e){
-			System.out.println(e.toString());
-			throw new DALException (e.toString());
-
-		}
+		return;
 	}
 
+	/**
+	 * Returns a copy of a UserDTO from the data
+	 * @param userId
+	 * @return UserDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
+	 * @throws InputException : params are not correct
+	 */
 	@Override
 	public UserDTO getUser(int id) throws InputException, DALException{
-		try{
-			Validator.validateUserID(id);
+		Validator.validateUserID(id);
 
-			return dao.getUser(id);
-
-		}catch(InputException e){
-			throw new InputException(e.toString());
-
-		}catch(DALException e){
-			System.out.println(e.toString());
-			throw new DALException (e.toString());
-
-		}
+		return dao.getUser(id);
 	}
 
+	/**
+	 * Returns a list of UserDTOs from the data
+	 * @return List<UserDTO>
+	 */
 	@Override
 	public List<UserDTO> getUserList() throws DALException{
-		try{
-
 			return dao.getUserList();
-
-		}catch(DALException e){
-			System.out.println(e.toString());
-			throw new DALException (e.toString());
-
-		}
 	}
+
 	
 	/**
 	 * Generates initials from a given name.

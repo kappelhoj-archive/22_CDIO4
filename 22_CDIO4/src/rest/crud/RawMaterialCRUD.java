@@ -5,12 +5,12 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import controller.RawMaterialController;
-import controller.interfaces.IRawMaterialController;
+import controller.Initializer;
 import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
@@ -19,15 +19,13 @@ import exceptions.InputException;
 @Path("raw_material")
 public class RawMaterialCRUD {
 
-	IRawMaterialController controller = new RawMaterialController();
-
 	// TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public RawMaterialDTO readRawMaterial(String id) {
 		try {
-			return controller.getRawMaterial(Integer.parseInt(id));
+			return Initializer.getRawMaterialController().getRawMaterial(Integer.parseInt(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -45,7 +43,7 @@ public class RawMaterialCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RawMaterialDTO> readRawMaterialList() {
 		try {
-			return controller.getRawMaterialList();
+			return Initializer.getRawMaterialController().getRawMaterialList();
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -58,7 +56,7 @@ public class RawMaterialCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
-			controller.createRawMaterial(rawMaterial);
+			Initializer.getRawMaterialController().createRawMaterial(rawMaterial);
 			return "success";
 		} catch (CollisionException e) {
 			e.printStackTrace();
@@ -76,11 +74,11 @@ public class RawMaterialCRUD {
 	}
 
 	@Path("update")
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
-			controller.updateRawMaterial(rawMaterial);
+			Initializer.getRawMaterialController().updateRawMaterial(rawMaterial);
 			return "success";
 		} catch (InputException e) {
 			e.printStackTrace();

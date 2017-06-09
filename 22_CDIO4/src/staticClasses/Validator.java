@@ -16,7 +16,7 @@ import exceptions.InputException;
 public class Validator {
 
 	// Constant of the class. Contains the valid roles in the system
-	public static final String[] validRoles = new String[] { "Admin", "Pharmacist", "Foreman", "Operator" };
+	public static final String[] validRoles = new String[] { "Admin", "Farmaceut", "Værkfører", "Laborant" };
 
 	/**
 	 * Checks if the given userID has the valid size. It does not check if it is
@@ -29,7 +29,7 @@ public class Validator {
 	 *             The exception to be thrown if the given userID is not valid.
 	 */
 	public static boolean validateUserID(int id) throws InputException {
-		if (id < 11 || id > 99) {
+		if (id < 0 || id > 1000000000) {
 			throw new InputException("This user id is invalid. User ID's has to be between 11 and 99");
 		}
 		return true;

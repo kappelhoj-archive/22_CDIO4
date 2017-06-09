@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import controller.Initializer;
 import controller.interfaces.IUserController;
 import controller.teststub.UserStubController;
 import dataTransferObjects.UserDTO;
@@ -19,17 +20,15 @@ import exceptions.InputException;
 
 @Path("user")
 public class UserCRUD {
-//	IUserController userController = new UserController();
-	IUserController userController = new UserStubController();
 	
-	@Path("read-user")
+	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserDTO readUser(String userId)
 	{
 		int id = Integer.parseInt(userId);
 		try {
-			return userController.getUser(id);
+			return Initializer.getUserController().getUser(id);
 		} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,13 +40,13 @@ public class UserCRUD {
 		}
 	}
 	
-	@Path("read-users")
+	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<UserDTO> readUsers()
 	{
 		try {
-			return userController.getUserList();
+			return Initializer.getUserController().getUserList();
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,39 +54,39 @@ public class UserCRUD {
 		}
 	}
 	
-	@Path("create-user")
+	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createUser(UserDTO user)
 	{
 		try {
-			userController.createUser(user);
-			return "success";
+			Initializer.getUserController().createUser(user);
+			return "success: Successbesked";
 		} catch (InputException e) {
 			e.printStackTrace();
-			return "input-error";
+			return "input-error: Fejlbesked";
 		} catch (CollisionException e) {
 			e.printStackTrace();
-			return "id-error";
+			return "id-error: Fejlbesked";
 		} catch (DALException e) {
 			e.printStackTrace();
-			return "system-error";
+			return "system-error: Fejlbesked";
 		}
 	}
 	
-	@Path("update-user")
+	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateUser(UserDTO user) {
 		try {
-			userController.updateUser(user);
-			return "success";
+			Initializer.getUserController().updateUser(user);
+			return "success: Successbesked";
 		} catch (InputException e) {
 			e.printStackTrace();
-			return "input-error";
+			return "input-error: Fejlbesked";
 		} catch (DALException e) {
 			e.printStackTrace();
-			return "system-error";
+			return "system-error: Fejlbesked";
 		}
 	}
 }

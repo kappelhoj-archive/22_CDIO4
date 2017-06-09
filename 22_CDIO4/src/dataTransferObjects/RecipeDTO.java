@@ -2,9 +2,17 @@ package dataTransferObjects;
 
 public class RecipeDTO extends DTO
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5049520480592199167L;
 	int recipeId;
 	String recipeName;
 	
+	
+	public RecipeDTO(){
+		
+	}
     
 	public RecipeDTO(int recipeId, String recipeName)
 	{
