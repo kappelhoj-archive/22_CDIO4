@@ -50,13 +50,17 @@ public class ConnectionReader {
 					// the check.
 					if (IPChecker(weightIP)) {
 						allIPAddresses.add(weightIP);
+					} else {
+						System.out.println(weightIP + " " + weightPort);
 					}
 					// Adds the scanned Port number if, and only if, it passes
 					// the check.
 					if (PORTChecker(weightPort)) {
 						allPortNumbers.add(weightPort);
+					} else {
+						System.out.println(weightIP + " " + weightPort);
 					}
-					
+
 				} else if (tokenCheck != "IP") {
 					System.out.println("Error: Invalid syntax in file!");
 				}
