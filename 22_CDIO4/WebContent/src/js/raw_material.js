@@ -37,13 +37,6 @@ $(document).ready(function()
 	
 	/* ######################### Create page button functions ########################################## */
 	
-	/* Returns to material list page from both create and edit page*/
-	$(document).on("click", "#go_back_to_list", function(event){
-		event.preventDefault();
-		showRawMaterialListPage();
-		
-	});
-	
 	/* Sumbitting the form with id="raw_material_create_form" and go back to the raw material list page */
 	$(document).on("submit", "#raw_material_create_form", function(event) {
 		event.preventDefault();
