@@ -77,6 +77,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 			case StartUp:
 				outToWeight.writeBytes("K 3" + "\r" + "\n");
 				break;
+				
 			default:
 				break;
 
@@ -91,7 +92,13 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 */
 	@Override
 	public Buttons receiveButtonPush() throws ProtocolErrorException, LogOutException {
-		answerReceived = waitForAnswer();
+		if(previousMessageRecived!=null)
+		{
+			answerReceived=previousMessageRecived;
+			previousMessageRecived=null;
+		}
+		else{answerReceived = waitForAnswer();}
+
 		if (answerReceived.contains("K C 4")) {
 			return Buttons.CONFIRM;
 		}
@@ -102,9 +109,9 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 		if (answerReceived.contains("K R 3")) {
 			throw new LogOutException(answerReceived);
-		} else
-			throw new ProtocolErrorException(answerReceived);
-
+		} else{throw new ProtocolErrorException(answerReceived);}
+		
+		
 	}
 	/**
 	 * Method which sends a String message, and then checks to see if it
@@ -142,8 +149,16 @@ public class WeightCommunicator implements IWeightCommunicator {
 			// TODO Auto-generated catch block
 			throw new InvalidReturnMessageException(e1.getMessage());
 		}
-		sendProtocol(Protocol.RM20, answerReceived);
-		return answerReceived;
+		
+		try {
+			if(checkAcknowledgement(Protocol.RM20,answerReceived)){
+				return waitForAnswer();
+			}
+		} catch (ProtocolErrorException e) {
+			// TODO Auto-generated catch block
+			throw new InvalidReturnMessageException(e.getMessage());
+		}
+		return null;
 	}
 	/**
 	 * Simple method to restart the weight display.
@@ -151,9 +166,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	@Override
 	public void restartWeightDisplay() {
 		cleanStream();
-
 		sendProtocol(Protocol.DisplayClean, null);
-
 		try {
 			answerReceived =waitForAnswer();
 		} catch (ProtocolErrorException e1) {
@@ -205,14 +218,20 @@ public class WeightCommunicator implements IWeightCommunicator {
 		sendProtocol(Protocol.Measurement, null);
 		answerReceived = waitForAnswer();
 		String[] splitAnswer=answerReceived.split(" ");
-		
-		
 		if (checkAcknowledgement(Protocol.Measurement, answerReceived))
 		{
-			return Double.parseDouble(splitAnswer[7]);
+			for(int i =0; splitAnswer.length>i;i++)
+			{
+				if(splitAnswer[i].matches("\\d"))
+				{
+					return Double.parseDouble(splitAnswer[i]);
+				}
+			}
+			
 		}
 		else{throw new ProtocolErrorException(answerReceived);
 		}
+		throw new ProtocolErrorException(answerReceived);
 
 	}
 	/**
@@ -222,16 +241,15 @@ public class WeightCommunicator implements IWeightCommunicator {
 	public void cleanStream(){
 
 		try {
-			while (inFromWeight.ready()) {
-				waitForAnswer();
+			sendProtocol(Protocol.StartUp, null);
+			String temp="A Z";
+			while (!checkAcknowledgement(Protocol.StartUp, temp)) {
+				temp=waitForAnswer();
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			}
 	}
 
 	/**
@@ -296,11 +314,17 @@ public class WeightCommunicator implements IWeightCommunicator {
 				previousMessageRecived = answer;
 				throw new ProtocolErrorException(answer);
 			}
-
+		case StartUp:
+			switch (splitAnswer[1]) {
+			case "A":
+				return true;
+			default:
+				previousMessageRecived = answer;
+				throw new ProtocolErrorException(answer);
+			}
 		default:
-			break;
+			return false;
 		}
-		return false;
 
 	}
 	public String waitForAnswer() throws ProtocolErrorException {

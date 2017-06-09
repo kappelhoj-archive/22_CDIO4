@@ -35,7 +35,7 @@ public class ConnectionManager {
 	public void getConnections() {
 
 		try {
-			connectionReader.WeightReader();
+			connectionReader.getWeightIPs();
 			for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
 				try {
 					weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
