@@ -16,6 +16,11 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 	
 	static Hashtable<Integer, RawMaterialDTO> rawMaterialList = new Hashtable<Integer, RawMaterialDTO>();
 	
+	/*
+	 * The warning "unchecked" is there because Java can not define if the file we try to convert
+	 * to a HashTable is associated to this class.
+	 * We decided to ignore this warning in all our DAO.
+	 */
 	@SuppressWarnings("unchecked")
 	public RawMaterialDAO(){
 		try{
@@ -35,6 +40,7 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 	 * Method which returns a copy of a RawMaterialDTO from the data
 	 * @param rbId :rawmaterialId
 	 * @return RawMaterialDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public RawMaterialDTO getRawMaterial(int rawMaterialId) throws DALException {
@@ -66,6 +72,7 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 	 * Method which adds a RawMaterialDTO to the saved data
 	 * @param RawMaterialDTO
 	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
 	 */
 	@Override
 	public void createRawMaterial(RawMaterialDTO raavare) throws DALException {
@@ -83,9 +90,12 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 	 * Method which updates a RawMaterialDTO in the saved data
 	 * @param RawMaterialDTO
 	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public void updateRawMaterial(RawMaterialDTO raavare) throws DALException {
+		getRawMaterial(raavare.getId());
+		
 		rawMaterialList.replace(raavare.getId(), raavare.copy());
 		FileManagement.writeData(rawMaterialList, TypeOfData.RAWMATERIAL);
 

@@ -18,6 +18,11 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 
 	static Hashtable<Integer, ProductBatchDTO> productBatchList = new Hashtable<Integer, ProductBatchDTO>();
 	
+	/*
+	 * The warning "unchecked" is there because Java can not define if the file we try to convert
+	 * to a HashTable is associated to this class.
+	 * We decided to ignore this warning in all our DAO.
+	 */
 	@SuppressWarnings("unchecked")
 	public ProductBatchDAO(){
 		try{
@@ -38,6 +43,7 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 	 * Method which returns a copy of a ProductBatchDTO from the data
 	 * @param pbId
 	 * @return ProductBatchDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public ProductBatchDTO getProductBatch(int pbId) throws DALException {
@@ -71,6 +77,7 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 	 * Method which adds a ProductBatchDTO to the saved data
 	 * @param ProductBatchDTO
 	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
 	 */
 	@Override
 	public void createProductBatch(ProductBatchDTO productBatch) throws DALException {
@@ -88,9 +95,12 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 	 * Method which updates a ProductBatchDTO in the saved data
 	 * @param ProductBatchDTO
 	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public void updateProductBatch(ProductBatchDTO productBatch) throws DALException {
+		getProductBatch(productBatch.getPbId());
+		
 		productBatchList.replace(productBatch.getPbId(), productBatch.copy());
 		FileManagement.writeData(productBatchList, TypeOfData.PRODUCTBATCH);
 	}
