@@ -69,7 +69,7 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 		return recipecompListget;
 	}
 
-	 /* Method which returns a list of RecipeCompDTOs from the data
+	/** Method which returns a list of RecipeCompDTOs from the data
 	 * @return List<RecipeCompDTO>
 	 */
 	@Override

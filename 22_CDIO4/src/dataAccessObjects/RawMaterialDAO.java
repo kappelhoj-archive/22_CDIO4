@@ -38,7 +38,7 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 
 	/**
 	 * Method which returns a copy of a RawMaterialDTO from the data
-	 * @param rbId :rawmaterialId
+	 * @param rawmaterialId
 	 * @return RawMaterialDTO
 	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
