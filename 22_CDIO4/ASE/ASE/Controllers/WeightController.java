@@ -70,7 +70,6 @@ public class WeightController implements Runnable {
 	}
 
 	/**
-	 * 
 	 * @param measurementAdder
 	 *            Object that receives measurements.
 	 * @param weightCommunication
