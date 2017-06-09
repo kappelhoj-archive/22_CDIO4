@@ -242,7 +242,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 		try {
 			sendProtocol(Protocol.StartUp, null);
-			String temp="";
+			String temp="A Z";
 			while (!checkAcknowledgement(Protocol.StartUp, temp)) {
 				temp=waitForAnswer();
 			}
@@ -271,7 +271,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 	public boolean checkAcknowledgement(Protocol prevProtocol, String answer) throws ProtocolErrorException {
 		splitAnswer = answer.split(" ");
-		splitAnswer[splitAnswer.length]=String.valueOf(splitAnswer[splitAnswer.length].charAt(0));
+		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
 		switch (prevProtocol) {
 		case RM20:
 			switch (splitAnswer[1]) {
