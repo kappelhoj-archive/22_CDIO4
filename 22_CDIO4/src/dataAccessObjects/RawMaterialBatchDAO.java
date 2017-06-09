@@ -18,6 +18,11 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 
 	static Hashtable<Integer, RawMaterialBatchDTO> rawmatBatchList = new Hashtable<Integer, RawMaterialBatchDTO>();
 	
+	/*
+	 * The warning "unchecked" is there because Java can not define if the file we try to convert
+	 * to a HashTable is associated to this class.
+	 * We decided to ignore this warning in all our DAO.
+	 */
 	@SuppressWarnings("unchecked")
 	public RawMaterialBatchDAO(){
 		try{
@@ -37,6 +42,7 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 	 * Method which returns a copy of a RawMaterialBatchDTO from the data
 	 * @param rbId : rawmaterialbatchId
 	 * @return RawMaterialBatchDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public RawMaterialBatchDTO getRawMaterialBatch(int rbId) throws DALException {
@@ -86,6 +92,7 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 	 * Method which adds a RawMaterialBatchDTO to the saved data
 	 * @param RawMaterialBatchDTO
 	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
 	 */
 	@Override
 	public void createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
@@ -103,9 +110,12 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 	 * Method which updates a RawMaterialBatchDTO in the saved data
 	 * @param RawMaterialBatchDTO
 	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
 	 */
 	@Override
 	public void updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
+		getRawMaterialBatch(rawMaterialBatch.getRbId());
+		
 		rawmatBatchList.replace(rawMaterialBatch.getRbId(), rawMaterialBatch.copy());
 		FileManagement.writeData(rawmatBatchList, TypeOfData.RAWMATERIALBATCH);
 	}
