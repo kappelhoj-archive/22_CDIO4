@@ -7,24 +7,22 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import controller.ProductBatchCompController;
-import controller.interfaces.IProductBatchCompController;
+
+import controller.Initializer;
 import dataTransferObjects.ProductBatchCompPOJO;
 import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 
-@Path("product_batch_component")
+@Path("product_batch_comp")
 public class ProductBatchCompCRUD {
-
-	IProductBatchCompController controller = new ProductBatchCompController();
 
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProductBatchCompDTO getProductBatchComp(ProductBatchCompPOJO ids) {
 		try {
-			return controller.getProductBatchComp(Integer.parseInt(ids.getPbId()), Integer.parseInt(ids.getRbId()));
+			return Initializer.getProductBatchCompController().getProductBatchComp(Integer.parseInt(ids.getPbId()), Integer.parseInt(ids.getRbId()));
 		}
 
 		catch (DALException e) {
@@ -35,12 +33,12 @@ public class ProductBatchCompCRUD {
 	}
 
 	// TODO: Kig på HTTP ERROR
-	@Path("read_list")
-	@GET
+	@Path("read_list_specific")
+	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProductBatchCompDTO> getProductBatchCompList(String pbId) {
 		try {
-			return controller.getProductBatchCompList(Integer.parseInt(pbId));
+			return Initializer.getProductBatchCompController().getProductBatchCompList(Integer.parseInt(pbId));
 		} catch (DALException e) {
 			System.out.println(e.getMessage());
 			return null;
@@ -53,7 +51,7 @@ public class ProductBatchCompCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProductBatchCompDTO> getProductBatchCompList() {
 		try {
-			return controller.getProductBatchCompList();
+			return Initializer.getProductBatchCompController().getProductBatchCompList();
 		} catch (DALException e) {
 			System.out.println(e.getMessage());
 			return null;
@@ -65,7 +63,7 @@ public class ProductBatchCompCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createProductBatchComp(ProductBatchCompDTO productbatchcomp) {
 		try {
-			controller.createProductBatchComp(productbatchcomp);
+			Initializer.getProductBatchCompController().createProductBatchComp(productbatchcomp);
 			return "success";
 		} catch (CollisionException e) {
 			e.printStackTrace();
@@ -84,7 +82,7 @@ public class ProductBatchCompCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateProductBatchComp(ProductBatchCompDTO productbatchComp) {
 		try {
-			controller.updateProductBatchComp(productbatchComp);
+			Initializer.getProductBatchCompController().updateProductBatchComp(productbatchComp);
 			return "success";
 		}
 
