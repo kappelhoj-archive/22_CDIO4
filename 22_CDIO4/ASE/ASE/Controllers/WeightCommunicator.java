@@ -103,11 +103,11 @@ public class WeightCommunicator implements IWeightCommunicator {
 			return Buttons.CONFIRM;
 		}
 
-		if (answerReceived.contains("K R 3")) {
+		if (answerReceived.contains("K C 2")) {
 			return Buttons.BACK;
 		}
 
-		if (answerReceived.contains("K C 2")) {
+		if (answerReceived.contains("K R 3")) {
 			throw new LogOutException(answerReceived);
 		} else{throw new ProtocolErrorException(answerReceived);}
 		
@@ -214,12 +214,15 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 */
 	@Override
 	public double getWeight() throws ProtocolErrorException {
-
+		
 		sendProtocol(Protocol.Measurement, null);
 		answerReceived = waitForAnswer();
+		String[] splitAnswer=answerReceived.split(" ");
+		
+		
 		if (checkAcknowledgement(Protocol.Measurement, answerReceived))
 		{
-			return Double.parseDouble(splitAnswer[4]);
+			return Double.parseDouble(splitAnswer[7]);
 		}
 		else{throw new ProtocolErrorException(answerReceived);
 		}
