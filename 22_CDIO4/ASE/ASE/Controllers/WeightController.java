@@ -26,6 +26,7 @@ import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 
+
 /**
  * 
  * @author arvid
@@ -70,6 +71,7 @@ public class WeightController implements Runnable {
 	}
 
 	/**
+	 * 
 	 * @param measurementAdder
 	 *            Object that receives measurements.
 	 * @param weightCommunication
@@ -409,8 +411,8 @@ public class WeightController implements Runnable {
 	} 
 
 /**
- * 
- * @param message
+ * Sends a message and wait for confirmation from the user.
+ * @param message 
  * @return
  * @throws ProtocolErrorException
  * @throws LogOutException
