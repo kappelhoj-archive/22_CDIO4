@@ -73,19 +73,19 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 	@Override
 	public Buttons receiveButtonPush() throws ProtocolErrorException, LogOutException {
-			answerReceived = waitForAnswer();
-			if (answerReceived.contains("K C 4")) {
-				return Buttons.CONFIRM;
-			}
+		answerReceived = waitForAnswer();
+		if (answerReceived.contains("K C 4")) {
+			return Buttons.CONFIRM;
+		}
 
-			if (answerReceived.contains("K R 3")) {
-				return Buttons.BACK;
-			}
+		if (answerReceived.contains("K R 3")) {
+			return Buttons.BACK;
+		}
 
-			if (answerReceived.contains("K C 2")) {
-				throw new LogOutException(answerReceived);
-			} else
-				throw new ProtocolErrorException(answerReceived);
+		if (answerReceived.contains("K C 2")) {
+			throw new LogOutException(answerReceived);
+		} else
+			throw new ProtocolErrorException(answerReceived);
 
 	}
 
@@ -93,14 +93,14 @@ public class WeightCommunicator implements IWeightCommunicator {
 	public void sendMessage(String message) throws InvalidReturnMessageException {
 		sendProtocol(Protocol.P111, message);
 
-			try {
-				answerReceived = waitForAnswer();
-			} catch (ProtocolErrorException e1) {
-				// TODO Auto-generated catch block
-				throw new InvalidReturnMessageException(e1.getMessage());
-			}
 		try {
-			checkReturnMessage(message, answerReceived);
+			answerReceived = waitForAnswer();
+		} catch (ProtocolErrorException e1) {
+			// TODO Auto-generated catch block
+			throw new InvalidReturnMessageException(e1.getMessage());
+		}
+		try {
+			checkAcknowledgement(Protocol.P111, answerReceived);
 		} catch (ProtocolErrorException e) {
 			throw new InvalidReturnMessageException(e.getMessage());
 		}
@@ -113,45 +113,40 @@ public class WeightCommunicator implements IWeightCommunicator {
 		// TODO Auto-generated method stub
 		sendProtocol(Protocol.RM20, message);
 
-			try {
-				answerReceived = waitForAnswer();
-			} catch (ProtocolErrorException e1) {
-				// TODO Auto-generated catch block
-				throw new InvalidReturnMessageException(e1.getMessage());
-			}
-
-
 		try {
-			checkReturnMessage(message, answerReceived);
-		} catch (ProtocolErrorException e) {
-			throw new InvalidReturnMessageException(e.getMessage());
+			answerReceived = waitForAnswer();
+		} catch (ProtocolErrorException e1) {
+			// TODO Auto-generated catch block
+			throw new InvalidReturnMessageException(e1.getMessage());
 		}
+		sendProtocol(Protocol.RM20, answerReceived);
 		return answerReceived;
 	}
 
 	@Override
 	public void restartWeightDisplay() {
 		cleanStream();
+
 		sendProtocol(Protocol.DisplayClean, null);
 
-			try {
-				answerReceived =waitForAnswer();
-			} catch (ProtocolErrorException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		try {
+			answerReceived =waitForAnswer();
+		} catch (ProtocolErrorException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			if(checkAcknowledgement(Protocol.DisplayClean, answerReceived))
 			{
-				
+
 				// TODO Er dette farligt ????
-			}else restartWeightDisplay();
+			}else {restartWeightDisplay();}
 		} catch (ProtocolErrorException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 
 	}
 
@@ -163,9 +158,10 @@ public class WeightCommunicator implements IWeightCommunicator {
 	@Override
 	public void taraWeight() throws ProtocolErrorException {
 		sendProtocol(Protocol.Tara, null);
-			answerReceived=waitForAnswer();
+		answerReceived=waitForAnswer();
 		if(checkAcknowledgement(Protocol.Tara, answerReceived))
 		{	
+			return;
 		}
 		else throw new ProtocolErrorException(answerReceived);
 
@@ -175,28 +171,40 @@ public class WeightCommunicator implements IWeightCommunicator {
 	public double getWeight() throws ProtocolErrorException {
 
 		sendProtocol(Protocol.Measurement, null);
-				answerReceived = waitForAnswer();
-			if (checkAcknowledgement(Protocol.Measurement, answerReceived))
-			{
-				return Double.parseDouble(splitAnswer[2]);
-			}
-			else{throw new ProtocolErrorException(answerReceived);
-			}
+		answerReceived = waitForAnswer();
+		if (checkAcknowledgement(Protocol.Measurement, answerReceived))
+		{
+			return Double.parseDouble(splitAnswer[4]);
+		}
+		else{throw new ProtocolErrorException(answerReceived);
+		}
 
 	}
 
 	// TODO Look at exception
-	public void cleanStream() {
+	public void cleanStream(){
+
 		try {
-			while (inFromWeight.readLine() != null) {
-				inFromWeight.readLine();
+			while (inFromWeight.ready()) {
+				waitForAnswer();
 			}
+		} catch (ProtocolErrorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
+
+
+
+
+
 	public boolean checkAcknowledgement(Protocol prevProtocol, String answer) throws ProtocolErrorException {
 		splitAnswer = answer.split(" ");
+		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
 		switch (prevProtocol) {
 		case RM20:
 			switch (splitAnswer[1]) {
@@ -207,6 +215,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 				throw new ProtocolErrorException(answer);
 			}
 		case P111:
+
 			switch (splitAnswer[1]) {
 			case "A":
 				return true;
@@ -245,6 +254,27 @@ public class WeightCommunicator implements IWeightCommunicator {
 		return false;
 
 	}
+	public String waitForAnswer() throws ProtocolErrorException {
+		try {
+			while (!inFromWeight.ready()) {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					throw new ProtocolErrorException(e.getMessage());
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new ProtocolErrorException(e.getMessage());
+		}
+		try {
+			answerReceived = inFromWeight.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new ProtocolErrorException(e.getMessage());
+		}
+		return answerReceived;
+	}
 
 	// public String RM20(String message) throws IOException,
 	// ProtocolErrorException {
@@ -269,61 +299,40 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 * 
 	 * @param answerReceived
 	 */
-	public String checkReturnMessage(String previousMessageSent, String answerReceived) throws ProtocolErrorException {
-		if (previousMessageSent != null) {
-			if (previousMessageSent.equals(answerReceived)) {
+	//	public String checkReturnMessage(String previousMessageSent, String answerReceived) throws ProtocolErrorException {
+	//		if (previousMessageSent != null) {
+	//			if (previousMessageSent.equals(answerReceived)) {
+	//
+	//			}
+	//		}
+	//
+	//		String splitAnswer[] = answerReceived.split(" ");
+	//		switch (splitAnswer[0]) {
+	//		case "RM20":
+	//			switch (splitAnswer[1]) {
+	//			case "A":
+	//				break;
+	//			case "B":
+	//				break;
+	//			default:
+	//				throw new ProtocolErrorException(answerReceived);
+	//			}
+	//
+	//		case "P111":
+	//			switch (splitAnswer[1]) {
+	//			case "A":
+	//				break;
+	//			default:
+	//				throw new ProtocolErrorException(answerReceived);
+	//			}
+	//
+	//		default:
+	//			break;
+	//		}
+	//
+	//		return answerReceived;
+	//	}
 
-			}
-		}
-
-		String splitAnswer[] = answerReceived.split(" ");
-		switch (splitAnswer[0]) {
-		case "RM20":
-			switch (splitAnswer[1]) {
-			case "A":
-				break;
-			case "B":
-				break;
-			default:
-				throw new ProtocolErrorException(answerReceived);
-			}
-
-		case "P111":
-			switch (splitAnswer[1]) {
-			case "A":
-				break;
-			default:
-				throw new ProtocolErrorException(answerReceived);
-			}
-
-		default:
-			break;
-		}
-
-		return answerReceived;
-	}
-
-	public String waitForAnswer() throws ProtocolErrorException {
-		try {
-			while (!inFromWeight.ready()) {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					throw new ProtocolErrorException(e.getMessage());
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			throw new ProtocolErrorException(e.getMessage());
-		}
-		try {
-			answerReceived = inFromWeight.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			throw new ProtocolErrorException(e.getMessage());
-		}
-		return answerReceived;
-	}
 
 	// @Override
 	// public void flush() {
