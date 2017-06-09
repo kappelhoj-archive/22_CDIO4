@@ -218,14 +218,20 @@ public class WeightCommunicator implements IWeightCommunicator {
 		sendProtocol(Protocol.Measurement, null);
 		answerReceived = waitForAnswer();
 		String[] splitAnswer=answerReceived.split(" ");
-		
-		
 		if (checkAcknowledgement(Protocol.Measurement, answerReceived))
 		{
-			return Double.parseDouble(splitAnswer[7]);
+			for(int i =0; splitAnswer.length>i;i++)
+			{
+				if(splitAnswer[i].matches("\\d"))
+				{
+					return Double.parseDouble(splitAnswer[i]);
+				}
+			}
+			
 		}
 		else{throw new ProtocolErrorException(answerReceived);
 		}
+		throw new ProtocolErrorException(answerReceived);
 
 	}
 	/**
