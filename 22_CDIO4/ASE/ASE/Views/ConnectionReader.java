@@ -30,7 +30,7 @@ public class ConnectionReader {
 	 *             throws an exception if the file is not located in
 	 *             "src/WeightTable.txt"
 	 */
-	public void WeightReader() throws FileNotFoundException {
+	public void getWeightIPs() throws FileNotFoundException {
 
 		// Creation of the scanner
 		Scanner weightScanner = new Scanner(new FileInputStream(fileLocation));
@@ -48,14 +48,14 @@ public class ConnectionReader {
 
 					// Adds the scanned IP addresses if, and only if, it passes
 					// the check.
-					if (IPChecker(weightIP)) {
+					if (validateIP(weightIP)) {
 						allIPAddresses.add(weightIP);
 					} else {
 						System.out.println(weightIP + " " + weightPort);
 					}
 					// Adds the scanned Port number if, and only if, it passes
 					// the check.
-					if (PORTChecker(weightPort)) {
+					if (validatePORT(weightPort)) {
 						allPortNumbers.add(weightPort);
 					} else {
 						System.out.println(weightIP + " " + weightPort);
@@ -122,7 +122,7 @@ public class ConnectionReader {
 	 *            the String value of WeightIP
 	 * @return Returns true if all checks passes without problems.
 	 */
-	private boolean IPChecker(String weightIP) {
+	private boolean validateIP(String weightIP) {
 
 		// Check to see if the IP contains the right number of periods.
 		String[] IPArray = weightIP.split(Pattern.quote("."));
@@ -173,7 +173,7 @@ public class ConnectionReader {
 	 * @return Returns true if all checks passes without problems.
 	 */
 	// Method to verify the validness of the Port number.
-	private static boolean PORTChecker(String weightPort) {
+	private static boolean validatePORT(String weightPort) {
 
 		// Checks to see if the Port number contains letters.
 		try {
