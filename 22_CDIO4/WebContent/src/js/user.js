@@ -18,13 +18,13 @@ $(document).ready(function() {
 		});
 	});
 	
-	// Vis alle brugere link
+	// Vis alle brugere link + gå tilbage
 	$(document).on("click", ".user_list_link", function(event) {
 		event.preventDefault();
 		showUserListPage();
 	});
 	
-	// Vis alle brugere link
+	// Opret bruger link
 	$(document).on("click", ".user_create_link", function(event) {
 		event.preventDefault();
 		
