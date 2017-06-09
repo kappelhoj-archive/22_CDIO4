@@ -28,26 +28,48 @@ public class ProductBatchCompController implements IProductBatchCompController {
 		return dao;
 	}
 
-
+	/**
+	 * Returns a copy of a ProductBatchCompDTO from the data
+	 * @param productbatchID, rawmaterialbatchId
+	 * @return ProductBatchCompDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
+	 */
 	@Override
 	public ProductBatchCompDTO getProductBatchComp(int pbId, int rbId) throws DALException {
 		return dao.getProductBatchComp(pbId, rbId);
 	}
 
+	/**
+	 * Returns a list of ProductBatchCompDTOs from the data
+	 * @param productbatchID
+	 * @return List<ProductBatchCompDTO>
+	 */
 	@Override
 	public List<ProductBatchCompDTO> getProductBatchCompList(int pbId) throws DALException {
 		return dao.getProductBatchCompList(pbId);
 	}
 
+	/**
+	 * Returns a list of ProductBatchCompDTOs from the data
+	 * @return List<ProductBatchCompDTO>
+	 */
 	@Override
 	public List<ProductBatchCompDTO> getProductBatchCompList() throws DALException {
 		return dao.getProductBatchCompList();
 	}
 
+	/**
+	 * Adds a ProductBatchCompDTO to the saved data
+	 * @param ProductBatchCompDTO
+	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
+	 * @throws InputException : Params not correct
+	 */
 	@Override
 	public void createProductBatchComp(ProductBatchCompDTO productBatchComponent)
 			throws CollisionException, DALException {
 
+		//Verify if the creation params are correct : The ProductBatch and the RawMaterialBatch shall both exist in the Data
 		try{
 			pbdao.getProductBatch(productBatchComponent.getPbId());
 		}catch(DALException e){
@@ -63,6 +85,12 @@ public class ProductBatchCompController implements IProductBatchCompController {
 
 	}
 
+	/**
+	 * Updates a ProductBatchCompDTO in the saved data
+	 * @param ProductBatchCompDTO
+	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
+	 */
 	@Override
 	public void updateProductBatchComp(ProductBatchCompDTO productBatchComponent) throws DALException {
 		dao.updateProductBatchComp(productBatchComponent);
