@@ -6,16 +6,13 @@ $(document).ready(function(){
 	
 /* ################################ Main page button functions ######################################### */
 
-/* Calls the showRecipeListPage() function when button with class="recipe_list_link" */
+/* Goes to the list of all recipes. */
 $(document).on("click", ".recipe_list_link", function(event) {
 	event.preventDefault();
 	showRecipeListPage();
 });
 
-
-/* ################################ List page button functions ######################################### */
-
-/* Goes to recipe_create.html when button with id="create_recipe" is clicked */
+/* Goes to create recipe. */
 $(document).on("click", ".recipe_create_link", function(event){
 	event.preventDefault();
 	$.get("src/html/recipe/recipe_create.html", function(template) {
@@ -36,6 +33,25 @@ $(document).on("click", ".recipe_edit_table_link", function(event) {
 		console.log(data);
 	});
 	showRecipeCompsPage(recipeId);
+})
+
+$(document).on("sumbit", "#recipe_create_form", function(event){
+	event.preventDefault();
+	createRecipe((this).serializeJSON()).done(function(data) {
+		var splitData = data.split(": ");
+		switch(splitdata[0]) {
+		case "success": 
+			showRecipeListPage();
+			alert(splitData[1]);
+			break;
+		case "collision-error":
+			alert(splitData[1]);
+			break;
+		case "system-error":
+			alert(splitData[1]);
+			break;
+		}
+	})
 })
 
 })
@@ -74,6 +90,14 @@ function showRecipeCompsPage(recipeId) {
 	});
 }
 
+function createRecipe(form) {
+	return $.ajax({
+		url: "rest/recipe/create",
+		type: "POST",
+		contentType: "application/json",
+		data: form
+		})
+}
 
 function getRecipeList() {
 	return $.ajax({

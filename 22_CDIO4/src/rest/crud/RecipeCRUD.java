@@ -67,19 +67,19 @@ public class RecipeCRUD {
 		try
 		{
 			Initializer.getRecipeController().createRecipe(recipe);
-			return "success";
+			return "success: Recepten med id " + recipe.getRecipeId() + " blev oprettet.";
 		}
 		catch(CollisionException e)
 		{
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede en recept med det indtastede id.";
+			return "collision-error: Der findes allerede en recept med det indtastede id.";
 		}
 		catch(DALException e)
 		{
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet."; 
+			return "system-error: Der skete en fejl i systemet."; 
 	
 		}
 	}
