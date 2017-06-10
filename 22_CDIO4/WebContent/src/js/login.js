@@ -20,6 +20,7 @@ $(document).ready(function() {
 				case "super_login":
 					$.get("src/html/master.html", function(template) {
 						$("body").html(template);
+						$("#user_dropdown_menu .user_edit_link").remove();
 						$(".top_nav_role").addClass("role_super");
 						$(".role_super").text("Super");
 						$(".top_nav_name").text("admin");

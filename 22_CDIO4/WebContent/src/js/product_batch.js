@@ -23,8 +23,11 @@ $(document).ready(function() {
 		event.preventDefault();
 		var productBatchId = $(this).parents("tr").children("td:first").text();
 		getProductBatch(productBatchId).done(function(data) {
+			var statusCode = data.status;
 			$.get("src/html/product_batch/product_batch_edit.html", function(template) {
+				showProductBatchStatus(data);
 				$("#content").html(Mustache.render($(template).html(), data));
+				$(".pb_status").addClass("status_"+statusCode);
 				showProductBatchCompsPage(productBatchId);
 			});
 		})
@@ -41,22 +44,11 @@ function showProductBatchListPage() {
 		$.get("src/html/product_batch/product_batch_list.html", function(template) {
 			$("#content").html(template);
 			$.each(data, function(i, data){
-				switch(data.status) {
-				case 0:
-					data.status = "Ikke påbegyndt";
-					break;
-				case 1:
-					data.status = "Under produktion";
-					break;
-				case 2:
-					data.status = "Afsluttet";
-					break;
-				default:
-					console.log("Fejl i status kode");
-					break;
-				}
+				var statusCode = data.status;
+				showProductBatchStatus(data);
 				$.get("src/html/product_batch/product_batch_list_row.html", function(template) {
 		            $("#product_batch_list .table tbody").append(Mustache.render($(template).html(),data))
+		            $(".pb_status").addClass("status_"+statusCode);
 		        });
 			});
         });
@@ -71,13 +63,29 @@ function showProductBatchCompsPage(pbId) {
 		$.get("src/html/product_batch/product_batch_comp_list.html", function(template) {
 			$("#product_batch_edit_form").append(template);
 			$.each(data, function(i, data) {
-				console.log(data);
 				$.get("src/html/product_batch/product_batch_comp_list_row.html", function(template) {
-					$("#product_batch_comp_list .table tbody").append(Mustache.render($(template).html(), data))
+					$("#product_batch_comp_list .table tbody").append(Mustache.render($(template).html(), data));
 				});
 			});
 		});
 	});
+}
+
+function showProductBatchStatus(data) {
+	switch(data.status) {
+	case 0:
+		data.status = "Ikke påbegyndt";
+		break;
+	case 1:
+		data.status = "Under produktion";
+		break;
+	case 2:
+		data.status = "Afsluttet";
+		break;
+	default:
+		console.log("Fejl i status kode");
+		break;
+	}
 }
 
 function getProductBatch(pbId) {

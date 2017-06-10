@@ -35,21 +35,7 @@ $(document).ready(function() {
 	$(document).on("submit", "#raw_material_batch_create_form", function(event) {
 		event.preventDefault();
 		createRawMaterialBatch($(this).serializeJSON()).done(function(data) {
-			var splitData = data.split(": ");
-			switch(splitData[0]) {
-		    case "success":
-		    	showRawMaterialBatchListPage();
-		    	alert(splitData[1]);
-		        break;
-		    case "input-error":
-		        alert(splitData[1]);
-		        break;
-		    case "collision-error":
-		    	alert(splitData[1]);
-		    	break;
-		    default: // System error
-		    	alert(splitData[1]);
-			}
+			saveRecord(data, showRawMaterialBatchListPage)
 		}).fail(function(data) {
 			console.log("Fejl i REST");
 		});
@@ -61,8 +47,8 @@ $(document).ready(function() {
 			var splitData = data.split(": ");
 			switch(splitData[0]) {
 		    case "success":
+		    	showRawMaterialBatchListPage();
 		        alert(splitData[1]);
-		        showRawMaterialBatchListPage();
 		        break;
 		    case "input-error":
 		        alert(splitData[1]);

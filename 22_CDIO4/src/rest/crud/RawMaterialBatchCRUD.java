@@ -76,7 +76,7 @@ public class RawMaterialBatchCRUD {
 
 		try {
 			Initializer.getRawMaterialBatchController().createRawMaterialBatch(rawMaterialBatch);
-			return "success: Råvarebatched med id " + rawMaterialBatch.getRbId() + " blev oprettet.";
+			return "success: Råvare batch med id " + rawMaterialBatch.getRbId() + " blev oprettet.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -84,7 +84,7 @@ public class RawMaterialBatchCRUD {
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "input-error: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
