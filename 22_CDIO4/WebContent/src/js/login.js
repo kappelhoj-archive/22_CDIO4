@@ -20,7 +20,7 @@ $(document).ready(function() {
 				case "super_login":
 					$.get("src/html/master.html", function(template) {
 						$("body").html(template);
-						$("#user_dropdown_menu .user_edit_link").remove();
+						$("#user_dropdown_menu .user_edit_link").hide();
 						$(".top_nav_role").addClass("role_super");
 						$(".role_super").text("Super");
 						$(".top_nav_name").text("admin");
@@ -45,7 +45,8 @@ $(document).ready(function() {
 					var userId = $("#login_form input[name=\"id\"]").val();
 					getUser(userId).done(function(data) {
 						$.get("src/html/master.html", function(template) {
-				            $("body").html(Mustache.render($(template).html(), data))
+				            $("body").html(Mustache.render($(template).html(), data));
+				            $("#user_dropdown_menu .user_edit_link").show();
 				            switch(data.role) {
 				            case "Admin":
 				            	$(".top_nav_role").addClass("role_admin");
@@ -53,36 +54,36 @@ $(document).ready(function() {
 				            	break;
 				            case "Farmaceut":
 				            	$(".top_nav_role").addClass("role_pharmacist");
-				            	getRoleTemplate("src/html/role_privilege/pharmacist_privilege.html");
-				            	getRoleTemplate("src/html/role_privilege/foreman_privilege.html");
-				            	getRoleTemplate("src/html/role_privilege/labtech_privilege.html");
+				            	getRoleTemplate("src/html/role_privilege/pharmacist_privilege.html").done(function() {
+				            		getRoleTemplate("src/html/role_privilege/foreman_privilege.html").done(function() {
+				            			getRoleTemplate("src/html/role_privilege/labtech_privilege.html");
+				            		});
+				            	});
 				            	break;
 				            case "Værkfører":
 				            	$(".top_nav_role").addClass("role_foreman");
-				            	getRoleTemplate("src/html/role_privilege/foreman_privilege.html");
-				            	getRoleTemplate("src/html/role_privilege/labtech_privilege.html");
+				            	getRoleTemplate("src/html/role_privilege/foreman_privilege.html").done(function() {
+				            		getRoleTemplate("src/html/role_privilege/labtech_privilege.html");
+				            	});
 				            	break;
 				            case "Laborant":
 				            	$(".top_nav_role").addClass("role_labtech");
-				            	$.get("src/html/role_privilege/labtech_privilege.html", function(template) {
-				            		$("#side_panel").html(template);
-				            	});
+				            	getRoleTemplate("src/html/role_privilege/labtech_privilege.html");
 				            default: 
 				            	break;
 				            }
 				        });
 					})
 					.fail(function(x) {
-						console.log("Fejl!");
+						console.log("Fejl i User REST");
 					});
-					console.log(data);
 					break;
 				default:
 					console.log(data);
 				}
 			},
 			error: function(data){
-				console.log(data);
+				console.log("Fejl i Login REST");
 			}
 		});
 	});

@@ -1,6 +1,41 @@
 $(document).ready(function() {
 	$('.user_dropdown').dropdown();
 	$("#alert_container").alert();
+	
+	// Click on logo
+	$(document).on("click", "#logo a", function(event) {
+		event.preventDefault();
+		// show start page
+	});
+	
+	$("#user_create_form").validate({
+		rules : {
+			id: {
+				required: true
+			},
+			name: {
+				required: true,
+				minlength: 2
+			}
+		},
+		errorElement: "div",
+		errorPlacement: function(div, element) {
+			
+	        div.addClass("form-control-feedback");
+	        div.insertAfter(element);
+	       
+	    },
+	    highlight: function(element) {
+	    	$(element).parent().removeClass("has-success").addClass("has-danger");
+	    	$(element).parent().find("input").removeClass("form-control-success").addClass("form-control-danger");
+	    	console.log(element);
+	    	console.log($(element));
+	    },
+	    unhighlight: function(element) {
+	    	$(element).parent().removeClass("has-danger").addClass("has-success");
+	    	$(element).parent().find("input").removeClass("form-control-danger").addClass("form-control-success");        
+	    }
+	});
 });
 
 function saveRecord(data, showPage) {
