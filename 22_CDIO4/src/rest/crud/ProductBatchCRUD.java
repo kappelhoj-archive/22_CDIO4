@@ -35,7 +35,6 @@ public class ProductBatchCRUD {
 		}
 	}
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -54,7 +53,7 @@ public class ProductBatchCRUD {
 	public String createProductBatch(ProductBatchDTO productbatch) {
 		try {
 			Initializer.getProductBatchController().createProductBatch(productbatch);
-			return "success";
+			return "success: Produkt batchen blev oprettet.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -63,12 +62,10 @@ public class ProductBatchCRUD {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "input-error: Det indtastede er ugyldigt..";
-
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "system-error: Der skete en fejl i systemet.";
-
 		}
 	}
 
@@ -78,18 +75,15 @@ public class ProductBatchCRUD {
 	public String updateProductBatch(ProductBatchDTO productbatch) {
 		try {
 			Initializer.getProductBatchController().updateProductBatch(productbatch);
-			return "success";
+			return "success: Produkt batchen blev opdateret.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
-
+			return "input-error Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
-
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
-
 }

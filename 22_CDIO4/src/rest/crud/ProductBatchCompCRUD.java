@@ -22,7 +22,8 @@ public class ProductBatchCompCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProductBatchCompDTO getProductBatchComp(ProductBatchCompPOJO i) {
 		try {
-			return Initializer.getProductBatchCompController().getProductBatchComp(Integer.parseInt(i.getPbId()), Integer.parseInt(i.getRbId()));
+			return Initializer.getProductBatchCompController().getProductBatchComp(Integer.parseInt(i.getPbId()),
+					Integer.parseInt(i.getRbId()));
 		}
 
 		catch (DALException e) {
@@ -59,7 +60,7 @@ public class ProductBatchCompCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createProductBatchComp(ProductBatchCompDTO pbc){
+	public String createProductBatchComp(ProductBatchCompDTO pbc) {
 		try {
 			Initializer.getProductBatchCompController().createProductBatchComp(pbc);
 			return "success: Produkt batch komponenten blev oprettet.";
@@ -71,7 +72,6 @@ public class ProductBatchCompCRUD {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "system-error: Der skete en fejl i systemet.";
-
 		}
 	}
 
@@ -82,13 +82,10 @@ public class ProductBatchCompCRUD {
 		try {
 			Initializer.getProductBatchCompController().updateProductBatchComp(pbc);
 			return "success: Produkt batch komponenten blev opdateret.";
-		}
-		catch (DALException e) {
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return "system-error: Der skete en fejl i systemet.";
-
 		}
 	}
-
 }
