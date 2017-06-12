@@ -184,6 +184,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
+			previousMessageRecived="K C 2";
 			throw new InvalidReturnMessageException(e.getMessage());
 		}
 	}
