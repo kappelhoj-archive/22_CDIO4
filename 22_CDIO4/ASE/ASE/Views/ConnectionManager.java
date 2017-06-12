@@ -18,14 +18,19 @@ public class ConnectionManager {
 	MeasurementController measurementController;
 	Socket weightSocket;
 
+	
+	public ConnectionManager(String fileLocation) {
+		connectionReader = new ConnectionReader(fileLocation);
+	}
+	
 	/**
 	 * Method which tries to establish a connection to all of the listed weights
 	 * in the WeightTable.txt file, while adding each successful IP/Port number
 	 * to an array.
 	 */
-
-	public ConnectionManager(String fileLocation) {
+	public ConnectionManager(String fileLocation,MeasurementController measurementController) {
 		connectionReader = new ConnectionReader(fileLocation);
+		this.measurementController=measurementController;
 	}
 
 	/**
