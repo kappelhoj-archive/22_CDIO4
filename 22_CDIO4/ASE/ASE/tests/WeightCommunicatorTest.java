@@ -163,6 +163,7 @@ public class WeightCommunicatorTest {
 		outToServer.writeBytes("RM20 A" + "\r" + "\n");
 		outToServer.writeBytes("K C 4" + "\r" + "\n");
 		outToServer.writeBytes("K A" + "\r" + "\n");
+		outToServer.writeBytes("DW A" + "\r" + "\n");
 		
 		weightCommunicator.restartWeightDisplay();
 		
