@@ -28,13 +28,13 @@ public class ConnectionReaderTest {
 
 	@Test
 	public void testIPChecker() {
-		fileLocation = "ASE/ASE/tests/WeightTableIPTest.txt";
+		fileLocation = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\WeightTable.txt";
 		connectionReader = new ConnectionReader(fileLocation);
-
+		
 		try {
 			connectionReader.getWeightIPs();
-		} catch (FileNotFoundException e) {
-			System.out.println(e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		String[] expected = { "12.245.231.201", "91.23.110.232" };
 
@@ -50,7 +50,7 @@ public class ConnectionReaderTest {
 
 	@Test
 	public void testPortChecker() {
-		fileLocation = "ASE/ASE/tests/WeightTablePortTest.txt";
+		fileLocation = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\WeightTable.txt";
 		connectionReader = new ConnectionReader(fileLocation);
 
 		try {

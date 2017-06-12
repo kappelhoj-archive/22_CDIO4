@@ -26,7 +26,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	String splitAnswer[];
 
 	public enum Protocol {
-		RM20, P111, Tara, Measurement, Brutto, DisplayClean, Quit, StartUp
+		RM20, P111, Tara, Measurement, Brutto, DisplayClean, Quit, StartUp, CleanRM20
 	}
 	/**
 	 * Creation of mySocket, outToWeight and inFromWeight as a socket,
@@ -46,13 +46,17 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 * Method to send a Protocol to the weight on the this socket.
 	 * 
 	 * @param protocol
-	 *            The protocal that is sent to the weight.
+	 *            The protocol that is sent to the weight.
 	 * @param message
 	 *            The message sent alongside the protocol.
 	 */
 	public void sendProtocol(Protocol protocol, String message) {
 		try {
 			switch (protocol) {
+			
+			case CleanRM20:
+				outToWeight.writeBytes("RM20 0" + "\r" + "\n");
+				break;
 			case RM20:
 				outToWeight.writeBytes("RM20 8 \"" + message + "\" \"\" \"&3\"" + "\n");
 				break;
@@ -157,6 +161,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 		splitAnswer = answerReceived.split(" ");
 		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+		//Checks for acknowledgement 
 		try {
 			if(splitAnswer[0].contains("RM20")&&splitAnswer[1].contains("B")){
 				answerReceived=waitForAnswer();
@@ -167,6 +172,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 				previousMessageRecived=answerReceived;
 				throw new ProtocolErrorException(answerReceived);
 			}
+			//checks for answere
 			if(splitAnswer[0].contains("RM20")&&splitAnswer[1].contains("A"))
 			{
 				splitAnswer=answerReceived.split("\"");
@@ -191,11 +197,11 @@ public class WeightCommunicator implements IWeightCommunicator {
 		try {
 			answerReceived =waitForAnswer();
 		} catch (ProtocolErrorException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		splitAnswer = answerReceived.split(" ");
 		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+
 		if(splitAnswer[0].contains("DW")&&splitAnswer[1].contains("A"))
 		{	
 			return;
@@ -255,6 +261,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 */
 	// TODO Look at exception
 	public void cleanStream(){
+		sendProtocol(Protocol.CleanRM20, null);
 		sendProtocol(Protocol.StartUp, null);
 		try {
 			while(true){
@@ -263,12 +270,14 @@ public class WeightCommunicator implements IWeightCommunicator {
 				splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
 				if(splitAnswer[0].contains("K")&&splitAnswer[1].contains("A"))
 				{
+					System.out.println(splitAnswer[0]+splitAnswer[1]);
 					return;
 				}
 				else{
 					previousMessageRecived=answerReceived;
 					throw new ProtocolErrorException(answerReceived);
 				}
+				//TODO: return of RM20 0
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
