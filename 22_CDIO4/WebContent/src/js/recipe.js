@@ -23,7 +23,13 @@ $(document).on("click", ".recipe_edit_table_link", function(event) {
 	event.preventDefault();
 	var recipeId = $(this).parents("tr").children("td:first").text();
 	showRecipeEditPage(recipeId);
-})
+});
+
+$(document).on("click", ".recipe_edit_back_link", function(event) {
+	event.preventDefault();
+	var recipeId = $("input[name=\"recipeId\"]").val();
+	showRecipeEditPage(recipeId);
+});
 
 /* Adds recipe to the data*/
 $(document).on("submit", "#recipe_create_form", function(event){
@@ -74,30 +80,27 @@ $(document).on("click", ".recipe_comp_edit_table_link", function(event) {
 /* Updates the recipe component data in the "data file" and goes back to the page before. */
 $(document).on("submit", "#recipe_comp_edit_form", function(event) {
 	event.preventDefault();
-	updateRecipeComp($(this).serializeJSON()).done(function(data){
-		if(data == "success")
-		{
-		var recipeId = $("input[name=\"recipeId\"]").val();
-		getRecipe(recipeId).done(function(data) {
-			$.get("src/html/recipe/recipe_edit.html", function(template) {
-				$("#content").html(Mustache.render($(template).html(), data))
-				showRecipeCompsPage(recipeId);
-			});
-		})
-		.fail(function(data){
-			console.log(data);
-		});
-	}
-		else{
-			alert("Ikke opdateret.")
+	var recipeId = $("input[name=\"recipeId\"]").val();
+	updateRecipeComp($(this).serializeJSON()).done(function(data) {
+		var splitData = data.split(": ");
+		switch(splitData[0]) {
+	    case "success":
+			showRecipeEditPage(recipeId);
+	        alert(splitData[1]);
+	        break;
+	    case "input-error":
+	        alert(splitData[1]);
+	        break;
+	    case "collision-error":
+	    	alert(splitData[1]);
+	    	break;
+	    default: // System error
+	    	alert(splitData[1]);
 		}
-	})
-	.fail(function(data) {
-		console.log(data);
-	})
-	
-	
-})
+	}).fail(function(data) {
+		console.log("Fejl i REST");
+	});
+});
 
 /* Go to create recipe component page */
 $(document).on("click", ".recipe_comp_create_link", function(event) {
@@ -122,9 +125,9 @@ $(document).on("submit", "#recipe_component_create_form", function(event) {
 			break;
 		default: //system error
 			alert(splitData[1]);
-	}
-})
-})
+		}
+	});
+});
 
 })
 
@@ -153,7 +156,6 @@ function showRecipeCompsPage(recipeId) {
 		$.get("src/html/recipe/recipe_comp_list.html", function(template) {
 			$("#recipe_edit_form").append(template);
 			$.each(data, function(i, data) {
-				console.log(data);
 				$.get("src/html/recipe/recipe_comp_list_row.html", function(template) {
 					$("#recipe_comp_list .table tbody").append(Mustache.render($(template).html(), data))
 				});
@@ -170,7 +172,7 @@ function showRecipeEditPage(recipeId) {
 		});
 	})
 	.fail(function(data){
-		console.log(data);
+		console.log("Fejl i Recipe Comp REST");
 	});
 	
 	

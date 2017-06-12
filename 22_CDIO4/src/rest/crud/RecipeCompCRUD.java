@@ -85,8 +85,9 @@ public class RecipeCompCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateRecipeComp(RecipeCompDTO recipeComp) {
 		try {
+			System.out.println(recipeComp);
 			Initializer.getRecipeCompController().updateRecipeComp(recipeComp);
-			return "success";
+			return "success: Redigering succesfuld";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

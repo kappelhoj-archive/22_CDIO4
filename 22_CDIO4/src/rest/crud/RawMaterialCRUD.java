@@ -79,7 +79,7 @@ public class RawMaterialCRUD {
 	public String updateRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
 			Initializer.getRawMaterialController().updateRawMaterial(rawMaterial);
-			return "success";
+			return "success: JJJ";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

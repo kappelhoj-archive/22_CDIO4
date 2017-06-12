@@ -66,28 +66,26 @@ $(document).ready(function()
 	/* ############################# Edit page button functions ####################################### */
 	$(document).on("submit", "#raw_material_edit_form", function(event){
 		event.preventDefault();
-		$.ajax({
-			url: "rest/raw_material/update",
-			type: "PUT",
-			contentType: "application/json",
-			data: $("#raw_material_edit_form").serializeJSON(),
-			success: function(data) {
-				if(data == "success")
-					{
-					showRawMaterialListPage();
-					alert("Råvaren blev redigeret")
-					}
-				else
-					{
-					alert(data);
-					}
-			},
-			error: function(data) {
-				console.log(data);
+		updateRawMaterial($(this).serializeJSON()).done(function(data) {
+			var splitData = data.split(": ");
+			switch(splitData[0]) {
+		    case "success":
+		    	showRawMaterialListPage();
+		        alert(splitData[1]);
+		        break;
+		    case "input-error":
+		        alert(splitData[1]);
+		        break;
+		    case "collision-error":
+		    	alert(splitData[1]);
+		    	break;
+		    default: // System error
+		    	alert(splitData[1]);
 			}
-		})
-	})
-	
+		}).fail(function(data) {
+			console.log("Fejl i REST");
+		});
+	});
 });
 
 /* Functions */
@@ -109,6 +107,14 @@ function showRawMaterialListPage() {
 	})
 }
 
+function updateRawMaterial(form) {
+	return $.ajax({
+		url: "rest/raw_material/update",
+		type: "PUT",
+		contentType: "application/json",
+		data: form
+	})
+}
 
 function getRawMaterialList(){
 	return $.ajax({
