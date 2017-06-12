@@ -3,10 +3,9 @@ package ASE.Views;
 import ASE.Views.ConnectionReader;
 import ASE.Controllers.*;
 
-import java.net.ConnectException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ConnectionManager {
@@ -41,51 +40,29 @@ public class ConnectionManager {
 	}
 
 	/**
-	 * Attempt to establish connection to the weights listed on the
-	 * WeightTable.txt. The method runs through the IPs once.
-	 */
-	public void getConnections() {
-
-		try {
-			connectionReader.getWeightIPs();
-			for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
-				try {
-					weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
-					allConnectedIPAddresses.add(connectionReader.getIPString(i));
-					allConnectedPortNumbers.add(connectionReader.getPortInt(i));
-				} catch (ConnectException e) {
-					System.out.println("Error: Attempted connection failed!");
-					System.out.println(
-							"Error source: " + connectionReader.getIPString(i) + " " + connectionReader.getPortInt(i));
-				}
-				// Add the newly connected IP/Socket to a list of successfully
-				// connected weights.
-			}
-
-		} catch (UnknownHostException e) {
-			System.out.println("Error occured: Host unknown " + e);
-		} catch (IOException e) {
-			System.out.println(e);
-			e.printStackTrace();
-
-		}
-	}
-
-	/**
-	 * Starts each individual thread for each socket connection established.
+	 * Starts each individual thread for each newly created socket connection
+	 * successfully established.
 	 */
 	public void threadStarter() {
+		try {
+			connectionReader.getWeightIPs();
+		} catch (FileNotFoundException e1) {
+			System.out.println("ConnectionReader did not retrieve WeightIPs correctly!");
+			e1.printStackTrace();
+		}
 		for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
 			try {
 				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
 			} catch (IOException e) {
-				System.out.println("Connection failed: " + e);
+				System.out.println("Error: Attempted connection failed!");
+				System.out.println(
+						"Error source: " + connectionReader.getIPString(i) + " " + connectionReader.getPortInt(i));
 			}
 
 			try {
 				weightController[i] = new WeightController(measurementController, weightSocket);
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("weightController creation failed!");
 			}
 			(new Thread(weightController[i])).start();
 		}
