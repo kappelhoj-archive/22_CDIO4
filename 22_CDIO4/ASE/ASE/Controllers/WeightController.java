@@ -144,7 +144,7 @@ public class WeightController implements Runnable {
 			// The user logged out
 			catch (LogOutException e) {
 				try {
-					sendMessageAndConfirm("Du er nu logget ud. ->]");
+					sendMessageAndConfirm("Du er nu logget ud.");
 				} catch (ProtocolErrorException | LogOutException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -155,7 +155,7 @@ public class WeightController implements Runnable {
 				weightCommunication.restartWeightDisplay();
 
 				try {
-					sendMessageAndConfirm("Der skete en systemfejl. ->]");
+					sendMessageAndConfirm("Systemfejl!");
 				} catch (ProtocolErrorException | LogOutException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -183,11 +183,11 @@ public class WeightController implements Runnable {
 					if (buttonConfirmation == Buttons.BACK)
 						continue;
 				} catch (DALException e) {
-					sendMessageAndConfirm("Denne bruger findes ikke. ->]");
+					sendMessageAndConfirm("Bruger findes ikke.");
 				}
 			} catch (LogOutException e) {
 				try {
-					sendMessageAndConfirm("Du er allerede logget ud. ->]");
+					sendMessageAndConfirm("Allerede logget ud.");
 				} catch (LogOutException e1) {
 					throw new ProtocolErrorException("User tried to log out twice.");
 				}
@@ -209,11 +209,11 @@ public class WeightController implements Runnable {
 		// Register produkt batch
 		do {
 			try {
-				buttonConfirmation = getDTOAndConfirm(pbDTO, pbDAO, "produkt batch id", "recept id");
+				buttonConfirmation = getDTOAndConfirm(pbDTO, pbDAO, "pb id", "recept id");
 				if (buttonConfirmation == Buttons.BACK)
 					continue;
 			} catch (DALException e) {
-				sendMessageAndConfirm("Produkt eksistere ikke. ->]");
+				sendMessageAndConfirm("Produkt findes ikke.");
 				continue;
 			}
 
@@ -232,7 +232,7 @@ public class WeightController implements Runnable {
 				}
 
 			} catch (DALException e) {
-				sendMessageAndConfirm("Kunne ikke findes i systemet ->]");
+				sendMessageAndConfirm("Recept ikke fundet.");
 				continue;
 			}
 
@@ -241,10 +241,9 @@ public class WeightController implements Runnable {
 			pbDTO.setStatus(1);
 			try {
 				pbCast.updateProductBatch(pbDTO);
-
-				sendMessageAndConfirm("Recept:" + recipeDAO.getRecipe(pbDTO.getReceptId()).getRecipeName() + " ->]");
+				sendMessageAndConfirm("Recept:" + recipeDAO.getRecipe(pbDTO.getReceptId()).getRecipeName());
 			} catch (DALException e1) {
-				sendMessageAndConfirm("Produkt batch status ikke opdateret. ->]");
+				sendMessageAndConfirm("Status ikke opdateret.");
 			}
 
 		} while (buttonConfirmation != Buttons.CONFIRM);
@@ -263,20 +262,20 @@ public class WeightController implements Runnable {
 		// Register rawmaterial.
 		do {
 			try {
-				buttonConfirmation = getDTOAndConfirm(rbDTO, rbDAO, "råvare batch id", "råvare id");
+				buttonConfirmation = getDTOAndConfirm(rbDTO, rbDAO, "rb id", "råvare id");
 				if (buttonConfirmation == Buttons.BACK)
 					continue;
 			} catch (DALException e) {
-				sendMessageAndConfirm("Råvare eksistere ikke i systemet. ->]");
+				sendMessageAndConfirm("Råvare findes ikke.");
 			}
 
 			if (remainingReceptComp.containsKey(rbDTO.getRawMaterialId())) {
-				sendMessageAndConfirm("Afvejning af påbegyndt: ->]");
+				sendMessageAndConfirm("Afvejning af påbegyndt:");
 			} else if (finnishedReceptComp.containsKey(rbDTO.getRawMaterialId())) {
-				sendMessageAndConfirm("Denne råvare er allerede afvejet. ->]");
+				sendMessageAndConfirm("Råvare allerede afvejet.");
 				continue;
 			} else {
-				sendMessageAndConfirm("Denne råvare er ikke i recepten. ->]");
+				sendMessageAndConfirm("Råvare ikke i recept");
 				continue;
 			}
 
@@ -299,13 +298,13 @@ public class WeightController implements Runnable {
 			myRecipeComp = recipeCompDAO.getRecipeComp(pbDTO.getReceptId(), rbDTO.getRawMaterialId());
 
 		} catch (DALException e) {
-			sendMessageAndConfirm("Kunne ikke finde recept. ->]");
+			sendMessageAndConfirm("Kunne ikke finde recept.");
 			return null;
 		}
 
 		while (true) {
 			weightCommunication.taraWeight();
-			Double currentWeight = getCurrentWeight("Ryd vægten. ->]");
+			Double currentWeight = getCurrentWeight("Ryd vægten.");
 
 			// If the user want to go back, go back to choosing a new product.
 			if (currentWeight == null) {
@@ -313,7 +312,7 @@ public class WeightController implements Runnable {
 			}
 
 			weightCommunication.taraWeight();
-			currentWeight = getCurrentWeight("Placer tara. ->]");
+			currentWeight = getCurrentWeight("Placer tara.");
 			// Try do another measurement.
 			if (currentWeight == null) {
 				continue;
@@ -322,7 +321,7 @@ public class WeightController implements Runnable {
 			}
 
 			weightCommunication.taraWeight();
-			currentWeight = getCurrentWeight("Placer netto. ->]");
+			currentWeight = getCurrentWeight("Placer netto.");
 			// Try do another measurement.
 			if (currentWeight == null) {
 				continue;
@@ -330,7 +329,7 @@ public class WeightController implements Runnable {
 				measurement.setNetto(currentWeight);
 			}
 			weightCommunication.taraWeight();
-			currentWeight = getCurrentWeight("Please remove the product ->]");
+			currentWeight = getCurrentWeight("Please remove product");
 
 			// Try do another measurement.
 			if (currentWeight == null) {
@@ -345,9 +344,9 @@ public class WeightController implements Runnable {
 			if (weightedTolerance >= Math.abs(measurement.getNetto() - myRecipeComp.getNomNetto())) {
 				return measurement;
 			} else {
-				sendMessageAndConfirm("Measurement dosen't match expected tolerance. ->]");
-				sendMessageAndConfirm("Measurement wasn't added to the production. ->]");
-				sendMessageAndConfirm("Please redo the measurement ->]");
+				sendMessageAndConfirm("Measure do not match tol");
+				sendMessageAndConfirm("Measure wasn't added");
+				sendMessageAndConfirm("Please redo the measure");
 				return null;
 			}
 		}
@@ -401,7 +400,7 @@ public class WeightController implements Runnable {
 			String identity = dto.getIdentity();
 
 			//Send a message so the user can confirm the information. 
-			weightCommunication.sendMessage("Befrækt info: " + expectedIdentity + ": " + identity + " ->]");
+			weightCommunication.sendMessage("Befrækt " + expectedIdentity + ": " + identity + " ->]");
 			return weightCommunication.receiveButtonPush();
 
 		} catch (InvalidReturnMessageException e) {
