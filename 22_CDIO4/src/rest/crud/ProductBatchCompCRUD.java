@@ -20,9 +20,9 @@ public class ProductBatchCompCRUD {
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProductBatchCompDTO getProductBatchComp(ProductBatchCompPOJO ids) {
+	public ProductBatchCompDTO getProductBatchComp(ProductBatchCompPOJO i) {
 		try {
-			return Initializer.getProductBatchCompController().getProductBatchComp(Integer.parseInt(ids.getPbId()), Integer.parseInt(ids.getRbId()));
+			return Initializer.getProductBatchCompController().getProductBatchComp(Integer.parseInt(i.getPbId()), Integer.parseInt(i.getRbId()));
 		}
 
 		catch (DALException e) {
@@ -32,7 +32,6 @@ public class ProductBatchCompCRUD {
 		}
 	}
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,7 +44,6 @@ public class ProductBatchCompCRUD {
 		}
 	}
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -61,18 +59,18 @@ public class ProductBatchCompCRUD {
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createProductBatchComp(ProductBatchCompDTO productbatchcomp) {
+	public String createProductBatchComp(ProductBatchCompDTO pbc){
 		try {
-			Initializer.getProductBatchCompController().createProductBatchComp(productbatchcomp);
-			return "success";
+			Initializer.getProductBatchCompController().createProductBatchComp(pbc);
+			return "success: Produkt batch komponenten blev oprettet.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede et produkt batch komponent med det indtastede id.";
+			return "collision-error: Der findes allerede et produkt batch komponent med det indtastede id.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 
 		}
 	}
@@ -80,16 +78,15 @@ public class ProductBatchCompCRUD {
 	@Path("update")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String updateProductBatchComp(ProductBatchCompDTO productbatchComp) {
+	public String updateProductBatchComp(ProductBatchCompDTO pbc) {
 		try {
-			Initializer.getProductBatchCompController().updateProductBatchComp(productbatchComp);
-			return "success";
+			Initializer.getProductBatchCompController().updateProductBatchComp(pbc);
+			return "success: Produkt batch komponenten blev opdateret.";
 		}
-
 		catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 
 		}
 	}
