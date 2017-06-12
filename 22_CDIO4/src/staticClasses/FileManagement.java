@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 
 public class FileManagement {
 
-	final static String PATH = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\";
+	final static String PATH = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\test\\";
 
 
 	public enum TypeOfData{

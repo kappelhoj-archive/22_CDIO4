@@ -7,7 +7,12 @@ import java.util.ArrayList;
 
 public class Encryption {
 
-	
+	/**
+	 * Our non-keyed cryptographic hash function
+	 * @param base
+	 * @return
+	 * 			Hash key
+	 */
 	public static String sha512(String base) {
         MessageDigest digest = null;
 		try {
@@ -38,6 +43,15 @@ public class Encryption {
 	    }
 	}
 	
+	/**
+	 * A specific method which is used to split a string in a ArrayList of strings at a number of chars.
+	 * It may not be used in this project.
+	 * @author PeterElHabr s165202
+	 * @param string
+	 * @param index
+	 * @return
+	 * 			ArrayList of strings
+	 */
 	public static ArrayList<String> splitAt(String string, int index){
 		StringBuffer line = new StringBuffer();
 		ArrayList<String> result = new ArrayList<String>();

@@ -6,6 +6,7 @@ import controller.interfaces.IUserController;
 import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.UserDTO;
 import exceptions.*;
+import staticClasses.Encryption;
 import staticClasses.Validator;
 
 public class UserController implements IUserController{
@@ -45,6 +46,8 @@ public class UserController implements IUserController{
 	@Override
 	public void createUser(UserDTO user) throws InputException, CollisionException, DALException{
 		validation(user);
+		
+		user.setPassword(Encryption.sha512(user.getPassword()+user.getId()));
 
 		dao.createOperatoer(user);
 
@@ -61,6 +64,8 @@ public class UserController implements IUserController{
 	@Override
 	public void updateUser(UserDTO user) throws InputException, DALException{
 		validation(user);
+		
+		user.setPassword(Encryption.sha512(user.getPassword()+user.getId()));
 
 		dao.updateOperatoer(user);
 

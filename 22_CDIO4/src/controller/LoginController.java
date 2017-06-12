@@ -8,6 +8,7 @@ import dataTransferObjects.LoginPOJO;
 import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Encryption;
 import staticClasses.Validator;
 
 public class LoginController implements ILoginController {
@@ -66,7 +67,7 @@ public class LoginController implements ILoginController {
 	public void setNewPassword(int id, String password) throws InputException, DALException{
 		UserDTO user = dao.getUser(id).copy();
 
-		user.setPassword(password);
+		user.setPassword(Encryption.sha512(password+user.getId()));
 
 		dao.updateOperatoer(user);
 	}

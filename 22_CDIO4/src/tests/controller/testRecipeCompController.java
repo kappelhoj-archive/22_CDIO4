@@ -39,7 +39,7 @@ public class testRecipeCompController {
 	@Test
 	public void testUpdateFail(){
 		try {
-			Initializer.getRecipeCompController().updateRecipeComp(new RecipeCompDTO(1, 5, 3.1, 2.1));
+			Initializer.getRecipeCompController().updateRecipeComp(new RecipeCompDTO(1, 1, 1.1, 0.6));
 			
 			fail("");
 		} catch (DALException e) {
