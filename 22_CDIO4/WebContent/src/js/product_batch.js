@@ -18,7 +18,7 @@ $(document).ready(function() {
         });
 	});
 	
-	// Vis alle råvarebatches link
+	// Vis alle produkt batch komponenter
 	$(document).on("click", ".product_batch_edit_table_link", function(event) {
 		event.preventDefault();
 		var productBatchId = $(this).parents("tr").children("td:first").text();
@@ -35,6 +35,17 @@ $(document).ready(function() {
 			console.log(data);
 		});
 	});
+	
+	// Opret produkt batch
+	$(document).on("submit", "#product_batch_create_form", function(event) {
+		event.preventDefault();
+		createProductBatch($(this).serializeJSON()).done(function(data) {
+			saveRecord(data, showProductBatchListPage)
+		}).fail(function(data) {
+			console.log("Fejl i REST");
+		});
+	});
+	//product_batch_create_form
 	
 	
 });
@@ -86,6 +97,15 @@ function showProductBatchStatus(data) {
 		console.log("Fejl i status kode");
 		break;
 	}
+}
+
+function createProductBatch(form) {
+	return $.ajax({
+		url: "rest/product_batch/create",
+		type: "POST",
+		contentType: "application/json",
+		data: form
+		});
 }
 
 function getProductBatch(pbId) {

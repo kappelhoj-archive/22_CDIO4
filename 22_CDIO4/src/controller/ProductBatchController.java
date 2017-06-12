@@ -57,7 +57,7 @@ public class ProductBatchController implements IProductBatchController {
 			throws CollisionException, InputException, DALException {
 
 		try{
-			rdao.getRecipe(productBatch.getReceptId()); //checks if the recipeID exists
+			rdao.getRecipe(productBatch.getRecipeId()); //checks if the recipeID exists
 		}catch(DALException e){
 			throw new InputException(e.getMessage());
 		}

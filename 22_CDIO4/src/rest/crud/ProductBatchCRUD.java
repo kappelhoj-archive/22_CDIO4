@@ -58,16 +58,16 @@ public class ProductBatchCRUD {
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede et produkt batch med det indtastede id.";
+			return "collision-error: Der findes allerede et produkt batch med det indtastede id.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt..";
 
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 
 		}
 	}
