@@ -1,9 +1,12 @@
 $(document).ready(function() {
 
-	$("body").load("src/html/login.html", function() {
-		$("#login_form input[name=\"id\"]").focus();
-	});
+	showLoginPage();
 
+	
+	$(document).on("click", ".logout_link", function(event) {
+		event.preventDefault();
+		showLoginPage();
+	});
 	/*
 	 * On sumbit login post request
 	 * */
@@ -88,6 +91,12 @@ $(document).ready(function() {
 		});
 	});
 });
+
+function showLoginPage() {
+	$("body").load("src/html/login.html", function() {
+		$("#login_form input[name=\"id\"]").focus();
+	});
+}
 
 function getRoleTemplate(template) {
 	return $.get(template, function(template) {
