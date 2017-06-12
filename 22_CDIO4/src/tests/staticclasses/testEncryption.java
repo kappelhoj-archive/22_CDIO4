@@ -29,6 +29,8 @@ public class testEncryption extends Encryption {
 		actual = actual.length()+"";
 		
 		assertEquals(expected, actual);
+		
+		System.out.println(System.getProperty("user.name"));
 
 	}
 
