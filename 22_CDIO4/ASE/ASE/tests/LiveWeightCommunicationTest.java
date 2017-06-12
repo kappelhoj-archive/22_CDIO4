@@ -15,18 +15,11 @@ public class LiveWeightCommunicationTest {
 	static WeightCommunicator weightCommunicator;
 
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		client = new Socket("169.254.2.3", 8000);
+		client = new Socket("169.254.2.2", 8000);
 		weightCommunicator = new WeightCommunicator(client);
 
-		new DataOutputStream(client.getOutputStream()).writeBytes("K 3\n");
-		try {
-			System.out.println(weightCommunicator.waitForAnswer());
-		} catch (ProtocolErrorException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		weightCommunicator.restartWeightDisplay();
+		
 		System.out.println("Tryk på knappe Simon!");
 
 		try {
@@ -36,13 +29,13 @@ public class LiveWeightCommunicationTest {
 			e1.printStackTrace();
 		}
 
-		// try {
-		// System.out.println(weightCommunicator.getWeight());
-		// } catch (ProtocolErrorException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		//
+		 try {
+		 System.out.println(weightCommunicator.getWeight());
+		 } catch (ProtocolErrorException e) {
+		 // TODO Auto-generated catch block
+		 e.printStackTrace();
+		 }
+		
 		// try {
 		// System.out.println(weightCommunicator.receiveButtonPush());
 		//
