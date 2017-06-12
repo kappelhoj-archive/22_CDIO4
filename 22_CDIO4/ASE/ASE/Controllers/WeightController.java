@@ -223,7 +223,7 @@ public class WeightController implements Runnable {
 			measurements = new ArrayList<ProductBatchCompDTO>();
 
 			try {
-				
+				//Find all the recipe components.
 				ArrayList<RecipeCompDTO> myRecipe = (ArrayList<RecipeCompDTO>) recipeCompDAO
 						.getRecipeCompList(pbDTO.getReceptId());
 				

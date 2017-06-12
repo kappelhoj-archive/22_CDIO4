@@ -20,7 +20,7 @@ public class ConnectionReader {
 		this.fileLocation = fileLocation;
 
 		if (fileLocation.equals(null)) {
-			fileLocation = "C:\\Users\\Public\\Documents\\WeightTable.txt";
+			fileLocation = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt";
 		}
 	}
 
@@ -34,10 +34,10 @@ public class ConnectionReader {
 	 *             "src/WeightTable.txt"
 	 */
 	public void getWeightIPs() throws FileNotFoundException {
-
+		Scanner weightScanner = null;
 		// Creation of the scanner
 		try {
-			Scanner weightScanner = new Scanner(new FileInputStream(fileLocation));
+			weightScanner = new Scanner(new FileInputStream(fileLocation));
 			// Attempt to retrieve information from the WeightTable.txt file.
 			// Retrieve information.
 			while (weightScanner.hasNext()) {
@@ -75,15 +75,14 @@ public class ConnectionReader {
 					e.printStackTrace();
 				}
 
-				finally {
-					weightScanner.close();
-				}
 			}
 		} catch (FileNotFoundException e) {
-			FileManagement.writeData(null, TypeOfData.TXT);
 			System.out.println("File not found! Attempting to create new file.");
-		}
+			FileManagement.writeData(null, TypeOfData.TXT);
 
+		} finally {
+			weightScanner.close();
+		}
 	}
 
 	/**
