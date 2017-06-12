@@ -245,7 +245,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 		sendProtocol(Protocol.Measurement, null);
 		answerReceived = waitForAnswer();
 		String[] splitAnswer=answerReceived.split(" ");
-		if (splitAnswer[0].contains("T")&&splitAnswer[1].contains("S"))
+		if (splitAnswer[0].contains("S")&&splitAnswer[1].contains("S"))
 		{
 			return Double.parseDouble(splitAnswer[splitAnswer.length-2]);
 		}
