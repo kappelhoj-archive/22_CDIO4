@@ -1,18 +1,18 @@
 $(document).ready(function() {
-
+	
 	showLoginPage();
 
-	
+	// Logout link
 	$(document).on("click", ".logout_link", function(event) {
 		event.preventDefault();
 		showLoginPage();
 	});
+	
 	/*
-	 * On sumbit login post request
+	 * Submit login form
 	 * */
 	$(document).on("submit", "#login_form", function(event) {
 		event.preventDefault();
-		
 		$.ajax({
 			url : 'rest/login/login-user',
 			type : 'POST',
@@ -81,7 +81,7 @@ $(document).ready(function() {
 						console.log("Fejl i User REST");
 					});
 					break;
-				default:
+				default: // not logged in
 					console.log(data);
 				}
 			},
@@ -92,12 +92,15 @@ $(document).ready(function() {
 	});
 });
 
+// Show the login page and focus the id input field.
 function showLoginPage() {
-	$("body").load("src/html/login.html", function() {
-		$("#login_form input[name=\"id\"]").focus();
-	});
+	$.get("src/html/login.html", function(template) {
+        $("body").html(template);
+        $("#login_form input[name=\"id\"]").focus();
+    });
 }
 
+// Show side navigation depending on the user's role.
 function getRoleTemplate(template) {
 	return $.get(template, function(template) {
 		$("#side_panel > #side_nav > ul").append(template);

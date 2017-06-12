@@ -1,10 +1,10 @@
 $(document).ready(function() {
 	
-	/** 
+	/* 
 	 * Links
-	 * **/
+	 * */
 	
-	// Vis min bruger link
+	// Link to edit user (logged in) page
 	$(document).on("click", ".user_edit_link", function(event) {
 		event.preventDefault();
 		var userId = $(".top_nav_userid").text();
@@ -14,26 +14,25 @@ $(document).ready(function() {
 	        });
 		})
 		.fail(function(x) {
-			console.log("Fejl!");
+			console.log("Fejl i User REST");
 		});
 	});
 	
-	// Vis alle brugere link + gå tilbage
+	// Link to list of users page
 	$(document).on("click", ".user_list_link", function(event) {
 		event.preventDefault();
 		showUserListPage();
 	});
 	
-	// Opret bruger link
+	// Link to create user page
 	$(document).on("click", ".user_create_link", function(event) {
 		event.preventDefault();
-		
 		$.get("src/html/user/user_create.html", function(template) {
             $("#content").html(template);		            
         });
 	});
 	
-	// Rediger bruger link
+	// Link to edit user page
 	$(document).on("click", ".user_edit_table_link", function(event) {
 		event.preventDefault();
 		var userId = $(this).parents("tr").children("td:first").text();
@@ -43,76 +42,40 @@ $(document).ready(function() {
 	        });
 		})
 		.fail(function(x) {
-			console.log("Fejl!");
+			console.log("Fejl i User REST");
 		});
 	});
 	
-	/** 
-	 * Form submits
-	 * **/
+	/*
+	 * Submit forms
+	 * */
+	
+	// Submit create user form
 	$(document).on("submit", "#user_create_form", function(event) {
 		event.preventDefault();
-		
-		$.ajax({
-			url : 'rest/user/create',
-			type : 'POST',
-			contentType : "application/json",
-			data : $(this).serializeJSON(),
-			success : function(data) {
-				var splitData = data.split(": ");
-				switch(splitData[0]) {
-			    case "success":
-			        alert(splitData[1]);
-			        showUserListPage();
-			        break;
-			    case "input-error":
-			    	alert(splitData[1]);
-			        break;
-			    case "id-error":
-			    	alert(splitData[1]);
-			    default:
-			    	alert(splitData[1]);
-				}
-			},
-			error: function(data){
-				console.log("Fejl!")
-				console.log(data);
-			}
-		});
-		
+		createUser($(this).serializeJSON()).done(function(data) {
+			getResponseMessageAndRedirect(data, function() { return showUserListPage() });
+		}).fail(function(data) {
+			console.log("Fejl i User REST");
+		});		
 	});
 	
+	// Submit edit user form
 	$(document).on("submit", "#user_edit_form", function(event) {
 		event.preventDefault();
-		
-		$.ajax({
-			url : 'rest/user/update',
-			type : 'PUT',
-			contentType : "application/json",
-			data : $(this).serializeJSON(),
-			success : function(data) {
-				console.log(data);
-				switch(data) {
-			    case "success":
-			        alert("Brugeren blev redigeret");
-			        showUserListPage();
-			        break;
-			    case "input-error":
-			        alert("Input fejl");
-			        break;
-			    default:
-			    	alert("System fejl");
-				}
-			},
-			error: function(data){
-				console.log("Fejl!")
-				console.log(data);
-			}
-		});
+		updateUser($(this).serializeJSON()).done(function(data) {
+			getResponseMessageAndRedirect(data, function() { return showUserListPage() });
+		}).fail(function(data) {
+			console.log("Fejl i User REST");
+		});	
 		
 	});
 	
 });
+
+/*
+ * Functions
+ * */
 
 function showUserListPage() {
 	getUserList().done(function(data) {
@@ -126,7 +89,29 @@ function showUserListPage() {
         });
 	})
 	.fail(function(x) {
-		console.log("Fejl!");
+		console.log("Fejl i User REST");
+	});
+}
+
+/*
+ * REST functions
+ * */
+
+function createUser(form) {
+	return $.ajax({
+		url : 'rest/user/create',
+		type : 'POST',
+		contentType : "application/json",
+		data : form
+	});
+}
+
+function updateUser(form) {
+	return $.ajax({
+		url : 'rest/user/update',
+		type : 'PUT',
+		contentType : "application/json",
+		data : form
 	});
 }
 

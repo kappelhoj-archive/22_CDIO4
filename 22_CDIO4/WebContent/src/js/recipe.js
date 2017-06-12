@@ -1,138 +1,103 @@
-/**
- * 
- */
-
 $(document).ready(function(){
 	
-/* Goes to the list of all recipes. */
-$(document).on("click", ".recipe_list_link", function(event) {
-	event.preventDefault();
-	showRecipeListPage();
-});
-
-/* Goes to create recipe. */
-$(document).on("click", ".recipe_create_link", function(event){
-	event.preventDefault();
-	$.get("src/html/recipe/recipe_create.html", function(template) {
-		$("#content").html(template);
+	/* 
+	 * Links
+	 * */
+	
+	// Link to list recipes page
+	$(document).on("click", ".recipe_list_link", function(event) {
+		event.preventDefault();
+		showRecipeListPage();
 	});
-})
-
-/* Shows the recipe id and the recipe name and all of its components */
-$(document).on("click", ".recipe_edit_table_link", function(event) {
-	event.preventDefault();
-	var recipeId = $(this).parents("tr").children("td:first").text();
-	showRecipeEditPage(recipeId);
-});
-
-$(document).on("click", ".recipe_edit_back_link", function(event) {
-	event.preventDefault();
-	var recipeId = $("input[name=\"recipeId\"]").val();
-	showRecipeEditPage(recipeId);
-});
-
-/* Adds recipe to the data*/
-$(document).on("submit", "#recipe_create_form", function(event){
-	event.preventDefault();
-	createRecipe($(this).serializeJSON()).done(function(data) {
-		var splitData = data.split(": ");
-		switch(splitData[0]) {
-		case "success": 
-			var recipeId = $("input[name=\"recipeId\"]").val();
-			getRecipe(recipeId).done(function(data) {
-				$.get("src/html/recipe/recipe_edit.html", function(template) {
-					$("#content").html(Mustache.render($(template).html(), data))
-				});
-			})
-			.fail(function(data){
-				console.log(data);
-			});
-			showRecipeCompsPage(recipeId)
-			alert(splitData[1]);
-			break;
-		case "collision-error":
-			alert(splitData[1]);
-			break;
-		default: //system error
-			alert(splitData[1]);
-		}
-	})
-	.fail(function(data) {
-		console.log(data);
-	});
-})
-
-/* Goes to edit component */
-$(document).on("click", ".recipe_comp_edit_table_link", function(event) {
-	event.preventDefault();
-	var recipeId = $("input[name=\"recipeId\"]").val();
-	var rawMaterialId = $(this).parents("tr").children("td:first").text();
-	getRecipeComp(recipeId, rawMaterialId).done(function(data) {
-		$.get("src/html/recipe/recipe_comp_edit.html", function(template) {
-			$("#content").html(Mustache.render($(template).html(), data))
+	
+	// Link to create recipe page
+	$(document).on("click", ".recipe_create_link", function(event){
+		event.preventDefault();
+		$.get("src/html/recipe/recipe_create.html", function(template) {
+			$("#content").html(template);
 		});
 	})
-	.fail(function(data) {
-		console.log(data);
+	
+	// Link to edit recipe page
+	$(document).on("click", ".recipe_edit_table_link", function(event) {
+		event.preventDefault();
+		var recipeId = $(this).parents("tr").children("td:first").text();
+		showRecipeEditPage(recipeId);
 	});
-})
-
-/* Updates the recipe component data in the "data file" and goes back to the page before. */
-$(document).on("submit", "#recipe_comp_edit_form", function(event) {
-	event.preventDefault();
-	var recipeId = $("input[name=\"recipeId\"]").val();
-	updateRecipeComp($(this).serializeJSON()).done(function(data) {
-		var splitData = data.split(": ");
-		switch(splitData[0]) {
-	    case "success":
-			showRecipeEditPage(recipeId);
-	        alert(splitData[1]);
-	        break;
-	    case "input-error":
-	        alert(splitData[1]);
-	        break;
-	    case "collision-error":
-	    	alert(splitData[1]);
-	    	break;
-	    default: // System error
-	    	alert(splitData[1]);
-		}
-	}).fail(function(data) {
-		console.log("Fejl i REST");
+	
+	// Link to edit recipe page (back button)
+	$(document).on("click", ".recipe_edit_back_link", function(event) {
+		event.preventDefault();
+		var recipeId = $("input[name=\"recipeId\"]").val();
+		showRecipeEditPage(recipeId);
 	});
-});
-
-/* Go to create recipe component page */
-$(document).on("click", ".recipe_comp_create_link", function(event) {
-	event.preventDefault();
-	var recipeId = $("#recipe_edit_form input[name=\"recipeId\"]").val();
-	$.get("src/html/recipe/recipe_component_create.html", function(template) {
-		$("#content").html(template);
-		$("#recipe_component_create_form input[name=\"recipeId\"]").val(recipeId);
+	
+	// Link to edit recipe component page
+	$(document).on("click", ".recipe_comp_edit_table_link", function(event) {
+		event.preventDefault();
+		var recipeId = $("input[name=\"recipeId\"]").val();
+		var rawMaterialId = $(this).parents("tr").children("td:first").text();
+		getRecipeComp(recipeId, rawMaterialId).done(function(data) {
+			$.get("src/html/recipe/recipe_comp_edit.html", function(template) {
+				$("#content").html(Mustache.render($(template).html(), data))
+			});
+		})
+		.fail(function(data) {
+			console.log(data);
+		});
+	});
+	
+	// Link to create recipe component page
+	$(document).on("click", ".recipe_comp_create_link", function(event) {
+		event.preventDefault();
+		var recipeId = $("#recipe_edit_form input[name=\"recipeId\"]").val();
+		$.get("src/html/recipe/recipe_component_create.html", function(template) {
+			$("#content").html(template);
+			$("#recipe_component_create_form input[name=\"recipeId\"]").val(recipeId);
+		})
+		
+	});
+	
+	/*
+	 * Submit forms
+	 * */
+	
+	// Submit create recipe form
+	$(document).on("submit", "#recipe_create_form", function(event){
+		event.preventDefault();
+		var recipeId = $("input[name=\"recipeId\"]").val();
+		createRecipe($(this).serializeJSON()).done(function(data) {
+			getResponseMessageAndRedirect(data, function() { return showRecipeEditPage(recipeId) });
+		}).fail(function(data) {
+			console.log("Fejl i Recipe REST");
+		});
 	})
 	
-})
-
-$(document).on("submit", "#recipe_component_create_form", function(event) {
-	event.preventDefault();
-	createRecipeComp($(this).serializeJSON()).done(function(data) {
-		var splitData = data.split(": ");
-		switch(splitData[0]) {
-		case "success": 
-			var recipeId = $("#recipe_component_create_form input[name=\"recipeId\"]").val();
-			showRecipeEditPage(recipeId);
-			alert(splitData[1]);
-			break;
-		default: //system error
-			alert(splitData[1]);
-		}
+	// Submit edit recipe component form
+	$(document).on("submit", "#recipe_comp_edit_form", function(event) {
+		event.preventDefault();
+		var recipeId = $("input[name=\"recipeId\"]").val();
+		updateRecipeComp($(this).serializeJSON()).done(function(data) {
+			getResponseMessageAndRedirect(data, function() { return showRecipeEditPage(recipeId) });
+		}).fail(function(data) {
+			console.log("Fejl i RecipeComp REST");
+		});
+	});
+	
+	// Submit create recipe component form
+	$(document).on("submit", "#recipe_component_create_form", function(event) {
+		event.preventDefault();
+		var recipeId = $("input[name=\"recipeId\"]").val();
+		createRecipeComp($(this).serializeJSON()).done(function(data) {
+			getResponseMessageAndRedirect(data, function() { return showRecipeEditPage(recipeId) });
+		});
 	});
 });
 
-})
+/*
+ * Functions
+ * */
 
-/* Functions */
-/* Creates a table of all the recipes in the system. And shows it in the section with id="content" */
 function showRecipeListPage() {
 	getRecipeList().done(function(data) {
 		$.get("src/html/recipe/recipe_list.html", function(template) {
@@ -143,14 +108,11 @@ function showRecipeListPage() {
 				});
 			});
 		});
-	})
-	.fail(function(data){
-		console.log("System fejl")
-		alert("System fejl")
-	})
+	}).fail(function(data){
+		console.log("Fejl i Recipe REST")
+	});
 }
 
-/* Creates a table of all the recipe components in a specific recipe. */
 function showRecipeCompsPage(recipeId) {
 	getRecipeContent(recipeId).done(function(data) {
 		$.get("src/html/recipe/recipe_comp_list.html", function(template) {
@@ -178,16 +140,18 @@ function showRecipeEditPage(recipeId) {
 	
 }
 
+/*
+ * REST functions
+ * */
+
 function updateRecipeComp(form) {
 	return $.ajax({
 		url: "rest/recipe_component/update",
 		type: "PUT",
 		contentType: "application/json",
 		data: form
-	})
+	});
 }
-
-
 
 function getRecipeComp(recipeId, rawMaterialId) {
 	var json = JSON.stringify({recipeId: recipeId, rawMaterialId: rawMaterialId});
@@ -205,7 +169,7 @@ function createRecipeComp(form) {
 		type: "POST",
 		contentType: "application/json",
 		data: form
-	})
+	});
 }
 
 function createRecipe(form) {
@@ -214,7 +178,7 @@ function createRecipe(form) {
 		type: "POST",
 		contentType: "application/json",
 		data: form
-		});
+	});
 }
 
 function getRecipeList() {
@@ -231,7 +195,7 @@ function getRecipe(id){
 		type: "POST",
 		data: id,
 		contentType: "application/json"
-	})
+	});
 }
 
 function getRecipeContent(recipeId){
@@ -240,5 +204,5 @@ function getRecipeContent(recipeId){
 		type: "POST",
 		data: recipeId,
 		contentType: "application/json"
-	})
+	});
 }

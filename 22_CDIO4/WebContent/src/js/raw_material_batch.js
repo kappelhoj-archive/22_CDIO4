@@ -1,10 +1,10 @@
 $(document).ready(function() {
 	
-	/** 
+	/* 
 	 * Links
-	 * **/
+	 * */
 	
-	// Link to list raw material batch page
+	// Link to list raw material batches page
 	$(document).on("click", ".raw_material_batch_list_link", function(event) {
 		event.preventDefault();
 		showRawMaterialBatchListPage();
@@ -36,37 +36,28 @@ $(document).ready(function() {
 	 * Submit forms
 	 * */
 	
-	// Submit form to create raw material batch
+	// Submit create raw material batch form
 	$(document).on("submit", "#raw_material_batch_create_form", function(event) {
 		event.preventDefault();
 		createRawMaterialBatch($(this).serializeJSON()).done(function(data) {
-			saveRecord(data, showRawMaterialBatchListPage);
+			getResponseMessageAndRedirect(data, function() { return showRawMaterialBatchListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i REST");
 		});
 	});
 	
-	// Submit form to edit raw material batch
+	// Submit edit raw material batch form
 	$(document).on("submit", "#raw_material_batch_edit_form", function(event) {
 		event.preventDefault();
 		updateRawMaterialBatch($(this).serializeJSON()).done(function(data) {
-			saveRecord(data, showRawMaterialBatchListPage);
+			getResponseMessageAndRedirect(data, function() { showRawMaterialBatchListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i REST");
 		});
 	});
 });
 
-
-function createRawMaterialBatch(form) {
-	return $.ajax({
-		url : "rest/raw_material_batch/create",
-		type : "POST",
-		contentType : "application/json",
-		data : form
-	});
-}
-
+// Show list of raw material batches page
 function showRawMaterialBatchListPage() {
 	getRawMaterialBatchList().done(function(data) {
 		$.get("src/html/raw_material_batch/raw_material_batch_list.html", function(template) {
@@ -86,6 +77,15 @@ function showRawMaterialBatchListPage() {
 /*
  * REST functions
  * */
+
+function createRawMaterialBatch(form) {
+	return $.ajax({
+		url : "rest/raw_material_batch/create",
+		type : "POST",
+		contentType : "application/json",
+		data : form
+	});
+}
 
 function updateRawMaterialBatch(form) {
 	return $.ajax({
@@ -113,7 +113,7 @@ function getRawMaterialBatchList() {
 	});
 }
 
-// Get raw material 
+// Get list of raw material batches for a specific raw material
 function getRawMaterialBatchListSpecific(rawMaterialId) {
 	return $.ajax({
 		url : "rest/raw_material_batch/read_list_specific",
