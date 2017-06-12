@@ -57,7 +57,7 @@ public class WeightController implements Runnable {
 	List<ProductBatchCompDTO> measurements;
 
 	/**
-	 * 
+	 * Create a measurementController that takes a socket. Also get all the DAOs automaticly.
 	 * @param measurementAdder
 	 *            object that receives measurements.
 	 * @param weightConnection
@@ -71,7 +71,7 @@ public class WeightController implements Runnable {
 	}
 
 	/**
-	 * 
+	 * Create a WeightController with a weightCommunicator.
 	 * @param measurementAdder
 	 *            Object that receives measurements.
 	 * @param weightCommunication
