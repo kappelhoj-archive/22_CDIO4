@@ -77,7 +77,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 			case StartUp:
 				outToWeight.writeBytes("K 3" + "\r" + "\n");
 				break;
-				
+
 			default:
 				break;
 
@@ -110,8 +110,8 @@ public class WeightCommunicator implements IWeightCommunicator {
 		if (answerReceived.contains("K R 3")) {
 			throw new LogOutException(answerReceived);
 		} else{throw new ProtocolErrorException(answerReceived);}
-		
-		
+
+
 	}
 	/**
 	 * Method which sends a String message, and then checks to see if it
@@ -149,7 +149,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 			// TODO Auto-generated catch block
 			throw new InvalidReturnMessageException(e1.getMessage());
 		}
-		
+
 		try {
 			if(checkAcknowledgement(Protocol.RM20,answerReceived)){
 				return waitForAnswer();
@@ -214,24 +214,17 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 */
 	@Override
 	public double getWeight() throws ProtocolErrorException {
-		
+
 		sendProtocol(Protocol.Measurement, null);
 		answerReceived = waitForAnswer();
 		String[] splitAnswer=answerReceived.split(" ");
 		if (checkAcknowledgement(Protocol.Measurement, answerReceived))
 		{
-			for(int i =0; splitAnswer.length>i;i++)
-			{
-				if(splitAnswer[i].matches("\\d"))
-				{
-					return Double.parseDouble(splitAnswer[i]);
-				}
-			}
-			
+			return Double.parseDouble(splitAnswer[splitAnswer.length-2]);
 		}
-		else{throw new ProtocolErrorException(answerReceived);
+		else{
+			throw new ProtocolErrorException(answerReceived);
 		}
-		throw new ProtocolErrorException(answerReceived);
 
 	}
 	/**
@@ -239,17 +232,21 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 */
 	// TODO Look at exception
 	public void cleanStream(){
-
+		sendProtocol(Protocol.StartUp, null);
 		try {
-			sendProtocol(Protocol.StartUp, null);
-			String temp="A Z";
-			while (!checkAcknowledgement(Protocol.StartUp, temp)) {
-				temp=waitForAnswer();
+			while(true){
+				String answer = waitForAnswer();
+				splitAnswer = answer.split(" ");
+				splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+				if(splitAnswer[0].contains("K")&&splitAnswer[1].contains("A"))
+				{
+					return;
+				}			
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			}
+		}
 	}
 
 	/**

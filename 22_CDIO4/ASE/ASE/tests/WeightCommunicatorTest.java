@@ -68,19 +68,29 @@ public class WeightCommunicatorTest {
 	}
 
 	@Test
-	public void testReceiveButtonPush() throws ProtocolErrorException, LogOutException, IOException {
+	public void testReceiveButtonPush() throws ProtocolErrorException, IOException {
 		try{
-			outToServer.writeBytes("K C 2"+"\r" + "\n");
+			outToServer.writeBytes("K R 3"+"\r" + "\n");
 			weightCommunicator.receiveButtonPush();	
 			fail("if hits this");		
 		}
 		catch(LogOutException e)
 		{
-			outToServer.writeBytes("K R 3"+"\r" + "\n");
-			assertEquals(IWeightCommunicator.Buttons.BACK,weightCommunicator.receiveButtonPush());
+			outToServer.writeBytes("K C 2"+"\r" + "\n");
+			try {
+				assertEquals(IWeightCommunicator.Buttons.BACK,weightCommunicator.receiveButtonPush());
+			} catch (LogOutException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			outToServer.writeBytes("K C 4"+"\r" + "\n");
-			assertEquals(IWeightCommunicator.Buttons.CONFIRM,weightCommunicator.receiveButtonPush());
+			try {
+				assertEquals(IWeightCommunicator.Buttons.CONFIRM,weightCommunicator.receiveButtonPush());
+			} catch (LogOutException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 	}
 
@@ -136,6 +146,7 @@ public class WeightCommunicatorTest {
 			outToServer.writeBytes("P111 A"+"\r" + "\n");
 			outToServer.writeBytes("P111 A"+"\r" + "\n");
 			outToServer.writeBytes("P111 A"+"\r" + "\n");
+			outToServer.writeBytes("K A"+"\r" + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
