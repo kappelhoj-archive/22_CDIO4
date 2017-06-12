@@ -272,11 +272,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 					return;
 				}
-				else{
-					previousMessageRecived=answerReceived;
-					throw new ProtocolErrorException(answerReceived);
-				}
-				//TODO: return of RM20 0
+
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
