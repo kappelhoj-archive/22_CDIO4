@@ -23,9 +23,10 @@ public class ConnectionReader {
 
 	public ConnectionReader(String fileLocation) {
 		this.fileLocation = fileLocation;
+		
 
-		if (fileLocation.equals(null)) {
-			fileLocation = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt";
+		if (fileLocation==null) {
+			this.fileLocation = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt";
 		}
 	}
 
@@ -108,7 +109,9 @@ public class ConnectionReader {
 				System.out.println("Insertion of new syntax failed!" + e1);
 			}
 
-		} finally {
+		} catch(Exception e){
+			System.out.println(e);
+		}finally {
 			weightScanner.close();
 		}
 	}
