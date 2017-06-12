@@ -72,11 +72,11 @@ public class RecipeCompCRUD {
 	public String createRecipeComp(RecipeCompDTO recipeComp) {
 		try {
 			Initializer.getRecipeCompController().createRecipeComp(recipeComp);
-			return "succes";
+			return "success: Recept komponent blev tilføjet til recepten med id " + recipeComp.getRecipeId();
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 
