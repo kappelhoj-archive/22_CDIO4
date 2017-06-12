@@ -1,7 +1,12 @@
 package ASE.Views;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -79,6 +84,29 @@ public class ConnectionReader {
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found! Attempting to create new file.");
 			FileManagement.writeData(null, TypeOfData.TXT);
+
+			// Attempt to clean the newly created file of bullshit syntax.
+			FileOutputStream fileCleaner = new FileOutputStream(
+					"C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt");
+			try {
+				fileCleaner.write(("").getBytes());
+			} catch (IOException e1) {
+				System.out.println("Cleaning of newly insert WeighTable.txt failed!");
+			}
+			try {
+				fileCleaner.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				PrintWriter syntaxWriter = new PrintWriter(new BufferedWriter(new FileWriter(
+						"C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt", true)));
+				syntaxWriter.println("IP 1.1.1.1");
+				syntaxWriter.println("PORT 1");
+				syntaxWriter.close();
+			} catch (IOException e1) {
+				System.out.println("Insertion of new syntax failed!" + e1);
+			}
 
 		} finally {
 			weightScanner.close();
