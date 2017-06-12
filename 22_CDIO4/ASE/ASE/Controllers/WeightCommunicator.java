@@ -197,7 +197,6 @@ public class WeightCommunicator implements IWeightCommunicator {
 		try {
 			answerReceived =waitForAnswer();
 		} catch (ProtocolErrorException e1) {
-			e1.printStackTrace();
 		}
 		splitAnswer = answerReceived.split(" ");
 		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
@@ -270,7 +269,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 				splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
 				if(splitAnswer[0].contains("K")&&splitAnswer[1].contains("A"))
 				{
-					System.out.println(splitAnswer[0]+splitAnswer[1]);
+
 					return;
 				}
 				else{
@@ -281,7 +280,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
 	}
 	public String waitForAnswer() throws ProtocolErrorException {
