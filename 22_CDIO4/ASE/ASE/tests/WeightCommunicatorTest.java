@@ -173,6 +173,15 @@ public class WeightCommunicatorTest {
 		} catch (InvalidReturnMessageException e) {
 			fail("did not expect a InvalidReturnMessageException");
 		}
+		
+
+		outToServer.writeBytes("RM20 B" + "\r" + "\n");
+		outToServer.writeBytes("RM20 A \"123\"" + "\r" + "\n");
+		try {
+			weightCommunicator.askForInformation("hej");
+		} catch (InvalidReturnMessageException e) {
+			fail("did not expect a InvalidReturnMessageException");
+		}
 	}
 
 	@Test
