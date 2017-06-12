@@ -405,6 +405,7 @@ public class WeightController implements Runnable {
 			return weightCommunication.receiveButtonPush();
 
 		} catch (InvalidReturnMessageException e) {
+			System.out.println("Caught Exception:"+e);
 			return weightCommunication.receiveButtonPush();
 		}
 

@@ -102,6 +102,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 			previousMessageRecived=null;
 		}
 		else{answerReceived = waitForAnswer();}
+		System.out.println(answerReceived);
 
 		if (answerReceived.contains("K C 4")) {
 			return Buttons.CONFIRM;
@@ -112,6 +113,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 
 		if (answerReceived.contains("K R 3")) {
+			
 			throw new LogOutException(answerReceived);
 		} else{throw new ProtocolErrorException(answerReceived);}
 
@@ -184,7 +186,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
-			previousMessageRecived="K C 2";
+			previousMessageRecived="K R 3";
 			throw new InvalidReturnMessageException(e.getMessage());
 		}
 	}
