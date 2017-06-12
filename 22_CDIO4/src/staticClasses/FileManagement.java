@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 
 
 public class FileManagement {
-	
+
 	final static String PATH = "C:\\Users\\Public\\Documents\\";
 
 
@@ -21,7 +21,8 @@ public class FileManagement {
 		RAWMATERIAL,
 		RECIPECOMP,
 		RECIPE,
-		USER
+		USER,
+		TXT
 	}
 
 	/**
@@ -36,7 +37,10 @@ public class FileManagement {
 		ObjectOutputStream o = null;
 
 		try {
-			f = new FileOutputStream(new File(PATH+type.toString()+".data"));
+			if(type == TypeOfData.TXT)
+				f = new FileOutputStream(new File(PATH+"WeightTable.txt"));
+			else
+				f = new FileOutputStream(new File(PATH+type.toString()+".data"));
 			o = new ObjectOutputStream(f);
 
 			o.writeObject(dto);
