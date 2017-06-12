@@ -135,8 +135,25 @@ public class WeightCommunicatorTest {
 
 	@Test
 	public void testAskForInformation() throws IOException{
+		String expected ="123";
 		outToServer.writeBytes("RM20 B" + "\r" + "\n");
 		outToServer.writeBytes("RM20 A \"123\"" + "\r" + "\n");
+		try {
+			String actual=weightCommunicator.askForInformation("Hello!");
+			assertEquals(expected,actual);
+		} catch (InvalidReturnMessageException e) {
+			fail("Did not expect an exception");
+		}
+		
+		outToServer.writeBytes("P111 A \"123\"" + "\r" + "\n");
+		try {
+			weightCommunicator.askForInformation("Hello!");
+			fail("Expected an exception");
+		} catch (InvalidReturnMessageException e) {
+			
+		}
+		
+		
 	}
 
 	@Test
