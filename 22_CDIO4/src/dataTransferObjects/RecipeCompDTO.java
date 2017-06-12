@@ -10,7 +10,11 @@ public class RecipeCompDTO extends DTO
 	int rawMaterialId;             // i omraadet 1-99999999
 	double nomNetto;            // skal vaere positiv og passende stor
 	double tolerance;           // skal vaere positiv og passende stor
-
+	
+	public RecipeCompDTO() {
+		
+	}
+	
 	public RecipeCompDTO(int recipeId, int rawMaterialId, double nomNetto, double tolerance)
 	{
 		this.recipeId = recipeId;

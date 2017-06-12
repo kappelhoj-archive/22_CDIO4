@@ -148,7 +148,7 @@ function updateRecipeComp() {
 		url: "rest/recipe_component/update",
 		type: "PUT",
 		contentType: "application/json",
-		data: $("recipe_comp_edit_form").serializeJSON()
+		data: $("#recipe_comp_edit_form").serializeJSON()
 	})
 }
 
