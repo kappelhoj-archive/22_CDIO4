@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	
-	showLoginPage();
+	showNewPassPage();
 
 	// Logout link
 	$(document).on("click", ".logout_link", function(event) {
@@ -9,17 +9,23 @@ $(document).ready(function() {
 	});
 	
 	/*
-	 * Submit login form
+	 * Submit forms
 	 * */
+	
+	// Submit login form
 	$(document).on("submit", "#login_form", function(event) {
 		event.preventDefault();
+		
+		//brug rest function
 		$.ajax({
-			url : 'rest/login/login-user',
+			url : 'rest/login/user',
 			type : 'POST',
 			contentType : "application/json",
 			data : $(this).serializeJSON(),
 			success : function(data) {
-				switch(data) {
+				var splitData = data.split(": ");
+				$("#login_form .alert").remove();
+				switch(splitData[0]) {
 				case "super_login":
 					$.get("src/html/master.html", function(template) {
 						$("body").html(template);
@@ -36,13 +42,11 @@ $(document).ready(function() {
 							});
 						  });
 					});
-					console.log(data);
 					break;
 				case "new_login":
 					$.get("src/html/login_new_pass.html", function(template) {
 			            $("body").html(template)		            
 			        });
-					console.log(data);
 					break;
 				case "true_login":
 					var userId = $("#login_form input[name=\"id\"]").val();
@@ -82,7 +86,7 @@ $(document).ready(function() {
 					});
 					break;
 				default: // not logged in
-					console.log(data);
+					$("#login_form").find(".form-group:last").prepend("<div class=\"alert alert-danger\" role=\"alert\">" + splitData[1] + "</div>");
 				}
 			},
 			error: function(data){
@@ -90,7 +94,26 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	// Submit new password on login form
+	$(document).on("submit", "#login_new_pass_form", function(event) {
+		event.preventDefault();
+		// brug rest function
+		$.ajax({
+			url : 'rest/login/new_password',
+			type : 'POST',
+			contentType : "application/json",
+			data : $(this).serializeJSON(),
+			success : function(data) {
+				console.log("suh dude")
+			}
+		});
+	});
 });
+
+/*
+ * Functions
+ * */
 
 // Show the login page and focus the id input field.
 function showLoginPage() {
@@ -100,9 +123,39 @@ function showLoginPage() {
     });
 }
 
+function showNewPassPage() {
+	$.get("src/html/login_new_pass.html", function(template) {
+        $("body").html(template);
+        validateLoginNewPass();
+    });
+}
+
 // Show side navigation depending on the user's role.
 function getRoleTemplate(template) {
 	return $.get(template, function(template) {
 		$("#side_panel > #side_nav > ul").append(template);
+	});
+}
+
+/*
+ * REST functions
+ * 
+ */
+
+function userLogin(form) {
+	return $.ajax({
+		url : 'rest/login/user',
+		type : 'POST',
+		contentType : "application/json",
+		data : form
+	});
+}
+
+function userLoginNewPass(form) {
+	return $.ajax({
+		url : 'rest/login/new_password',
+		type : 'PUT',
+		contentType : "application/json",
+		data : form
 	});
 }

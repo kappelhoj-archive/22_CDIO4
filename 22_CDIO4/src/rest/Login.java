@@ -14,7 +14,7 @@ import exceptions.InputException;
 @Path("login")
 public class Login {
 	
-	@Path("login-user")
+	@Path("user")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String loginUser(LoginPOJO login) {
@@ -27,11 +27,11 @@ public class Login {
 		case NEW:
 			return "new_login";
 		default:
-			return "not_login";
+			return "not_login: Bruger id eller password er forkert.";
 		}
 	}
 	
-	@Path("new-password")
+	@Path("new_password")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String newPassword(LoginPOJO login) {

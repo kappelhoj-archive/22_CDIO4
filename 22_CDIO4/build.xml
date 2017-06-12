@@ -59,6 +59,7 @@
         	<!-- Indsæt alle js filer her -->
         	<fileset dir="${SRC_JS_DIR}" includes="login.js" />
         	<fileset dir="${SRC_JS_DIR}" includes="general.js" />
+        	<fileset dir="${SRC_JS_DIR}" includes="validation.js" />
         	<fileset dir="${SRC_JS_DIR}" includes="product_batch.js" />
         	<fileset dir="${SRC_JS_DIR}" includes="raw_material_batch.js" />
         	<fileset dir="${SRC_JS_DIR}" includes="recipe.js"/>
