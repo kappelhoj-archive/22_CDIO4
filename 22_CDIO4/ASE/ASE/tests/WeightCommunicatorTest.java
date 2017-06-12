@@ -134,18 +134,27 @@ public class WeightCommunicatorTest {
 	
 
 	@Test
-	public void testAskForInformation() {
-		fail("Not yet implemented");
+	public void testAskForInformation() throws IOException{
+		outToServer.writeBytes("RM20 B" + "\r" + "\n");
+		outToServer.writeBytes("RM20 A \"123\"" + "\r" + "\n");
 	}
 
 	@Test
 	public void testRestartWeightDisplay() throws IOException {
-		// outToServer.writeBytes("P111 A"+"\r" + "\n");
-		// outToServer.writeBytes("P111 A"+"\r" + "\n");
-		// outToServer.writeBytes("P111 A"+"\r" + "\n");
-		// outToServer.writeBytes("P111 A"+"\r" + "\n");
-		// weightCommunicator.restartWeightDisplay();
-
+		outToServer.writeBytes("RM20 A" + "\r" + "\n");
+		outToServer.writeBytes("RM20 A" + "\r" + "\n");
+		outToServer.writeBytes("RM20 A" + "\r" + "\n");
+		outToServer.writeBytes("K C 4" + "\r" + "\n");
+		outToServer.writeBytes("K A" + "\r" + "\n");
+		
+		weightCommunicator.restartWeightDisplay();
+		
+		outToServer.writeBytes("P111 A" + "\r" + "\n");
+		try {
+			weightCommunicator.sendMessage("hej");
+		} catch (InvalidReturnMessageException e) {
+			fail("did not expect a InvalidReturnMessageException");
+		}
 	}
 
 	@Test
@@ -185,63 +194,16 @@ public class WeightCommunicatorTest {
 		} catch (ProtocolErrorException e) {
 			fail("Did not expect a protocol exception.");
 		}
-		
+		outToServer.writeBytes("K A" + "   1.232 kg" + "\r" + "\n");
+		try {
+			actual = weightCommunicator.getWeight();
+			fail("Expected a protocolException");
+		} catch (ProtocolErrorException e) {
+			
+		}
 
 	}
 
-	@Test
-	public void testCleanStream() {
-		try {
-			outToServer.writeBytes("P111 A" + "\r" + "\n");
-			outToServer.writeBytes("P111 A" + "\r" + "\n");
-			outToServer.writeBytes("P111 A" + "\r" + "\n");
-			outToServer.writeBytes("P111 A" + "\r" + "\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		weightCommunicator.cleanStream();
-		weightCommunicator.stopWeight();
-		try {
-			assertEquals("Q", waitForAnswer());
-		} catch (ProtocolErrorException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testCheckAcknowledgement() throws ProtocolErrorException {
-		weightCommunicator.checkAcknowledgement(Protocol.P111, "P111 A" + "\r" + "\n");
-		weightCommunicator.checkAcknowledgement(Protocol.RM20, "RM20 B" + "\r" + "\n");
-		weightCommunicator.checkAcknowledgement(Protocol.DisplayClean, "DW A" + "\r" + "\n");
-		weightCommunicator.checkAcknowledgement(Protocol.Tara, "T S" + "\r" + "\n");
-		weightCommunicator.checkAcknowledgement(Protocol.Measurement, "S S" + "   1.232 kg" + "\r" + "\n");
-		try {
-			weightCommunicator.checkAcknowledgement(Protocol.P111, "P111 B" + "\r" + "\n");
-			fail();
-		} catch (ProtocolErrorException e) {
-		}
-		try {
-			weightCommunicator.checkAcknowledgement(Protocol.RM20, "RM20 A" + "\r" + "\n");
-			fail();
-		} catch (ProtocolErrorException e) {
-		}
-		try {
-			weightCommunicator.checkAcknowledgement(Protocol.DisplayClean, "DW H" + "\r" + "\n");
-			fail();
-		} catch (ProtocolErrorException e) {
-		}
-		try {
-			weightCommunicator.checkAcknowledgement(Protocol.Tara, "T K" + "\r" + "\n");
-			fail();
-		} catch (ProtocolErrorException e) {
-		}
-		try {
-			weightCommunicator.checkAcknowledgement(Protocol.Measurement, "S B" + "   1.232 kg" + "\r" + "\n");
-			fail();
-		} catch (ProtocolErrorException e) {
-		}
-
-	}
 
 	@Test
 	public void testWaitForAnswer() throws IOException, ProtocolErrorException {
