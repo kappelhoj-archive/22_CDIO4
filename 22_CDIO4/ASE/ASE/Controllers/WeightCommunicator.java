@@ -26,7 +26,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	String splitAnswer[];
 
 	public enum Protocol {
-		RM20, P111, Tara, Measurement, Brutto, DisplayClean, Quit, StartUp
+		RM20, P111, Tara, Measurement, Brutto, DisplayClean, Quit, StartUp, CleanRM20
 	}
 	/**
 	 * Creation of mySocket, outToWeight and inFromWeight as a socket,
@@ -46,13 +46,17 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 * Method to send a Protocol to the weight on the this socket.
 	 * 
 	 * @param protocol
-	 *            The protocal that is sent to the weight.
+	 *            The protocol that is sent to the weight.
 	 * @param message
 	 *            The message sent alongside the protocol.
 	 */
 	public void sendProtocol(Protocol protocol, String message) {
 		try {
 			switch (protocol) {
+			
+			case CleanRM20:
+				outToWeight.writeBytes("RM20 0" + "\r" + "\n");
+				break;
 			case RM20:
 				outToWeight.writeBytes("RM20 8 \"" + message + "\" \"\" \"&3\"" + "\n");
 				break;
@@ -77,7 +81,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 			case StartUp:
 				outToWeight.writeBytes("K 3" + "\r" + "\n");
 				break;
-				
+
 			default:
 				break;
 
@@ -110,8 +114,8 @@ public class WeightCommunicator implements IWeightCommunicator {
 		if (answerReceived.contains("K R 3")) {
 			throw new LogOutException(answerReceived);
 		} else{throw new ProtocolErrorException(answerReceived);}
-		
-		
+
+
 	}
 	/**
 	 * Method which sends a String message, and then checks to see if it
@@ -127,10 +131,15 @@ public class WeightCommunicator implements IWeightCommunicator {
 			// TODO Auto-generated catch block
 			throw new InvalidReturnMessageException(e1.getMessage());
 		}
-		try {
-			checkAcknowledgement(Protocol.P111, answerReceived);
-		} catch (ProtocolErrorException e) {
-			throw new InvalidReturnMessageException(e.getMessage());
+		splitAnswer = answerReceived.split(" ");
+		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+		if(splitAnswer[0].contains("P111")&&splitAnswer[1].contains("A"))
+		{
+			return;
+		}
+		else{
+			previousMessageRecived=answerReceived;
+			throw new InvalidReturnMessageException(answerReceived);
 		}
 
 	}
@@ -149,16 +158,34 @@ public class WeightCommunicator implements IWeightCommunicator {
 			// TODO Auto-generated catch block
 			throw new InvalidReturnMessageException(e1.getMessage());
 		}
-		
+
+		splitAnswer = answerReceived.split(" ");
+		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+		//Checks for acknowledgement 
 		try {
-			if(checkAcknowledgement(Protocol.RM20,answerReceived)){
-				return waitForAnswer();
+			if(splitAnswer[0].contains("RM20")&&splitAnswer[1].contains("B")){
+				answerReceived=waitForAnswer();
+				splitAnswer = answerReceived.split(" ");
+				splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+			}
+			else{
+				previousMessageRecived=answerReceived;
+				throw new ProtocolErrorException(answerReceived);
+			}
+			//checks for answere
+			if(splitAnswer[0].contains("RM20")&&splitAnswer[1].contains("A"))
+			{
+				splitAnswer=answerReceived.split("\"");
+				return splitAnswer[1];
+			}
+			else{
+				previousMessageRecived=answerReceived;
+				throw new ProtocolErrorException(answerReceived);
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
 			throw new InvalidReturnMessageException(e.getMessage());
 		}
-		return null;
 	}
 	/**
 	 * Simple method to restart the weight display.
@@ -170,19 +197,16 @@ public class WeightCommunicator implements IWeightCommunicator {
 		try {
 			answerReceived =waitForAnswer();
 		} catch (ProtocolErrorException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		splitAnswer = answerReceived.split(" ");
+		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
 
-		try {
-			if(checkAcknowledgement(Protocol.DisplayClean, answerReceived))
-			{
-
-				// TODO Er dette farligt ????
-			}else {restartWeightDisplay();}
-		} catch (ProtocolErrorException e) {
-			e.printStackTrace();
+		if(splitAnswer[0].contains("DW")&&splitAnswer[1].contains("A"))
+		{	
+			return;
 		}
+		else {restartWeightDisplay();}
 
 
 
@@ -202,11 +226,15 @@ public class WeightCommunicator implements IWeightCommunicator {
 	public void taraWeight() throws ProtocolErrorException {
 		sendProtocol(Protocol.Tara, null);
 		answerReceived=waitForAnswer();
-		if(checkAcknowledgement(Protocol.Tara, answerReceived))
+		splitAnswer = answerReceived.split(" ");
+		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+		if(splitAnswer[0].contains("T")&&splitAnswer[1].contains("S"))
 		{	
 			return;
 		}
-		else throw new ProtocolErrorException(answerReceived);
+		else{
+			previousMessageRecived=answerReceived; 
+			throw new ProtocolErrorException(answerReceived);}
 
 	}
 	/**
@@ -214,24 +242,18 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 */
 	@Override
 	public double getWeight() throws ProtocolErrorException {
-		
+
 		sendProtocol(Protocol.Measurement, null);
 		answerReceived = waitForAnswer();
 		String[] splitAnswer=answerReceived.split(" ");
-		if (checkAcknowledgement(Protocol.Measurement, answerReceived))
+		if (splitAnswer[0].contains("T")&&splitAnswer[1].contains("S"))
 		{
-			for(int i =0; splitAnswer.length>i;i++)
-			{
-				if(splitAnswer[i].matches("\\d"))
-				{
-					return Double.parseDouble(splitAnswer[i]);
-				}
-			}
-			
+			return Double.parseDouble(splitAnswer[splitAnswer.length-2]);
 		}
-		else{throw new ProtocolErrorException(answerReceived);
+		else{
+			previousMessageRecived=answerReceived;
+			throw new ProtocolErrorException(answerReceived);
 		}
-		throw new ProtocolErrorException(answerReceived);
 
 	}
 	/**
@@ -239,93 +261,28 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 */
 	// TODO Look at exception
 	public void cleanStream(){
-
+		sendProtocol(Protocol.CleanRM20, null);
+		sendProtocol(Protocol.StartUp, null);
 		try {
-			sendProtocol(Protocol.StartUp, null);
-			String temp="A Z";
-			while (!checkAcknowledgement(Protocol.StartUp, temp)) {
-				temp=waitForAnswer();
+			while(true){
+				String answer = waitForAnswer();
+				splitAnswer = answer.split(" ");
+				splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+				if(splitAnswer[0].contains("K")&&splitAnswer[1].contains("A"))
+				{
+					System.out.println(splitAnswer[0]+splitAnswer[1]);
+					return;
+				}
+				else{
+					previousMessageRecived=answerReceived;
+					throw new ProtocolErrorException(answerReceived);
+				}
+				//TODO: return of RM20 0
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			}
-	}
-
-	/**
-	 * Method to check what kind of acknowledgement is sent back from the
-	 * weight.
-	 * 
-	 * @param prevProtocol
-	 *            The previous protocol sent of to the weight.
-	 * @param answer
-	 *            The answer returned by the weight.
-	 * @return Returns False in case the method fails.
-	 * @throws ProtocolErrorException
-	 *             Throws an exception in case the acknowledgement is not
-	 *             recognized.
-	 */
-
-
-
-
-	public boolean checkAcknowledgement(Protocol prevProtocol, String answer) throws ProtocolErrorException {
-		splitAnswer = answer.split(" ");
-		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
-		switch (prevProtocol) {
-		case RM20:
-			switch (splitAnswer[1]) {
-			case "B":
-				return true;
-			default:
-				previousMessageRecived = answer;
-				throw new ProtocolErrorException(answer);
-			}
-		case P111:
-
-			switch (splitAnswer[1]) {
-			case "A":
-				return true;
-			default:
-				previousMessageRecived = answer;
-				throw new ProtocolErrorException(answer);
-			}
-		case DisplayClean:
-			switch (splitAnswer[1]) {
-			case "A":
-				return true;
-			default:
-				previousMessageRecived = answer;
-				throw new ProtocolErrorException(answer);
-			}
-		case Tara:
-			switch (splitAnswer[1]) {
-			case "S":
-				return true;
-			default:
-				previousMessageRecived = answer;
-				throw new ProtocolErrorException(answer);
-			}
-		case Measurement:
-			switch (splitAnswer[1]) {
-			case "S":
-				return true;
-			default:
-				previousMessageRecived = answer;
-				throw new ProtocolErrorException(answer);
-			}
-		case StartUp:
-			switch (splitAnswer[1]) {
-			case "A":
-				return true;
-			default:
-				previousMessageRecived = answer;
-				throw new ProtocolErrorException(answer);
-			}
-		default:
-			return false;
 		}
-
 	}
 	public String waitForAnswer() throws ProtocolErrorException {
 		try {
@@ -348,6 +305,82 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 		return answerReceived;
 	}
+	
+	/**
+	 * Method to check what kind of acknowledgement is sent back from the
+	 * weight.
+	 * 
+	 * @param prevProtocol
+	 *            The previous protocol sent of to the weight.
+	 * @param answer
+	 *            The answer returned by the weight.
+	 * @return Returns False in case the method fails.
+	 * @throws ProtocolErrorException
+	 *             Throws an exception in case the acknowledgement is not
+	 *             recognized.
+	 */
+
+
+
+
+//	public boolean checkAcknowledgement(Protocol prevProtocol, String answer) throws ProtocolErrorException {
+//		splitAnswer = answer.split(" ");
+//		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+//		switch (prevProtocol) {
+//		case RM20:
+//			switch (splitAnswer[1]) {
+//			case "B":
+//				return true;
+//			default:
+//				previousMessageRecived = answer;
+//				throw new ProtocolErrorException(answer);
+//			}
+//		case P111:
+//
+//			switch (splitAnswer[1]) {
+//			case "A":
+//				return true;
+//			default:
+//				previousMessageRecived = answer;
+//				throw new ProtocolErrorException(answer);
+//			}
+//		case DisplayClean:
+//			switch (splitAnswer[1]) {
+//			case "A":
+//				return true;
+//			default:
+//				previousMessageRecived = answer;
+//				throw new ProtocolErrorException(answer);
+//			}
+//		case Tara:
+//			switch (splitAnswer[1]) {
+//			case "S":
+//				return true;
+//			default:
+//				previousMessageRecived = answer;
+//				throw new ProtocolErrorException(answer);
+//			}
+//		case Measurement:
+//			switch (splitAnswer[1]) {
+//			case "S":
+//				return true;
+//			default:
+//				previousMessageRecived = answer;
+//				throw new ProtocolErrorException(answer);
+//			}
+//		case StartUp:
+//			switch (splitAnswer[1]) {
+//			case "A":
+//				return true;
+//			default:
+//				previousMessageRecived = answer;
+//				throw new ProtocolErrorException(answer);
+//			}
+//		default:
+//			return false;
+//		}
+//
+//	}
 
 	// public String RM20(String message) throws IOException,
 	// ProtocolErrorException {

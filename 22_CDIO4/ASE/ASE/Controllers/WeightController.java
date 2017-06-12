@@ -26,6 +26,7 @@ import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 
+
 /**
  * 
  * @author arvid
@@ -56,7 +57,7 @@ public class WeightController implements Runnable {
 	List<ProductBatchCompDTO> measurements;
 
 	/**
-	 * 
+	 * Create a measurementController that takes a socket. Also get all the DAOs automaticly.
 	 * @param measurementAdder
 	 *            object that receives measurements.
 	 * @param weightConnection
@@ -70,6 +71,7 @@ public class WeightController implements Runnable {
 	}
 
 	/**
+	 * Create a WeightController with a weightCommunicator.
 	 * @param measurementAdder
 	 *            Object that receives measurements.
 	 * @param weightCommunication
@@ -221,7 +223,7 @@ public class WeightController implements Runnable {
 			measurements = new ArrayList<ProductBatchCompDTO>();
 
 			try {
-				
+				//Find all the recipe components.
 				ArrayList<RecipeCompDTO> myRecipe = (ArrayList<RecipeCompDTO>) recipeCompDAO
 						.getRecipeCompList(pbDTO.getReceptId());
 				
@@ -409,8 +411,8 @@ public class WeightController implements Runnable {
 	} 
 
 /**
- * 
- * @param message
+ * Sends a message and wait for confirmation from the user.
+ * @param message 
  * @return
  * @throws ProtocolErrorException
  * @throws LogOutException

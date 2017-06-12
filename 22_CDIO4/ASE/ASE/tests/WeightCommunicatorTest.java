@@ -15,7 +15,8 @@ import ASE.Controllers.WeightCommunicator.Protocol;
 import ASE.exceptions.InvalidReturnMessageException;
 import ASE.exceptions.LogOutException;
 import ASE.exceptions.ProtocolErrorException;
-import ASE.interfaces.IWeightCommunicator;
+import ASE.interfaces.IWeightCommunicator.Buttons;
+
 public class WeightCommunicatorTest {
 	Socket client;
 	ServerSocket weight;
@@ -23,12 +24,13 @@ public class WeightCommunicatorTest {
 	Socket connection;
 	DataOutputStream outToServer;
 	BufferedReader inFromServer;
+
 	@Before
 	public void setUp() throws Exception {
 		weight = new ServerSocket(8000);
-		client= new Socket("localhost", 8000);
+		client = new Socket("localhost", 8000);
 		weightCommunicator = new WeightCommunicator(client);
-		connection=weight.accept();
+		connection = weight.accept();
 		outToServer = new DataOutputStream(connection.getOutputStream());
 		inFromServer = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 	}
@@ -38,6 +40,7 @@ public class WeightCommunicatorTest {
 		weight.close();
 		client.close();
 	}
+
 	public String waitForAnswer() throws ProtocolErrorException {
 		String answerReceived;
 		try {
@@ -64,46 +67,120 @@ public class WeightCommunicatorTest {
 	@Test
 	public void testSendProtocol() throws ProtocolErrorException {
 		weightCommunicator.sendProtocol(Protocol.P111, "hej");
-		assertEquals("P111 \"hej\"",waitForAnswer());
+		assertEquals("P111 \"hej\"", waitForAnswer());
 	}
 
 	@Test
-	public void testReceiveButtonPush() throws ProtocolErrorException, LogOutException, IOException {
-		try{
-			outToServer.writeBytes("K C 2"+"\r" + "\n");
-			weightCommunicator.receiveButtonPush();	
-			fail("if hits this");		
+	public void testReceiveButtonPush() throws IOException {
+		try {
+			try {
+				// Test back
+				outToServer.writeBytes("K C 2" + "\r" + "\n");
+				Buttons actual = weightCommunicator.receiveButtonPush();
+				assertEquals(Buttons.BACK, actual);
+
+				// Test Confirm
+				outToServer.writeBytes("K C 4" + "\r" + "\n");
+				actual = weightCommunicator.receiveButtonPush();
+				assertEquals(Buttons.CONFIRM, actual);
+			} catch (LogOutException e) {
+				fail("Unexpected button.");
+			}
+
+			try {
+				outToServer.writeBytes("K R 3" + "\r" + "\n");
+				weightCommunicator.receiveButtonPush();
+				fail("Expected a logout exception.");
+			} catch (LogOutException e) {
+
+			}
+
+			try {
+				outToServer.writeBytes("P111 A" + "\r" + "\n");
+				weightCommunicator.receiveButtonPush();
+				fail("Expected a Protocol exception.");
+			} catch (ProtocolErrorException e) {
+
+			} catch (LogOutException e) {
+				fail("Expected a Protocol exception.");
+			}
+
+		} catch (ProtocolErrorException e) {
+			fail("Did not expect a protocol exception here.");
 		}
-		catch(LogOutException e)
-		{
-			outToServer.writeBytes("K R 3"+"\r" + "\n");
-			assertEquals(IWeightCommunicator.Buttons.BACK,weightCommunicator.receiveButtonPush());
 
-			outToServer.writeBytes("K C 4"+"\r" + "\n");
-			assertEquals(IWeightCommunicator.Buttons.CONFIRM,weightCommunicator.receiveButtonPush());
+	}
+
+	@Test
+	public void testSendMessage() throws IOException {
+		outToServer.writeBytes("P111 A" + "\r" + "\n");
+		try {
+			weightCommunicator.sendMessage("hej");
+		} catch (InvalidReturnMessageException e) {
+			fail("did not expect a InvalidReturnMessageException");
+		}
+		
+		outToServer.writeBytes("K C 4" + "\r" + "\n");
+		outToServer.writeBytes("P111 A" + "\r" + "\n");
+		
+		try {
+			weightCommunicator.sendMessage("hej");
+			fail("Expected a invalid return message");
+		} catch (InvalidReturnMessageException e) {
+			
 		}
 	}
+	
 
 	@Test
-	public void testSendMessage() throws ProtocolErrorException, InvalidReturnMessageException, IOException {
-		outToServer.writeBytes("P111 A"+"\r" + "\n");
-		weightCommunicator.sendMessage("hej");
-	}
-
-	@Test
-	public void testAskForInformation() {
-		fail("Not yet implemented");
+	public void testAskForInformation() throws IOException{
+		String expected ="123";
+		outToServer.writeBytes("RM20 B" + "\r" + "\n");
+		outToServer.writeBytes("RM20 A \"123\"" + "\r" + "\n");
+		try {
+			String actual=weightCommunicator.askForInformation("Hello!");
+			assertEquals(expected,actual);
+		} catch (InvalidReturnMessageException e) {
+			fail("Did not expect an exception");
+		}
+		
+		outToServer.writeBytes("P111 A \"123\"" + "\r" + "\n");
+		try {
+			weightCommunicator.askForInformation("Hello!");
+			fail("Expected an exception");
+		} catch (InvalidReturnMessageException e) {
+			
+		}
+		
+		
 	}
 
 	@Test
 	public void testRestartWeightDisplay() throws IOException {
-		//		outToServer.writeBytes("P111 A"+"\r" + "\n");
-		//		outToServer.writeBytes("P111 A"+"\r" + "\n");
-		//		outToServer.writeBytes("P111 A"+"\r" + "\n");
-		//		outToServer.writeBytes("P111 A"+"\r" + "\n");
-		//		weightCommunicator.restartWeightDisplay();
+		outToServer.writeBytes("RM20 A" + "\r" + "\n");
+		outToServer.writeBytes("RM20 A" + "\r" + "\n");
+		outToServer.writeBytes("RM20 A" + "\r" + "\n");
+		outToServer.writeBytes("K C 4" + "\r" + "\n");
+		outToServer.writeBytes("K A" + "\r" + "\n");
+		outToServer.writeBytes("DW A" + "\r" + "\n");
+		
+		weightCommunicator.restartWeightDisplay();
+		
+		outToServer.writeBytes("P111 A" + "\r" + "\n");
+		try {
+			weightCommunicator.sendMessage("hej");
+		} catch (InvalidReturnMessageException e) {
+			fail("did not expect a InvalidReturnMessageException");
+		}
+		
 
-
+		outToServer.writeBytes("RM20 B" + "\r" + "\n");
+		outToServer.writeBytes("RM20 A \"123\"" + "\r" + "\n");
+		try {
+			weightCommunicator.askForInformation("hej");
+		} catch (InvalidReturnMessageException e) {
+			fail("did not expect a InvalidReturnMessageException");
+		}
 	}
 
 	@Test
@@ -113,85 +190,51 @@ public class WeightCommunicatorTest {
 	}
 
 	@Test
-	public void testTaraWeight() throws ProtocolErrorException, IOException {
-		outToServer.writeBytes("T S"+"   1.232 kg"+"\r" + "\n");
-		weightCommunicator.taraWeight();
-	}
-
-	@Test
-	public void testGetWeight() throws ProtocolErrorException, IOException {
-		outToServer.writeBytes("T S"+"   1.232 kg"+"\r" + "\n");	
-		double temp = 1.232;
-		if(temp== weightCommunicator.getWeight())
-		{
+	public void testTaraWeight() throws IOException {
+		outToServer.writeBytes("T S" + "   1.232 kg" + "\r" + "\n");
+		try {
+			weightCommunicator.taraWeight();
+		} catch (ProtocolErrorException e) {
+			fail("Expected a succesfull tara.");
+		}
+		
+		outToServer.writeBytes("K A" + "   1.232 kg" + "\r" + "\n");
+		try {
+			weightCommunicator.taraWeight();
+			fail("Expected a protocol exception.");
+		} catch (ProtocolErrorException e) {
 			
 		}
-		else{fail("ups");}
 	}
 
+	
 	@Test
-	public void testCleanStream() {
+	public void testGetWeight() throws IOException {
+		outToServer.writeBytes("T S" + "   1.232 kg" + "\r" + "\n");
+		double expected = 1.232;
+		double actual;
 		try {
-			outToServer.writeBytes("P111 A"+"\r" + "\n");
-			outToServer.writeBytes("P111 A"+"\r" + "\n");
-			outToServer.writeBytes("P111 A"+"\r" + "\n");
-			outToServer.writeBytes("P111 A"+"\r" + "\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		weightCommunicator.cleanStream();
-		weightCommunicator.stopWeight();
-		try {
-			assertEquals("Q", waitForAnswer());
+			actual = weightCommunicator.getWeight();
+			assertEquals("Message",expected,actual,0.001);
+			
 		} catch (ProtocolErrorException e) {
-			e.printStackTrace();
+			fail("Did not expect a protocol exception.");
 		}
+		outToServer.writeBytes("K A" + "   1.232 kg" + "\r" + "\n");
+		try {
+			actual = weightCommunicator.getWeight();
+			fail("Expected a protocolException");
+		} catch (ProtocolErrorException e) {
+			
+		}
+
 	}
 
-	@Test
-	public void testCheckAcknowledgement() throws ProtocolErrorException {
-		weightCommunicator.checkAcknowledgement(Protocol.P111, "P111 A"+"\r" + "\n");
-		weightCommunicator.checkAcknowledgement(Protocol.RM20, "RM20 B"+"\r" + "\n");
-		weightCommunicator.checkAcknowledgement(Protocol.DisplayClean, "DW A"+"\r" + "\n");
-		weightCommunicator.checkAcknowledgement(Protocol.Tara, "T S"+"\r" + "\n");
-		weightCommunicator.checkAcknowledgement(Protocol.Measurement, "S S"+"   1.232 kg"+"\r" + "\n");
-		try
-		{
-			weightCommunicator.checkAcknowledgement(Protocol.P111, "P111 B"+"\r" + "\n");
-			fail();
-		}
-		catch(ProtocolErrorException e){}
-		try
-		{
-			weightCommunicator.checkAcknowledgement(Protocol.RM20, "RM20 A"+"\r" + "\n");
-			fail();
-		}
-		catch(ProtocolErrorException e){}
-		try
-		{
-			weightCommunicator.checkAcknowledgement(Protocol.DisplayClean, "DW H"+"\r" + "\n");
-			fail();
-		}
-		catch(ProtocolErrorException e){}
-		try
-		{
-			weightCommunicator.checkAcknowledgement(Protocol.Tara, "T K"+"\r" + "\n");
-			fail();
-		}
-		catch(ProtocolErrorException e){}
-		try
-		{
-			weightCommunicator.checkAcknowledgement(Protocol.Measurement, "S B"+"   1.232 kg"+"\r" + "\n");
-			fail();
-		}
-		catch(ProtocolErrorException e){}
-		
-	}
 
 	@Test
 	public void testWaitForAnswer() throws IOException, ProtocolErrorException {
-		outToServer.writeBytes("hej"+"\r" + "\n");
-		assertEquals("hej",weightCommunicator.waitForAnswer());
+		outToServer.writeBytes("hej" + "\r" + "\n");
+		assertEquals("hej", weightCommunicator.waitForAnswer());
 	}
 
 }
