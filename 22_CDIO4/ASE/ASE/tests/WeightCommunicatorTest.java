@@ -15,7 +15,6 @@ import ASE.Controllers.WeightCommunicator.Protocol;
 import ASE.exceptions.InvalidReturnMessageException;
 import ASE.exceptions.LogOutException;
 import ASE.exceptions.ProtocolErrorException;
-import ASE.interfaces.IWeightCommunicator;
 import ASE.interfaces.IWeightCommunicator.Buttons;
 
 public class WeightCommunicatorTest {
