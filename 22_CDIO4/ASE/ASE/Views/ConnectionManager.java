@@ -18,19 +18,26 @@ public class ConnectionManager {
 	MeasurementController measurementController;
 	Socket weightSocket;
 
-	
 	public ConnectionManager(String fileLocation) {
 		connectionReader = new ConnectionReader(fileLocation);
 	}
-	
+
 	/**
-	 * Method which tries to establish a connection to all of the listed weights
-	 * in the WeightTable.txt file, while adding each successful IP/Port number
-	 * to an array.
+	 * 
+	 * Method that creates a new ConnectionReader called connectionReader, as
+	 * well as import a measurementController for use later on.
+	 * 
+	 * @param fileLocation
+	 *            The fileLocation String which the new connectionReader needs
+	 *            to know where to look for a file. Default location is used
+	 *            otherwise.
+	 * @param measurementController
+	 *            measurementController is imported to be used in the
+	 *            threadStarter method.
 	 */
-	public ConnectionManager(String fileLocation,MeasurementController measurementController) {
+	public ConnectionManager(String fileLocation, MeasurementController measurementController) {
 		connectionReader = new ConnectionReader(fileLocation);
-		this.measurementController=measurementController;
+		this.measurementController = measurementController;
 	}
 
 	/**
