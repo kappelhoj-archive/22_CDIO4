@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 
 public class FileManagement {
 
-	final static String PATH = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\test\\";
+	final static String PATH = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\";
 
 
 	public enum TypeOfData{
@@ -53,12 +53,12 @@ public class FileManagement {
 		}finally{
 			try {
 				o.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			try {
 				f.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
