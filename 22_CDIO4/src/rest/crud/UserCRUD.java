@@ -11,8 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import controller.Initializer;
-import controller.interfaces.IUserController;
-import controller.teststub.UserStubController;
 import dataTransferObjects.UserDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
