@@ -33,7 +33,7 @@ h2 {
 	padding: 0 2rem;
 	line-height: 60px;
 	display: block;
-	width: 290px;
+	width: 300px;
 }
 
 #logo a, #logo a:hover, #logo a:focus, #logo a:active, #top_nav ul > li > a, #top_nav ul > li > a:hover, #top_nav ul > li > a:focus, #top_nav ul > li > a:active {
@@ -137,7 +137,7 @@ h2 {
 }
 
 #side_panel {
-	width: 290px;
+	width: 300px;
 	border-right: 1px solid #eceeef;
 	height: 100%;
 }
