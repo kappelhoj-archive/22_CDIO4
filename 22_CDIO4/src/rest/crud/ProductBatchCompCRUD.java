@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -24,9 +25,7 @@ public class ProductBatchCompCRUD {
 		try {
 			return Initializer.getProductBatchCompController().getProductBatchComp(Integer.parseInt(i.getPbId()),
 					Integer.parseInt(i.getRbId()));
-		}
-
-		catch (DALException e) {
+		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
@@ -40,6 +39,7 @@ public class ProductBatchCompCRUD {
 		try {
 			return Initializer.getProductBatchCompController().getProductBatchCompList(Integer.parseInt(pbId));
 		} catch (DALException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
 		}
@@ -52,6 +52,7 @@ public class ProductBatchCompCRUD {
 		try {
 			return Initializer.getProductBatchCompController().getProductBatchCompList();
 		} catch (DALException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
 		}
@@ -67,7 +68,7 @@ public class ProductBatchCompCRUD {
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "collision-error: Der findes allerede et produkt batch komponent med det indtastede id.";
+			return "collision-error: Produkt batch komponenten findes allerede i systemet.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -76,7 +77,7 @@ public class ProductBatchCompCRUD {
 	}
 
 	@Path("update")
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateProductBatchComp(ProductBatchCompDTO pbc) {
 		try {
