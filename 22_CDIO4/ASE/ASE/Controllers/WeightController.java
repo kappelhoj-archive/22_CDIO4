@@ -394,7 +394,7 @@ public class WeightController implements Runnable {
 			String expectedIdentity) throws ProtocolErrorException, LogOutException, DALException {
 		try {
 			//Ask for some id.
-			String id = weightCommunication.askForInformation("Indtast " + questionSubject + " og tryk ok.");
+			String id = weightCommunication.askForInformation("Indtast " + questionSubject);
 			//Look up the id in the specified DAO.
 			dto.copy(dao.getDTOById(Integer.parseInt(id)));
 			String identity = dto.getIdentity();
