@@ -57,19 +57,19 @@ public class RawMaterialCRUD {
 	public String createRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
 			Initializer.getRawMaterialController().createRawMaterial(rawMaterial);
-			return "success";
+			return "success: Råvaren blev oprettet";
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede en råvare med det indtastede id.";
+			return "collision-error: Råvaren finde allerede i systemet.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt..";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 
@@ -79,15 +79,15 @@ public class RawMaterialCRUD {
 	public String updateRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
 			Initializer.getRawMaterialController().updateRawMaterial(rawMaterial);
-			return "success: JJJ";
+			return "success: Råvaren blev opdateret";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt..";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 
