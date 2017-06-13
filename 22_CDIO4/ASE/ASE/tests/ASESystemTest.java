@@ -8,6 +8,7 @@ public class ASESystemTest {
 	public static void main(String[] args){
 		
 		Initializer ini=new Initializer();
+		ini.contextInitialized(null);
 		MeasurementController measureCon =new MeasurementController(Initializer.getProductBatchCompDAO(), Initializer.getProductBatchDAO());
 		ConnectionManager conMan=new ConnectionManager(null,measureCon);
 		conMan.threadStarter();
