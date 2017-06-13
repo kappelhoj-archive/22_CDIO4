@@ -30,14 +30,12 @@ $(document).ready(function() {
 		
 		var userId = $("input[name=\"id\"]").val();
 		userLoginNewPass($(this).serializeJSON()).done(function(data) {
-			console.log(data);
 			$("input[name=\"repeat_password\"]").prop('disabled', false);
 			$("#login .alert").remove();
 			$(".has-success").removeClass("has-success");
 			var splitData = data.split(": ");
-			showRestMessage(data, function() { return redirectToFrontPage(userId) });
-			
 			$("#login_new_pass_form").find(".form-group:last").prepend("<div class=\"alert alert-danger\" role=\"alert\">" + splitData[1] + "</div>");
+			showRestMessage(data, function() { return redirectToFrontPage(userId) });
 		}).fail(function(data) {
 			console.log("Fejl i Login REST");
 		});
@@ -51,7 +49,8 @@ $(document).ready(function() {
 function redirectToFrontPage(userId) {
 	getUser(userId).done(function(data) {
 		$.get("src/html/master.html", function(template) {
-            $("body").html(Mustache.render(template, data));
+			$("#login").remove();
+            $("body").append(Mustache.render(template, data));
             $("#user_dropdown_menu .user_edit_link").show();
             switch(data.role) {
             case "Admin":

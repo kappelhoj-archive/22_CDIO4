@@ -30,7 +30,8 @@ function showRestMessage(data, showPage) {
     	showPage();
     	showAlertMessage(alertData);
         break;
-    default: // Input, Collision & System error
+    default: // errors
+    	// If the error alert message is on the new-login-password page then don't show the pop up
     	if($("#login_new_pass_form").length < 1) {
     		showAlertMessage(alertData);
     	}
