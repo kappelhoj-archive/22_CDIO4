@@ -76,11 +76,11 @@ public class RawMaterialBatchCRUD {
 
 		try {
 			Initializer.getRawMaterialBatchController().createRawMaterialBatch(rawMaterialBatch);
-			return "success: Råvare batch med id " + rawMaterialBatch.getRbId() + " blev oprettet.";
+			return "success: Råvare batchen blev oprettet.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "collision-error: Der findes allerede en råvare batch med det indtastede id.";
+			return "collision-error: Denne råvare batch eksisterer allerede i systemet.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -98,7 +98,7 @@ public class RawMaterialBatchCRUD {
 	public String updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) {
 		try {
 			Initializer.getRawMaterialBatchController().updateRawMaterialBatch(rawMaterialBatch);
-			return "success: Råvare batchen blev ændret.";
+			return "success: Råvare batchen blev opdateret.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
