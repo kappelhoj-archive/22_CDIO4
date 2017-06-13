@@ -16,6 +16,8 @@ import java.io.IOException;
 
 public class ConnectionManager {
 
+	// Creation of needed Arraylists, Arrays, and classes needed for the
+	// Manager.
 	ConnectionReader connectionReader;
 	private ArrayList<String> allConnectedIPAddresses = new ArrayList<String>();
 	private ArrayList<Integer> allConnectedPortNumbers = new ArrayList<Integer>();
@@ -23,6 +25,9 @@ public class ConnectionManager {
 	MeasurementController measurementController;
 	Socket weightSocket;
 
+	// Constructor responsible for creating a new ConnectionReader upon startup.
+	// It sets the filelocation of the ConnectionReader to be a String called
+	// fileLocation.
 	public ConnectionManager(String fileLocation) {
 		connectionReader = new ConnectionReader(fileLocation);
 	}

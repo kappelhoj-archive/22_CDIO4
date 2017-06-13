@@ -21,11 +21,15 @@ import staticClasses.FileManagement.TypeOfData;
  */
 public class ConnectionReader {
 
+	
+	// Creation of needed Arraylists, and Strings.
 	private String weightIP;
 	private ArrayList<String> allIPAddresses = new ArrayList<String>();
 	private ArrayList<String> allPortNumbers = new ArrayList<String>();
 	private String fileLocation;
 
+	// Setting up the input, as well as a default file location in case of
+	// errors.
 	public ConnectionReader(String fileLocation) {
 		this.fileLocation = fileLocation;
 
