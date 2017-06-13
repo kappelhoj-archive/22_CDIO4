@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IRecipeController;
@@ -37,7 +39,11 @@ public class RecipeController implements IRecipeController {
 	 */
 	@Override
 	public List<RecipeDTO> getRecipeList() throws DALException {
-		return dao.getRecipeList();
+		ArrayList<RecipeDTO> sortedArray = (ArrayList<RecipeDTO>) dao.getRecipeList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/**

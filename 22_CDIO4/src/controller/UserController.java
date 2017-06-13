@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IUserController;
@@ -87,7 +89,11 @@ public class UserController implements IUserController{
 	 */
 	@Override
 	public List<UserDTO> getUserList() throws DALException{
-			return dao.getUserList();
+		ArrayList<UserDTO> sortedArray = (ArrayList<UserDTO>) dao.getUserList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	
