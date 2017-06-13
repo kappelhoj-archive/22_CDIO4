@@ -45,6 +45,7 @@ public class MeasurementController implements IMeasurementController, Runnable {
 			for (ProductBatchCompDTO comp : temp.getMeasurements())
 				try {
 					productBatchCompDAO.createProductBatchComp(comp);
+					System.out.println(comp);
 				} catch (DALException e) {
 					System.out.println("Could not add ProductBatchComp: " + comp);
 					e.printStackTrace();

@@ -400,7 +400,7 @@ public class WeightController implements Runnable {
 			String identity = dto.getIdentity();
 
 			//Send a message so the user can confirm the information. 
-			weightCommunication.sendMessage("Befrækt " + expectedIdentity + ": " + identity + " ->]");
+			weightCommunication.sendMessage(expectedIdentity + ": " + identity + " ->]");
 			return weightCommunication.receiveButtonPush();
 
 		} catch (InvalidReturnMessageException e) {

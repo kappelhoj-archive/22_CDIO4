@@ -171,6 +171,14 @@ public class Initializer implements ServletContextListener {
 				System.out.println(e);
 				++numberOfErrors;
 			}
+			
+			try{
+				pb.createProductBatch(new ProductBatchDTO(3, 0, 1));
+			} catch (DALException e) {
+				System.out.println("ERROR");
+				System.out.println(e);
+				++numberOfErrors;
+			}
 
 			try{
 
