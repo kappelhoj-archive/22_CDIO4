@@ -19,13 +19,17 @@ import exceptions.InputException;
 @Path("user")
 public class UserCRUD {
 
+	/**
+	 * Returns the user with the given user id as a JSON-object.
+	 * @param userId The given id of the user.
+	 * @return The UserDTO as a JSON-object.
+	 */
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserDTO readUser(String userId) {
-		int id = Integer.parseInt(userId);
 		try {
-			return Initializer.getUserController().getUser(id);
+			return Initializer.getUserController().getUser(Integer.parseInt(userId));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -37,6 +41,10 @@ public class UserCRUD {
 		}
 	}
 
+	/**
+	 * Return a list of all users as a JSON-object.
+	 * @return The List<UserDTO> as a JSON-object.
+	 */
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -50,6 +58,12 @@ public class UserCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a UserDTO and adds the UserDTO to the data layer.
+	 * @param user The user to be added to the data layer.
+	 * @return A message which tells whether the creation succeeded or not. 
+	 * If the response is positive the message includes the id of the user and a first time login key.
+	 */
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -70,6 +84,11 @@ public class UserCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a UserDTO and updates the UserDTO in the data layer. 
+	 * @param user The user to be updated in the data layer.
+	 * @return A message which tells whether the creation succeeded or not.
+	 */
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
