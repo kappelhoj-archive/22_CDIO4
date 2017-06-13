@@ -40,7 +40,7 @@ $(document).ready(function() {
 	$(document).on("submit", "#raw_material_batch_create_form", function(event) {
 		event.preventDefault();
 		createRawMaterialBatch($(this).serializeJSON()).done(function(data) {
-			getResponseMessageAndRedirect(data, function() { return showRawMaterialBatchListPage() });
+			showRestMessage(data, function() { return showRawMaterialBatchListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i REST");
 		});
@@ -50,7 +50,7 @@ $(document).ready(function() {
 	$(document).on("submit", "#raw_material_batch_edit_form", function(event) {
 		event.preventDefault();
 		updateRawMaterialBatch($(this).serializeJSON()).done(function(data) {
-			getResponseMessageAndRedirect(data, function() { showRawMaterialBatchListPage() });
+			showRestMessage(data, function() { showRawMaterialBatchListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i REST");
 		});

@@ -17,7 +17,7 @@ $(document).ready(function() {
  * */
 
 // Split the REST response message and redirect to a page
-function getResponseMessageAndRedirect(data, showPage) {
+function showRestMessage(data, showPage) {
 	var splitData = data.split(": ");
 	var alertData = { 
 			notification : splitData[0],
@@ -30,13 +30,7 @@ function getResponseMessageAndRedirect(data, showPage) {
     	showPage();
     	showAlertMessage(alertData);
         break;
-    case "input-error":
-    	showAlertMessage(alertData);
-        break;
-    case "collision-error":
-    	showAlertMessage(alertData);
-    	break;
-    default: // System error
+    default: // Input, Collision & System error
     	showAlertMessage(alertData);
 	}
 }

@@ -54,7 +54,7 @@ $(document).ready(function() {
 	$(document).on("submit", "#user_create_form", function(event) {
 		event.preventDefault();
 		createUser($(this).serializeJSON()).done(function(data) {
-			getResponseMessageAndRedirect(data, function() { return showUserListPage() });
+			showRestMessage(data, function() { return showUserListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i User REST");
 		});		
@@ -64,7 +64,7 @@ $(document).ready(function() {
 	$(document).on("submit", "#user_edit_form", function(event) {
 		event.preventDefault();
 		updateUser($(this).serializeJSON()).done(function(data) {
-			getResponseMessageAndRedirect(data, function() { return showUserListPage() });
+			showRestMessage(data, function() { return showUserListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i User REST");
 		});	

@@ -43,7 +43,7 @@ $(document).ready(function() {
 	$(document).on("submit", "#product_batch_create_form", function(event) {
 		event.preventDefault();
 		createProductBatch($(this).serializeJSON()).done(function(data) {
-			getResponseMessageAndRedirect(data, function() { return showProductBatchListPage() });
+			showRestMessage(data, function() { return showProductBatchListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i ProductBatch REST");
 		});

@@ -67,7 +67,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		var recipeId = $("input[name=\"recipeId\"]").val();
 		createRecipe($(this).serializeJSON()).done(function(data) {
-			getResponseMessageAndRedirect(data, function() { return showRecipeEditPage(recipeId) });
+			showRestMessage(data, function() { return showRecipeEditPage(recipeId) });
 		}).fail(function(data) {
 			console.log("Fejl i Recipe REST");
 		});
@@ -78,7 +78,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		var recipeId = $("input[name=\"recipeId\"]").val();
 		updateRecipeComp($(this).serializeJSON()).done(function(data) {
-			getResponseMessageAndRedirect(data, function() { return showRecipeEditPage(recipeId) });
+			showRestMessage(data, function() { return showRecipeEditPage(recipeId) });
 		}).fail(function(data) {
 			console.log("Fejl i RecipeComp REST");
 		});
@@ -89,7 +89,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		var recipeId = $("input[name=\"recipeId\"]").val();
 		createRecipeComp($(this).serializeJSON()).done(function(data) {
-			getResponseMessageAndRedirect(data, function() { return showRecipeEditPage(recipeId) });
+			showRestMessage(data, function() { return showRecipeEditPage(recipeId) });
 		});
 	});
 });
