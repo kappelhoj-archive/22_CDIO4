@@ -45,7 +45,6 @@ public class LoginController implements ILoginController {
 
 		}catch(Exception e){ //If it can not convert the password to an Integer then it is not an Admin Key but a regular password
 			try{
-				Validator.validatePassword(user.getPassword());
 				if(dao.getUser(Integer.parseInt(user.getId())).getPassword().equals(user.getPassword()))//checks the ID and password with DAO
 					return LoginState.TRUE;
 				else

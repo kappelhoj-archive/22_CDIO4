@@ -12,7 +12,6 @@ import controller.interfaces.ILoginController.LoginState;
 import dataAccessObjects.UserDAO;
 import dataAccessObjects.interfaces.IUserDAO;
 import dataTransferObjects.LoginPOJO;
-import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 import exceptions.InputException;
 
@@ -72,14 +71,14 @@ public class testUnitLogin {
 		LoginState expected;
 		LoginState actual;
 		
-		try{
-			dao.createOperatoer(new UserDTO(11, "Peter", "PE", "cpr", "testpassword", "Admin"));
-		}catch (DALException e){
-			fail(e.getMessage());
-		}
+//		try{
+//			//dao.createOperatoer(new UserDTO(11, "Peter", "PE", "cpr", "testpassword", "Admin"));
+//		}catch (DALException e){
+//			fail(e.getMessage());
+//		}
 
 			expected = LoginState.TRUE;
-			actual = controller.checkLogin(new LoginPOJO("11", "testpassword"));
+			actual = controller.checkLogin(new LoginPOJO("165202", "Peterpeter1"));
 
 			assertEquals(expected, actual);
 
