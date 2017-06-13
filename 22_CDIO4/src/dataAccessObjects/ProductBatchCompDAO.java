@@ -132,7 +132,7 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 			return;
 
 		}
-		throw new DALException("Fatal Error on RecipeComponent. Both IDs exist but can not be loaded.");
+		throw new DALException("Fatal Error on ProductBatchComp. Both IDs exist but can not be loaded.");
 
 	}
 
