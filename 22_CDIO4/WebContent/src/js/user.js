@@ -49,16 +49,14 @@ $(document).ready(function() {
 	$(document).on("click", ".user_edit_admin_table_link", function(event) {
 		event.preventDefault();
 		var userId = $(this).parents("tr").children("td:first").text();
-//		showUserEditAdminPage(userId);
-		showUserListPage();
+		showUserEditAdminPage(userId);
 	});
 	
 	$(document).on("click", ".user_edit_admin_reset_pw_link", function(event) {
 		event.preventDefault();
 		var userId = $("input[name=\"id\"]").val();
 		resetPassword(userId).done(function(data) {
-			console.log(data);
-			showRestMessage(data, function() { return showUserEditAdminPage(userId) })
+			showRestMessage(data, function() { return showUserListPage() })
 			
 		})
 		.fail(function(x) {
