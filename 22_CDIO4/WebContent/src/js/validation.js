@@ -1,3 +1,4 @@
+
 function validateCreateUser() {
 	// Add validation to create user form
 	$("#user_create_form").validate({
@@ -9,21 +10,7 @@ function validateCreateUser() {
 				required: true,
 				minlength: 2
 			}
-		},
-		errorElement: "div",
-		errorPlacement: function(div, element) {			
-	        div.addClass("form-control-feedback");
-	        div.insertAfter(element);
-	       
-	    },
-	    highlight: function(element) {
-	    	$(element).parent().removeClass("has-success").addClass("has-danger");
-	    	$(element).parent().find("input").removeClass("form-control-success").addClass("form-control-danger");
-	    },
-	    unhighlight: function(element) {
-	    	$(element).parent().removeClass("has-danger").addClass("has-success");
-	    	$(element).parent().find("input").removeClass("form-control-danger").addClass("form-control-success");        
-	    }
+		}
 	});
 }
 
