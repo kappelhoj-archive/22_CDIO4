@@ -14,6 +14,11 @@ import java.util.regex.Pattern;
 import staticClasses.FileManagement;
 import staticClasses.FileManagement.TypeOfData;
 
+/**
+ * 
+ * @author Mads
+ *
+ */
 public class ConnectionReader {
 
 	private String weightIP;
@@ -99,7 +104,8 @@ public class ConnectionReader {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			// Attempts to write a default weight into the WeightTable after creation.
+			// Attempts to write a default weight into the WeightTable after
+			// creation.
 			try {
 				PrintWriter syntaxWriter = new PrintWriter(new BufferedWriter(new FileWriter(
 						"C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt", true)));
