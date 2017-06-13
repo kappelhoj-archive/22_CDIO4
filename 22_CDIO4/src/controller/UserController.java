@@ -36,6 +36,20 @@ public class UserController implements IUserController{
 		Validator.validatePassword(user.getPassword());
 		Validator.validateRole(user.getRole());
 	}
+	
+	/**
+	 * Verifies the userDTO Input
+	 * @param userId
+	 * @return UserDTO
+	 * @throws InputException : params are not correct
+	 */
+	public void validationWithoutPassword(UserDTO user) throws InputException{
+		Validator.validateUserID(user.getId());
+		Validator.validateUsername(user.getName());
+		Validator.validateInitials(user.getIni());
+		Validator.validateCPR(user.getCpr());
+		Validator.validateRole(user.getRole());
+	}
 
 	/**
 	 * Adds a UserDTO to the saved data
@@ -62,8 +76,10 @@ public class UserController implements IUserController{
 	 */
 	@Override
 	public void updateUser(UserDTO user) throws InputException, DALException{
-		validation(user);
+		validationWithoutPassword(user);
 
+		user.setPassword(dao.getUser(user.getId()).getPassword());
+		
 		dao.updateOperatoer(user);
 
 		return;
