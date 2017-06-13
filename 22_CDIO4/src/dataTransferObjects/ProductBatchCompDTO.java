@@ -46,4 +46,9 @@ public class ProductBatchCompDTO extends DTO
 		else
 			return false;
 	}
+
+	@Override
+	public int compareTo(DTO arg0) {
+		return 0;
+	}
 }

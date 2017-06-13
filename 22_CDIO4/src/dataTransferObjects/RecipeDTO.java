@@ -48,4 +48,10 @@ public class RecipeDTO extends DTO
 	public RecipeDTO copy(){
 		return new RecipeDTO(recipeId, recipeName);
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

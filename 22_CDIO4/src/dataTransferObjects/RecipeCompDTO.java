@@ -69,4 +69,10 @@ public class RecipeCompDTO extends DTO
 	public RecipeCompDTO copy(){
 		return new RecipeCompDTO(recipeId, rawMaterialId, nomNetto, tolerance);
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -124,4 +124,10 @@ public class UserDTO extends DTO implements IWeightControlDTO
 		}
 		
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
