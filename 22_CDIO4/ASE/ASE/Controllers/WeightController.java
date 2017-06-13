@@ -103,7 +103,7 @@ public class WeightController implements Runnable {
 	}
 
 	/**
-	 * The method that is called by the thread.
+	 * The method that is started by the thread.
 	 */
 	@Override
 	public void run() {
@@ -236,7 +236,7 @@ public class WeightController implements Runnable {
 				continue;
 			}
 
-			// Ændre status for produkt batch.
+			// Change status for product batch.
 			IProductBatchDAO pbCast = (IProductBatchDAO) pbDAO;
 			pbDTO.setStatus(1);
 			try {
@@ -358,7 +358,7 @@ public class WeightController implements Runnable {
 	 * 
 	 * @param message
 	 *            The message to send to the user.
-	 * @return
+	 * @return	The weight measured.
 	 * @throws ProtocolErrorException
 	 * @throws LogOutException
 	 */
