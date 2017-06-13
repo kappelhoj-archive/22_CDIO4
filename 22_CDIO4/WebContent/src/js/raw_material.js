@@ -1,19 +1,17 @@
-/**
- * 
- */
-
 $(document).ready(function()
 {	
-	/* ################################# Main page button functions #################################### */
-	/*  Calls the showRawMaterialListPage() function when button with class="raw_material_list_link is clicked"*/
+	/*
+	 * Links
+	 * */
+	
+	// Link to list of raw materials page
 	$(document).on("click", ".raw_material_list_link", function(event) {
 		event.preventDefault();
 		showRawMaterialListPage();
 	});
 	
 	
-	/* ################################# List page button functions #####################################*/
-	/* Goes to raw_material_create.html when button with id="create_raw_material" is clicked. */
+	// Link to create raw material page
 	$(document).on("click", ".raw_material_create_link", function(event){
 		event.preventDefault();
 		$.get("src/html/raw_material/raw_material_create.html", function(template) {
@@ -21,7 +19,7 @@ $(document).ready(function()
 		});
 	});
 	
-	/* Edit raw material*/
+	// Link to edit raw material page
 	$(document).on("click", ".raw_material_edit_table_link", function(event) {
 		event.preventDefault();
 		var rawMaterialId = $(this).parents("tr").children("td:first").text();
@@ -29,67 +27,41 @@ $(document).ready(function()
 			$.get("src/html/raw_material/raw_material_edit.html", function(template) {
 				$("#content").html(Mustache.render($(template).html(), data))
 			});
-		})
-		.fail(function(data) {
-			console.log(data);
+		}).fail(function(data) {
+			console.log("Fejl i RawMaterial REST");
 		});
 	});
 	
-	/* ######################### Create page button functions ########################################## */
+	/*
+	 * Submit forms
+	 * */
 	
-	/* Sumbitting the form with id="raw_material_create_form" and go back to the raw material list page */
+	// Submit create raw material form
 	$(document).on("submit", "#raw_material_create_form", function(event) {
-		event.preventDefault();
-		$.ajax({
-			url: "rest/raw_material/create",
-			type: "POST",
-			contentType: "application/json",
-			data: $("#raw_material_create_form").serializeJSON(),
-			success: function(data) {
-				if(data == "success")
-					{
-					 showRawMaterialListPage();
-					 alert("Råvaren blev tilføjet")
-					}
-				else
-					{
-						alert(data);
-					}
-			},
-			error: function(data){
-				console.log(data);
-			}
+		event.preventDefault();		
+		createRawMaterial($(this).serializeJSON()).done(function(data) {
+			getResponseMessageAndRedirect(data, function() { return showRawMaterialListPage() });
+		}).fail(function(data) {
+			console.log("Fejl i RawMaterial REST");
 		});
 	});
 	
 	
-	/* ############################# Edit page button functions ####################################### */
+	// Submit edit raw material form
 	$(document).on("submit", "#raw_material_edit_form", function(event){
 		event.preventDefault();
 		updateRawMaterial($(this).serializeJSON()).done(function(data) {
-			var splitData = data.split(": ");
-			switch(splitData[0]) {
-		    case "success":
-		    	showRawMaterialListPage();
-		        alert(splitData[1]);
-		        break;
-		    case "input-error":
-		        alert(splitData[1]);
-		        break;
-		    case "collision-error":
-		    	alert(splitData[1]);
-		    	break;
-		    default: // System error
-		    	alert(splitData[1]);
-			}
+			getResponseMessageAndRedirect(data, function() { return showRawMaterialListPage() });
 		}).fail(function(data) {
-			console.log("Fejl i REST");
+			console.log("Fejl i RawMaterial REST");
 		});
 	});
 });
 
-/* Functions */
-/* Creates a table of all the raw materials in the system. And shows it in the section with id="content" */
+/*
+ * Functions
+ * */
+
 function showRawMaterialListPage() {
 	getRawMaterialList().done(function(data) {
 		$.get("src/html/raw_material/raw_material_list.html", function(template) {
@@ -100,11 +72,22 @@ function showRawMaterialListPage() {
 				});
 			});
 		});
+	}).fail(function(data){
+		console.log("Fejl i RawMaterial REST")
 	})
-	.fail(function(data){
-		console.log("System fejl")
-		alert("System fejl")
-	})
+}
+
+/*
+ * REST functions
+ * */
+
+function createRawMaterial(form) {
+	return $.ajax({
+		url: "rest/raw_material/create",
+		type: "POST",
+		contentType: "application/json",
+		data: form
+	});
 }
 
 function updateRawMaterial(form) {

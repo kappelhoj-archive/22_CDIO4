@@ -1,16 +1,16 @@
 $(document).ready(function() {
 	
-	/** 
+	/* 
 	 * Links
-	 * **/
+	 * */
 	
-	// Vis alle produktbatches link
+	// Link to list of product batches page
 	$(document).on("click", ".product_batch_list_link", function(event) {
 		event.preventDefault();
 		showProductBatchListPage();
 	});
 	
-	// Vis alle råvarebatches link
+	// Link to create product batch page
 	$(document).on("click", ".product_batch_create_link", function(event) {
 		event.preventDefault();
 		$.get("src/html/product_batch/product_batch_create.html", function(template) {
@@ -18,7 +18,7 @@ $(document).ready(function() {
         });
 	});
 	
-	// Vis alle produkt batch komponenter
+	// Link to edit product batch page
 	$(document).on("click", ".product_batch_edit_table_link", function(event) {
 		event.preventDefault();
 		var productBatchId = $(this).parents("tr").children("td:first").text();
@@ -30,25 +30,30 @@ $(document).ready(function() {
 				$(".pb_status").addClass("status_"+statusCode);
 				showProductBatchCompsPage(productBatchId);
 			});
-		})
-		.fail(function(data){
-			console.log(data);
+		}).fail(function(data){
+			console.log("Fejl i ProductBatch REST");
 		});
 	});
 	
-	// Opret produkt batch
+	/*
+	 * Submit forms
+	 * */
+	
+	// Submit create product batch form
 	$(document).on("submit", "#product_batch_create_form", function(event) {
 		event.preventDefault();
 		createProductBatch($(this).serializeJSON()).done(function(data) {
-			saveRecord(data, showProductBatchListPage)
+			getResponseMessageAndRedirect(data, function() { return showProductBatchListPage() });
 		}).fail(function(data) {
-			console.log("Fejl i REST");
+			console.log("Fejl i ProductBatch REST");
 		});
-	});
-	//product_batch_create_form
-	
+	});	
 	
 });
+
+/*
+ * Functions
+ * */
 
 function showProductBatchListPage() {
 	getProductBatchList().done(function(data) {
@@ -63,12 +68,12 @@ function showProductBatchListPage() {
 		        });
 			});
         });
-	})
-	.fail(function(x) {
-		console.log("Fejl!");
+	}).fail(function(x) {
+		console.log("Fejl i ProductBatch REST");
 	});
 }
 
+// Show product batch components for a specific product batch
 function showProductBatchCompsPage(pbId) {
 	getProductBatchCompListSpecific(pbId).done(function(data) {
 		$.get("src/html/product_batch/product_batch_comp_list.html", function(template) {
@@ -82,6 +87,7 @@ function showProductBatchCompsPage(pbId) {
 	});
 }
 
+// Change status code of a product batch to a string
 function showProductBatchStatus(data) {
 	switch(data.status) {
 	case 0:
@@ -98,6 +104,10 @@ function showProductBatchStatus(data) {
 		break;
 	}
 }
+
+/*
+ * REST functions
+ * */
 
 function createProductBatch(form) {
 	return $.ajax({

@@ -27,7 +27,7 @@ h2 {
 	margin: 0;
 	font-size: 1rem;
 	text-transform: uppercase;
-	background-color: #0275d8
+	background-color: #0275d8;
 }
 #logo a {
 	padding: 0 2rem;
@@ -70,8 +70,24 @@ h2 {
 	margin: 0 .5rem;
 }
 
+.role_super {
+	
+}
+
 .role_admin {
-	background-color: #f95759;
+	background-color: #d8345a;
+}
+
+.role_pharmacist {
+	
+}
+
+.role_foreman {
+	
+}
+
+.role_labtech {
+	
 }
 
 
@@ -156,6 +172,25 @@ h2 {
 
 .status_2 {
 	color: #3c763d
+}
+
+#login {
+	background-color: #fff;
+	padding: 2rem;
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 12px;
+}
+
+#login #logo {
+	margin-bottom: 2rem;
+}
+
+#login .submit_button {
+	text-align: center;
 }
 
 #alert_container {

@@ -11,9 +11,9 @@ import staticClasses.FileManagement;
 import staticClasses.FileManagement.TypeOfData;
 
 public class RecipeCompDAO implements IRecipeCompDAO {
-	
+
 	static List<RecipeCompDTO> recipeCompList = new ArrayList<RecipeCompDTO>();
-	
+
 	/*
 	 * The warning "unchecked" is there because Java can not define if the file we try to convert
 	 * to an ArrayList is associated to this class.
@@ -107,16 +107,22 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 	public void updateRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
 		getRecipeComp(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId());
 
-		for(RecipeCompDTO recipecomp : recipeCompList){
-			if(recipecomp.getRecipeId() == recipeComponent.getRecipeId() 
-					&& recipecomp.getRawMaterialId() == recipeComponent.getRawMaterialId()){
+		int index = -1;
+		for(int i = 0; i<recipeCompList.size();++i){
+			if(recipeCompList.get(i).getRecipeId() == recipeComponent.getRecipeId() 
+					&& recipeCompList.get(i).getRawMaterialId() == recipeComponent.getRawMaterialId()){
 
-				recipeCompList.remove(recipecomp);
-				recipeCompList.add(recipeComponent.copy());
-				FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
-
+				index=i;
+				break;
 			}
 		}
+
+		if(index > -1)
+			recipeCompList.remove(index);
+		
+		recipeCompList.add(recipeComponent.copy());
+		FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
+
 
 	}
 

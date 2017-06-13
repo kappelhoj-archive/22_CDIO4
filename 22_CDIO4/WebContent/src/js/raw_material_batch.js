@@ -1,15 +1,16 @@
 $(document).ready(function() {
 	
-	/** 
+	/* 
 	 * Links
-	 * **/
+	 * */
 	
-	// Vis alle råvarebatches link
+	// Link to list raw material batches page
 	$(document).on("click", ".raw_material_batch_list_link", function(event) {
 		event.preventDefault();
 		showRawMaterialBatchListPage();
 	});
 	
+	// Link to create raw material batch page
 	$(document).on("click", ".raw_material_batch_create_link", function(event) {
 		event.preventDefault();
 		$.get("src/html/raw_material_batch/raw_material_batch_create.html", function(template) {
@@ -17,7 +18,7 @@ $(document).ready(function() {
         });
 	});
 	
-	/* Edit raw material*/
+	// Link to edit raw material batch page
 	$(document).on("click", ".raw_material_batch_edit_table_link", function(event) {
 		event.preventDefault();
 		var rawMaterialBatchId = $(this).parents("tr").children("td:first").text();
@@ -27,62 +28,36 @@ $(document).ready(function() {
 			});
 		})
 		.fail(function(data) {
-			console.log(data);
+			console.log("Fejl i REST");
 		});
 	});
 	
-	// venter med den her
+	/*
+	 * Submit forms
+	 * */
+	
+	// Submit create raw material batch form
 	$(document).on("submit", "#raw_material_batch_create_form", function(event) {
 		event.preventDefault();
 		createRawMaterialBatch($(this).serializeJSON()).done(function(data) {
-			saveRecord(data, showRawMaterialBatchListPage)
+			getResponseMessageAndRedirect(data, function() { return showRawMaterialBatchListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i REST");
 		});
 	});
 	
+	// Submit edit raw material batch form
 	$(document).on("submit", "#raw_material_batch_edit_form", function(event) {
 		event.preventDefault();
 		updateRawMaterialBatch($(this).serializeJSON()).done(function(data) {
-			var splitData = data.split(": ");
-			switch(splitData[0]) {
-		    case "success":
-		    	showRawMaterialBatchListPage();
-		        alert(splitData[1]);
-		        break;
-		    case "input-error":
-		        alert(splitData[1]);
-		        break;
-		    case "collision-error":
-		    	alert(splitData[1]);
-		    	break;
-		    default: // System error
-		    	alert(splitData[1]);
-			}
+			getResponseMessageAndRedirect(data, function() { showRawMaterialBatchListPage() });
 		}).fail(function(data) {
 			console.log("Fejl i REST");
 		});
 	});
 });
 
-function updateRawMaterialBatch(form) {
-	return $.ajax({
-		url : "rest/raw_material_batch/update",
-		type : "PUT",
-		contentType : "application/json",
-		data : form
-	});
-}
-
-function createRawMaterialBatch(form) {
-	return $.ajax({
-		url : "rest/raw_material_batch/create",
-		type : "POST",
-		contentType : "application/json",
-		data : form
-	});
-}
-
+// Show list of raw material batches page
 function showRawMaterialBatchListPage() {
 	getRawMaterialBatchList().done(function(data) {
 		$.get("src/html/raw_material_batch/raw_material_batch_list.html", function(template) {
@@ -96,6 +71,28 @@ function showRawMaterialBatchListPage() {
 	})
 	.fail(function(x) {
 		console.log("Fejl!");
+	});
+}
+
+/*
+ * REST functions
+ * */
+
+function createRawMaterialBatch(form) {
+	return $.ajax({
+		url : "rest/raw_material_batch/create",
+		type : "POST",
+		contentType : "application/json",
+		data : form
+	});
+}
+
+function updateRawMaterialBatch(form) {
+	return $.ajax({
+		url : "rest/raw_material_batch/update",
+		type : "PUT",
+		contentType : "application/json",
+		data : form
 	});
 }
 
@@ -116,6 +113,7 @@ function getRawMaterialBatchList() {
 	});
 }
 
+// Get list of raw material batches for a specific raw material
 function getRawMaterialBatchListSpecific(rawMaterialId) {
 	return $.ajax({
 		url : "rest/raw_material_batch/read_list_specific",
