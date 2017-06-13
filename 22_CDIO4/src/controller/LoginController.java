@@ -66,7 +66,7 @@ public class LoginController implements ILoginController {
 	public void setNewPassword(int id, String password) throws InputException, DALException{
 		UserDTO user = dao.getUser(id).copy();
 
-		Validator.validatePassword(user.getPassword());
+		Validator.validatePassword(password);
 		
 		user.setPassword(password);
 
