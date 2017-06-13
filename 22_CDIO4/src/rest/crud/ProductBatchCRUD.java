@@ -55,7 +55,7 @@ public class ProductBatchCRUD {
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "collision-error: Dette produkt batch eksisterer allerede i systemet.";
+			return "collision-error: Der eksisterer allerede en produkt batch med det indtastede id";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

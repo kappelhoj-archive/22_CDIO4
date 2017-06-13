@@ -64,11 +64,11 @@ public class ProductBatchCompCRUD {
 	public String createProductBatchComp(ProductBatchCompDTO pbc) {
 		try {
 			Initializer.getProductBatchCompController().createProductBatchComp(pbc);
-			return "success: Produkt batch komponenten blev oprettet.";
+			return "success: Produkt batch komponenten blev oprettet og tilføjet til produkt batchen.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "collision-error: Produkt batch komponenten findes allerede i systemet.";
+			return "collision-error: Der eksisterede allerede en produkt batch komponent med det indtastede id.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

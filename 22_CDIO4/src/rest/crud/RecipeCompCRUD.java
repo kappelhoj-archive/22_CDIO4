@@ -80,7 +80,6 @@ public class RecipeCompCRUD {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateRecipeComp(RecipeCompDTO recipeComp) {
 		try {
-			System.out.println(recipeComp);
 			Initializer.getRecipeCompController().updateRecipeComp(recipeComp);
 			return "success: Recept komponenten blev opdateret.";
 		} catch (DALException e) {

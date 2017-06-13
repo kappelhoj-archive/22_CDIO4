@@ -61,7 +61,7 @@ public class RawMaterialCRUD {
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "collision-error: Råvaren finde allerede i systemet.";
+			return "collision-error: Der eksisterer allerede en råvare med det indtastede id.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -83,7 +83,7 @@ public class RawMaterialCRUD {
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "input-error: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
