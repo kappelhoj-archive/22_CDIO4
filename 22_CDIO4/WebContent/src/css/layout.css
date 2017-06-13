@@ -197,13 +197,21 @@ h2 {
 	position: absolute;
     top: 0;
     left: 50%;
-    margin-left: -250px;
-    width: 500px;
     line-height: 60px;
     text-align: center;
     display: none;
+    padding: 0 0 0 2rem;
+    min-width: 500px;
+    max-width: 700px;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    margin: 0 0 0 -250px;
+    border: 0;
+    border-radius: 0;
+    
 }
 
 #alert_container button.close {
-	padding: 0 .3rem
+	padding: 0 .5rem 0 1.5rem
 }

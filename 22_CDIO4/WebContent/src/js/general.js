@@ -31,7 +31,9 @@ function showRestMessage(data, showPage) {
     	showAlertMessage(alertData);
         break;
     default: // Input, Collision & System error
-    	showAlertMessage(alertData);
+    	if($("#login_new_pass_form").length < 1) {
+    		showAlertMessage(alertData);
+    	}
 	}
 }
 
@@ -40,8 +42,14 @@ function showAlertMessage(alertData) {
 	$.get("src/html/alert.html", function(template) {
 		$("#alert_container").remove();
 		$("body").append(Mustache.render(template, alertData));
+		
+		if($("#alert_container").width() > 500)
+		{
+			$("#alert_container").css("margin-left", "-" + $("#alert_container").width() / 2);
+		}
+		
 		$("#alert_container").fadeIn("slow", function () {
-		    $(this).delay(5000).fadeOut("slow", function() {
+		    $(this).delay(10000).fadeOut("slow", function() {
 		    	$(this).remove();
 		    });
 		});

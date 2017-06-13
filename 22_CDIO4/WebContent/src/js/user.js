@@ -46,6 +46,26 @@ $(document).ready(function() {
 		});
 	});
 	
+	$(document).on("click", ".user_edit_admin_table_link", function(event) {
+		event.preventDefault();
+		var userId = $(this).parents("tr").children("td:first").text();
+//		showUserEditAdminPage(userId);
+		showUserListPage();
+	});
+	
+	$(document).on("click", ".user_edit_admin_reset_pw_link", function(event) {
+		event.preventDefault();
+		var userId = $("input[name=\"id\"]").val();
+		resetPassword(userId).done(function(data) {
+			console.log(data);
+			showRestMessage(data, function() { return showUserEditAdminPage(userId) })
+			
+		})
+		.fail(function(x) {
+			console.log("Fejl i User REST");
+		});
+	});
+	
 	/*
 	 * Submit forms
 	 * */
@@ -77,6 +97,17 @@ $(document).ready(function() {
  * Functions
  * */
 
+function showUserEditAdminPage(userId) {
+	getUser(userId).done(function(data) {
+		$.get("src/html/user/user_edit_admin.html", function(template) {
+            $("#content").html(Mustache.render($(template).html(),data))		            
+        });
+	})
+	.fail(function(x) {
+		console.log("Fejl i User REST");
+	});
+}
+
 function showUserListPage() {
 	getUserList().done(function(data) {
 		$.get("src/html/user/user_list.html", function(template) {
@@ -96,6 +127,15 @@ function showUserListPage() {
 /*
  * REST functions
  * */
+
+function resetPassword(userId) {
+	return $.ajax({
+		url : 'rest/login/reset_password',
+		type : 'POST',
+		contentType : "application/json",
+		data : userId
+	});
+}
 
 function createUser(form) {
 	return $.ajax({

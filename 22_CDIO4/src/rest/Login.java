@@ -52,4 +52,25 @@ public class Login {
 			return "system-error: Der skete en fejl!";
 		}
 	}
+	
+	@Path("reset_password")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String resetPassword(String userId) {
+		try {
+			return "success: Brugeres password blev resetted. Engangsnøgle " + String.valueOf(Initializer.getLoginController().resetPassword(Integer.parseInt(userId)));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "format-exception: Der skete en fejl med id'et.";
+		} catch (InputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "input-error: Forkert id.";
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "system-error: System fejl.";
+		}
+	}
 }
