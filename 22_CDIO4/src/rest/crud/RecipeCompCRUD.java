@@ -14,7 +14,6 @@ import controller.Initializer;
 import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.RecipeCompPOJO;
 import exceptions.DALException;
-import exceptions.InputException;
 
 @Path("recipe_component")
 public class RecipeCompCRUD {
@@ -27,10 +26,6 @@ public class RecipeCompCRUD {
 	public RecipeCompDTO readRecipeComp(RecipeCompPOJO i) {
 		try {
 			return Initializer.getRecipeCompController().getRecipeComp(Integer.parseInt(i.getRecipeId()), Integer.parseInt(i.getRawMaterialId()));
-		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -72,7 +67,7 @@ public class RecipeCompCRUD {
 	public String createRecipeComp(RecipeCompDTO recipeComp) {
 		try {
 			Initializer.getRecipeCompController().createRecipeComp(recipeComp);
-			return "success: Recept komponent blev tilføjet til recepten med id " + recipeComp.getRecipeId();
+			return "success: recept komponenten blev oprettet og tilføjet til recepten.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -87,11 +82,11 @@ public class RecipeCompCRUD {
 		try {
 			System.out.println(recipeComp);
 			Initializer.getRecipeCompController().updateRecipeComp(recipeComp);
-			return "success: Redigering succesfuld";
+			return "success: Recept komponenten blev opdateret.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 
