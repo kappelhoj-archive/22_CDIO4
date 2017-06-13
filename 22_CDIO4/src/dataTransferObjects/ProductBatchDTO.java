@@ -53,7 +53,6 @@ public class ProductBatchDTO extends DTO implements IWeightControlDTO
 
 	@Override
 	public int compareTo(DTO o) {
-		System.out.println(this.pbId - ((ProductBatchDTO) o).getPbId());
 		return this.pbId - ((ProductBatchDTO) o).getPbId();
 	}
 	
