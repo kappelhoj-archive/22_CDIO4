@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -24,10 +25,6 @@ public class ProductBatchCRUD {
 	public ProductBatchDTO getProductBatch(String id) {
 		try {
 			return Initializer.getProductBatchController().getProductBatch(Integer.parseInt(id));
-		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			return null;
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -42,6 +39,7 @@ public class ProductBatchCRUD {
 		try {
 			return Initializer.getProductBatchController().getProductBatchList();
 		} catch (DALException e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return null;
 		}
@@ -57,7 +55,7 @@ public class ProductBatchCRUD {
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "collision-error: Der findes allerede et produkt batch med det indtastede id.";
+			return "collision-error: Dette produkt batch eksisterer allerede i systemet.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -70,7 +68,7 @@ public class ProductBatchCRUD {
 	}
 
 	@Path("update")
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateProductBatch(ProductBatchDTO productbatch) {
 		try {
