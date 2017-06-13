@@ -18,6 +18,11 @@ import exceptions.DALException;
 
 public class RecipeCRUD {
 
+	/**
+	 * Returns the recipe with the given recipe id as a JSON-object.
+	 * @param recipeId The given id of the recipe.
+	 * @return The RecipeDTO as a JSON-object.
+	 */
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -31,6 +36,10 @@ public class RecipeCRUD {
 		}
 	}
 
+	/**
+	 * Returns a list of all recipes as a JSON-object.
+	 * @return The List<UserDTO> as a JSON-object.
+	 */
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -44,6 +53,11 @@ public class RecipeCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RecipeDTO and adds the RecipeDTO to the data layer.
+	 * @param recipe The recipe to be added to the data layer.
+	 * @return A message which tells whether the creation succeeded or not.
+	 */
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -63,6 +77,11 @@ public class RecipeCRUD {
 	}
 
 	//Not in use. Is needed if we want to be able to change the name of a recipe.
+	/**
+	 * Receives a JSON-object as a RecipeDTO and updates the RecipeDTO in the data layer.
+	 * @param recipe The recipe to be updated in the data layer.
+	 * @return A message which tells whether the update succeeded or not.
+	 */
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

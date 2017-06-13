@@ -19,6 +19,11 @@ import exceptions.InputException;
 @Path("raw_material")
 public class RawMaterialCRUD {
 
+	/**
+	 * Returns the raw material with the given raw material id as a JSON-object.
+	 * @param id The given raw material id.
+	 * @return The RawMaterialDTO as a JSON-object.
+	 */
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -36,6 +41,10 @@ public class RawMaterialCRUD {
 		}
 	}
 
+	/**
+	 * Returns a list of all raw materials as a JSON-object.
+	 * @return The list<RawMaterialDTO> as a JSON-object.
+	 */
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -49,6 +58,11 @@ public class RawMaterialCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RawMaterialDTO and adds the RawMaterialDTo to the data layer.
+	 * @param rawMaterial The raw material to be added to the data layer.
+	 * @return A message which tells whether the creation succeeded or not.
+	 */
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -71,6 +85,11 @@ public class RawMaterialCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RawMaterialDTO and updates the RawMaterialDTO in the data layer.
+	 * @param rawMaterial The raw material to be updated in the data layer.
+	 * @return A message which tells whether the update succeeded or not.
+	 */
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

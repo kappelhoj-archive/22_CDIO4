@@ -19,6 +19,11 @@ import exceptions.InputException;
 @Path("raw_material_batch")
 public class RawMaterialBatchCRUD {
 
+	/**
+	 * Returns the raw material batch with the given raw material batch id as a JSON-object.
+	 * @param id the given id of the raw material batch.
+	 * @return The RawMaterialBatchDTO as a JSON-object.
+	 */
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -36,6 +41,10 @@ public class RawMaterialBatchCRUD {
 		}
 	}
 
+	/**
+	 * Returns a list of all the raw material batches as a JSON.
+	 * @return The List<RawMaterialBatchDTO> as a JSON-object.
+	 */
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -49,6 +58,12 @@ public class RawMaterialBatchCRUD {
 		}
 	}
 
+	//Not in use.
+	/**
+	 * Returns a list of all raw material batches which contain a raw material with the given id
+	 * @param rawMaterialId The given raw material id.
+	 * @return The List<RawMaterialBatchDTO> as a JSON-object.
+	 */
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -66,11 +81,15 @@ public class RawMaterialBatchCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RecipeCompDTO and adds the RecipeCompDTO to the data layer.
+	 * @param rawMaterialBatch the raw material batch to be added to the data layer.
+	 * @return A message which tells whether the creation succeeded or not.
+	 */
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) {
-
 		try {
 			Initializer.getRawMaterialBatchController().createRawMaterialBatch(rawMaterialBatch);
 			return "success: Råvare batchen blev oprettet.";
@@ -89,6 +108,11 @@ public class RawMaterialBatchCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RawMaterialBatchDTo and updates the RawMaterialBatchDTO in the data layer.
+	 * @param rawMaterialBatch the raw material batch to be updated in the data layer.
+	 * @return A message which tells whether the update succeeded or not.
+	 */
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
