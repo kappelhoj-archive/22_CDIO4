@@ -12,8 +12,5 @@ public class ASESystemTest {
 		ConnectionManager conMan=new ConnectionManager(null,measureCon);
 		conMan.threadStarter();
 		
-		
-		
-		
 	}
 }
