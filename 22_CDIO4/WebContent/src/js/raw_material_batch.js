@@ -114,6 +114,7 @@ function getRawMaterialBatchList() {
 }
 
 // Get list of raw material batches for a specific raw material
+// Not in use.
 function getRawMaterialBatchListSpecific(rawMaterialId) {
 	return $.ajax({
 		url : "rest/raw_material_batch/read_list_specific",
