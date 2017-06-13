@@ -19,6 +19,11 @@ import exceptions.InputException;
 @Path("product_batch")
 public class ProductBatchCRUD {
 
+	/**
+	 * Returns the product batch with the given product batch id as a JSON-object.
+	 * @param id The given product batch id.
+	 * @return The ProductBatchDTO as a JSON-object.
+	 */
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -32,6 +37,10 @@ public class ProductBatchCRUD {
 		}
 	}
 
+	/**
+	 * Returns a list of all product batches as a JSON-object.
+	 * @return The list <ProductBatchDTO> as a JSON-object.
+	 */
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -44,7 +53,12 @@ public class ProductBatchCRUD {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Receives a JSON-object as a ProductBatchDTO and adds the ProductBatchDTo to the data layer.
+	 * @param productbatch The product batch to be added to the data layer.
+	 * @return A message which tells whether the creation succeeded or not.
+	 */
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -68,6 +82,11 @@ public class ProductBatchCRUD {
 	}
 
 	//Not in use.
+	/**
+	 * Receives a JSON-object as a UserDTO and updates the UserDTo in the data layer.
+	 * @param productbatch The product batch to be updated in the data layer.
+	 * @return A message which tells whether the update succeeded or not.
+	 */
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

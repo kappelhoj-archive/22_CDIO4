@@ -42,7 +42,7 @@ public class UserCRUD {
 	}
 
 	/**
-	 * Return a list of all users as a JSON-object.
+	 * Returns a list of all users as a JSON-object.
 	 * @return The List<UserDTO> as a JSON-object.
 	 */
 	@Path("read_list")
@@ -87,7 +87,7 @@ public class UserCRUD {
 	/**
 	 * Receives a JSON-object as a UserDTO and updates the UserDTO in the data layer. 
 	 * @param user The user to be updated in the data layer.
-	 * @return A message which tells whether the creation succeeded or not.
+	 * @return A message which tells whether the update succeeded or not.
 	 */
 	@Path("update")
 	@PUT

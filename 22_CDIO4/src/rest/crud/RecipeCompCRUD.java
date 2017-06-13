@@ -18,6 +18,11 @@ import exceptions.DALException;
 @Path("recipe_component")
 public class RecipeCompCRUD {
 
+	/**
+	 * Receives a JSON-object as a RecipeCompPOJO and returns the recipe component with the received information.
+	 * @param i The given RecipeCompPojo containing the information required to return the correct recipe component.
+	 * @return The RecipeCompDTO as a JSON-object.
+	 */
 	@Path("read")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -31,7 +36,12 @@ public class RecipeCompCRUD {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * Returns a list of all the recipe components in the recipe with the given id.
+	 * @param recipeId The given recipe id.
+	 * @return The List<RecipeCompDTO> as a JSON-object.
+	 */
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -46,6 +56,10 @@ public class RecipeCompCRUD {
 	}
 	
 	//Not in use, but is needed if a selection on the website is needed.
+	/**
+	 * Returns a list of all recipe components as a JSON-object.
+	 * @return The List<RecipeCompDTO> as a JSON-object.
+	 */
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -59,6 +73,11 @@ public class RecipeCompCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RecipeCompDTO and adds the RecipeCompDTO to the data layer.
+	 * @param recipeComp the recipe component to be added to the data layer.
+	 * @return A message which tells whether the creation succeeded or not.
+	 */
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -73,6 +92,11 @@ public class RecipeCompCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RecipeCompDTO and updates the RecipeCompDTO in the data layer.
+	 * @param recipeComp The recipe component to be updated in the data layer.
+	 * @return A message which tells whether the update succeeded or not.
+	 */
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
