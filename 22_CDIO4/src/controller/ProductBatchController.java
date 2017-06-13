@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IProductBatchController;
@@ -42,7 +44,11 @@ public class ProductBatchController implements IProductBatchController {
 	 */
 	@Override
 	public List<ProductBatchDTO> getProductBatchList() throws DALException {
-		return dao.getProductBatchList();
+		ArrayList<ProductBatchDTO> sortedArray = (ArrayList<ProductBatchDTO>) dao.getProductBatchList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/**

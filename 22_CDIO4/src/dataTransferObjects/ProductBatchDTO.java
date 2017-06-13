@@ -50,6 +50,12 @@ public class ProductBatchDTO extends DTO implements IWeightControlDTO
 			throw new RuntimeException("Invalid DTO");
 		}
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		System.out.println(this.pbId - ((ProductBatchDTO) o).getPbId());
+		return this.pbId - ((ProductBatchDTO) o).getPbId();
+	}
 	
 }
 

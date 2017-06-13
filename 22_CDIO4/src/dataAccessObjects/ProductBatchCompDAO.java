@@ -115,17 +115,24 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 
 		getProductBatchComp(productBatchComponent.getPbId(), productBatchComponent.getRbId());
 
-		for(ProductBatchCompDTO productbatchcomp : productBatchCompList){
-			if(productbatchcomp.getPbId() == productBatchComponent.getPbId() 
-					&& productbatchcomp.getRbId() == productBatchComponent.getRbId()){
+		int index = -1;
+		for(int i = 0; i<productBatchCompList.size();++i){
+			if(productBatchCompList.get(i).getPbId() == productBatchComponent.getPbId() 
+					&& productBatchCompList.get(i).getRbId() == productBatchComponent.getRbId()){
 
-				productBatchCompList.remove(productbatchcomp);
-				productBatchCompList.add(productBatchComponent.copy());
-				FileManagement.writeData(productBatchCompList, TypeOfData.PRODUCTBATCHCOMP);
-
+				index=i;
+				break;
 			}
 		}
 
+		if(index > -1){
+			productBatchCompList.remove(index);
+			productBatchCompList.add(productBatchComponent.copy());
+			FileManagement.writeData(productBatchCompList, TypeOfData.PRODUCTBATCHCOMP);
+			return;
+
+		}
+		throw new DALException("Fatal Error on ProductBatchComp. Both IDs exist but can not be loaded.");
 
 	}
 

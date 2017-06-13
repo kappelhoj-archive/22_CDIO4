@@ -48,4 +48,9 @@ public class RecipeDTO extends DTO
 	public RecipeDTO copy(){
 		return new RecipeDTO(recipeId, recipeName);
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		return this.recipeId - ((RecipeDTO) o).getRecipeId();
+	}
 }

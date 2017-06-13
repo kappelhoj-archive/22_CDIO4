@@ -117,13 +117,14 @@ public class RecipeCompDAO implements IRecipeCompDAO {
 			}
 		}
 
-		if(index > -1)
+		if(index > -1){
 			recipeCompList.remove(index);
-		
-		recipeCompList.add(recipeComponent.copy());
-		FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
+			recipeCompList.add(recipeComponent.copy());
+			FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
+			return;
 
-
+		}
+		throw new DALException("Fatal Error on RecipeComponent. Both IDs exist but can not be loaded.");
 	}
 
 }

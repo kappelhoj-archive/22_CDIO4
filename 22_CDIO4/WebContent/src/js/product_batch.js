@@ -127,19 +127,19 @@ function getProductBatch(pbId) {
 	});
 }
 
+function getProductBatchList() {
+	return $.ajax({
+		url : "rest/product_batch/read_list",
+		type : "GET",
+		contentType: "application/json"
+	});
+}
+
 function getProductBatchCompListSpecific(pbId) {
 	return $.ajax({
 		url : "rest/product_batch_comp/read_list_specific",
 		type : "POST",
 		data : pbId,
-		contentType: "application/json"
-	});
-}
-
-function getProductBatchList() {
-	return $.ajax({
-		url : "rest/product_batch/read_list",
-		type : "GET",
 		contentType: "application/json"
 	});
 }

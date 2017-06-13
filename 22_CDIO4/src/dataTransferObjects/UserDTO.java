@@ -124,4 +124,9 @@ public class UserDTO extends DTO implements IWeightControlDTO
 		}
 		
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		return this.id - ((UserDTO) o).getId();
+	}
 }

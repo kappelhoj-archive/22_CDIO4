@@ -19,7 +19,6 @@ import exceptions.InputException;
 @Path("raw_material_batch")
 public class RawMaterialBatchCRUD {
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -37,7 +36,6 @@ public class RawMaterialBatchCRUD {
 		}
 	}
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -51,7 +49,6 @@ public class RawMaterialBatchCRUD {
 		}
 	}
 
-	// TODO: KIG PÅ HTTP ERROR
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)

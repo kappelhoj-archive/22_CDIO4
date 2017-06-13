@@ -62,6 +62,7 @@ public class RecipeCRUD {
 		}
 	}
 
+	//Not in use. Is needed if we want to be able to change the name of a recipe.
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

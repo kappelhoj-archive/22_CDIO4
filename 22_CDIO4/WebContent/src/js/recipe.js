@@ -144,12 +144,12 @@ function showRecipeEditPage(recipeId) {
  * REST functions
  * */
 
-function updateRecipeComp(form) {
+function getRecipeContent(recipeId){
 	return $.ajax({
-		url: "rest/recipe_component/update",
-		type: "PUT",
-		contentType: "application/json",
-		data: form
+		url: "rest/recipe_component/read_list_specific",
+		type: "POST",
+		data: recipeId,
+		contentType: "application/json"
 	});
 }
 
@@ -167,6 +167,15 @@ function createRecipeComp(form) {
 	return $.ajax({
 		url: "rest/recipe_component/create",
 		type: "POST",
+		contentType: "application/json",
+		data: form
+	});
+}
+
+function updateRecipeComp(form) {
+	return $.ajax({
+		url: "rest/recipe_component/update",
+		type: "PUT",
 		contentType: "application/json",
 		data: form
 	});
@@ -194,15 +203,6 @@ function getRecipe(id){
 		url: "rest/recipe/read",
 		type: "POST",
 		data: id,
-		contentType: "application/json"
-	});
-}
-
-function getRecipeContent(recipeId){
-	return $.ajax({
-		url: "rest/recipe_component/read_list_specific",
-		type: "POST",
-		data: recipeId,
 		contentType: "application/json"
 	});
 }

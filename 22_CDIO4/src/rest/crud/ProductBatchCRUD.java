@@ -67,6 +67,7 @@ public class ProductBatchCRUD {
 		}
 	}
 
+	//Not in use.
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

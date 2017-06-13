@@ -41,7 +41,7 @@ public class Initializer implements ServletContextListener {
 	static ILoginController login = new LoginController(userDAO);
 	static IProductBatchCompController pbc = new ProductBatchCompController(productBatchCompDAO, productBatchDAO, rawMaterialBatchDAO);
 	static IProductBatchController pb = new ProductBatchController(productBatchDAO, recipeDAO);
-	static IRawMaterialBatchController rmb = new RawMaterialBatchController(rawMaterialBatchDAO);
+	static IRawMaterialBatchController rmb = new RawMaterialBatchController(rawMaterialBatchDAO, rawMaterialDAO);
 	static IRawMaterialController rm = new RawMaterialController(rawMaterialDAO);
 	static IRecipeCompController rc = new RecipeCompController(recipeCompDAO, recipeDAO, rawMaterialDAO);
 	static IRecipeController r = new RecipeController(recipeDAO);
@@ -98,6 +98,7 @@ public class Initializer implements ServletContextListener {
 				++numberOfErrors;
 			}
 			try{
+				login.resetPassword(93905);
 				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "Jeppejeppe1", "Værkfører"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
