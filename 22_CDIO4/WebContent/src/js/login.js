@@ -26,11 +26,18 @@ $(document).ready(function() {
 	// Submit new password on login form
 	$(document).on("submit", "#login_new_pass_form", function(event) {
 		event.preventDefault();
-		$("input[name=\"repeat_password\"]").remove();
+		$("input[name=\"repeat_password\"]").prop('disabled', true);
+		
 		var userId = $("input[name=\"id\"]").val();
 		userLoginNewPass($(this).serializeJSON()).done(function(data) {
-			showRestMessage(data, function() { return redirectToFrontPage(userId) });
 			console.log(data);
+			$("input[name=\"repeat_password\"]").prop('disabled', false);
+			$("#login .alert").remove();
+			$(".has-success").removeClass("has-success");
+			var splitData = data.split(": ");
+			showRestMessage(data, function() { return redirectToFrontPage(userId) });
+			
+			$("#login_new_pass_form").find(".form-group:last").prepend("<div class=\"alert alert-danger\" role=\"alert\">" + splitData[1] + "</div>");
 		}).fail(function(data) {
 			console.log("Fejl i Login REST");
 		});

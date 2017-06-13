@@ -27,7 +27,7 @@ $(document).ready(function() {
 			$.get("src/html/product_batch/product_batch_edit.html", function(template) {
 				showProductBatchStatus(data);
 				$("#content").html(Mustache.render($(template).html(), data));
-				$(".pb_status").addClass("status_"+statusCode);
+				$(".pb_status").removeClass("status_0").removeClass("status_1").removeClass("status_2").addClass("status_"+statusCode);
 				showProductBatchCompsPage(productBatchId);
 			});
 		}).fail(function(data){
