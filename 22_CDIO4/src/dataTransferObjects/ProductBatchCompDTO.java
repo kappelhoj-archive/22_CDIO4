@@ -48,7 +48,12 @@ public class ProductBatchCompDTO extends DTO
 	}
 
 	@Override
-	public int compareTo(DTO arg0) {
-		return 0;
+	public int compareTo(DTO o) {
+		int a = this.pbId - ((ProductBatchCompDTO) o).getPbId();
+		
+		if(a ==0)
+			a = this.rbId - ((ProductBatchCompDTO) o).getRbId();
+		
+		return a;
 	}
 }

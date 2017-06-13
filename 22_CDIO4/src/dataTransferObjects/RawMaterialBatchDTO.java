@@ -82,7 +82,6 @@ public class RawMaterialBatchDTO extends DTO implements IWeightControlDTO
 
 	@Override
 	public int compareTo(DTO o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.rbId - ((RawMaterialBatchDTO) o).getRbId();
 	}
 }

@@ -47,7 +47,6 @@ public class RawMaterialDTO extends DTO
 
 	@Override
 	public int compareTo(DTO o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.id - ((RawMaterialDTO) o).getId();
 	}
 }

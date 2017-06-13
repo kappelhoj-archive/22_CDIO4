@@ -51,7 +51,6 @@ public class RecipeDTO extends DTO
 
 	@Override
 	public int compareTo(DTO o) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.recipeId - ((RecipeDTO) o).getRecipeId();
 	}
 }
