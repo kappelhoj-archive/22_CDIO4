@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IRawMaterialBatchController;
@@ -42,7 +44,11 @@ public class RawMaterialBatchController implements IRawMaterialBatchController {
 	 */
 	@Override
 	public List<RawMaterialBatchDTO> getRawMaterialBatchList() throws DALException {
-		return dao.getRawMaterialBatchList();
+		ArrayList<RawMaterialBatchDTO> sortedArray = (ArrayList<RawMaterialBatchDTO>) dao.getRawMaterialBatchList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/*

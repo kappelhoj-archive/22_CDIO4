@@ -44,4 +44,9 @@ public class RawMaterialDTO extends DTO
     public RawMaterialDTO copy(){
     	return new RawMaterialDTO (id, name, supplier);
     }
+
+	@Override
+	public int compareTo(DTO o) {
+		return this.id - ((RawMaterialDTO) o).getId();
+	}
 }

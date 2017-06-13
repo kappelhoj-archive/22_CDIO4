@@ -98,6 +98,7 @@ public class Initializer implements ServletContextListener {
 				++numberOfErrors;
 			}
 			try{
+				System.out.println(">>>>>>>>>>>>>>>>>>"+login.resetPassword(93905));
 				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "Jeppejeppe1", "Værkfører"));
 			} catch (DALException e) {
 				System.out.println("ERROR");

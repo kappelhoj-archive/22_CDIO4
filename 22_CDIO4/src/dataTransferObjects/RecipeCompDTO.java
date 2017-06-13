@@ -69,4 +69,14 @@ public class RecipeCompDTO extends DTO
 	public RecipeCompDTO copy(){
 		return new RecipeCompDTO(recipeId, rawMaterialId, nomNetto, tolerance);
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		int a = this.recipeId - ((RecipeCompDTO) o).getRecipeId();
+		
+		if(a ==0)
+			a = this.rawMaterialId - ((RecipeCompDTO) o).getRawMaterialId();
+		
+		return a;
+	}
 }

@@ -37,19 +37,19 @@ public class Login {
 	public String newPassword(LoginPOJO login) {
 		try {
 			Initializer.getLoginController().setNewPassword(Integer.parseInt(login.getId()), login.getPassword());
-			return "success";
+			return "success: Password opdateret";
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Fejl!";
+			return "format-error: Der skete en fejl med dit id.";
 		} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Fejl: Password er ikke gyldigt.";
+			return "input-error: Password er ikke gyldigt.";
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Der skete en fejl!";
+			return "system-error: Der skete en fejl!";
 		}
 	}
 }

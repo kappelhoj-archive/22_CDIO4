@@ -39,7 +39,7 @@ function showRestMessage(data, showPage) {
 function showAlertMessage(alertData) {
 	$.get("src/html/alert.html", function(template) {
 		$("#alert_container").remove();
-		$("#master_container").append(Mustache.render($(template).html(), alertData));
+		$("body").append(Mustache.render(template, alertData));
 		$("#alert_container").fadeIn("slow", function () {
 		    $(this).delay(5000).fadeOut("slow", function() {
 		    	$(this).remove();

@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IRawMaterialController;
@@ -38,7 +40,11 @@ public class RawMaterialController implements IRawMaterialController {
 	 */
 	@Override
 	public List<RawMaterialDTO> getRawMaterialList() throws DALException {
-		return dao.getRawMaterialList();
+		ArrayList<RawMaterialDTO> sortedArray = (ArrayList<RawMaterialDTO>) dao.getRawMaterialList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/**
