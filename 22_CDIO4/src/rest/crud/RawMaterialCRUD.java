@@ -19,7 +19,6 @@ import exceptions.InputException;
 @Path("raw_material")
 public class RawMaterialCRUD {
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -37,7 +36,6 @@ public class RawMaterialCRUD {
 		}
 	}
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

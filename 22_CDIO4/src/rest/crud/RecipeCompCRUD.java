@@ -18,7 +18,6 @@ import exceptions.DALException;
 @Path("recipe_component")
 public class RecipeCompCRUD {
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -33,7 +32,6 @@ public class RecipeCompCRUD {
 		}
 	}
 
-	// TODO: Kig på HTTP ERROR
 	@Path("read_list_specific")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -46,8 +44,8 @@ public class RecipeCompCRUD {
 			return null;
 		}
 	}
-
-	// TODO: Kig på HTTP ERROR
+	
+	//Not in use, but is needed if a selection on the website is needed.
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

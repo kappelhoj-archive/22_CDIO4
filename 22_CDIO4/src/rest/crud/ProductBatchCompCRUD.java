@@ -18,6 +18,7 @@ import exceptions.DALException;
 @Path("product_batch_comp")
 public class ProductBatchCompCRUD {
 
+	//Not in use.
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -45,6 +46,7 @@ public class ProductBatchCompCRUD {
 		}
 	}
 
+	//Not in use.
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,6 +60,7 @@ public class ProductBatchCompCRUD {
 		}
 	}
 
+	//Not in use.
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -76,6 +79,7 @@ public class ProductBatchCompCRUD {
 		}
 	}
 
+	//Not in use.
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)

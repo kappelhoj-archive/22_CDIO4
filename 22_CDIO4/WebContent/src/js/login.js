@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	
-	showNewPassPage();
+	showLoginPage();
 
 	// Logout link
 	$(document).on("click", ".logout_link", function(event) {
