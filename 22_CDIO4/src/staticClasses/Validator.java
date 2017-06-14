@@ -30,7 +30,7 @@ public class Validator {
 	 */
 	public static boolean validateUserID(int id) throws InputException {
 		if (id < 0 || id > 1000000000) {
-			throw new InputException("This user id is invalid. User ID's has to be between 11 and 99");
+			throw new InputException("This user id is invalid. User ID's has to be between 1 and 999999999");
 		}
 		return true;
 	}
