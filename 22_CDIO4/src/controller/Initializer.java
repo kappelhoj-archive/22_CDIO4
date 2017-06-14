@@ -62,14 +62,14 @@ public class Initializer implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 
-		System.out.println("Listener initialized");
+		System.out.println("Initialicering færdig");
 
 		if (!initialized) {
 
 			try {
-				System.out.println("Creating default users...");
+				System.out.println("Lave standard brugere...");
 
-				u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "1111111118", "Peterpeter1", "Admin"));
+				u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "0101800032", "Peterpeter1", "Admin"));
 			} catch (DALException e) {
 				System.out.println("ERROR");
 				System.out.println(e);
@@ -77,37 +77,37 @@ public class Initializer implements ServletContextListener {
 			}
 
 			try{
-				u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "1111111118", "Simonsimon1", "Farmaceut"));
+				u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "0101405109", "Simonsimon1", "Farmaceut"));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-				u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "1111111118", "Arvidarvid1", "Laborant"));
+				u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "0101600203", "Arvidarvid1", "Laborant"));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-				u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "1111111118", "Mikkelmikkel1", "Farmaceut"));
+				u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "0101600203", "Mikkelmikkel1", "Farmaceut"));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "ML", "1111111118", "Jeppejeppe1", "Værkfører"));
+				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "JN", "0101200159", "Jeppejeppe1", "Værkfører"));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-				u.createUser(new UserDTO(16524, "Mads Stege", "MS", "1111111118", "Madsmads1", "Værkfører"));
+				u.createUser(new UserDTO(16524, "Mads Stege", "MS", "0101002918", "Madsmads1", "Værkfører"));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
@@ -118,33 +118,33 @@ public class Initializer implements ServletContextListener {
 				System.out.println(u.getUserList());
 
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 
-			System.out.println("Creating misc DTO...");
+			System.out.println("laver forskellige DTO'er...");
 
 			try{
-				r.createRecipe(new RecipeDTO(1, "Salty water"));
+				r.createRecipe(new RecipeDTO(1, "Salt vand"));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 
 
 			try{
-				rm.createRawMaterial(new RawMaterialDTO(1, "Water", "Water-Corp"));
+				rm.createRawMaterial(new RawMaterialDTO(1, "Vand", "VandCo"));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
-				rm.createRawMaterial(new RawMaterialDTO(2, "Salt", "Salt-Corp"));
+				rm.createRawMaterial(new RawMaterialDTO(2, "Salt", "SaltCo"));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
@@ -152,14 +152,14 @@ public class Initializer implements ServletContextListener {
 			try{
 				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(1, 1, 8.6));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 			try{
 				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(2, 2, 10.7));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
@@ -167,7 +167,7 @@ public class Initializer implements ServletContextListener {
 			try{
 				pb.createProductBatch(new ProductBatchDTO(1, 0, 1));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
@@ -175,7 +175,7 @@ public class Initializer implements ServletContextListener {
 			try{
 				pb.createProductBatch(new ProductBatchDTO(3, 0, 1));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
@@ -184,7 +184,7 @@ public class Initializer implements ServletContextListener {
 
 				pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
@@ -192,7 +192,7 @@ public class Initializer implements ServletContextListener {
 			try{
 				rc.createRecipeComp(new RecipeCompDTO(1, 1, 1.1, 0.6));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
@@ -200,13 +200,13 @@ public class Initializer implements ServletContextListener {
 			try{
 				rc.createRecipeComp(new RecipeCompDTO(1, 2, 3.1, 2.1));
 			} catch (DALException e) {
-				System.out.println("ERROR");
+				System.out.println("FEJL!");
 				System.out.println(e);
 				++numberOfErrors;
 			}
 
 
-			System.out.println("All done with "+numberOfErrors+" error(s) !");
+			System.out.println("Server startet med: "+numberOfErrors+" FEJL!!");
 
 
 		}

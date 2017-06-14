@@ -8,18 +8,22 @@ import java.util.ArrayList;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * 
+ * @author Mads
+ *
+ */
+
 public class ConnectionManager {
 
+	// Creation of needed Arraylists, Arrays, and classes needed for the
+	// Manager.
 	ConnectionReader connectionReader;
 	private ArrayList<String> allConnectedIPAddresses = new ArrayList<String>();
 	private ArrayList<Integer> allConnectedPortNumbers = new ArrayList<Integer>();
 	WeightController[] weightController;
 	MeasurementController measurementController;
 	Socket weightSocket;
-
-	public ConnectionManager(String fileLocation) {
-		connectionReader = new ConnectionReader(fileLocation);
-	}
 
 	/**
 	 * 
@@ -44,15 +48,14 @@ public class ConnectionManager {
 	 * successfully established.
 	 */
 	public void threadStarter() {
-		
 		try {
 			connectionReader.getWeightIPs();
-		} catch (FileNotFoundException e1) {
-			System.out.println("ConnectionReader did not retrieve WeightIPs correctly!");
-			e1.printStackTrace();
+		} catch (FileNotFoundException e) {
+			System.out.println("ConnectionReader did not find WeightTable.txt correctly!");
+			e.printStackTrace();
 		}
-		
-		weightController=new WeightController[connectionReader.getAllIPAddresses().size()];
+
+		weightController = new WeightController[connectionReader.getAllIPAddresses().size()];
 		for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
 			try {
 				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));

@@ -218,7 +218,7 @@ public class WeightCommunicatorTest {
 			assertEquals("Message",expected,actual,0.001);
 			
 		} catch (ProtocolErrorException e) {
-			fail("Did not expect a protocol exception.");
+
 		}
 		outToServer.writeBytes("K A" + "   1.232 kg" + "\r" + "\n");
 		try {

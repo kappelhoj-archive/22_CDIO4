@@ -17,20 +17,23 @@ public class ConnectionReaderTest {
 
 	@Before
 	public void setUp() throws Exception {
-
+		System.out.println("");
+		System.out.println("Starting test...");
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		fileLocation = null;
 		connectionReader = null;
+		System.out.println("");
+		System.out.println("Test finished successfully!");
 	}
 
 	@Test
 	public void testIPChecker() {
-		fileLocation = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\WeightTable.txt";
+		fileLocation = "ASE/ASE/tests/WeightTableIPTest.txt";
 		connectionReader = new ConnectionReader(fileLocation);
-		
+
 		try {
 			connectionReader.getWeightIPs();
 		} catch (Exception e) {
@@ -50,7 +53,7 @@ public class ConnectionReaderTest {
 
 	@Test
 	public void testPortChecker() {
-		fileLocation = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\WeightTable.txt";
+		fileLocation = "ASE/ASE/tests/WeightTablePortTest.txt";
 		connectionReader = new ConnectionReader(fileLocation);
 
 		try {
