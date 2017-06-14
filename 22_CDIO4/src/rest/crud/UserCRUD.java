@@ -78,7 +78,7 @@ public class UserCRUD {
 			return "input-error: Det indtastede er ugyldigt.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
-			return "collision-error: Der eksisterede allerede en bruger i systemet med det indtastede id.";
+			return "collision-error: Der eksisterer allerede en bruger med det indtastede id.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			return "system-error: Der skete en fejl i systemet.";

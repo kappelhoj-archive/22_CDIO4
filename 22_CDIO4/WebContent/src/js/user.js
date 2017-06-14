@@ -10,7 +10,9 @@ $(document).ready(function() {
 		var userId = $(".top_nav_userid").text();
 		getUser(userId).done(function(data) {
 			$.get("src/html/user/user_edit.html", function(template) {
-	            $("#content").html(Mustache.render($(template).html(),data))		            
+	            $("#content").html(Mustache.render($(template).html(),data));
+	            showInitials();
+	            validateEditUser();
 	        });
 		})
 		.fail(function(x) {
@@ -28,7 +30,9 @@ $(document).ready(function() {
 	$(document).on("click", ".user_create_link", function(event) {
 		event.preventDefault();
 		$.get("src/html/user/user_create.html", function(template) {
-            $("#content").html(template);		            
+            $("#content").html(template);
+            showInitials();
+            validateCreateUser();
         });
 	});
 	
@@ -36,21 +40,15 @@ $(document).ready(function() {
 	$(document).on("click", ".user_edit_table_link", function(event) {
 		event.preventDefault();
 		var userId = $(this).parents("tr").children("td:first").text();
-		getUser(userId).done(function(data) {
-			$.get("src/html/user/user_edit.html", function(template) {
-	            $("#content").html(Mustache.render($(template).html(),data))		            
-	        });
-		})
-		.fail(function(x) {
-			console.log("Fejl i User REST");
-		});
+		showUserEditAdminPage(userId);
+		
 	});
 	
-	$(document).on("click", ".user_edit_admin_table_link", function(event) {
-		event.preventDefault();
-		var userId = $(this).parents("tr").children("td:first").text();
-		showUserEditAdminPage(userId);
-	});
+//	$(document).on("click", ".user_edit_admin_table_link", function(event) {
+//		event.preventDefault();
+//		var userId = $(this).parents("tr").children("td:first").text();
+//		showUserEditAdminPage(userId);
+//	});
 	
 	$(document).on("click", ".user_edit_admin_reset_pw_link", function(event) {
 		event.preventDefault();
@@ -86,8 +84,19 @@ $(document).ready(function() {
 		}).fail(function(data) {
 			console.log("Fejl i User REST");
 		});	
-		
 	});
+	
+	// Submit edit user (admin) form
+	$(document).on("submit", "#user_edit_admin_form", function(event) {
+		event.preventDefault();
+		updateUser($(this).serializeJSON()).done(function(data) {
+			showRestMessage(data, function() { return showUserListPage() });
+		}).fail(function(data) {
+			console.log("Fejl i User REST");
+		});	
+	});
+	
+	
 	
 });
 
@@ -95,10 +104,22 @@ $(document).ready(function() {
  * Functions
  * */
 
+function showInitials() {
+	$("input[name=\"ini\"]").focus(function() {
+    	var iniValue = $(this).val();
+    	var iniAuto = generateInitials($("input[name=\"name\"]").val());
+    	if (iniValue ==  "") {
+    		$(this).val(iniAuto);
+    	}
+    });
+}
+
 function showUserEditAdminPage(userId) {
 	getUser(userId).done(function(data) {
 		$.get("src/html/user/user_edit_admin.html", function(template) {
-            $("#content").html(Mustache.render($(template).html(),data))		            
+            $("#content").html(Mustache.render($(template).html(),data));
+            showInitials();
+            validateEditUserAdmin();
         });
 	})
 	.fail(function(x) {

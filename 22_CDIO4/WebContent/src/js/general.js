@@ -30,6 +30,25 @@ function showRestMessage(data, showPage) {
     	showPage();
     	showAlertMessage(alertData);
         break;
+    case "collision-error": {
+    	
+    	$("input[name=\"rawMaterialId\"]").parent().removeClass("has-success").addClass("has-danger");
+    	$("input[name=\"rawMaterialId\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	
+    	$("input[name=\"rbId\"]").parent().removeClass("has-success").addClass("has-danger");
+    	$("input[name=\"rbId\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	
+    	$("input[name=\"pbId\"]").parent().removeClass("has-success").addClass("has-danger");
+    	$("input[name=\"pbId\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	
+    	$("input[name=\"recipeId\"]").parent().removeClass("has-success").addClass("has-danger");
+    	$("input[name=\"recipeId\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	
+    	$("input[name=\"id\"]").parent().removeClass("has-success").addClass("has-danger");
+    	$("input[name=\"id\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	showAlertMessage(alertData);
+    	break;
+    }
     default: // errors
     	// If the error alert message is on the new-login-password page then don't show the pop up
     	if($("#login_new_pass_form").length < 1) {
