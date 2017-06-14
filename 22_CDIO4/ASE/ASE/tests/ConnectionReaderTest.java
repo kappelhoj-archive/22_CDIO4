@@ -28,7 +28,7 @@ public class ConnectionReaderTest {
 
 	@Test
 	public void testIPChecker() {
-		fileLocation = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\WeightTable.txt";
+		fileLocation = "ASE/ASE/tests/WeightTableIPTest.txt";
 		connectionReader = new ConnectionReader(fileLocation);
 		
 		try {
@@ -50,7 +50,7 @@ public class ConnectionReaderTest {
 
 	@Test
 	public void testPortChecker() {
-		fileLocation = "C:\\Users\\"+System.getProperty("user.name")+"\\Documents\\WeightTable.txt";
+		fileLocation = "ASE/ASE/tests/WeightTablePortTest.txt";
 		connectionReader = new ConnectionReader(fileLocation);
 
 		try {

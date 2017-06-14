@@ -64,17 +64,16 @@ public class ConnectionReader {
 						String weightPort = weightScanner.nextLine().trim();
 
 						// Adds the scanned IP addresses if, and only if, it
-						// passes the check.
+						// passes the check, it then checks the port number. If
+						// both checks passes, the IP and Port number is added
+						// to a separate list.
 						if (validateIP(weightIP)) {
-							allIPAddresses.add(weightIP);
-						} else {
-							System.out.println(weightIP + " " + weightPort);
-						}
-						// Adds the scanned Port number if, and only if, it
-						// passes
-						// the check.
-						if (validatePORT(weightPort)) {
-							allPortNumbers.add(weightPort);
+							if (validatePORT(weightPort)) {
+								allIPAddresses.add(weightIP);
+								allPortNumbers.add(weightPort);
+							} else {
+								System.out.println(weightIP + " " + weightPort);
+							}
 						} else {
 							System.out.println(weightIP + " " + weightPort);
 						}
