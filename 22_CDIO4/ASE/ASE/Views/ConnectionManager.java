@@ -25,13 +25,6 @@ public class ConnectionManager {
 	MeasurementController measurementController;
 	Socket weightSocket;
 
-	// Constructor responsible for creating a new ConnectionReader upon startup.
-	// It sets the filelocation of the ConnectionReader to be a String called
-	// fileLocation.
-	public ConnectionManager(String fileLocation) {
-		connectionReader = new ConnectionReader(fileLocation);
-	}
-
 	/**
 	 * 
 	 * Method that creates a new ConnectionReader called connectionReader, as
@@ -55,12 +48,11 @@ public class ConnectionManager {
 	 * successfully established.
 	 */
 	public void threadStarter() {
-
 		try {
 			connectionReader.getWeightIPs();
-		} catch (FileNotFoundException e1) {
-			System.out.println("ConnectionReader did not retrieve WeightIPs correctly!");
-			e1.printStackTrace();
+		} catch (FileNotFoundException e) {
+			System.out.println("ConnectionReader did not find WeightTable.txt correctly!");
+			e.printStackTrace();
 		}
 
 		weightController = new WeightController[connectionReader.getAllIPAddresses().size()];
