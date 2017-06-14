@@ -60,7 +60,9 @@ public class UserController implements IUserController{
 	 */
 	@Override
 	public void createUser(UserDTO user) throws InputException, CollisionException, DALException{
-		validation(user);
+		validationWithoutPassword(user);
+		
+		user.setPassword(generatePassword());
 
 		dao.createOperatoer(user);
 
@@ -132,5 +134,17 @@ public class UserController implements IUserController{
 			}
 		}
 		return newIni;
+	}
+	
+	/**
+	 * Generates a default password which needs to be changed by the user with his first login
+	 * using the Admin key.
+	 * 
+	 * @return The generated password.
+	 */
+	public String generatePassword() {
+		String password = "XX";
+		int rand = (int) (Math.random() * 1000000000);
+		return password+rand;
 	}
 }
