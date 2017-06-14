@@ -260,5 +260,20 @@ public class Validator {
 		return true;
 	}
 
+	public static int idToInteger(String id) throws InputException{
+		try{
+			int integerID = Integer.parseInt(id);
 
+			if(integerID > 0 && integerID <= 99999999)
+				return integerID;
+			else
+				throw new InputException("ID:"+ id + " shall be between 1 and 99999999");
+
+		}catch(NumberFormatException e){
+			throw new InputException("ID:"+ id + " is not an integer");
+		}catch(Exception e){
+			throw new InputException("FATAL ERROR. ");
+		}
+
+	}
 }
