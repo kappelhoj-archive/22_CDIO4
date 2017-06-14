@@ -53,7 +53,6 @@ public class ConnectionReader {
 		try {
 			weightScanner = new Scanner(new FileInputStream(fileLocation));
 			// Attempt to retrieve information from the WeightTable.txt file.
-			// Retrieve information.
 			while (weightScanner.hasNext()) {
 				try {
 					String tokenCheck = weightScanner.next();
@@ -65,8 +64,7 @@ public class ConnectionReader {
 						String weightPort = weightScanner.nextLine().trim();
 
 						// Adds the scanned IP addresses if, and only if, it
-						// passes
-						// the check.
+						// passes the check.
 						if (validateIP(weightIP)) {
 							allIPAddresses.add(weightIP);
 						} else {
