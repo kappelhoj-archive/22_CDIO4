@@ -15,6 +15,7 @@ import dataTransferObjects.ProductBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("product_batch")
 public class ProductBatchCRUD {
@@ -29,7 +30,7 @@ public class ProductBatchCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProductBatchDTO getProductBatch(String id) {
 		try {
-			return Initializer.getProductBatchController().getProductBatch(Integer.parseInt(id));
+			return Initializer.getProductBatchController().getProductBatch(Validator.idToInteger(id));
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -73,7 +74,7 @@ public class ProductBatchCRUD {
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "input-error: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

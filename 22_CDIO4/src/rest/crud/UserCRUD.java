@@ -15,6 +15,7 @@ import dataTransferObjects.UserDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("user")
 public class UserCRUD {
@@ -29,7 +30,7 @@ public class UserCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public UserDTO readUser(String userId) {
 		try {
-			return Initializer.getUserController().getUser(Integer.parseInt(userId));
+			return Initializer.getUserController().getUser(Validator.idToInteger(userId));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -71,7 +72,7 @@ public class UserCRUD {
 		try {
 			int key = Initializer.getLoginController().generateAdminKey(user.getId());
 			Initializer.getUserController().createUser(user);
-			return "success: Brugeren blev oprettet. \n Brugeren har id " + user.getId() + " og login key " + key + ".";
+			return "success: Brugeren blev oprettet med id " + user.getId() + " og engangsnøglen " + key + ".";
 		} catch (InputException e) {
 			e.printStackTrace();
 			return "input-error: Det indtastede er ugyldigt.";

@@ -13,6 +13,7 @@ import controller.Initializer;
 import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.Validator;
 
 @Path("recipe")
 
@@ -28,7 +29,7 @@ public class RecipeCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public RecipeDTO getRecipe(String recipeId) {
 		try {
-			return Initializer.getRecipeController().getRecipe(Integer.parseInt(recipeId));
+			return Initializer.getRecipeController().getRecipe(Validator.idToInteger(recipeId));
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

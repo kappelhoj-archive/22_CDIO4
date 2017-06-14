@@ -15,6 +15,7 @@ import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("raw_material_batch")
 public class RawMaterialBatchCRUD {
@@ -29,7 +30,7 @@ public class RawMaterialBatchCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public RawMaterialBatchDTO readRawMaterialBatch(String id) {
 		try {
-			return Initializer.getRawMaterialBatchController().getRawMaterialBatch(Integer.parseInt(id));
+			return Initializer.getRawMaterialBatchController().getRawMaterialBatch(Validator.idToInteger(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -69,7 +70,7 @@ public class RawMaterialBatchCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RawMaterialBatchDTO> readRawMaterialBatchList(String rawMaterialId) {
 		try {
-			return Initializer.getRawMaterialBatchController().getRawMaterialBatchList(Integer.parseInt(rawMaterialId));
+			return Initializer.getRawMaterialBatchController().getRawMaterialBatchList(Validator.idToInteger(rawMaterialId));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

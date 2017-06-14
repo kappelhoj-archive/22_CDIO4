@@ -10,6 +10,7 @@ import controller.Initializer;
 import dataTransferObjects.LoginPOJO;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("login")
 public class Login {
@@ -36,20 +37,16 @@ public class Login {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String newPassword(LoginPOJO login) {
 		try {
-			Initializer.getLoginController().setNewPassword(Integer.parseInt(login.getId()), login.getPassword());
+			Initializer.getLoginController().setNewPassword(Validator.idToInteger(login.getId()), login.getPassword());
 			return "success: Password opdateret";
-		} catch (NumberFormatException e) {
+			} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "format-error: Der skete en fejl med dit id.";
-		} catch (InputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "input-error: Password er ikke gyldigt.";
+			return "input-error: Det indstastede er ugyldigt.";
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "system-error: Der skete en fejl!";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 	
@@ -58,19 +55,15 @@ public class Login {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String resetPassword(String userId) {
 		try {
-			return "success: Brugeres password blev resetted. Engangsnøgle " + String.valueOf(Initializer.getLoginController().resetPassword(Integer.parseInt(userId)));
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "format-exception: Der skete en fejl med id'et.";
+			return "success: Brugerens password blev nulstillet. Engangsnøglen er " + Initializer.getLoginController().resetPassword(Validator.idToInteger(userId));
 		} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "input-error: Forkert id.";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "system-error: System fejl.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 }
