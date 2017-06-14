@@ -11,9 +11,9 @@ import exceptions.InputException;
 import staticClasses.Validator;
 
 public class LoginController implements ILoginController {
-	
+
 	IUserDAO dao;
-	
+
 	public IUserDAO getDao() {
 		return dao;
 	}
@@ -21,7 +21,7 @@ public class LoginController implements ILoginController {
 	public LoginController(IUserDAO dao){
 		this.dao = dao;
 	}
-	
+
 
 	static Hashtable<Integer, Integer> adminKeyTable = new Hashtable<Integer, Integer>();
 
@@ -36,10 +36,10 @@ public class LoginController implements ILoginController {
 		try{
 			if(user.isSuperAdmin())
 				return LoginState.SUPER;
-			
-		    else if (adminKeyTable.remove(Integer.parseInt(user.getId())).intValue() == Integer.parseInt(user.getPassword()))
+
+			else if (adminKeyTable.remove(Integer.parseInt(user.getId())).intValue() == Integer.parseInt(user.getPassword()))
 				return LoginState.NEW;
-			
+
 			else
 				return LoginState.FALSE;
 
@@ -56,7 +56,7 @@ public class LoginController implements ILoginController {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the user with the new password
 	 * @param userID, userPassword
@@ -67,7 +67,7 @@ public class LoginController implements ILoginController {
 		UserDTO user = dao.getUser(id).copy();
 
 		Validator.validatePassword(password);
-		
+
 		user.setPassword(password);
 
 		dao.updateOperatoer(user);
@@ -108,6 +108,34 @@ public class LoginController implements ILoginController {
 			throw new InputException(e.getMessage());
 		}catch(DALException e){
 			e.printStackTrace();
+			throw new DALException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Checks the password
+	 * @param LoginPOJO
+	 * @return True or False
+	 */
+	@Override
+	public boolean checkPassword(LoginPOJO login) throws InputException, DALException{
+		try{
+			//TODO implements Hashing Match
+			if(dao.getUser(Integer.parseInt(login.getId())).getPassword().equals(login.getPassword()))
+				return true;
+
+			else
+				return false;
+
+		}catch(InputException e){
+			throw new InputException(e.getMessage());
+			
+		}catch(NumberFormatException e){
+			System.out.println(e);
+			throw new InputException(login.getId()+" is not an Integer");
+
+		}catch(DALException e){
+			System.out.println(e);
 			throw new DALException(e.getMessage());
 		}
 	}
