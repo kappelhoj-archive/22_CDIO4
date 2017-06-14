@@ -250,7 +250,8 @@ function validateRawMaterialBatch(form) {
 				validID: true
 			},
 			amount: {
-				required: true
+				required: true,
+				number: true
 			}
 		}
 	});

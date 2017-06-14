@@ -224,3 +224,7 @@ h3 {
 #alert_container button.close {
 	padding: 0 .5rem 0 1.5rem
 }
+
+#user_edit_password_form {
+	margin-top: 2rem;
+}

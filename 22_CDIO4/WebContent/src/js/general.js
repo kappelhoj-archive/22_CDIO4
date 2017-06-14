@@ -8,9 +8,22 @@ $(document).ready(function() {
 	// Click on logo
 	$(document).on("click", "#logo a", function(event) {
 		event.preventDefault();
-		// TODO: vis startside
+		showStartPage();
 	});
 });
+
+function showStartPage() {
+	// userId must be parsed as string
+	var data = {
+		id: $("top_nav_userid").text(),
+		name: $(".top_nav_name").text(),
+		role: $(".top_nav_role").text()
+		
+	}
+	$.get("src/html/start.html", function(template) {
+		$("#content").html(Mustache.render(template, data));
+	});
+}
 
 /*
  * Functions

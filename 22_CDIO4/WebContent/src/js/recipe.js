@@ -41,6 +41,12 @@ $(document).ready(function(){
 		getRecipeComp(recipeId, rawMaterialId).done(function(data) {
 			$.get("src/html/recipe/recipe_comp_edit.html", function(template) {
 				$("#content").html(Mustache.render($(template).html(), data));
+				getRawMaterial(rawMaterialId).done(function(data) {
+					$("input[name=\"rawMaterialName\"]").val(data.name);
+				}).fail(function(data){
+					console.log("Fejl i RawMaterial REST")
+				});
+				
 				validateRecipeComp("#recipe_comp_edit_form");
 			});
 		})
@@ -53,11 +59,18 @@ $(document).ready(function(){
 	$(document).on("click", ".recipe_comp_create_link", function(event) {
 		event.preventDefault();
 		var recipeId = $("#recipe_edit_form input[name=\"recipeId\"]").val();
-		$.get("src/html/recipe/recipe_component_create.html", function(template) {
-			$("#content").html(template);
-			$("#recipe_component_create_form input[name=\"recipeId\"]").val(recipeId);
-			validateRecipeComp("#recipe_component_create_form");
-		})
+		getRawMaterialList().done(function(data) {
+			$.get("src/html/recipe/recipe_component_create.html", function(template) {
+	            $("#content").html(template);
+	            $("#recipe_component_create_form input[name=\"recipeId\"]").val(recipeId);
+				$.each(data, function(i, data) {
+					$(".custom-select").append(Mustache.render("<option value=\""+ data.id + "\">" + data.id + " (" + data.name + ")</option>", data));
+				});
+				validateRecipeComp("#recipe_component_create_form");
+	        });
+		}).fail(function(data){
+			console.log("Fejl i Recipe REST")
+		});
 		
 	});
 	
@@ -80,6 +93,7 @@ $(document).ready(function(){
 	$(document).on("submit", "#recipe_comp_edit_form", function(event) {
 		event.preventDefault();
 		var recipeId = $("input[name=\"recipeId\"]").val();
+		$("input[name=\"rawMaterialName\"]").prop('disabled', true);
 		updateRecipeComp($(this).serializeJSON()).done(function(data) {
 			showRestMessage(data, function() { return showRecipeEditPage(recipeId) });
 		}).fail(function(data) {

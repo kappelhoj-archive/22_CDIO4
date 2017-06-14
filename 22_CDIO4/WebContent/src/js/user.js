@@ -74,7 +74,7 @@ $(document).ready(function() {
 	$(document).on("submit", "#user_edit_form", function(event) {
 		event.preventDefault();
 		updateUser($(this).serializeJSON()).done(function(data) {
-			showRestMessage(data, function() { return showUserListPage() });
+			showRestMessage(data, function() { return showStartPage() });
 		}).fail(function(data) {
 			console.log("Fejl i User REST");
 		});	

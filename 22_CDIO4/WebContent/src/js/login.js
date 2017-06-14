@@ -17,7 +17,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		
 		userLogin($(this).serializeJSON()).done(function(data) {
-			showFrontPage(data);
+			onLoginShowPage(data);
 		}).fail(function(data) {
 			console.log("Fejl i Login REST");
 		});
@@ -30,7 +30,7 @@ $(document).ready(function() {
 		
 		var userId = $("input[name=\"id\"]").val();
 		userLoginNewPass($(this).serializeJSON()).done(function(data) {
-			showRestMessage(data, function() { return redirectToFrontPage(userId) });
+			showRestMessage(data, function() { return showFullPage(userId) });
 		}).fail(function(data) {
 			console.log("Fejl i Login REST");
 		});
@@ -41,11 +41,12 @@ $(document).ready(function() {
  * Functions
  * */
 
-function redirectToFrontPage(userId) {
+function showFullPage(userId) {
 	getUser(userId).done(function(data) {
 		$.get("src/html/master.html", function(template) {
 			$("#login").remove();
             $("body").append(Mustache.render(template, data));
+            showStartPage();
             $("#user_dropdown_menu .user_edit_link").show();
             switch(data.role) {
             case "Admin":
@@ -79,7 +80,7 @@ function redirectToFrontPage(userId) {
 	});
 }
 
-function showFrontPage(data) {
+function onLoginShowPage(data) {
 	var splitData = data.split(": ");
 	var userId = $("#login_form input[name=\"id\"]").val();
 	$("#login .alert").remove();
@@ -91,6 +92,7 @@ function showFrontPage(data) {
 			$(".top_nav_role").addClass("role_super");
 			$(".role_super").text("Super");
 			$(".top_nav_name").text("admin");
+			showStartPage();
 			
 			getRoleTemplate("src/html/role_privilege/admin_privilege.html").done(function() {
 				getRoleTemplate("src/html/role_privilege/pharmacist_privilege.html").done(function() {
@@ -105,7 +107,7 @@ function showFrontPage(data) {
 		showNewLoginPage(userId);
 		break;
 	case "true_login":
-		redirectToFrontPage(userId);
+		showFullPage();
 		break;
 	default: // not logged in
 		$("#login").find(".form-group:last").prepend("<div class=\"alert alert-danger\" role=\"alert\">" + splitData[1] + "</div>");

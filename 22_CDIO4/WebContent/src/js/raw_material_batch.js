@@ -35,6 +35,12 @@ $(document).ready(function() {
 		getRawMaterialBatch(rawMaterialBatchId).done(function (data) {
 			$.get("src/html/raw_material_batch/raw_material_batch_edit.html", function(template) {
 				$("#content").html(Mustache.render($(template).html(), data));
+				// raw material id must be parsed as a string ("")
+				getRawMaterial("" + data.rawMaterialId).done(function(data) {
+					$("input[name=\"rawMaterialName\"]").val(data.name);
+				}).fail(function(data){
+					console.log("Fejl i RawMaterial REST")
+				});
 				validateRawMaterialBatch("#raw_material_batch_edit_form");
 			});
 		})
@@ -60,6 +66,7 @@ $(document).ready(function() {
 	// Submit edit raw material batch form
 	$(document).on("submit", "#raw_material_batch_edit_form", function(event) {
 		event.preventDefault();
+		$("input[name=\"rawMaterialName\"]").prop('disabled', true);
 		updateRawMaterialBatch($(this).serializeJSON()).done(function(data) {
 			showRestMessage(data, function() { showRawMaterialBatchListPage() });
 		}).fail(function(data) {

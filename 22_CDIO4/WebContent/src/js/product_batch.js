@@ -17,7 +17,7 @@ $(document).ready(function() {
 			$.get("src/html/product_batch/product_batch_create.html", function(template) {
 	            $("#content").html(template);
 				$.each(data, function(i, data) {
-					$(".custom-select").append(Mustache.render("<option value=\""+ data.recipeId + "\">(" + data.recipeId + ") " + data.recipeName + "</option>", data));
+					$(".custom-select").append(Mustache.render("<option value=\""+ data.recipeId + "\">" + data.recipeId + " (" + data.recipeName + ")</option>", data));
 				});
 				validateProductBatch("#product_batch_create_form");
 	        });
@@ -35,6 +35,12 @@ $(document).ready(function() {
 			$.get("src/html/product_batch/product_batch_edit.html", function(template) {
 				showProductBatchStatus(data);
 				$("#content").html(Mustache.render($(template).html(), data));
+				// raw material id must be parsed as a string ("")
+				getRecipe("" + data.recipeId).done(function(data) {
+					$("input[name=\"recipeName\"]").val(data.recipeName);
+				}).fail(function(data){
+					console.log("Fejl i Recipe REST")
+				});
 				$(".pb_status").removeClass("status_0").removeClass("status_1").removeClass("status_2").addClass("status_"+statusCode);
 				showProductBatchCompsPage(productBatchId);
 			});
