@@ -51,7 +51,12 @@ function showRestMessage(data, showPage) {
     }
     default: // errors
     	// If the error alert message is on the new-login-password page then don't show the pop up
-    	if($("#login_new_pass_form").length < 1) {
+    	if($("#login_new_pass_form").length > 0) {
+    		$("input[name=\"repeat_password\"]").prop('disabled', false);
+			$("#login .alert").remove();
+			$("#login_new_pass_form").find(".form-group:last").prepend("<div class=\"alert alert-danger\" role=\"alert\">" + alertData.message + "</div>");
+    	}
+    	else {
     		showAlertMessage(alertData);
     	}
 	}

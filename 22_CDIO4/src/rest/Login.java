@@ -66,4 +66,26 @@ public class Login {
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
+	
+	@Path("change_password")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String changePassword(LoginPOJO login) {
+		try {
+			if(Initializer.getLoginController().checkPassword(login)) {
+				return "success: Rigtigt password.";
+			}
+			else {
+				return "password-error: Forkert password.";
+			}
+		} catch (InputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "input-error: Forkert input.";
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "system-error: Der skete en system fejl";
+		}
+	}
 }

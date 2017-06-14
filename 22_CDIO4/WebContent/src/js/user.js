@@ -96,6 +96,30 @@ $(document).ready(function() {
 		});	
 	});
 	
+	// Submit edit user (admin) form
+	$(document).on("submit", "#user_edit_password_form", function(event) {
+		event.preventDefault();
+		var userId = $("#user_edit_password_form input[name=\"id\"]").val();
+		var $password = $("#user_edit_password_form input[name=\"password\"]");
+		
+		// Remove error message
+		$("#password-error").remove();
+		
+		changePassword($(this).serializeJSON()).done(function(data) {
+			var splitData = data.split(": ");
+			switch(splitData[0]) {
+			case "success":
+				showNewLoginPage(userId);
+			default:
+				$password.parent().append("<div id=\"password-error\" class=\"error form-control-feedback\">Forkert password.</div>");
+				$password.addClass("form-control-danger");
+				$password.parent().addClass("has-danger");
+				console.log(splitData[1]);
+			}
+		}).fail(function(data) {
+			console.log("Fejl i User REST");
+		});	
+	});
 	
 	
 });
@@ -118,6 +142,18 @@ function showUserEditAdminPage(userId) {
 	getUser(userId).done(function(data) {
 		$.get("src/html/user/user_edit_admin.html", function(template) {
             $("#content").html(Mustache.render($(template).html(),data));
+//            <div class="form-group">
+//        	<label>Rolle</label>
+//        	<select name="role" class="form-control custom-select">
+//    			 <option selected value="">Vælg rolle</option>
+//    			 <option value="Admin">Admin</option>
+//    			 <option value="Farmaceut">Farmaceut</option>
+//    			 <option value="Værkfører">Værkfører</option>
+//    			 <option value="Laborant">Laborant</option>
+//    		</select>
+//        </div>
+            console.log(data.role);
+            $(".custom-select").find("option[value=\"" + data.role + "\"]").attr("selected", true);
             showInitials();
             validateEditUserAdmin();
         });
@@ -146,15 +182,6 @@ function showUserListPage() {
 /*
  * REST functions
  * */
-
-function resetPassword(userId) {
-	return $.ajax({
-		url : 'rest/login/reset_password',
-		type : 'POST',
-		contentType : "application/json",
-		data : userId
-	});
-}
 
 function createUser(form) {
 	return $.ajax({

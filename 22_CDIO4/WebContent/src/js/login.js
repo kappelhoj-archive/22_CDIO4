@@ -30,11 +30,6 @@ $(document).ready(function() {
 		
 		var userId = $("input[name=\"id\"]").val();
 		userLoginNewPass($(this).serializeJSON()).done(function(data) {
-			$("input[name=\"repeat_password\"]").prop('disabled', false);
-			$("#login .alert").remove();
-			$(".has-success").removeClass("has-success");
-			var splitData = data.split(": ");
-			$("#login_new_pass_form").find(".form-group:last").prepend("<div class=\"alert alert-danger\" role=\"alert\">" + splitData[1] + "</div>");
 			showRestMessage(data, function() { return redirectToFrontPage(userId) });
 		}).fail(function(data) {
 			console.log("Fejl i Login REST");
@@ -158,6 +153,24 @@ function userLoginNewPass(form) {
 	return $.ajax({
 		url : 'rest/login/new_password',
 		type : 'PUT',
+		contentType : "application/json",
+		data : form
+	});
+}
+
+function resetPassword(userId) {
+	return $.ajax({
+		url : 'rest/login/reset_password',
+		type : 'POST',
+		contentType : "application/json",
+		data : userId
+	});
+}
+
+function changePassword(form) {
+	return $.ajax({
+		url : 'rest/login/change_password',
+		type : 'POST',
 		contentType : "application/json",
 		data : form
 	});

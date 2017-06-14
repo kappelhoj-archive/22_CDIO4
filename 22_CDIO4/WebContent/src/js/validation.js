@@ -77,31 +77,24 @@ $(document).ready(function() {
 		}
 	}, "Password skal indeholde små og store bogstaver og tal");
 });
-	
-function validateCreateUser() {
-	// Add validation to create user form
-	$("#user_create_form").validate({
-		rules : {
-			id: {
-				required: true
-			},
-			name: {
-				required: true,
-				minlength: 2
-			}
-		}
-	});
-}
 
 function validateLoginNewPass() {
 	$("#login_new_pass_form").validate({
 		rules : {
 			password: {
-				required: true
+				required: true,
+				validPassword: true
 			},
 			repeat_password: {
 				required: true,
-				equalTo: "#password"
+				equalTo: function(element) {
+					if($("#password").val() != "") {
+						return "#password";
+					}
+					else {
+						return false;
+					}
+				}
 			}
 		},
 		errorElement: "div",
@@ -144,32 +137,6 @@ function validateEditUser() {
 			},
 			role: {
 				required: true
-			},
-			new_password: {
-				required: function(element){
-		            return $("input[name=\"password\"]").val() != "";
-		        },
-				validPassword: function(element){
-					if($("input[name=\"password\"]").val() == "") {
-						return false;
-					}
-					else {
-						return true;
-					}
-		        },
-			},
-			repeat_new_password: {
-				required: function(element){
-		            return $("input[name=\"password\"]").val() != "";
-		        },
-				equalTo: function(element) {
-					if($("input[name=\"password\"]").val() != "") {
-						return "#new_password";
-					}
-					else {
-						return false;
-					}
-				}
 			}
 		},
 		errorElement: "div",
@@ -304,3 +271,30 @@ function generateInitials(name){
 	}
 	return initials
 }
+
+/*new_password: {
+	required: function(element){
+        return $("input[name=\"password\"]").val() != "";
+    },
+	validPassword: function(element){
+		if($("input[name=\"password\"]").val() == "") {
+			return false;
+		}
+		else {
+			return true;
+		}
+    },
+},
+repeat_new_password: {
+	required: function(element){
+        return $("input[name=\"password\"]").val() != "";
+    },
+	equalTo: function(element) {
+		if($("input[name=\"password\"]").val() != "") {
+			return "#new_password";
+		}
+		else {
+			return false;
+		}
+	}
+}*/
