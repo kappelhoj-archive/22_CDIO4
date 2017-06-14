@@ -20,7 +20,7 @@ public class ConnectionManagerTest {
 	public void setUp() throws Exception {
 		fileLocation = "ASE/ASE/tests/WeightTableConManagerTest.txt";
 		connectionManager = new ConnectionManager(fileLocation);
-		connectionManager.getConnections();
+		connectionManager.threadStarter();;
 	}
 
 	@After
