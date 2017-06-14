@@ -41,15 +41,15 @@ public class Login {
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "format-error: Der skete en fejl med dit id.";
+			return "format-error: Det indtastede id er ugyldigt.";
 		} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "input-error: Password er ikke gyldigt.";
+			return "input-error: Passwordet er ugyldigt.";
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "system-error: Der skete en fejl!";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 	
@@ -58,19 +58,15 @@ public class Login {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String resetPassword(String userId) {
 		try {
-			return "success: Brugeres password blev resetted. Engangsnøgle " + String.valueOf(Initializer.getLoginController().resetPassword(Integer.parseInt(userId)));
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "format-exception: Der skete en fejl med id'et.";
+			return "success: Brugerens password blev nulstillet. Engangsnøglen er " + Initializer.getLoginController().resetPassword(Integer.parseInt(userId));
 		} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "input-error: Forkert id.";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "system-error: System fejl.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 }

@@ -71,7 +71,7 @@ public class UserCRUD {
 		try {
 			int key = Initializer.getLoginController().generateAdminKey(user.getId());
 			Initializer.getUserController().createUser(user);
-			return "success: Brugeren blev oprettet. \n Brugeren har id " + user.getId() + " og login key " + key + ".";
+			return "success: Brugeren blev oprettet. \n Brugeren har id " + user.getId() + " og dens engangsnøgle er " + key + ".";
 		} catch (InputException e) {
 			e.printStackTrace();
 			return "input-error: Det indtastede er ugyldigt.";
