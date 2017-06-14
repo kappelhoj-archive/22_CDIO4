@@ -13,9 +13,19 @@ $(document).ready(function() {
 	// Link to create raw material batch page
 	$(document).on("click", ".raw_material_batch_create_link", function(event) {
 		event.preventDefault();
-		$.get("src/html/raw_material_batch/raw_material_batch_create.html", function(template) {
-            $("#content").html(template)
-        });
+		
+		getRawMaterialList().done(function(data) {
+			$.get("src/html/raw_material_batch/raw_material_batch_create.html", function(template) {
+	            $("#content").html(template);
+	            console.log(data);
+				$.each(data, function(i, data) {
+					$(".custom-select").append(Mustache.render("<option value=\""+ data.id + "\">(" + data.id + ") " + data.name + "</option>", data));
+				});
+				validateRawMaterialBatch("#raw_material_batch_create_form");
+	        });
+		}).fail(function(data){
+			console.log("Fejl i Recipe REST")
+		});
 	});
 	
 	// Link to edit raw material batch page
@@ -24,7 +34,8 @@ $(document).ready(function() {
 		var rawMaterialBatchId = $(this).parents("tr").children("td:first").text();
 		getRawMaterialBatch(rawMaterialBatchId).done(function (data) {
 			$.get("src/html/raw_material_batch/raw_material_batch_edit.html", function(template) {
-				$("#content").html(Mustache.render($(template).html(), data))
+				$("#content").html(Mustache.render($(template).html(), data));
+				validateRawMaterialBatch("#raw_material_batch_edit_form");
 			});
 		})
 		.fail(function(data) {

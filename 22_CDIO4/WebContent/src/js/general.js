@@ -31,21 +31,27 @@ function showRestMessage(data, showPage) {
     	showAlertMessage(alertData);
         break;
     case "collision-error": {
+    	var $rawMaterialId = $("input[name=\"rawMaterialId\"]");
+    	var $rbId = $("input[name=\"rbId\"]");
+    	var $pbId = $("input[name=\"pbId\"]");
+    	var $recipeId = $("input[name=\"recipeId\"]");
+    	var $id = $("input[name=\"id\"]");
     	
-    	$("input[name=\"rawMaterialId\"]").parent().removeClass("has-success").addClass("has-danger");
-    	$("input[name=\"rawMaterialId\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	$rawMaterialId.parent().removeClass("has-success").addClass("has-danger");
+    	$rawMaterialId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
     	
-    	$("input[name=\"rbId\"]").parent().removeClass("has-success").addClass("has-danger");
-    	$("input[name=\"rbId\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	$rbId.parent().removeClass("has-success").addClass("has-danger");
+    	$rbId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
     	
-    	$("input[name=\"pbId\"]").parent().removeClass("has-success").addClass("has-danger");
-    	$("input[name=\"pbId\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	$pbId.parent().removeClass("has-success").addClass("has-danger");
+    	$pbId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
     	
-    	$("input[name=\"recipeId\"]").parent().removeClass("has-success").addClass("has-danger");
-    	$("input[name=\"recipeId\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	$recipeId.parent().removeClass("has-success").addClass("has-danger");
+    	$recipeId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
     	
-    	$("input[name=\"id\"]").parent().removeClass("has-success").addClass("has-danger");
-    	$("input[name=\"id\"]").removeClass("form-control-success").addClass("form-control-danger");
+    	$id.parent().removeClass("has-success").addClass("has-danger");
+    	$id.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
+    	
     	showAlertMessage(alertData);
     	break;
     }

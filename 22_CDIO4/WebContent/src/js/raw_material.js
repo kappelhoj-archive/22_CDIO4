@@ -16,6 +16,7 @@ $(document).ready(function()
 		event.preventDefault();
 		$.get("src/html/raw_material/raw_material_create.html", function(template) {
 			$("#content").html(template);
+			validateRawMaterial("#raw_material_create_form");
 		});
 	});
 	
@@ -26,6 +27,7 @@ $(document).ready(function()
 		getRawMaterial(rawMaterialId).done(function (data) {
 			$.get("src/html/raw_material/raw_material_edit.html", function(template) {
 				$("#content").html(Mustache.render($(template).html(), data))
+				validateRawMaterial("#raw_material_edit_form");
 			});
 		}).fail(function(data) {
 			console.log("Fejl i RawMaterial REST");

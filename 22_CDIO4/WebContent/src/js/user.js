@@ -12,7 +12,7 @@ $(document).ready(function() {
 			$.get("src/html/user/user_edit.html", function(template) {
 	            $("#content").html(Mustache.render($(template).html(),data));
 	            showInitials();
-	            validateEditUser();
+	            validateUser("#user_edit_form");
 	        });
 		})
 		.fail(function(x) {
@@ -32,7 +32,7 @@ $(document).ready(function() {
 		$.get("src/html/user/user_create.html", function(template) {
             $("#content").html(template);
             showInitials();
-            validateCreateUser();
+            validateUser("#user_create_form");
         });
 	});
 	
@@ -43,12 +43,6 @@ $(document).ready(function() {
 		showUserEditAdminPage(userId);
 		
 	});
-	
-//	$(document).on("click", ".user_edit_admin_table_link", function(event) {
-//		event.preventDefault();
-//		var userId = $(this).parents("tr").children("td:first").text();
-//		showUserEditAdminPage(userId);
-//	});
 	
 	$(document).on("click", ".user_edit_admin_reset_pw_link", function(event) {
 		event.preventDefault();
@@ -142,20 +136,9 @@ function showUserEditAdminPage(userId) {
 	getUser(userId).done(function(data) {
 		$.get("src/html/user/user_edit_admin.html", function(template) {
             $("#content").html(Mustache.render($(template).html(),data));
-//            <div class="form-group">
-//        	<label>Rolle</label>
-//        	<select name="role" class="form-control custom-select">
-//    			 <option selected value="">Vælg rolle</option>
-//    			 <option value="Admin">Admin</option>
-//    			 <option value="Farmaceut">Farmaceut</option>
-//    			 <option value="Værkfører">Værkfører</option>
-//    			 <option value="Laborant">Laborant</option>
-//    		</select>
-//        </div>
-            console.log(data.role);
             $(".custom-select").find("option[value=\"" + data.role + "\"]").attr("selected", true);
             showInitials();
-            validateEditUserAdmin();
+            validateUser("#user_edit_admin_form");
         });
 	})
 	.fail(function(x) {
@@ -177,6 +160,38 @@ function showUserListPage() {
 	.fail(function(x) {
 		console.log("Fejl i User REST");
 	});
+}
+
+//generate initials from a name.
+function generateInitials(name){
+	var initials="";
+	splitName=name.split(" ");
+	if(splitName.length<3){
+		//Add the two first letters of every name.
+		for(var i=0;i<splitName.length;i++){
+			
+			initials+=splitName[i].substring(0,2);
+		}
+	}
+	else{
+		//Add first letter of the first name. 
+		initials+=splitName[0].substring(0,1);
+		
+		//Make sure the initials length match:
+		var modifier;
+		if(splitName.length==3){
+			modifier=2;
+		}
+		else{
+			modifier=3;
+		}
+		
+		//Add the first letter of the last three names, or two if there are 3 names.
+		for(var i=splitName.length-modifier;i<splitName.length;i++){
+			initials+=splitName[i].substring(0,1);
+		}
+	}
+	return initials
 }
 
 /*

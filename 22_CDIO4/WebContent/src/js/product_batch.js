@@ -13,9 +13,17 @@ $(document).ready(function() {
 	// Link to create product batch page
 	$(document).on("click", ".product_batch_create_link", function(event) {
 		event.preventDefault();
-		$.get("src/html/product_batch/product_batch_create.html", function(template) {
-            $("#content").html(template)
-        });
+		getRecipeList().done(function(data) {
+			$.get("src/html/product_batch/product_batch_create.html", function(template) {
+	            $("#content").html(template);
+				$.each(data, function(i, data) {
+					$(".custom-select").append(Mustache.render("<option value=\""+ data.recipeId + "\">(" + data.recipeId + ") " + data.recipeName + "</option>", data));
+				});
+				validateProductBatch("#product_batch_create_form");
+	        });
+		}).fail(function(data){
+			console.log("Fejl i Recipe REST")
+		});
 	});
 	
 	// Link to edit product batch page

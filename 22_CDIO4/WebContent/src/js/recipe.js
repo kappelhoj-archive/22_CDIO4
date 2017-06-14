@@ -15,6 +15,7 @@ $(document).ready(function(){
 		event.preventDefault();
 		$.get("src/html/recipe/recipe_create.html", function(template) {
 			$("#content").html(template);
+			validateRecipe("#recipe_create_form");
 		});
 	})
 	
@@ -39,7 +40,8 @@ $(document).ready(function(){
 		var rawMaterialId = $(this).parents("tr").children("td:first").text();
 		getRecipeComp(recipeId, rawMaterialId).done(function(data) {
 			$.get("src/html/recipe/recipe_comp_edit.html", function(template) {
-				$("#content").html(Mustache.render($(template).html(), data))
+				$("#content").html(Mustache.render($(template).html(), data));
+				validateRecipeComp("#recipe_comp_edit_form");
 			});
 		})
 		.fail(function(data) {
@@ -54,6 +56,7 @@ $(document).ready(function(){
 		$.get("src/html/recipe/recipe_component_create.html", function(template) {
 			$("#content").html(template);
 			$("#recipe_component_create_form input[name=\"recipeId\"]").val(recipeId);
+			validateRecipeComp("#recipe_component_create_form");
 		})
 		
 	});
