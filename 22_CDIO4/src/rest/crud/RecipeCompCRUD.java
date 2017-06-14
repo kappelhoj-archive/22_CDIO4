@@ -14,6 +14,7 @@ import controller.Initializer;
 import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.RecipeCompPOJO;
 import exceptions.DALException;
+import staticClasses.Validator;
 
 @Path("recipe_component")
 public class RecipeCompCRUD {
@@ -29,7 +30,7 @@ public class RecipeCompCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public RecipeCompDTO readRecipeComp(RecipeCompPOJO i) {
 		try {
-			return Initializer.getRecipeCompController().getRecipeComp(Integer.parseInt(i.getRecipeId()), Integer.parseInt(i.getRawMaterialId()));
+			return Initializer.getRecipeCompController().getRecipeComp(Validator.idToInteger(i.getRecipeId()), Validator.idToInteger(i.getRawMaterialId()));
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -47,7 +48,7 @@ public class RecipeCompCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<RecipeCompDTO> readRecipeCompList(String recipeId) {
 		try {
-			return Initializer.getRecipeCompController().getRecipeCompList(Integer.parseInt(recipeId));
+			return Initializer.getRecipeCompController().getRecipeCompList(Validator.idToInteger(recipeId));
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println();
@@ -84,7 +85,7 @@ public class RecipeCompCRUD {
 	public String createRecipeComp(RecipeCompDTO recipeComp) {
 		try {
 			Initializer.getRecipeCompController().createRecipeComp(recipeComp);
-			return "success: recept komponenten blev oprettet og tilføjet til recepten.";
+			return "success: Recept komponenten blev oprettet og tilføjet til recepten.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

@@ -14,6 +14,7 @@ import dataTransferObjects.ProductBatchCompPOJO;
 import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.Validator;
 
 @Path("product_batch_comp")
 public class ProductBatchCompCRUD {
@@ -30,8 +31,7 @@ public class ProductBatchCompCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ProductBatchCompDTO getProductBatchComp(ProductBatchCompPOJO i) {
 		try {
-			return Initializer.getProductBatchCompController().getProductBatchComp(Integer.parseInt(i.getPbId()),
-					Integer.parseInt(i.getRbId()));
+			return Initializer.getProductBatchCompController().getProductBatchComp(Validator.idToInteger(i.getPbId()), Validator.idToInteger(i.getRbId()));
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -49,7 +49,7 @@ public class ProductBatchCompCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProductBatchCompDTO> getProductBatchCompList(String pbId) {
 		try {
-			return Initializer.getProductBatchCompController().getProductBatchCompList(Integer.parseInt(pbId));
+			return Initializer.getProductBatchCompController().getProductBatchCompList(Validator.idToInteger(pbId));
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());

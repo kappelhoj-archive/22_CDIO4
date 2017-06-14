@@ -10,6 +10,7 @@ import controller.Initializer;
 import dataTransferObjects.LoginPOJO;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("login")
 public class Login {
@@ -36,16 +37,12 @@ public class Login {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String newPassword(LoginPOJO login) {
 		try {
-			Initializer.getLoginController().setNewPassword(Integer.parseInt(login.getId()), login.getPassword());
+			Initializer.getLoginController().setNewPassword(Validator.idToInteger(login.getId()), login.getPassword());
 			return "success: Password opdateret";
-		} catch (NumberFormatException e) {
+			} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "format-error: Det indtastede id er ugyldigt.";
-		} catch (InputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "input-error: Passwordet er ugyldigt.";
+			return "input-error: Det indstastede er ugyldigt.";
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,7 +55,7 @@ public class Login {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String resetPassword(String userId) {
 		try {
-			return "success: Brugerens password blev nulstillet. Engangsnøglen er " + Initializer.getLoginController().resetPassword(Integer.parseInt(userId));
+			return "success: Brugerens password blev nulstillet. Engangsnøglen er " + Initializer.getLoginController().resetPassword(Validator.idToInteger(userId));
 		} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

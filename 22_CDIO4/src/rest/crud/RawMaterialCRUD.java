@@ -15,6 +15,7 @@ import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("raw_material")
 public class RawMaterialCRUD {
@@ -29,7 +30,7 @@ public class RawMaterialCRUD {
 	@Produces(MediaType.APPLICATION_JSON)
 	public RawMaterialDTO readRawMaterial(String id) {
 		try {
-			return Initializer.getRawMaterialController().getRawMaterial(Integer.parseInt(id));
+			return Initializer.getRawMaterialController().getRawMaterial(Validator.idToInteger(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -96,7 +97,7 @@ public class RawMaterialCRUD {
 	public String updateRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
 			Initializer.getRawMaterialController().updateRawMaterial(rawMaterial);
-			return "success: Råvaren blev opdateret";
+			return "success: Råvaren blev opdateret.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
