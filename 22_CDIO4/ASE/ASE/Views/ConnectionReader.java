@@ -21,7 +21,6 @@ import staticClasses.FileManagement.TypeOfData;
  */
 public class ConnectionReader {
 
-	
 	// Creation of needed Arraylists, and Strings.
 	private String weightIP;
 	private ArrayList<String> allIPAddresses = new ArrayList<String>();
