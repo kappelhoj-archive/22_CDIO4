@@ -36,7 +36,7 @@ public class UserController implements IUserController{
 		Validator.validatePassword(user.getPassword());
 		Validator.validateRole(user.getRole());
 	}
-	
+
 	/**
 	 * Verifies the userDTO Input
 	 * @param userId
@@ -61,7 +61,7 @@ public class UserController implements IUserController{
 	@Override
 	public void createUser(UserDTO user) throws InputException, CollisionException, DALException{
 		validationWithoutPassword(user);
-		
+
 		user.setPassword(generatePassword());
 
 		dao.createOperatoer(user);
@@ -80,8 +80,9 @@ public class UserController implements IUserController{
 	public void updateUser(UserDTO user) throws InputException, DALException{
 		validationWithoutPassword(user);
 
-		user.setPassword(dao.getUser(user.getId()).getPassword());
-		
+		if(user.getPassword() == null || user.getPassword()=="")
+			user.setPassword(dao.getUser(user.getId()).getPassword());
+
 		dao.updateOperatoer(user);
 
 		return;
@@ -114,7 +115,7 @@ public class UserController implements IUserController{
 		return sortedArray;
 	}
 
-	
+
 	/**
 	 * Generates initials from a given name.
 	 * 
@@ -135,7 +136,7 @@ public class UserController implements IUserController{
 		}
 		return newIni;
 	}
-	
+
 	/**
 	 * Generates a default password which needs to be changed by the user with his first login
 	 * using the Admin key.
