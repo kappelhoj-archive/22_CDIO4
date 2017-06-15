@@ -24,6 +24,9 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		this.productBatchDAO=productBatchDAO;
 	}
 
+	/**
+	 * This method keeps the Measurement controller running forever.
+	 */
 	public void run() {
 		while (true) {
 			if (measurements != null) {
@@ -38,6 +41,9 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		}
 	}
 
+	/**
+	 * This method process the top MeasurementDTO in the queue.
+	 */
 	public void dequeue() {
 		while (measurements.size() > 0) {
 
@@ -49,7 +55,6 @@ public class MeasurementController implements IMeasurementController, Runnable {
 				} catch (DALException e) {
 					System.out.println("Could not add ProductBatchComp: " + comp);
 					e.printStackTrace();
-					// TODO Handle exceptions correctly (Waiting for Peter)
 				}
 
 			try {
@@ -65,6 +70,9 @@ public class MeasurementController implements IMeasurementController, Runnable {
 		}
 	}
 
+	/**
+	 * Add a measurement DTO to the queue.
+	 */
 	@Override
 	public void enqueue(MeasurementDTO measurement) {
 		measurements.add(measurement);
