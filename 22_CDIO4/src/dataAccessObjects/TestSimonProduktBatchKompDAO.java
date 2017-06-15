@@ -2,7 +2,6 @@ package dataAccessObjects;
 
 import java.util.List;
 
-import dataTransferObjects.ProductBatchDTO;
 import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.DALException;
 public class TestSimonProduktBatchKompDAO implements dataAccessObjects.interfaces.IProductBatchCompDAO {
