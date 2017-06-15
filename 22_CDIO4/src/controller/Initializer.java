@@ -205,7 +205,11 @@ public class Initializer implements ServletContextListener {
 			
 			
 			System.out.println("Server startet med: "+numberOfErrors+" FEJL!!");			System.out.println("Starting weight controllers.");
-
+			System.out.println("Listener destroyed.\n");
+			MeasurementController measureCon =new MeasurementController(Initializer.getProductBatchCompDAO(), Initializer.getProductBatchDAO());
+			ConnectionManager conMan=new ConnectionManager(null,measureCon);
+			conMan.threadStarter();
+			new Thread(measureCon).start();
 
 		}
 	}
@@ -215,6 +219,6 @@ public class Initializer implements ServletContextListener {
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		System.out.println("Listener destroyed.\n");		MeasurementController measureCon =new MeasurementController(Initializer.getProductBatchCompDAO(), Initializer.getProductBatchDAO());		ConnectionManager conMan=new ConnectionManager(null,measureCon);		conMan.threadStarter();		new Thread(measureCon).start();
+		
 	}
 }
