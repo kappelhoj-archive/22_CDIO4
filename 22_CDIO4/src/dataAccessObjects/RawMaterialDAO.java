@@ -29,7 +29,6 @@ public class RawMaterialDAO implements IRawMaterialDAO {
 			System.out.println("Done.");
 
 		}catch(Exception e){
-			System.out.println(e);
 			System.out.println("Trying to create the saving file...");
 			FileManagement.writeData(rawMaterialList, TypeOfData.RAWMATERIAL);
 			System.out.println("Done.");

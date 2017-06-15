@@ -29,7 +29,6 @@ public class RecipeDAO implements IRecipeDAO {
 			System.out.println("Done.");
 
 		}catch(Exception e){
-			System.out.println(e);
 			System.out.println("Trying to create the saving file...");
 			FileManagement.writeData(recipeList, TypeOfData.USER);
 			System.out.println("Done.");
