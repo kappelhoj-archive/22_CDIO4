@@ -77,6 +77,10 @@ public class ProductBatchController implements IProductBatchController {
 			throw new InputException("Status must be between 0 and 2");
 	}
 
+/**
+ * This method updates a product batch.
+ * @param ProductBatchDTO The product batch to update.
+ */
 	@Override
 	public void updateProductBatch(ProductBatchDTO productBatch) throws InputException, DALException {
 		if(productBatch.getStatus() <= 0 && productBatch.getStatus() <= 2)
