@@ -75,8 +75,6 @@ public class Initializer implements ServletContextListener {
 			try {u.createUser(new UserDTO(165243, "Mads Stege", "MS", "0101002918", null, "Værkfører"));} catch (DALException e){}
 			
 			try {u.createUser(new UserDTO(6, "Bent", "BE", "1111111118", null, "Farmaceut"));} catch (DALException e){}
-			
-			
 				
 			try {r.createRecipe(new RecipeDTO(1, "Salt vand"));} catch (DALException e){}
 			
