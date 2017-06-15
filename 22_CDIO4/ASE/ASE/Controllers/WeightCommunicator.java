@@ -28,6 +28,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	public enum Protocol {
 		RM20, P111, Tara, Measurement, Brutto, DisplayClean, Quit, StartUp, CleanRM20
 	}
+
 	/**
 	 * Creation of mySocket, outToWeight and inFromWeight as a socket,
 	 * DataOutputStream and BufferedReader respectively.
@@ -42,6 +43,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 		outToWeight = new DataOutputStream(mySocket.getOutputStream());
 		inFromWeight = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
 	}
+
 	/**
 	 * Method to send a Protocol to the weight on the this socket.
 	 * 
@@ -53,7 +55,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	public void sendProtocol(Protocol protocol, String message) {
 		try {
 			switch (protocol) {
-			
+
 			case CleanRM20:
 				outToWeight.writeBytes("RM20 0" + "\r" + "\n");
 				break;
@@ -90,18 +92,19 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 		}
 	}
+
 	/**
 	 * Method which looks for which buttons have been pressed on the weight, and
 	 * responds in kind.
 	 */
 	@Override
 	public Buttons receiveButtonPush() throws ProtocolErrorException, LogOutException {
-		if(previousMessageRecived!=null)
-		{
-			answerReceived=previousMessageRecived;
-			previousMessageRecived=null;
+		if (previousMessageRecived != null) {
+			answerReceived = previousMessageRecived;
+			previousMessageRecived = null;
+		} else {
+			answerReceived = waitForAnswer();
 		}
-		else{answerReceived = waitForAnswer();}
 		System.out.println(answerReceived);
 
 		if (answerReceived.contains("K C 4")) {
@@ -113,20 +116,28 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 
 		if (answerReceived.contains("K R 3")) {
-			
-			throw new LogOutException(answerReceived);
-		} else{throw new ProtocolErrorException(answerReceived);}
 
+			throw new LogOutException(answerReceived);
+		} else {
+			throw new ProtocolErrorException(answerReceived);
+		}
 
 	}
+
 	/**
 	 * Method which sends a String message, and then checks to see if it
 	 * receives a response.
 	 */
 	@Override
 	public void sendMessage(String message) throws InvalidReturnMessageException {
+
+		try {
+			message = message.substring(0, 30);
+		} catch (StringIndexOutOfBoundsException e) {
+
+		}
 		
-		sendProtocol(Protocol.P111, message.substring(0, 30));
+		sendProtocol(Protocol.P111, message);
 
 		try {
 			answerReceived = waitForAnswer();
@@ -135,17 +146,16 @@ public class WeightCommunicator implements IWeightCommunicator {
 			throw new InvalidReturnMessageException(e1.getMessage());
 		}
 		splitAnswer = answerReceived.split(" ");
-		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
-		if(splitAnswer[0].contains("P111")&&splitAnswer[1].contains("A"))
-		{
+		splitAnswer[1] = String.valueOf(splitAnswer[1].charAt(0));
+		if (splitAnswer[0].contains("P111") && splitAnswer[1].contains("A")) {
 			return;
-		}
-		else{
-			previousMessageRecived=answerReceived;
+		} else {
+			previousMessageRecived = answerReceived;
 			throw new InvalidReturnMessageException(answerReceived);
 		}
 
 	}
+
 	/**
 	 * Method to return the answer given by the weight back to the user.
 	 */
@@ -153,7 +163,12 @@ public class WeightCommunicator implements IWeightCommunicator {
 	// ..............................
 	public String askForInformation(String message) throws InvalidReturnMessageException {
 		// TODO Auto-generated method stub
-		sendProtocol(Protocol.RM20, message.substring(0, 24));
+		try {
+			message = message.substring(0, 24);
+		} catch (StringIndexOutOfBoundsException e) {
+
+		}
+		sendProtocol(Protocol.RM20, message);
 
 		try {
 			answerReceived = waitForAnswer();
@@ -163,34 +178,32 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 
 		splitAnswer = answerReceived.split(" ");
-		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
-		//Checks for acknowledgement 
+		splitAnswer[1] = String.valueOf(splitAnswer[1].charAt(0));
+		// Checks for acknowledgement
 		try {
-			if(splitAnswer[0].contains("RM20")&&splitAnswer[1].contains("B")){
-				answerReceived=waitForAnswer();
+			if (splitAnswer[0].contains("RM20") && splitAnswer[1].contains("B")) {
+				answerReceived = waitForAnswer();
 				splitAnswer = answerReceived.split(" ");
-				splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
-			}
-			else{
-				previousMessageRecived=answerReceived;
+				splitAnswer[1] = String.valueOf(splitAnswer[1].charAt(0));
+			} else {
+				previousMessageRecived = answerReceived;
 				throw new ProtocolErrorException(answerReceived);
 			}
-			//checks for answere
-			if(splitAnswer[0].contains("RM20")&&splitAnswer[1].contains("A"))
-			{
-				splitAnswer=answerReceived.split("\"");
+			// checks for answere
+			if (splitAnswer[0].contains("RM20") && splitAnswer[1].contains("A")) {
+				splitAnswer = answerReceived.split("\"");
 				return splitAnswer[1];
-			}
-			else{
-				previousMessageRecived=answerReceived;
+			} else {
+				previousMessageRecived = answerReceived;
 				throw new ProtocolErrorException(answerReceived);
 			}
 		} catch (ProtocolErrorException e) {
 			// TODO Auto-generated catch block
-			previousMessageRecived="K R 3";
+			previousMessageRecived = "K R 3";
 			throw new InvalidReturnMessageException(e.getMessage());
 		}
 	}
+
 	/**
 	 * Simple method to restart the weight display.
 	 */
@@ -199,21 +212,20 @@ public class WeightCommunicator implements IWeightCommunicator {
 		cleanStream();
 		sendProtocol(Protocol.DisplayClean, null);
 		try {
-			answerReceived =waitForAnswer();
+			answerReceived = waitForAnswer();
 		} catch (ProtocolErrorException e1) {
 		}
 		splitAnswer = answerReceived.split(" ");
-		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+		splitAnswer[1] = String.valueOf(splitAnswer[1].charAt(0));
 
-		if(splitAnswer[0].contains("DW")&&splitAnswer[1].contains("A"))
-		{	
+		if (splitAnswer[0].contains("DW") && splitAnswer[1].contains("A")) {
 			return;
+		} else {
+			restartWeightDisplay();
 		}
-		else {restartWeightDisplay();}
-
-
 
 	}
+
 	/**
 	 * Simple method to stop the weight in it's current operation and quit.
 	 */
@@ -221,6 +233,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	public void stopWeight() {
 		sendProtocol(Protocol.Quit, null);
 	}
+
 	/**
 	 * Method to tara the weight. It looks to see if the weight responds
 	 * positively to its command.
@@ -228,18 +241,18 @@ public class WeightCommunicator implements IWeightCommunicator {
 	@Override
 	public void taraWeight() throws ProtocolErrorException {
 		sendProtocol(Protocol.Tara, null);
-		answerReceived=waitForAnswer();
+		answerReceived = waitForAnswer();
 		splitAnswer = answerReceived.split(" ");
-		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
-		if(splitAnswer[0].contains("T")&&splitAnswer[1].contains("S"))
-		{	
+		splitAnswer[1] = String.valueOf(splitAnswer[1].charAt(0));
+		if (splitAnswer[0].contains("T") && splitAnswer[1].contains("S")) {
 			return;
+		} else {
+			previousMessageRecived = answerReceived;
+			throw new ProtocolErrorException(answerReceived);
 		}
-		else{
-			previousMessageRecived=answerReceived; 
-			throw new ProtocolErrorException(answerReceived);}
 
 	}
+
 	/**
 	 * Returns the currently weighted amount from the weight to the user.
 	 */
@@ -248,31 +261,29 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 		sendProtocol(Protocol.Measurement, null);
 		answerReceived = waitForAnswer();
-		String[] splitAnswer=answerReceived.split(" ");
-		if (splitAnswer[0].contains("S")&&splitAnswer[1].contains("S"))
-		{
-			return Double.parseDouble(splitAnswer[splitAnswer.length-2]);
-		}
-		else{
-			previousMessageRecived=answerReceived;
+		String[] splitAnswer = answerReceived.split(" ");
+		if (splitAnswer[0].contains("S") && splitAnswer[1].contains("S")) {
+			return Double.parseDouble(splitAnswer[splitAnswer.length - 2]);
+		} else {
+			previousMessageRecived = answerReceived;
 			throw new ProtocolErrorException(answerReceived);
 		}
 
 	}
+
 	/**
 	 * Method to clean the current stream of information from the weight.
 	 */
 	// TODO Look at exception
-	public void cleanStream(){
+	public void cleanStream() {
 		sendProtocol(Protocol.CleanRM20, null);
 		sendProtocol(Protocol.StartUp, null);
 		try {
-			while(true){
+			while (true) {
 				String answer = waitForAnswer();
 				splitAnswer = answer.split(" ");
-				splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
-				if(splitAnswer[0].contains("K")&&splitAnswer[1].contains("A"))
-				{
+				splitAnswer[1] = String.valueOf(splitAnswer[1].charAt(0));
+				if (splitAnswer[0].contains("K") && splitAnswer[1].contains("A")) {
 
 					return;
 				}
@@ -283,6 +294,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 		}
 	}
+
 	public String waitForAnswer() throws ProtocolErrorException {
 		try {
 			while (!inFromWeight.ready()) {
@@ -304,7 +316,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 		return answerReceived;
 	}
-	
+
 	/**
 	 * Method to check what kind of acknowledgement is sent back from the
 	 * weight.
@@ -319,67 +331,65 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 *             recognized.
 	 */
 
-
-
-
-//	public boolean checkAcknowledgement(Protocol prevProtocol, String answer) throws ProtocolErrorException {
-//		splitAnswer = answer.split(" ");
-//		splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
-//		switch (prevProtocol) {
-//		case RM20:
-//			switch (splitAnswer[1]) {
-//			case "B":
-//				return true;
-//			default:
-//				previousMessageRecived = answer;
-//				throw new ProtocolErrorException(answer);
-//			}
-//		case P111:
-//
-//			switch (splitAnswer[1]) {
-//			case "A":
-//				return true;
-//			default:
-//				previousMessageRecived = answer;
-//				throw new ProtocolErrorException(answer);
-//			}
-//		case DisplayClean:
-//			switch (splitAnswer[1]) {
-//			case "A":
-//				return true;
-//			default:
-//				previousMessageRecived = answer;
-//				throw new ProtocolErrorException(answer);
-//			}
-//		case Tara:
-//			switch (splitAnswer[1]) {
-//			case "S":
-//				return true;
-//			default:
-//				previousMessageRecived = answer;
-//				throw new ProtocolErrorException(answer);
-//			}
-//		case Measurement:
-//			switch (splitAnswer[1]) {
-//			case "S":
-//				return true;
-//			default:
-//				previousMessageRecived = answer;
-//				throw new ProtocolErrorException(answer);
-//			}
-//		case StartUp:
-//			switch (splitAnswer[1]) {
-//			case "A":
-//				return true;
-//			default:
-//				previousMessageRecived = answer;
-//				throw new ProtocolErrorException(answer);
-//			}
-//		default:
-//			return false;
-//		}
-//
-//	}
+	// public boolean checkAcknowledgement(Protocol prevProtocol, String answer)
+	// throws ProtocolErrorException {
+	// splitAnswer = answer.split(" ");
+	// splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
+	// switch (prevProtocol) {
+	// case RM20:
+	// switch (splitAnswer[1]) {
+	// case "B":
+	// return true;
+	// default:
+	// previousMessageRecived = answer;
+	// throw new ProtocolErrorException(answer);
+	// }
+	// case P111:
+	//
+	// switch (splitAnswer[1]) {
+	// case "A":
+	// return true;
+	// default:
+	// previousMessageRecived = answer;
+	// throw new ProtocolErrorException(answer);
+	// }
+	// case DisplayClean:
+	// switch (splitAnswer[1]) {
+	// case "A":
+	// return true;
+	// default:
+	// previousMessageRecived = answer;
+	// throw new ProtocolErrorException(answer);
+	// }
+	// case Tara:
+	// switch (splitAnswer[1]) {
+	// case "S":
+	// return true;
+	// default:
+	// previousMessageRecived = answer;
+	// throw new ProtocolErrorException(answer);
+	// }
+	// case Measurement:
+	// switch (splitAnswer[1]) {
+	// case "S":
+	// return true;
+	// default:
+	// previousMessageRecived = answer;
+	// throw new ProtocolErrorException(answer);
+	// }
+	// case StartUp:
+	// switch (splitAnswer[1]) {
+	// case "A":
+	// return true;
+	// default:
+	// previousMessageRecived = answer;
+	// throw new ProtocolErrorException(answer);
+	// }
+	// default:
+	// return false;
+	// }
+	//
+	// }
 
 	// public String RM20(String message) throws IOException,
 	// ProtocolErrorException {
@@ -404,40 +414,40 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 * 
 	 * @param answerReceived
 	 */
-	//	public String checkReturnMessage(String previousMessageSent, String answerReceived) throws ProtocolErrorException {
-	//		if (previousMessageSent != null) {
-	//			if (previousMessageSent.equals(answerReceived)) {
+	// public String checkReturnMessage(String previousMessageSent, String
+	// answerReceived) throws ProtocolErrorException {
+	// if (previousMessageSent != null) {
+	// if (previousMessageSent.equals(answerReceived)) {
 	//
-	//			}
-	//		}
+	// }
+	// }
 	//
-	//		String splitAnswer[] = answerReceived.split(" ");
-	//		switch (splitAnswer[0]) {
-	//		case "RM20":
-	//			switch (splitAnswer[1]) {
-	//			case "A":
-	//				break;
-	//			case "B":
-	//				break;
-	//			default:
-	//				throw new ProtocolErrorException(answerReceived);
-	//			}
+	// String splitAnswer[] = answerReceived.split(" ");
+	// switch (splitAnswer[0]) {
+	// case "RM20":
+	// switch (splitAnswer[1]) {
+	// case "A":
+	// break;
+	// case "B":
+	// break;
+	// default:
+	// throw new ProtocolErrorException(answerReceived);
+	// }
 	//
-	//		case "P111":
-	//			switch (splitAnswer[1]) {
-	//			case "A":
-	//				break;
-	//			default:
-	//				throw new ProtocolErrorException(answerReceived);
-	//			}
+	// case "P111":
+	// switch (splitAnswer[1]) {
+	// case "A":
+	// break;
+	// default:
+	// throw new ProtocolErrorException(answerReceived);
+	// }
 	//
-	//		default:
-	//			break;
-	//		}
+	// default:
+	// break;
+	// }
 	//
-	//		return answerReceived;
-	//	}
-
+	// return answerReceived;
+	// }
 
 	// @Override
 	// public void flush() {
