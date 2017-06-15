@@ -48,6 +48,10 @@ public class RecipeCompController implements IRecipeCompController {
 	 */
 	@Override
 	public List<RecipeCompDTO> getRecipeCompList(int recipeId) throws DALException {
+		ArrayList<RecipeCompDTO> sortedArray = (ArrayList<RecipeCompDTO>) dao.getRecipeCompList();
+
+		Collections.sort(sortedArray);
+		
 		return dao.getRecipeCompList(recipeId);
 	}
 
