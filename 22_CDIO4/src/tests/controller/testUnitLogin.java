@@ -47,15 +47,14 @@ public class testUnitLogin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("Admin key: "+new Integer(newKey).toString());
-	
+
+		System.out.println("Admin key: " + new Integer(newKey).toString());
 
 		expected = LoginState.NEW;
 		actual = controller.checkLogin(new LoginPOJO("11", new Integer(newKey).toString()));
-		
+
 		System.out.println(actual);
-		
+
 		System.out.println(newKey);
 
 		assertEquals(expected, actual);
@@ -70,25 +69,16 @@ public class testUnitLogin {
 	public void testCheckLoginPassword() {
 		LoginState expected;
 		LoginState actual;
-		
-//		try{
-//			//dao.createOperatoer(new UserDTO(11, "Peter", "PE", "cpr", "testpassword", "Admin"));
-//		}catch (DALException e){
-//			fail(e.getMessage());
-//		}
 
-			expected = LoginState.TRUE;
-			actual = controller.checkLogin(new LoginPOJO("165202", "Peterpeter1"));
+		expected = LoginState.TRUE;
+		actual = controller.checkLogin(new LoginPOJO("165202", "Peterpeter1"));
 
-			assertEquals(expected, actual);
+		assertEquals(expected, actual);
 
-			expected = LoginState.FALSE;
-			actual = controller.checkLogin(new LoginPOJO("11", "testpassword2222222"));
+		expected = LoginState.FALSE;
+		actual = controller.checkLogin(new LoginPOJO("11", "testpassword2222222"));
 
-			assertEquals(expected, actual);
-		}
-	
-
-
-	
+		assertEquals(expected, actual);
 	}
+
+}
