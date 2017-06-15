@@ -42,6 +42,7 @@ public class WeightCommunicatorTest {
 	}
 
 	public String waitForAnswer() throws ProtocolErrorException {
+		
 		String answerReceived;
 		try {
 			while (!inFromServer.ready()) {
@@ -65,12 +66,14 @@ public class WeightCommunicatorTest {
 	}
 
 	@Test
+	//tests if the testSendProtocol works.
 	public void testSendProtocol() throws ProtocolErrorException {
 		weightCommunicator.sendProtocol(Protocol.P111, "hej");
 		assertEquals("P111 \"hej\"", waitForAnswer());
 	}
 
 	@Test
+	// tests if ReciveButtonPush returns the correct buttons and throws logout exception when needed
 	public void testReceiveButtonPush() throws IOException {
 		try {
 			try {
@@ -113,13 +116,14 @@ public class WeightCommunicatorTest {
 
 	@Test
 	public void testSendMessage() throws IOException {
+		//tests if a real send message works.
 		outToServer.writeBytes("P111 A" + "\r" + "\n");
 		try {
 			weightCommunicator.sendMessage("hej");
 		} catch (InvalidReturnMessageException e) {
 			fail("did not expect a InvalidReturnMessageException");
 		}
-		
+		//tests what happens if the the wrong protocol is recived in SendMessage
 		outToServer.writeBytes("K C 4" + "\r" + "\n");
 		outToServer.writeBytes("P111 A" + "\r" + "\n");
 		
@@ -157,6 +161,8 @@ public class WeightCommunicatorTest {
 
 	@Test
 	public void testRestartWeightDisplay() throws IOException {
+		//Tests if this methos can remove everything in the buffer and clear the display.
+		
 		outToServer.writeBytes("RM20 A" + "\r" + "\n");
 		outToServer.writeBytes("RM20 A" + "\r" + "\n");
 		outToServer.writeBytes("RM20 A" + "\r" + "\n");
@@ -184,6 +190,7 @@ public class WeightCommunicatorTest {
 	}
 
 	@Test
+	//test if the stopWeight protocol is correct.
 	public void testStopWeight() throws ProtocolErrorException {
 		weightCommunicator.stopWeight();
 		assertEquals("Q", waitForAnswer());
@@ -191,13 +198,15 @@ public class WeightCommunicatorTest {
 
 	@Test
 	public void testTaraWeight() throws IOException {
+		//test if the taraWeight expcetes the correct ackowledgement.
 		outToServer.writeBytes("T S" + "   1.232 kg" + "\r" + "\n");
 		try {
 			weightCommunicator.taraWeight();
 		} catch (ProtocolErrorException e) {
 			fail("Expected a succesfull tara.");
 		}
-		
+		//test if the taraWeight throws exception if it isn't the correct answere.
+
 		outToServer.writeBytes("K A" + "   1.232 kg" + "\r" + "\n");
 		try {
 			weightCommunicator.taraWeight();
@@ -210,6 +219,9 @@ public class WeightCommunicatorTest {
 	
 	@Test
 	public void testGetWeight() throws IOException {
+		//test if the getWeight expcetes the correct ackowledgement.
+		//and correctly retrives the weight.
+
 		outToServer.writeBytes("T S" + "   1.232 kg" + "\r" + "\n");
 		double expected = 1.232;
 		double actual;
@@ -220,6 +232,8 @@ public class WeightCommunicatorTest {
 		} catch (ProtocolErrorException e) {
 
 		}
+		//test if the getWeight throws exception if it isn't the correct answere.
+
 		outToServer.writeBytes("K A" + "   1.232 kg" + "\r" + "\n");
 		try {
 			actual = weightCommunicator.getWeight();

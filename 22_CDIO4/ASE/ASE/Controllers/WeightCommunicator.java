@@ -142,7 +142,6 @@ public class WeightCommunicator implements IWeightCommunicator {
 		try {
 			answerReceived = waitForAnswer();
 		} catch (ProtocolErrorException e1) {
-			// TODO Auto-generated catch block
 			throw new InvalidReturnMessageException(e1.getMessage());
 		}
 		splitAnswer = answerReceived.split(" ");
@@ -160,9 +159,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 * Method to return the answer given by the weight back to the user.
 	 */
 	@Override
-	// ..............................
 	public String askForInformation(String message) throws InvalidReturnMessageException {
-		// TODO Auto-generated method stub
 		try {
 			message = message.substring(0, 24);
 		} catch (StringIndexOutOfBoundsException e) {
@@ -173,7 +170,6 @@ public class WeightCommunicator implements IWeightCommunicator {
 		try {
 			answerReceived = waitForAnswer();
 		} catch (ProtocolErrorException e1) {
-			// TODO Auto-generated catch block
 			throw new InvalidReturnMessageException(e1.getMessage());
 		}
 
@@ -198,7 +194,6 @@ public class WeightCommunicator implements IWeightCommunicator {
 				throw new ProtocolErrorException(answerReceived);
 			}
 		} catch (ProtocolErrorException e) {
-			// TODO Auto-generated catch block
 			previousMessageRecived = "K R 3";
 			throw new InvalidReturnMessageException(e.getMessage());
 		}
@@ -274,8 +269,8 @@ public class WeightCommunicator implements IWeightCommunicator {
 	/**
 	 * Method to clean the current stream of information from the weight.
 	 */
-	// TODO Look at exception
-	public void cleanStream() {
+	
+	private void cleanStream() {
 		sendProtocol(Protocol.CleanRM20, null);
 		sendProtocol(Protocol.StartUp, null);
 		try {
@@ -290,7 +285,6 @@ public class WeightCommunicator implements IWeightCommunicator {
 
 			}
 		} catch (ProtocolErrorException e) {
-			// TODO Auto-generated catch block
 
 		}
 	}
@@ -305,168 +299,13 @@ public class WeightCommunicator implements IWeightCommunicator {
 				}
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			throw new ProtocolErrorException(e.getMessage());
 		}
 		try {
 			answerReceived = inFromWeight.readLine();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			throw new ProtocolErrorException(e.getMessage());
 		}
 		return answerReceived;
 	}
-
-	/**
-	 * Method to check what kind of acknowledgement is sent back from the
-	 * weight.
-	 * 
-	 * @param prevProtocol
-	 *            The previous protocol sent of to the weight.
-	 * @param answer
-	 *            The answer returned by the weight.
-	 * @return Returns False in case the method fails.
-	 * @throws ProtocolErrorException
-	 *             Throws an exception in case the acknowledgement is not
-	 *             recognized.
-	 */
-
-	// public boolean checkAcknowledgement(Protocol prevProtocol, String answer)
-	// throws ProtocolErrorException {
-	// splitAnswer = answer.split(" ");
-	// splitAnswer[1]=String.valueOf(splitAnswer[1].charAt(0));
-	// switch (prevProtocol) {
-	// case RM20:
-	// switch (splitAnswer[1]) {
-	// case "B":
-	// return true;
-	// default:
-	// previousMessageRecived = answer;
-	// throw new ProtocolErrorException(answer);
-	// }
-	// case P111:
-	//
-	// switch (splitAnswer[1]) {
-	// case "A":
-	// return true;
-	// default:
-	// previousMessageRecived = answer;
-	// throw new ProtocolErrorException(answer);
-	// }
-	// case DisplayClean:
-	// switch (splitAnswer[1]) {
-	// case "A":
-	// return true;
-	// default:
-	// previousMessageRecived = answer;
-	// throw new ProtocolErrorException(answer);
-	// }
-	// case Tara:
-	// switch (splitAnswer[1]) {
-	// case "S":
-	// return true;
-	// default:
-	// previousMessageRecived = answer;
-	// throw new ProtocolErrorException(answer);
-	// }
-	// case Measurement:
-	// switch (splitAnswer[1]) {
-	// case "S":
-	// return true;
-	// default:
-	// previousMessageRecived = answer;
-	// throw new ProtocolErrorException(answer);
-	// }
-	// case StartUp:
-	// switch (splitAnswer[1]) {
-	// case "A":
-	// return true;
-	// default:
-	// previousMessageRecived = answer;
-	// throw new ProtocolErrorException(answer);
-	// }
-	// default:
-	// return false;
-	// }
-	//
-	// }
-
-	// public String RM20(String message) throws IOException,
-	// ProtocolErrorException {
-	// String out = "";
-	// outToWeight.writeBytes("RM20 8 \"" + message + "\" \"\" \"&3\"" + "\n");
-	// out = waitForAnswer();
-	// checkReturnMessage(message, out);
-	// return out;
-	// }
-	//
-	// public void P111(String message) throws IOException,
-	// ProtocolErrorException {
-	// String out = "";
-	// outToWeight.writeBytes("P111 \"" + message + "\"" + "\n");
-	// out = waitForAnswer();
-	// checkReturnMessage(message, out);
-	// }
-
-	/**
-	 * Check if the answer received has a special function or if it is and
-	 * error.
-	 * 
-	 * @param answerReceived
-	 */
-	// public String checkReturnMessage(String previousMessageSent, String
-	// answerReceived) throws ProtocolErrorException {
-	// if (previousMessageSent != null) {
-	// if (previousMessageSent.equals(answerReceived)) {
-	//
-	// }
-	// }
-	//
-	// String splitAnswer[] = answerReceived.split(" ");
-	// switch (splitAnswer[0]) {
-	// case "RM20":
-	// switch (splitAnswer[1]) {
-	// case "A":
-	// break;
-	// case "B":
-	// break;
-	// default:
-	// throw new ProtocolErrorException(answerReceived);
-	// }
-	//
-	// case "P111":
-	// switch (splitAnswer[1]) {
-	// case "A":
-	// break;
-	// default:
-	// throw new ProtocolErrorException(answerReceived);
-	// }
-	//
-	// default:
-	// break;
-	// }
-	//
-	// return answerReceived;
-	// }
-
-	// @Override
-	// public void flush() {
-	// // TODO: Redo this method at some point.
-	// try {
-	// sendCommand("RM20 0");
-	// try {
-	// TimeUnit.SECONDS.sleep(2);
-	// } catch (InterruptedException e) {
-	// e.printStackTrace();
-	// }
-	// while (inFromWeight.ready()) {
-	// inFromWeight.readLine();
-	// }
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// }
-	//
-
 }

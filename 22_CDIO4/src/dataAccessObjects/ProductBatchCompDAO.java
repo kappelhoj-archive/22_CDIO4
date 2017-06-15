@@ -28,7 +28,6 @@ public class ProductBatchCompDAO implements IProductBatchCompDAO {
 			System.out.println("Done.");
 
 		}catch(Exception e){
-			System.out.println(e);
 			System.out.println("Trying to create the saving file...");
 			FileManagement.writeData(productBatchCompList, TypeOfData.PRODUCTBATCHCOMP);
 			System.out.println("Done.");

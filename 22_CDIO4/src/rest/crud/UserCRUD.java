@@ -32,12 +32,9 @@ public class UserCRUD {
 		try {
 			return Initializer.getUserController().getUser(Validator.idToInteger(userId));
 		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return null;
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -53,8 +50,7 @@ public class UserCRUD {
 		try {
 			return Initializer.getUserController().getUserList();
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -74,13 +70,11 @@ public class UserCRUD {
 			Initializer.getUserController().createUser(user);
 			return "success: Brugeren blev oprettet med id " + user.getId() + " og engangsnøglen " + key + ".";
 		} catch (InputException e) {
-			e.printStackTrace();
 			return "input-error: Det indtastede er ugyldigt.";
 		} catch (CollisionException e) {
-			e.printStackTrace();
 			return "collision-error: Der eksisterer allerede en bruger med det indtastede id.";
 		} catch (DALException e) {
-			e.printStackTrace();
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
@@ -98,10 +92,9 @@ public class UserCRUD {
 			Initializer.getUserController().updateUser(user);
 			return "success: Brugeren blev opdateret.";
 		} catch (InputException e) {
-			e.printStackTrace();
 			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
-			e.printStackTrace();
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
