@@ -119,6 +119,10 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 		FileManagement.writeData(rawmatBatchList, TypeOfData.RAWMATERIALBATCH);
 	}
 
+	/**
+	 * Get a DTO by the id
+	 * @param id of DTO.
+	 */
 	@Override
 	public IWeightControlDTO getDTOById(int id) throws DALException {
 		return getRawMaterialBatch(id);
