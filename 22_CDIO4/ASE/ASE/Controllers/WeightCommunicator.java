@@ -270,7 +270,6 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 * Method to clean the current stream of information from the weight.
 	 */
 	
-	//TODO: Exception
 	private void cleanStream() {
 		sendProtocol(Protocol.CleanRM20, null);
 		sendProtocol(Protocol.StartUp, null);
