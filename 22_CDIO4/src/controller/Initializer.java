@@ -88,7 +88,9 @@ public class Initializer implements ServletContextListener {
 
 			try {pb.createProductBatch(new ProductBatchDTO(1, 0, 1));} catch (DALException e){}
 			
-			try {pb.createProductBatch(new ProductBatchDTO(3, 0, 1));} catch (DALException e){}
+			try {pb.createProductBatch(new ProductBatchDTO(2, 1, 1));} catch (DALException e){}
+			
+			try {pb.createProductBatch(new ProductBatchDTO(3, 2, 1));} catch (DALException e){}
 			
 			try {pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));} catch (DALException e){}
 
