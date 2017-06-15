@@ -42,7 +42,7 @@ $.validator.addMethod("validID", function validID(id){
 	else {
 		return false;
 	}
-}, "Indtast et gyldigt id.");
+}, "Indtast et id mellem 1 og 99999999.");
 
 $.validator.addMethod("validPassword", function checkPassword(password)
 {
@@ -77,7 +77,7 @@ $.validator.addMethod("validPassword", function checkPassword(password)
 	else{
 		return false
 	}
-}, "Password skal indeholde små og store bogstaver og tal");
+}, "Passwordet skal indeholde små og store bogstaver samt tal.");
 
 
 $.validator.addMethod("validNetto", function checkNetto(netto)
@@ -89,7 +89,7 @@ $.validator.addMethod("validNetto", function checkNetto(netto)
 		return false;
 	}
 
-}, "Netto besked");
+}, "Nominel netto skal være mellem 0.05 kg og 20 kg.");
 
 $.validator.addMethod("validTolerance", function checkTolerance(tolerance)
 {
@@ -100,7 +100,7 @@ $.validator.addMethod("validTolerance", function checkTolerance(tolerance)
 		return false;
 	}
 
-}, "Tolerance besked");
+}, "Tolerance skal være mellem 0.1 % og 10 %.");
 
 /*
  * jQuery Validation set defaults
@@ -251,7 +251,8 @@ function validateRawMaterialBatch(form) {
 			},
 			amount: {
 				required: true,
-				number: true
+				number: true,
+				min: 0
 			}
 		}
 	});
@@ -271,30 +272,3 @@ function validateProductBatch(form) {
 		}
 	});
 }
-
-/*new_password: {
-	required: function(element){
-        return $("input[name=\"password\"]").val() != "";
-    },
-	validPassword: function(element){
-		if($("input[name=\"password\"]").val() == "") {
-			return false;
-		}
-		else {
-			return true;
-		}
-    },
-},
-repeat_new_password: {
-	required: function(element){
-        return $("input[name=\"password\"]").val() != "";
-    },
-	equalTo: function(element) {
-		if($("input[name=\"password\"]").val() != "") {
-			return "#new_password";
-		}
-		else {
-			return false;
-		}
-	}
-}*/

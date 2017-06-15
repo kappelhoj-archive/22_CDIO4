@@ -17,9 +17,8 @@ $(document).ready(function() {
 		getRawMaterialList().done(function(data) {
 			$.get("src/html/raw_material_batch/raw_material_batch_create.html", function(template) {
 	            $("#content").html(template);
-	            console.log(data);
 				$.each(data, function(i, data) {
-					$(".custom-select").append(Mustache.render("<option value=\""+ data.id + "\">(" + data.id + ") " + data.name + "</option>", data));
+					$(".custom-select").append(Mustache.render("<option value=\""+ data.id + "\">" + data.id + " (" + data.name + ")</option>", data));
 				});
 				validateRawMaterialBatch("#raw_material_batch_create_form");
 	        });
