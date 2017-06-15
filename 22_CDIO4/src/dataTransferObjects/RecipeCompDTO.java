@@ -1,12 +1,18 @@
 package dataTransferObjects;
 
-public class RecipeCompDTO
+public class RecipeCompDTO extends DTO
 {
-	int recipeId;                  // auto genereres fra 1..n   
-	int rawMaterialId;             // i omraadet 1-99999999
-	double nomNetto;            // skal vaere positiv og passende stor
-	double tolerance;           // skal vaere positiv og passende stor
 
+	private static final long serialVersionUID = -6282952596437001174L;
+	int recipeId;                    
+	int rawMaterialId;            
+	double nomNetto;            
+	double tolerance;           
+	
+	public RecipeCompDTO() {
+		
+	}
+	
 	public RecipeCompDTO(int recipeId, int rawMaterialId, double nomNetto, double tolerance)
 	{
 		this.recipeId = recipeId;
@@ -62,5 +68,10 @@ public class RecipeCompDTO
 
 	public RecipeCompDTO copy(){
 		return new RecipeCompDTO(recipeId, rawMaterialId, nomNetto, tolerance);
+	}
+
+	@Override
+	public int compareTo(DTO o) {	
+		return this.rawMaterialId - ((RecipeCompDTO) o).getRawMaterialId();
 	}
 }

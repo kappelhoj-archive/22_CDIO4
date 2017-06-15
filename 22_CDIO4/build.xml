@@ -31,7 +31,7 @@
         <echo message="Building ${CSS}" />
         <concat destfile="${CSS}">
             <!-- Indsæt alle css filer der skal samles -->
-            <fileset dir="${SRC_CSS_DIR}" includes="style.css" />
+        	<fileset dir="${SRC_CSS_DIR}" includes="layout.css" />
         </concat>
         <echo message="${CSS} built." />
     </target>
@@ -57,10 +57,14 @@
         <echo message="Building ${JS}" />
         <concat destfile="${JS}">
         	<!-- Indsæt alle js filer her -->
-        	<fileset dir="${SRC_JS_DIR}" includes="navigation.js" />
         	<fileset dir="${SRC_JS_DIR}" includes="login.js" />
+        	<fileset dir="${SRC_JS_DIR}" includes="general.js" />
+        	<fileset dir="${SRC_JS_DIR}" includes="validation.js" />
+        	<fileset dir="${SRC_JS_DIR}" includes="product_batch.js" />
+        	<fileset dir="${SRC_JS_DIR}" includes="raw_material_batch.js" />
+        	<fileset dir="${SRC_JS_DIR}" includes="recipe.js"/>
+        	<fileset dir="${SRC_JS_DIR}" includes="raw_material.js"/>
         	<fileset dir="${SRC_JS_DIR}" includes="user.js" />
-            <fileset dir="${SRC_JS_DIR}" includes="main.js" />
         </concat>
         <echo message="${JS} built." />
     </target>

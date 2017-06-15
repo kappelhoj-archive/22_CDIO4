@@ -17,13 +17,16 @@ public class ConnectionReaderTest {
 
 	@Before
 	public void setUp() throws Exception {
-
+		System.out.println("");
+		System.out.println("Starting test...");
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		fileLocation = null;
 		connectionReader = null;
+		System.out.println("");
+		System.out.println("Test finished successfully!");
 	}
 
 	@Test
@@ -32,14 +35,14 @@ public class ConnectionReaderTest {
 		connectionReader = new ConnectionReader(fileLocation);
 
 		try {
-			connectionReader.WeightReader();
-		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			connectionReader.getWeightIPs();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		String[] expected = { "12.245.231.201", "91.23.110.232" };
 
 		ArrayList<String> actual;
-		actual = connectionReader.getAllIPAdresses();
+		actual = connectionReader.getAllIPAddresses();
 
 		for (int i = 0; i < expected.length; i++) {
 			assertEquals(expected[i], actual.get(i));
@@ -54,7 +57,7 @@ public class ConnectionReaderTest {
 		connectionReader = new ConnectionReader(fileLocation);
 
 		try {
-			connectionReader.WeightReader();
+			connectionReader.getWeightIPs();
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}

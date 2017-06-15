@@ -1,83 +1,135 @@
 package ASE.Views;
 
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import staticClasses.FileManagement;
+import staticClasses.FileManagement.TypeOfData;
+
+/**
+ * 
+ * @author Mads
+ *
+ */
 public class ConnectionReader {
 
+	// Creation of needed Arraylists, and Strings.
 	private String weightIP;
-	private ArrayList<String> allIPAdresses = new ArrayList<String>();
+	private ArrayList<String> allIPAddresses = new ArrayList<String>();
 	private ArrayList<String> allPortNumbers = new ArrayList<String>();
 	private String fileLocation;
 
+	// Setting up the input, as well as a default file location in case of
+	// errors.
 	public ConnectionReader(String fileLocation) {
 		this.fileLocation = fileLocation;
 
 		if (fileLocation == null) {
-			fileLocation = "src/WeightTable.txt";
+			this.fileLocation = "C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt";
 		}
 	}
 
 	/**
-	 * WeightReader's primary class. Opens the "src/WeightTable.txt" file, and
-	 * verifies all the information in the .txt file. Unless a new file is
-	 * explicitly stated, the default is always "src/WeightTable.txt".
+	 * WeightReader's primary class. Opens the
+	 * "C:\Users\Username\Documents\WeightTable.txt" file, and verifies all the
+	 * information in the .txt file. Unless a new file is explicitly stated, the
+	 * default is always "C:\Users\Username\Documents\WeightTable.txt".
 	 * 
 	 * @throws FileNotFoundException
-	 *             throws an exception if the file is not located in
-	 *             "src/WeightTable.txt"
+	 *             throws an exception if the file is never correctly found or
+	 *             located.
 	 */
-	public void WeightReader() throws FileNotFoundException {
-
+	public void getWeightIPs() throws FileNotFoundException {
+		Scanner weightScanner = null;
 		// Creation of the scanner
-		Scanner weightScanner = new Scanner(new FileInputStream(fileLocation));
-		// Attempt to retrieve information from the WeightTable.txt file.
-		// Retrieve information.
-		while (weightScanner.hasNext()) {
-			try {
-				String tokenCheck = weightScanner.next();
+		try {
+			weightScanner = new Scanner(new FileInputStream(fileLocation));
+			// Attempt to retrieve information from the WeightTable.txt file.
+			while (weightScanner.hasNext()) {
+				try {
+					String tokenCheck = weightScanner.next();
 
-				// Syntax check.
-				if (tokenCheck.equals("IP")) {
-					weightIP = weightScanner.nextLine().trim();
-					weightScanner.skip("PORT");
-					String weightPort = weightScanner.nextLine().trim();
+					// Syntax check.
+					if (tokenCheck.equals("IP")) {
+						weightIP = weightScanner.nextLine().trim();
+						weightScanner.skip("PORT");
+						String weightPort = weightScanner.nextLine().trim();
 
-					// Adds the scanned IP adresses if, and only if, it passes
-					// the check.
-					if (IPChecker(weightIP)) {
-						allIPAdresses.add(weightIP);
+						// Adds the scanned IP addresses if, and only if, it
+						// passes the check, it then checks the port number. If
+						// both checks passes, the IP and Port number is added
+						// to a separate list.
+						if (validateIP(weightIP)) {
+							if (validatePORT(weightPort)) {
+								allIPAddresses.add(weightIP);
+								allPortNumbers.add(weightPort);
+							} else {
+								System.out.println(weightIP + " " + weightPort);
+							}
+						} else {
+							System.out.println(weightIP + " " + weightPort);
+						}
+
+					} else if (tokenCheck != "IP") {
+						System.out.println("Error: Invalid syntax in file!");
 					}
-					// Adds the scanned Port number if, and only if, it passes
-					// the check.
-					if (PORTChecker(weightPort)) {
-						allPortNumbers.add(weightPort);
-					}
-					System.out.println(weightIP + " " + weightPort);
-
-				} else if (tokenCheck != "IP") {
-					System.out.println("Error: Invalid syntax in file!");
+				} catch (Exception e) {
+					System.out.println("Error occured: " + e);
+					e.printStackTrace();
 				}
+
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found! Attempting to create new file.");
+			FileManagement.writeData(null, TypeOfData.TXT);
+
+			// Attempts to clean the newly created file of bullshit syntax.
+			FileOutputStream fileCleaner = new FileOutputStream(
+					"C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt");
+			try {
+				fileCleaner.write(("").getBytes());
+			} catch (IOException e1) {
+				System.out.println("Cleaning of newly insert WeighTable.txt failed!");
+			}
+			try {
+				fileCleaner.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			// Attempts to write a default weight into the WeightTable after
+			// creation.
+			try {
+				PrintWriter syntaxWriter = new PrintWriter(new BufferedWriter(new FileWriter(
+						"C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt", true)));
+				syntaxWriter.println("IP 1.1.1.1");
+				syntaxWriter.println("PORT 1");
+				syntaxWriter.close();
+			} catch (IOException e1) {
+				System.out.println("Insertion of new syntax failed!" + e1);
 			}
 
-			catch (Exception e) {
-				System.out.println("Error occured: " + e);
-				e.printStackTrace();
-			}
+		} catch (Exception e) {
+			System.out.println(e);
+		} finally {
+			weightScanner.close();
 		}
-		weightScanner.close();
 	}
 
 	/**
 	 * Method to return IP numbers as Arraylist.
 	 * 
-	 * @return Returns an Arraylist of all the correctly typed-in IP adresses
+	 * @return Returns an Arraylist of all the correctly typed-in IP addresses
 	 */
-	public ArrayList<String> getAllIPAdresses() {
-		return allIPAdresses;
+	public ArrayList<String> getAllIPAddresses() {
+		return allIPAddresses;
 	}
 
 	/**
@@ -97,7 +149,7 @@ public class ConnectionReader {
 	 * @return
 	 */
 	public String getIPString(int i) {
-		return allIPAdresses.get(i);
+		return allIPAddresses.get(i);
 	}
 
 	/**
@@ -119,7 +171,7 @@ public class ConnectionReader {
 	 *            the String value of WeightIP
 	 * @return Returns true if all checks passes without problems.
 	 */
-	private boolean IPChecker(String weightIP) {
+	private boolean validateIP(String weightIP) {
 
 		// Check to see if the IP contains the right number of periods.
 		String[] IPArray = weightIP.split(Pattern.quote("."));
@@ -170,7 +222,7 @@ public class ConnectionReader {
 	 * @return Returns true if all checks passes without problems.
 	 */
 	// Method to verify the validness of the Port number.
-	private static boolean PORTChecker(String weightPort) {
+	private static boolean validatePORT(String weightPort) {
 
 		// Checks to see if the Port number contains letters.
 		try {
@@ -186,6 +238,7 @@ public class ConnectionReader {
 
 		} catch (Exception e) {
 			System.out.println("Error: Port contains invalid characters!");
+			System.out.print("Error source: ");
 			return false;
 
 		}

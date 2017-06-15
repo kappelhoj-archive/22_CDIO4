@@ -1,69 +1,130 @@
 package dataAccessObjects;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Set;
 
 import dataAccessObjects.interfaces.IRecipeCompDAO;
 import dataTransferObjects.RecipeCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.FileManagement;
+import staticClasses.FileManagement.TypeOfData;
 
 public class RecipeCompDAO implements IRecipeCompDAO {
-	
-	static Hashtable<DoubleInteger, RecipeCompDTO> recipeCompList = new Hashtable<DoubleInteger, RecipeCompDTO>();
 
+	static List<RecipeCompDTO> recipeCompList = new ArrayList<RecipeCompDTO>();
+
+	/*
+	 * The warning "unchecked" is there because Java can not define if the file we try to convert
+	 * to an ArrayList is associated to this class.
+	 * We decided to ignore this warning in all our DAO.
+	 */
+	@SuppressWarnings("unchecked")
+	public RecipeCompDAO(){
+		try{
+			System.out.println("Retrieving RecipeComp Data...");
+			recipeCompList = (ArrayList<RecipeCompDTO>) FileManagement.retrieveData(TypeOfData.RECIPECOMP);
+			System.out.println("Done.");
+
+		}catch(Exception e){
+			System.out.println(e);
+			System.out.println("Trying to create the saving file...");
+			FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
+			System.out.println("Done.");
+		}
+	}
+
+	/**
+	 * Method which returns a copy of a RecipeCompDTO from the data
+	 * @param recipeId, rawMaterialId
+	 * @return RecipeCompDTO
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
+	 */
 	@Override
 	public RecipeCompDTO getRecipeComp(int recipeId, int rawMaterialId) throws DALException {
-		if(recipeCompList.get(new DoubleInteger(recipeId, rawMaterialId)) != null)
-			return recipeCompList.get(new DoubleInteger(recipeId, rawMaterialId)).copy();
+		for(RecipeCompDTO recipecomp : recipeCompList){
 
-		else
-			throw new DALException("Unknown Recipe Comp ID: " +new DoubleInteger(recipeId, rawMaterialId));
+			if(recipecomp.getRecipeId() == recipeId && recipecomp.getRawMaterialId() == rawMaterialId)
+				return recipecomp.copy();
+		}
+		throw new DALException("Unknown Recipe Comp ID: " + recipeId + " " + rawMaterialId);
 	}
 
+	/**
+	 * Method which returns a list of RecipeCompDTOs from the data
+	 * @param recipeId
+	 * @return List<RecipeCompDTO>
+	 */
 	@Override
 	public List<RecipeCompDTO> getRecipeCompList(int recipeId) throws DALException {
-		List<RecipeCompDTO> recipeComps = new ArrayList<RecipeCompDTO>();
+		List<RecipeCompDTO> recipecompListget = new ArrayList<RecipeCompDTO>();
 
-		Set<DoubleInteger> keys = recipeCompList.keySet();
+		for(RecipeCompDTO recipecomp : recipeCompList){
 
-		for(DoubleInteger key : keys){
-			if(recipeCompList.get(key).getRecipeId() == recipeId)
-				recipeComps.add(recipeCompList.get(key).copy());
+			if(recipecomp.getRecipeId() == recipeId)
+				recipecompListget.add(recipecomp);
+
 		}
 
-		return recipeComps;
+		return recipecompListget;
 	}
 
+	/** Method which returns a list of RecipeCompDTOs from the data
+	 * @return List<RecipeCompDTO>
+	 */
 	@Override
 	public List<RecipeCompDTO> getRecipeCompList() throws DALException {
-		List<RecipeCompDTO> recipeComps = new ArrayList<RecipeCompDTO>();
-
-		Set<DoubleInteger> keys = recipeCompList.keySet();
-
-		for(DoubleInteger key : keys){
-			recipeComps.add(recipeCompList.get(key).copy());
-		}
-
-		return recipeComps;
+		return recipeCompList;
 	}
 
+	/**
+	 * Method which adds a RecipeCompDTO to the saved data
+	 * @param RecipeCompDTO
+	 * @return void
+	 * @throws CollisionException if the DTO it shall insert already exists
+	 */
 	@Override
 	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
-		if (recipeCompList.putIfAbsent(new DoubleInteger(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId()), recipeComponent.copy()) == null)
+		try{
+			getRecipeComp(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId());
+
+		}catch (DALException e){ //if it can not find it, so it can create it
+			recipeCompList.add(recipeComponent.copy());
+			FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
 			return;
-
-		else
-			throw new CollisionException("Recipe Comp ID:"+new DoubleInteger(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId())+" already exists !");
-
+		}
+		//if it can find it, so it already exists
+		throw new CollisionException(recipeComponent + " already exists !");
 	}
 
+	/**
+	 * Method which updates a RecipeCompDTO in the saved data
+	 * @param RecipeCompDTO
+	 * @return void
+	 * @throws DALException if the DTO with the param ID doesn't exist in the data
+	 */
 	@Override
 	public void updateRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
-		recipeCompList.replace(new DoubleInteger(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId()), recipeComponent.copy());
+		getRecipeComp(recipeComponent.getRecipeId(), recipeComponent.getRawMaterialId());
 
+		int index = -1;
+		for(int i = 0; i<recipeCompList.size();++i){
+			if(recipeCompList.get(i).getRecipeId() == recipeComponent.getRecipeId() 
+					&& recipeCompList.get(i).getRawMaterialId() == recipeComponent.getRawMaterialId()){
+
+				index=i;
+				break;
+			}
+		}
+
+		if(index > -1){
+			recipeCompList.remove(index);
+			recipeCompList.add(recipeComponent.copy());
+			FileManagement.writeData(recipeCompList, TypeOfData.RECIPECOMP);
+			return;
+
+		}
+		throw new DALException("Fatal Error on RecipeComponent. Both IDs exist but can not be loaded.");
 	}
 
 }

@@ -1,19 +1,29 @@
-<h2>Opret ny råvarebatch</h2>
-<form id="raw_material_batch_edit_form">
-	<div class="form-group">
-    	<label for="raw_material_batch_id">Råvarebatch id</label>
-    	<input type="text" class="form-control" id="raw_material_batch_id" placeholder="Råvarebatch id" name="rbId" readonly>
-    </div>
-    <div class="form-group">
-    	<label for="raw_material_id">Råvare id</label>
-    	<input type="text" class="form-control" id="raw_material_id" placeholder="Råvare id" name="raavare_id" readonly>
-    </div>
-    <div class="form-group">
-    	<label for="amount">Mængde</label>
-    	<input type="text" class="form-control" id="amount" placeholder="Mængde" name="amount">
-    </div>
-    <div class="form-group">
-		<button type="submit" class="btn btn-primary">Gem ændringer</button>
-        <button type="button" class="btn btn-secondary">Gå tilbage</button>
-	</div>
-</form>
+<div id="raw_material_batch_edit">
+	<h2>Rediger råvare batch</h2>
+	<form id="raw_material_batch_edit_form">
+		<div class="form-group">
+	    	<label>id</label>
+	    	<input type="text" class="form-control" name="rbId" value="{{rbId}}" readonly>
+	    </div>
+	    <div class="form-group">
+	    	<div class="row">
+				<div class="col-3">
+					<label>Råvare id</label>
+					<input type="text" class="form-control" name="rawMaterialId" value="{{rawMaterialId}}" readonly>
+				</div>
+				<div class="col-9">
+					<label>Råvare navn</label>
+					<input type="text" class="form-control" name="rawMaterialName" readonly>
+				</div>
+			</div>
+	    </div>
+	    <div class="form-group">
+	    	<label>Mængde</label>
+	    	<input type="text" class="form-control" name="amount" value="{{amount}}">
+	    </div>
+	    <div class="form-group">
+			<button type="submit" class="btn btn-primary">Gem</button>
+	        <button type="button" class="btn btn-secondary raw_material_batch_list_link">Tilbage</button>
+		</div>
+	</form>
+</div>

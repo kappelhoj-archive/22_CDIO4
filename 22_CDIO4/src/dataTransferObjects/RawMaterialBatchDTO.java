@@ -1,11 +1,19 @@
 package dataTransferObjects;
 
-public class RawMaterialBatchDTO implements IWeightControlDTO
+public class RawMaterialBatchDTO extends DTO implements IWeightControlDTO
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8926764359117199554L;
 	int rbId;                     // i omraadet 1-99999999
 	int rawMaterialId;             // i omraadet 1-99999999
 	double amount;             // kan vaere negativ 
 
+	public RawMaterialBatchDTO() {
+		
+	}
+	
 	public RawMaterialBatchDTO(int rbId, int rawMaterialId, double amount)
 	{
 		this.rbId = rbId;
@@ -70,5 +78,10 @@ public class RawMaterialBatchDTO implements IWeightControlDTO
 			throw new RuntimeException("Invalid DTO");
 		}
 		
+	}
+
+	@Override
+	public int compareTo(DTO o) {
+		return this.rbId - ((RawMaterialBatchDTO) o).getRbId();
 	}
 }

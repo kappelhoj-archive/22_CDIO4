@@ -2,35 +2,39 @@ package dataTransferObjects;
 
 public class RecipeCompPOJO {
 	
-	private String id;
-	private String raw_material_id;
+	private String recipeId;
+	private String rawMaterialId;
 	
 	public RecipeCompPOJO()
 	{
 		
 	}
 	
-	public RecipeCompPOJO(String id, String raw_material_id)
+	public RecipeCompPOJO(String recipeId, String rawMaterialId)
 	{
-		this.id = id;
-		this.raw_material_id = raw_material_id;
+		this.recipeId = recipeId;
+		this.rawMaterialId = rawMaterialId;
 		
 	}
 
-	public String getId() {
-		return id;
+	public String getRecipeId() {
+		return recipeId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setRecipeId(String recipeId) {
+		this.recipeId = recipeId;
 	}
 
-	public String getRaw_material_id() {
-		return raw_material_id;
+	public String getRawMaterialId() {
+		return rawMaterialId;
 	}
 
-	public void setRaw_material_id(String raw_material_id) {
-		this.raw_material_id = raw_material_id;
+	public void setRawMaterialId(String rawMaterialId) {
+		this.rawMaterialId = rawMaterialId;
 	}
+
+
+
+
 
 }

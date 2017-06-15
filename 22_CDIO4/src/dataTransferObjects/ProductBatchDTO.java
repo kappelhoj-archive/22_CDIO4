@@ -1,10 +1,18 @@
 package dataTransferObjects;
 
-public class ProductBatchDTO implements IWeightControlDTO
+public class ProductBatchDTO extends DTO implements IWeightControlDTO
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5415559033194916090L;
 	int pbId;                     // i omraadet 1-99999999
 	int status;					// 0: ikke paabegyndt, 1: under produktion, 2: afsluttet
 	int recipeId;
+	
+	public ProductBatchDTO() {
+		
+	}
 	
 	public ProductBatchDTO(int pbId, int status, int recipeId)
 	{
@@ -17,8 +25,8 @@ public class ProductBatchDTO implements IWeightControlDTO
 	public void setPbId(int pbId) { this.pbId = pbId; }
 	public int getStatus() { return status; }
 	public void setStatus(int status) { this.status = status; }
-	public int getReceptId() { return recipeId; }
-	public void setReceptId(int receptId) { this.recipeId = receptId; }
+	public int getRecipeId() { return recipeId; }
+	public void setRecipeId(int recipeId) { this.recipeId = recipeId; }
 	public String toString() { return pbId + "\t" + status + "\t" + recipeId; }
 
 	public ProductBatchDTO copy() {
@@ -32,15 +40,21 @@ public class ProductBatchDTO implements IWeightControlDTO
 
 	@Override
 	public void copy(IWeightControlDTO dto) throws RuntimeException {
-		if(dto instanceof ProductBatchCompDTO){
+		if(dto instanceof ProductBatchDTO){
 			ProductBatchDTO castDTO=(ProductBatchDTO) dto;
 			this.pbId=castDTO.getPbId();
-			this.recipeId=castDTO.getReceptId();
+			this.recipeId=castDTO.getRecipeId();
 			this.status=castDTO.getStatus();
 		}
 		else{
 			throw new RuntimeException("Invalid DTO");
 		}
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		return this.pbId - ((ProductBatchDTO) o).getPbId();
+	}
+	
 }
 
