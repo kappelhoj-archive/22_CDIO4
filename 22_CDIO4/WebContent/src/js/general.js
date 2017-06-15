@@ -12,15 +12,16 @@ $(document).ready(function() {
 	});
 	
 	$(document).on("click", ".startpage_link", function(event) {
-		event.prevenDefault();
-		showStartPage();
+		event.preventDefault();
+		var userId = $("input[name=\"id\"]").text();
+		showStartPage(userId);
 	});
 });
 
 function showStartPage() {
 	// userId must be parsed as string
 	var data = {
-		id: $("top_nav_userid").text(),
+		id: $(".top_nav_userid").text(),
 		name: $(".top_nav_name").text(),
 		role: $(".top_nav_role").text()
 		
