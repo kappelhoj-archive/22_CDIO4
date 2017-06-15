@@ -92,11 +92,27 @@ function showProductBatchCompsPage(pbId) {
 	getProductBatchCompListSpecific(pbId).done(function(data) {
 		$.get("src/html/product_batch/product_batch_comp_list.html", function(template) {
 			$("#product_batch_edit_form").append(template);
-			$.each(data, function(i, data) {
-				$.get("src/html/product_batch/product_batch_comp_list_row.html", function(template) {
-					$("#product_batch_comp_list .table tbody").append(Mustache.render($(template).html(), data));
+			
+			if(data.length > 0) {
+				$("#product_batch_comp_list .product_batch_comp_list_table").html(
+						"<table class=\"table table-hover\">"
+							+"<thead>"
+								+"<tr>"
+									+"<th>Produkt batch id</th>"
+									+"<th>Råvare batch id</th>"
+									+"<th>Tara</th>"
+									+"<th>Netto</th>"
+									+"<th>Bruger id</th>"
+								+"</tr>"
+							+"</thead>"
+							+"<tbody></tbody>"
+						+"</table>");
+				$.each(data, function(i, data) {
+					$.get("src/html/product_batch/product_batch_comp_list_row.html", function(template) {
+						$("#product_batch_comp_list .table tbody").append(Mustache.render($(template).html(), data));
+					});
 				});
-			});
+			}
 		});
 	});
 }

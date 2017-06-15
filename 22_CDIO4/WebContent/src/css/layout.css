@@ -17,6 +17,10 @@ h3 {
 	margin-bottom: 1rem;
 }
 
+button {
+	cursor: pointer;
+}
+
 #master_container {
 	width: 100%;
 	height: 100%;
@@ -39,6 +43,7 @@ h3 {
 	line-height: 60px;
 	display: block;
 	width: 300px;
+	text-align:center;
 }
 
 #logo a, #logo a:hover, #logo a:focus, #logo a:active, #top_nav ul > li > a, #top_nav ul > li > a:hover, #top_nav ul > li > a:focus, #top_nav ul > li > a:active {
@@ -48,13 +53,17 @@ h3 {
 
 #top_nav {
 	height: 60px;
-	padding-right: 2rem;
 }
 
 #top_nav ul, #side_nav ul {
 	margin: 0;
 	padding: 0;
 	list-style: none;
+}
+
+#side_nav > ul > li > a, #side_nav > ul > li > a:hover, #side_nav > ul > li > a:focus, #side_nav > ul > li > a:active {
+	color: #292b2c;
+	text-decoration: none;
 }
 
 #top_nav ul li {
@@ -64,6 +73,11 @@ h3 {
 #top_nav ul > li > a {
 	display: block;
 	line-height: 60px;
+	padding: 0 2rem;
+}
+
+#top_nav ul > li > a:hover, #top_nav ul > li > a:focus, #top_nav ul > li > a:active {
+	background-color: #1d1d1d;
 }
 
 .top_nav_role {
@@ -72,27 +86,27 @@ h3 {
 	line-height: 1.2rem;
 	text-transform: uppercase;
 	display: inline-block;
-	margin: 0 .5rem;
+	margin-right: .5rem;
 }
 
 .role_super {
-	
-}
-
-.role_admin {
 	background-color: #d8345a;
 }
 
+.role_admin {
+	background-color: #7b469d;
+}
+
 .role_pharmacist {
-	
+	background-color: #ca7000;
 }
 
 .role_foreman {
-	
+	background-color: #009d5c;
 }
 
 .role_labtech {
-	
+	background-color: #00879d;
 }
 
 
@@ -104,7 +118,7 @@ h3 {
 
 #user_dropdown_menu {
 	top: 60px;
-	background-color: #2b2d31;
+	background-color: #1d1d1d;
 	margin: 0;
 	border: none;
 	border-radius: 0;
@@ -198,12 +212,16 @@ h3 {
 	margin-bottom: 2rem;
 }
 
+#login #logo a {
+	cursor: default;
+}
+
 #login .submit_button {
 	text-align: center;
 }
 
 #alert_container {
-	position: absolute;
+	position: fixed;
     top: 0;
     left: 50%;
     line-height: 60px;
