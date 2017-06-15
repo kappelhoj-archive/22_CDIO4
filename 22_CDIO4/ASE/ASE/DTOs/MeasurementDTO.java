@@ -1,35 +1,43 @@
 package ASE.DTOs;
 
-public class MeasurementDTO 
-	{
-		int pbId; 	  // produktbatchets id
-		int rbId;        // i omraadet 1-99999999
-		double tara;
-		double netto;
-		int oprId;					// operatoer-nummer
+import java.util.List;
 
-		
-		public MeasurementDTO(int pbId, int rbId, double tara, double netto, int oprId)
-		{
-			this.pbId = pbId;
-			this.rbId = rbId;
-			this.tara = tara;
-			this.netto = netto;
-			this.oprId = oprId;
-		}
-		
-		public int getPbId() { return pbId; }
-		public void setPbId(int pbId) { this.pbId = pbId; }
-		public int getRbId() { return rbId; }
-		public void setRbId(int rbId) { this.rbId = rbId; }
-		public double getTara() { return tara; }
-		public void setTara(double tara) { this.tara = tara; }
-		public double getNetto() { return netto; }
-		public void setNetto(double netto) { this.netto = netto; }
-		public int getOprId() { return oprId; }
-		public void setOprId(int oprId) { this.oprId = oprId; }
-		public String toString() { 
-			return pbId + "\t" + rbId +"\t" + tara +"\t" + netto + "\t" + oprId ; 
-		}
+import dataTransferObjects.ProductBatchCompDTO;
+
+public class MeasurementDTO {
+	private int newStatus;
+	private int pbId;
+	private List<ProductBatchCompDTO> measurements;
+
+	public MeasurementDTO(int newStatus, int pbId, List<ProductBatchCompDTO> measurements) {
+		super();
+		this.newStatus = newStatus;
+		this.pbId = pbId;
+		this.measurements = measurements;
 	}
 
+	public int getNewStatus() {
+		return newStatus;
+	}
+
+	public void setNewStatus(int newStatus) {
+		this.newStatus = newStatus;
+	}
+
+	public int getPbId() {
+		return pbId;
+	}
+
+	public void setPbId(int pbId) {
+		this.pbId = pbId;
+	}
+
+	public List<ProductBatchCompDTO> getMeasurements() {
+		return measurements;
+	}
+
+	public void setMeasurements(List<ProductBatchCompDTO> measurements) {
+		this.measurements = measurements;
+	}
+
+}

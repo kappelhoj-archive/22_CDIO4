@@ -2,6 +2,7 @@ package ASE.tests;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -13,19 +14,21 @@ import ASE.Views.ConnectionReader;
 
 public class ConnectionManagerTest {
 
-	ConnectionReader connectionReader;
 	ConnectionManager connectionManager;
+	ConnectionReader connectionReader;
 	String fileLocation;
 
 	@Before
 	public void setUp() throws Exception {
-		connectionManager = new ConnectionManager();
+		fileLocation = "ASE/ASE/tests/WeightTableConManagerTest.txt";
+		connectionManager = new ConnectionManager(fileLocation, null);
+		connectionManager.threadStarter();
+		;
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		fileLocation = null;
-		connectionReader = null;
 		connectionManager = null;
 	}
 
@@ -35,27 +38,26 @@ public class ConnectionManagerTest {
 	 */
 	@Test
 	public void testCorrectInformationRetrievel() {
+		try {
+			connectionReader.getWeightIPs();
+		} catch (FileNotFoundException e) {
+			System.out.println("Connecting to IP failed.");
+		}
+		ArrayList<String> resultsIP = connectionReader.getAllIPAddresses();
+		ArrayList<String> resultsPorts = connectionReader.getAllPortNumbers();
 
-		fileLocation = "ASE/ASE/test/WeightTableConManagerTest.txt";
-
-		connectionManager.run();
-
-		ArrayList<String> resultsIP = connectionManager.getAllConnectedIPAdresses();
-		ArrayList<Integer> resultsPorts = connectionManager.getAllConnectedPortNumbers();
-
-		String[] expectedIP = { "123.64.223.12", "43.210.240.46" };
+		String[] expectedIP = { "43.210.240.45", "43.210.240.46" };
 		ArrayList<String> actualIP = resultsIP;
 
-		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size(); i++) {
+		for (int i = 0; i < connectionManager.getNumberOfConnectedIPs(); i++) {
 			assertEquals(expectedIP[i], actualIP.get(i));
 		}
 
-		String[] expectedPort = { "32132", "23422" };
-		ArrayList<Integer> actualPort = resultsPorts;
+		String[] expectedPort = { "23421", "23422" };
+		ArrayList<String> actualPort = resultsPorts;
 
-		for (int i = 0; i < connectionManager.getAllConnectedIPAdresses().size(); i++) {
+		for (int i = 0; i < connectionManager.getNumberOfConnectedIPs(); i++) {
 			assertEquals(expectedPort[i], actualPort.get(i));
 		}
 	}
-
 }

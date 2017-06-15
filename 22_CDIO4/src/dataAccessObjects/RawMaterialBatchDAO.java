@@ -121,9 +121,8 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 	}
 
 	@Override
-	public IWeightControlDTO getDTOById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public IWeightControlDTO getDTOById(int id) throws DALException {
+		return getRawMaterialBatch(id);
 	}
 
 }
