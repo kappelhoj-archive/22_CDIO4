@@ -62,19 +62,21 @@ public class Initializer implements ServletContextListener {
 
 		if (!initialized) {
 
+			try {u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "0101800032", null, "Admin"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "0101405109", null, "Farmaceut"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "0101600203", null, "Laborant"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "0101600203", null, "Farmaceut"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(93905, "Jeppe Nielsen", "JN", "0101200159", null, "Værkfører"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(165243, "Mads Stege", "MS", "0101002918", null, "Værkfører"));} catch (DALException e){}
+			
 			try {u.createUser(new UserDTO(6, "Bent", "BE", "1111111118", null, "Farmaceut"));} catch (DALException e){}
-
-			try {u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "0101800032", "Peterpeter1", "Admin"));} catch (DALException e){}
-				
-			try {u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "0101405109", "Simonsimon1", "Farmaceut"));} catch (DALException e){}
-				
-			try {u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "0101600203", "Arvidarvid1", "Laborant"));} catch (DALException e){}
-				
-			try {u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "0101600203", "Mikkelmikkel1", "Farmaceut"));} catch (DALException e){}
-				
-			try {u.createUser(new UserDTO(93905, "Jeppe Nielsen", "JN", "0101200159", "Jeppejeppe1", "Værkfører"));} catch (DALException e){}
-				
-			try {u.createUser(new UserDTO(16524, "Mads Stege", "MS", "0101002918", "Madsmads1", "Værkfører"));} catch (DALException e){}
+			
+			
 				
 			try {r.createRecipe(new RecipeDTO(1, "Salt vand"));} catch (DALException e){}
 			

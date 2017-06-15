@@ -31,8 +31,7 @@ public class RecipeCRUD {
 		try {
 			return Initializer.getRecipeController().getRecipe(Validator.idToInteger(recipeId));
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -48,8 +47,7 @@ public class RecipeCRUD {
 		try {
 			return Initializer.getRecipeController().getRecipeList();
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -67,12 +65,9 @@ public class RecipeCRUD {
 			Initializer.getRecipeController().createRecipe(recipe);
 			return "success: Recepten blev oprettet";
 		} catch (CollisionException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return "collision-error: Der eksisterer allerede en recept med det indtastede id";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
@@ -91,8 +86,7 @@ public class RecipeCRUD {
 			Initializer.getRecipeController().updateRecipe(recipe);
 			return "success: Recepten blev opdateret.";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}

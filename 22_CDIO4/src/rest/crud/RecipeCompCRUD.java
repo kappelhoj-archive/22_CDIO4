@@ -34,8 +34,7 @@ public class RecipeCompCRUD {
 		try {
 			return Initializer.getRecipeCompController().getRecipeComp(Validator.idToInteger(i.getRecipeId()), Validator.idToInteger(i.getRawMaterialId()));
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -52,8 +51,7 @@ public class RecipeCompCRUD {
 		try {
 			return Initializer.getRecipeCompController().getRecipeCompList(Validator.idToInteger(recipeId));
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println();
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -70,8 +68,7 @@ public class RecipeCompCRUD {
 		try {
 			return Initializer.getRecipeCompController().getRecipeCompList();
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -89,18 +86,10 @@ public class RecipeCompCRUD {
 		try {
 			Initializer.getRecipeCompController().createRecipeComp(recipeComp);
 		} catch (InputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println(e);
 			return "input-error: Det indtastede er ugyldigt.";
 		} catch (CollisionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println(e);
 			return "collision-error: Der findes allerede en recept med denne recept komponent.";
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
@@ -120,8 +109,7 @@ public class RecipeCompCRUD {
 			Initializer.getRecipeCompController().updateRecipeComp(recipeComp);
 			return "success: Recept komponenten blev opdateret.";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
