@@ -94,6 +94,7 @@ public class ConnectionReader {
 			// Attempts to clean the newly created file of bullshit syntax.
 			FileOutputStream fileCleaner = new FileOutputStream(
 					"C:\\Users\\" + System.getProperty("user.name") + "\\Documents\\WeightTable.txt");
+			System.out.println("New file, WeightTable.txt, created succcessfully");
 			try {
 				fileCleaner.write(("").getBytes());
 			} catch (IOException e1) {

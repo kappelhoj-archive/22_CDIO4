@@ -13,7 +13,9 @@ import javax.ws.rs.core.MediaType;
 import controller.Initializer;
 import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.RecipeCompPOJO;
+import exceptions.CollisionException;
 import exceptions.DALException;
+import exceptions.InputException;
 import staticClasses.Validator;
 
 @Path("recipe_component")
@@ -83,14 +85,26 @@ public class RecipeCompCRUD {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createRecipeComp(RecipeCompDTO recipeComp) {
+		
 		try {
 			Initializer.getRecipeCompController().createRecipeComp(recipeComp);
-			return "success: Recept komponenten blev oprettet og tilføjet til recepten.";
-		} catch (DALException e) {
+		} catch (InputException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
+			return "input-error: Det indtastede er ugyldigt.";
+		} catch (CollisionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e);
+			return "collision-error: Der findes allerede en recept med denne recept komponent.";
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
+		return "success: Recept komponenten blev oprettet og tilføjet til recepten.";
 	}
 
 	/**
