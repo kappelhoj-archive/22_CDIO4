@@ -188,7 +188,7 @@ public class Initializer implements ServletContextListener {
 			}
 
 			try{
-				rc.createRecipeComp(new RecipeCompDTO(1, 1, 1.1, 0.6));
+				rc.createRecipeComp(new RecipeCompDTO(1, 1, 0.15, 10));
 			} catch (DALException e) {
 				System.out.println("FEJL!");
 				System.out.println(e);
@@ -196,7 +196,7 @@ public class Initializer implements ServletContextListener {
 			}
 
 			try{
-				rc.createRecipeComp(new RecipeCompDTO(1, 2, 3.1, 2.1));
+				rc.createRecipeComp(new RecipeCompDTO(1, 2, 0.15, 10));
 			} catch (DALException e) {
 				System.out.println("FEJL!");
 				System.out.println(e);
