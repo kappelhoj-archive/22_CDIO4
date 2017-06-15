@@ -92,6 +92,7 @@ function onLoginShowPage(data) {
 			$(".top_nav_role").addClass("role_super");
 			$(".role_super").text("Super");
 			$(".top_nav_name").text("admin");
+			$(".top_nav_userid").text("");
 			showStartPage();
 			
 			getRoleTemplate("src/html/role_privilege/admin_privilege.html").done(function() {
