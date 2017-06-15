@@ -208,7 +208,7 @@ public class Initializer implements ServletContextListener {
 			System.out.println("Listener destroyed.\n");
 			MeasurementController measureCon =new MeasurementController(Initializer.getProductBatchCompDAO(), Initializer.getProductBatchDAO());
 			ConnectionManager conMan=new ConnectionManager(null,measureCon);
-			conMan.threadStarter();
+			new Thread(conMan).start();
 			new Thread(measureCon).start();
 
 		}
