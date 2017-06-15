@@ -25,7 +25,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	String previousMessageRecived;
 	String splitAnswer[];
 
-	private enum Protocol {
+	public enum Protocol {
 		RM20, P111, Tara, Measurement, Brutto, DisplayClean, Quit, StartUp, CleanRM20
 	}
 
@@ -52,7 +52,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 * @param message
 	 *            The message sent alongside the protocol.
 	 */
-	private void sendProtocol(Protocol protocol, String message) {
+	public void sendProtocol(Protocol protocol, String message) {
 		try {
 			switch (protocol) {
 
@@ -289,7 +289,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 	}
 
-	private String waitForAnswer() throws ProtocolErrorException {
+	public String waitForAnswer() throws ProtocolErrorException {
 		try {
 			while (!inFromWeight.ready()) {
 				try {
