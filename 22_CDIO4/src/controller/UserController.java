@@ -82,8 +82,6 @@ public class UserController implements IUserController{
 
 		if(user.getPassword() == null || user.getPassword()=="")
 			user.setPassword(dao.getUser(user.getId()).getPassword());
-
-		validation(user);
 		
 		dao.updateOperatoer(user);
 
