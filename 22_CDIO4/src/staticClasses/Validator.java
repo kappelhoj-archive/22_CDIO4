@@ -30,7 +30,7 @@ public class Validator {
 	 */
 	public static boolean validateUserID(int id) throws InputException {
 		if (id < 0 || id > 1000000000) {
-			throw new InputException("This user id is invalid. User ID's has to be between 11 and 99");
+			throw new InputException("This user id is invalid. User ID's has to be between 1 and 999999999");
 		}
 		return true;
 	}
@@ -260,5 +260,59 @@ public class Validator {
 		return true;
 	}
 
+	/**
+	 * Convert the string to an id and check if it is valid
+	 * @param id
+	 * @return int id
+	 * @throws InputException
+	 */
+	public static int idToInteger(String id) throws InputException{
+		try{
+			int integerID = Integer.parseInt(id);
 
+			if(integerID > 0 && integerID <= 99999999)
+				return integerID;
+			else
+				throw new InputException("ID:"+ id + " shall be between 1 and 99999999");
+
+		}catch(NumberFormatException e){
+			throw new InputException("ID:"+ id + " is not an integer");
+		}catch(Exception e){
+			throw new InputException("FATAL ERROR. ");
+		}
+
+	}
+	
+	/**
+	 * int overload
+	 * @param id
+	 * @return int id
+	 * @throws InputException
+	 */
+	public static int idToInteger(int id) throws InputException{
+		try{
+
+			if(id > 0 && id <= 99999999)
+				return id;
+			else
+				throw new InputException("ID:"+ id + " shall be between 1 and 99999999");
+
+		}catch(Exception e){
+			throw new InputException("FATAL ERROR. ");
+		}
+
+	}
+	
+	/**
+	 * Check the name format
+	 * @param name
+	 * @throws InputException
+	 */
+	public static void validateStringName(String name) throws InputException{
+		if(name.length()>1 && name.length()<21)
+			return;
+		
+		else
+			throw new InputException("The name is too short/long");
+	}
 }

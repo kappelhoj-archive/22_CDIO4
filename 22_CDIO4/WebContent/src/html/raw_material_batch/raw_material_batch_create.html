@@ -1,19 +1,21 @@
-<h2>Opret ny råvarebatch</h2>
+<h2>Opret råvare batch</h2>
 <form id="raw_material_batch_create_form">
 	<div class="form-group">
-    	<label>Råvarebatch id</label>
+    	<label>id</label>
     	<input type="text" class="form-control" name="rbId">
     </div>
     <div class="form-group">
     	<label>Råvare id</label>
-    	<input type="text" class="form-control" name="rawMaterialId">
+    	<select name="rawMaterialId" class="form-control custom-select">
+			 <option selected value="">Vælg råvare</option>
+		</select>
     </div>
     <div class="form-group">
     	<label>Mængde</label>
     	<input type="text" class="form-control" name="amount">
     </div>
     <div class="form-group">
-		<button type="submit" class="btn btn-primary">Opret råvarebatch</button>
-        <button type="button" class="btn btn-secondary">Gå tilbage</button>
+		<button type="submit" class="btn btn-primary">Opret</button>
+        <button type="button" class="btn btn-secondary raw_material_batch_list_link">Tilbage</button>
 	</div>
 </form>

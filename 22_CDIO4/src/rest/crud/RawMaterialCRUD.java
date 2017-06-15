@@ -15,17 +15,22 @@ import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("raw_material")
 public class RawMaterialCRUD {
 
-	// TODO: Kig på HTTP ERROR
+	/**
+	 * Returns the raw material with the given raw material id as a JSON-object.
+	 * @param id The given raw material id.
+	 * @return The RawMaterialDTO as a JSON-object.
+	 */
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public RawMaterialDTO readRawMaterial(String id) {
 		try {
-			return Initializer.getRawMaterialController().getRawMaterial(Integer.parseInt(id));
+			return Initializer.getRawMaterialController().getRawMaterial(Validator.idToInteger(id));
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -37,7 +42,10 @@ public class RawMaterialCRUD {
 		}
 	}
 
-	// TODO: Kig på HTTP ERROR
+	/**
+	 * Returns a list of all raw materials as a JSON-object.
+	 * @return The list<RawMaterialDTO> as a JSON-object.
+	 */
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -51,43 +59,53 @@ public class RawMaterialCRUD {
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RawMaterialDTO and adds the RawMaterialDTo to the data layer.
+	 * @param rawMaterial The raw material to be added to the data layer.
+	 * @return A message which tells whether the creation succeeded or not.
+	 */
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String createRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
 			Initializer.getRawMaterialController().createRawMaterial(rawMaterial);
-			return "success";
+			return "success: Råvaren blev oprettet";
 		} catch (CollisionException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der findes allerede en råvare med det indtastede id.";
+			return "collision-error: Der eksisterer allerede en råvare med det indtastede id.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt..";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 
+	/**
+	 * Receives a JSON-object as a RawMaterialDTO and updates the RawMaterialDTO in the data layer.
+	 * @param rawMaterial The raw material to be updated in the data layer.
+	 * @return A message which tells whether the update succeeded or not.
+	 */
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateRawMaterial(RawMaterialDTO rawMaterial) {
 		try {
 			Initializer.getRawMaterialController().updateRawMaterial(rawMaterial);
-			return "success";
+			return "success: Råvaren blev opdateret.";
 		} catch (InputException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Det indtastede er ugyldigt..";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
-			return "Fejl: Der skete en fejl i systemet.";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 

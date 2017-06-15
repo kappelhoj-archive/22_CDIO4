@@ -79,4 +79,9 @@ public class RawMaterialBatchDTO extends DTO implements IWeightControlDTO
 		}
 		
 	}
+
+	@Override
+	public int compareTo(DTO o) {
+		return this.rbId - ((RawMaterialBatchDTO) o).getRbId();
+	}
 }

@@ -53,12 +53,12 @@ public class FileManagement {
 		}finally{
 			try {
 				o.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			try {
 				f.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

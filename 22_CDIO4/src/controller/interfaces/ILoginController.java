@@ -17,4 +17,5 @@ public interface ILoginController {
 	int generateAdminKey(int id);
 	int resetPassword(int id) throws InputException, DALException;
 	void setNewPassword(int id, String password) throws InputException, DALException;
+	boolean checkPassword(LoginPOJO login) throws InputException, DALException;
 }

@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IProductBatchController;
@@ -9,6 +11,7 @@ import dataTransferObjects.ProductBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 public class ProductBatchController implements IProductBatchController {
 
@@ -42,7 +45,11 @@ public class ProductBatchController implements IProductBatchController {
 	 */
 	@Override
 	public List<ProductBatchDTO> getProductBatchList() throws DALException {
-		return dao.getProductBatchList();
+		ArrayList<ProductBatchDTO> sortedArray = (ArrayList<ProductBatchDTO>) dao.getProductBatchList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/**
@@ -55,9 +62,11 @@ public class ProductBatchController implements IProductBatchController {
 	@Override
 	public void createProductBatch(ProductBatchDTO productBatch) //TODO check -1<status<3
 			throws CollisionException, InputException, DALException {
-
+		
+		Validator.idToInteger(productBatch.getPbId());//Use overload to check if the id is in the good range
+		
 		try{
-			rdao.getRecipe(productBatch.getReceptId()); //checks if the recipeID exists
+			rdao.getRecipe(productBatch.getRecipeId()); //checks if the recipeID exists
 		}catch(DALException e){
 			throw new InputException(e.getMessage());
 		}

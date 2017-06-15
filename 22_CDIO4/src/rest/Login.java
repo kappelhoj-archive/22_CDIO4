@@ -10,11 +10,12 @@ import controller.Initializer;
 import dataTransferObjects.LoginPOJO;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("login")
 public class Login {
 	
-	@Path("login-user")
+	@Path("user")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String loginUser(LoginPOJO login) {
@@ -27,29 +28,64 @@ public class Login {
 		case NEW:
 			return "new_login";
 		default:
-			return "not_login";
+			return "not_login: Bruger id eller password er forkert.";
 		}
 	}
 	
-	@Path("new-password")
+	@Path("new_password")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String newPassword(LoginPOJO login) {
 		try {
-			Initializer.getLoginController().setNewPassword(Integer.parseInt(login.getId()), login.getPassword());
-			return "success";
-		} catch (NumberFormatException e) {
+			Initializer.getLoginController().setNewPassword(Validator.idToInteger(login.getId()), login.getPassword());
+			return "success: Password opdateret";
+			} catch (InputException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Fejl!";
-		} catch (InputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "Fejl: Password er ikke gyldigt.";
+			return "input-error: Det indstastede er ugyldigt.";
 		} catch (DALException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Der skete en fejl!";
+			return "system-error: Der skete en fejl i systemet.";
+		}
+	}
+	
+	@Path("reset_password")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String resetPassword(String userId) {
+		try {
+			return "success: Brugerens password blev nulstillet. Engangsnøglen er " + Initializer.getLoginController().resetPassword(Validator.idToInteger(userId));
+		} catch (InputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "input-error: Det indtastede er ugyldigt.";
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "system-error: Der skete en fejl i systemet.";
+		}
+	}
+	
+	@Path("change_password")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public String changePassword(LoginPOJO login) {
+		try {
+			if(Initializer.getLoginController().checkPassword(login)) {
+				return "success: Rigtigt password.";
+			}
+			else {
+				return "password-error: Forkert password.";
+			}
+		} catch (InputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "input-error: Forkert input.";
+		} catch (DALException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "system-error: Der skete en system fejl";
 		}
 	}
 }
