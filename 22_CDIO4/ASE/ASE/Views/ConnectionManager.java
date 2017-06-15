@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  */
 
-public class ConnectionManager {
+public class ConnectionManager implements Runnable {
 
 	// Creation of needed Arraylists, Arrays, and classes needed for the
 	// Manager.
@@ -97,5 +97,11 @@ public class ConnectionManager {
 	 */
 	public int getNumberOfConnectedIPs() {
 		return allConnectedIPAddresses.size();
+	}
+
+	@Override
+	public void run() {
+		threadStarter();
+		
 	}
 }
