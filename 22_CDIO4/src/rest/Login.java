@@ -15,6 +15,11 @@ import staticClasses.Validator;
 @Path("login")
 public class Login {
 	
+	/**
+	 * Log in to the system
+	 * @param login information
+	 * @return login status.
+	 */
 	@Path("user")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -31,6 +36,11 @@ public class Login {
 		}
 	}
 	
+	/**
+	 * Create a new password.
+	 * @param login info - the changed login information.
+	 * @return
+	 */
 	@Path("new_password")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -45,6 +55,11 @@ public class Login {
 		}
 	}
 	
+	/**
+	 * Reset the password
+	 * @param userId - id of the user to have its password reset.
+	 * @return
+	 */
 	@Path("reset_password")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -59,6 +74,11 @@ public class Login {
 		}
 	}
 	
+	/**
+	 * Change the password of a user.
+	 * @param login - the login changes.
+	 * @return Result of the password change.
+	 */
 	@Path("change_password")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
