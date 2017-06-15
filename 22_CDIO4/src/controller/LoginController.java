@@ -81,7 +81,7 @@ public class LoginController implements ILoginController {
 	 */
 	@Override
 	public int generateAdminKey(int id) {
-		Integer key = new Integer((int) Math.floor(Math.random()*10000));
+		Integer key = new Integer((int) (Math.random()*10000)+1000);
 		adminKeyTable.putIfAbsent(id, key);
 		return key;
 	}

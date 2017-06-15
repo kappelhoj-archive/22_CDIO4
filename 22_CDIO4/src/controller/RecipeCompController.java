@@ -72,7 +72,7 @@ public class RecipeCompController implements IRecipeCompController {
 	 * @throws InputException : Params not correct
 	 */
 	@Override
-	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
+	public void createRecipeComp(RecipeCompDTO recipeComponent) throws InputException, CollisionException, DALException {
 		Validator.idToInteger(recipeComponent.getRawMaterialId());//Use overload to check if the id is in the good range
 		Validator.idToInteger(recipeComponent.getRecipeId());
 		
