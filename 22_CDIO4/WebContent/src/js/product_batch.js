@@ -41,8 +41,8 @@ $(document).ready(function() {
 				}).fail(function(data){
 					console.log("Fejl i Recipe REST")
 				});
-				$(".pb_status").removeClass("status_0").removeClass("status_1").removeClass("status_2").addClass("status_"+statusCode);
 				showProductBatchCompsPage(productBatchId);
+				$(".pb_status").addClass("status_"+statusCode)
 			});
 		}).fail(function(data){
 			console.log("Fejl i ProductBatch REST");
@@ -77,8 +77,8 @@ function showProductBatchListPage() {
 				var statusCode = data.status;
 				showProductBatchStatus(data);
 				$.get("src/html/product_batch/product_batch_list_row.html", function(template) {
-		            $("#product_batch_list .table tbody").append(Mustache.render($(template).html(),data))
-		            $(".pb_status").addClass("status_"+statusCode);
+		            $("#product_batch_list .table tbody").append(Mustache.render($(template).html(),data));
+		            $(".pb_status").removeClass("status_0").removeClass("status_1").removeClass("status_2").addClass("status_"+statusCode);
 		        });
 			});
         });
