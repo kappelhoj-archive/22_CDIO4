@@ -107,7 +107,7 @@ function onLoginShowPage(data) {
 		showNewLoginPage(userId);
 		break;
 	case "true_login":
-		showFullPage();
+		showFullPage(userId);
 		break;
 	default: // not logged in
 		$("#login").find(".form-group:last").prepend("<div class=\"alert alert-danger\" role=\"alert\">" + splitData[1] + "</div>");
