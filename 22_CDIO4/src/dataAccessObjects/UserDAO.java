@@ -102,7 +102,10 @@ public class UserDAO implements IUserDAO,IWeightControlDAO {
 		return users;
 	}
 
-
+	/**
+	 * Get a DTO by the id
+	 * @param id of DTO.
+	 */
 	@Override
 	public IWeightControlDTO getDTOById(int id)throws DALException {
 		

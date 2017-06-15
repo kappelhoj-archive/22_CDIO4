@@ -104,7 +104,10 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 		FileManagement.writeData(productBatchList, TypeOfData.PRODUCTBATCH);
 	}
 
-
+	/**
+	 * Get a DTO by the id
+	 * @param id of DTO.
+	 */
 	@Override
 	public IWeightControlDTO getDTOById(int id) throws DALException{
 		
