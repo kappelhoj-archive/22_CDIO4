@@ -49,7 +49,11 @@ public class ProductBatchCompController implements IProductBatchCompController {
 	 */
 	@Override
 	public List<ProductBatchCompDTO> getProductBatchCompList(int pbId) throws DALException {
-		return dao.getProductBatchCompList(pbId);
+		ArrayList<ProductBatchCompDTO> sortedArray = (ArrayList<ProductBatchCompDTO>) dao.getProductBatchCompList(pbId);
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/**
