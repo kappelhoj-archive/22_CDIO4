@@ -289,6 +289,11 @@ public class WeightCommunicator implements IWeightCommunicator {
 		}
 	}
 
+	/**
+	 * Wait for the wait to send a response back.
+	 * @return The message send by the weight.
+	 * @throws ProtocolErrorException
+	 */
 	public String waitForAnswer() throws ProtocolErrorException {
 		try {
 			while (!inFromWeight.ready()) {
