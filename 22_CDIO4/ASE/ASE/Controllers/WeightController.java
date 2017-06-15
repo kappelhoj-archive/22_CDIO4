@@ -228,7 +228,7 @@ public class WeightController implements Runnable {
 			try {
 				// Find all the recipe components.
 				ArrayList<RecipeCompDTO> myRecipe = (ArrayList<RecipeCompDTO>) recipeCompDAO
-						.getRecipeCompList(pbDTO.getReceptId());
+						.getRecipeCompList(pbDTO.getRecipeId());
 
 				for (RecipeCompDTO comp : myRecipe) {
 					remainingReceptComp.put(comp.getRawMaterialId(), comp);
@@ -244,7 +244,7 @@ public class WeightController implements Runnable {
 			pbDTO.setStatus(1);
 			try {
 				pbCast.updateProductBatch(pbDTO);
-				sendMessageAndConfirm("Recept:" + recipeDAO.getRecipe(pbDTO.getReceptId()).getRecipeName());
+				sendMessageAndConfirm("Recept:" + recipeDAO.getRecipe(pbDTO.getRecipeId()).getRecipeName());
 			} catch (DALException e1) {
 				sendMessageAndConfirm("Status ikke opdateret.");
 			}
@@ -298,7 +298,7 @@ public class WeightController implements Runnable {
 
 		RecipeCompDTO myRecipeComp = null;
 		try {
-			myRecipeComp = recipeCompDAO.getRecipeComp(pbDTO.getReceptId(), rbDTO.getRawMaterialId());
+			myRecipeComp = recipeCompDAO.getRecipeComp(pbDTO.getRecipeId(), rbDTO.getRawMaterialId());
 
 		} catch (DALException e) {
 			sendMessageAndConfirm("Kunne ikke finde recept.");
