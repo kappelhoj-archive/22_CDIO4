@@ -12,6 +12,7 @@ import dataTransferObjects.RecipeCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 public class RecipeCompController implements IRecipeCompController {
 
@@ -72,6 +73,9 @@ public class RecipeCompController implements IRecipeCompController {
 	 */
 	@Override
 	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
+		Validator.idToInteger(recipeComponent.getRawMaterialId());//Use overload to check if the id is in the good range
+		Validator.idToInteger(recipeComponent.getRecipeId());
+		
 		try{
 			rDAO.getRecipe(recipeComponent.getRecipeId()); //Verify if the recipeId exists
 		}catch(DALException e){

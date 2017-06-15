@@ -10,6 +10,7 @@ import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 public class RawMaterialController implements IRawMaterialController {
 	
@@ -55,6 +56,8 @@ public class RawMaterialController implements IRawMaterialController {
 	 */
 	@Override
 	public void createRawMaterial(RawMaterialDTO rawMaterial) throws CollisionException, InputException, DALException {
+		Validator.idToInteger(rawMaterial.getId());//Use overload to check if the id is in the good range
+		
 		dao.createRawMaterial(rawMaterial);
 	}
 

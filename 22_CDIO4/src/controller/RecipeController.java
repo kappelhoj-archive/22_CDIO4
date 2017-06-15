@@ -9,6 +9,7 @@ import dataAccessObjects.interfaces.IRecipeDAO;
 import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.Validator;
 
 public class RecipeController implements IRecipeController {
 	
@@ -54,6 +55,8 @@ public class RecipeController implements IRecipeController {
 	 */
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws CollisionException, DALException {
+		Validator.idToInteger(recipe.getRecipeId());
+		
 		dao.createRecipe(recipe);
 
 	}

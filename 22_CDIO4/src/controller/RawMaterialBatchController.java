@@ -11,6 +11,7 @@ import dataTransferObjects.RawMaterialBatchDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 public class RawMaterialBatchController implements IRawMaterialBatchController {
 
@@ -72,6 +73,8 @@ public class RawMaterialBatchController implements IRawMaterialBatchController {
 	public void createRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch)
 			throws CollisionException, InputException, DALException {
 
+		Validator.idToInteger(rawMaterialBatch.getRbId());//Use overload to check if the id is in the good range
+		
 		try{
 			rmDAO.getRawMaterial(rawMaterialBatch.getRawMaterialId());
 		}catch(DALException e){

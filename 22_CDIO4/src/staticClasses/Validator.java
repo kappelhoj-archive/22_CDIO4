@@ -276,4 +276,18 @@ public class Validator {
 		}
 
 	}
+	
+	public static int idToInteger(int id) throws InputException{
+		try{
+
+			if(id > 0 && id <= 99999999)
+				return id;
+			else
+				throw new InputException("ID:"+ id + " shall be between 1 and 99999999");
+
+		}catch(Exception e){
+			throw new InputException("FATAL ERROR. ");
+		}
+
+	}
 }

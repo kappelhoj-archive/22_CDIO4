@@ -12,6 +12,7 @@ import dataTransferObjects.ProductBatchCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 public class ProductBatchCompController implements IProductBatchCompController {
 
@@ -76,6 +77,9 @@ public class ProductBatchCompController implements IProductBatchCompController {
 	public void createProductBatchComp(ProductBatchCompDTO productBatchComponent)
 			throws CollisionException, DALException {
 
+		Validator.idToInteger(productBatchComponent.getPbId());//Use overload to check if the id is in the good range
+		Validator.idToInteger(productBatchComponent.getRbId());
+		
 		//Verify if the creation params are correct : The ProductBatch and the RawMaterialBatch shall both exist in the Data
 		try{
 			pbdao.getProductBatch(productBatchComponent.getPbId());
