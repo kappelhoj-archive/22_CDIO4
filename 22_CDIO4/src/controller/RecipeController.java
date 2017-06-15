@@ -56,6 +56,7 @@ public class RecipeController implements IRecipeController {
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws CollisionException, DALException {
 		Validator.idToInteger(recipe.getRecipeId());
+		Validator.validateStringName(recipe.getRecipeName());
 		
 		dao.createRecipe(recipe);
 

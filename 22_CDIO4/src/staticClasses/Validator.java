@@ -260,6 +260,12 @@ public class Validator {
 		return true;
 	}
 
+	/**
+	 * Convert the string to an id and check if it is valid
+	 * @param id
+	 * @return int id
+	 * @throws InputException
+	 */
 	public static int idToInteger(String id) throws InputException{
 		try{
 			int integerID = Integer.parseInt(id);
@@ -277,6 +283,12 @@ public class Validator {
 
 	}
 	
+	/**
+	 * int overload
+	 * @param id
+	 * @return int id
+	 * @throws InputException
+	 */
 	public static int idToInteger(int id) throws InputException{
 		try{
 
@@ -289,5 +301,18 @@ public class Validator {
 			throw new InputException("FATAL ERROR. ");
 		}
 
+	}
+	
+	/**
+	 * Check the name format
+	 * @param name
+	 * @throws InputException
+	 */
+	public static void validateStringName(String name) throws InputException{
+		if(name.length()>1 && name.length()<21)
+			return;
+		
+		else
+			throw new InputException("The name is too short/long");
 	}
 }

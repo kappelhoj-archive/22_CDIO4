@@ -57,6 +57,8 @@ public class RawMaterialController implements IRawMaterialController {
 	@Override
 	public void createRawMaterial(RawMaterialDTO rawMaterial) throws CollisionException, InputException, DALException {
 		Validator.idToInteger(rawMaterial.getId());//Use overload to check if the id is in the good range
+		Validator.validateStringName(rawMaterial.getName());
+		Validator.validateStringName(rawMaterial.getSupplier());
 		
 		dao.createRawMaterial(rawMaterial);
 	}
