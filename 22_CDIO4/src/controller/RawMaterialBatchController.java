@@ -75,6 +75,9 @@ public class RawMaterialBatchController implements IRawMaterialBatchController {
 
 		Validator.idToInteger(rawMaterialBatch.getRbId());//Use overload to check if the id is in the good range
 		
+		if(rawMaterialBatch.getAmount()<0)
+			throw new InputException("Amount must not be <0");
+		
 		try{
 			rmDAO.getRawMaterial(rawMaterialBatch.getRawMaterialId());
 		}catch(DALException e){
@@ -92,7 +95,10 @@ public class RawMaterialBatchController implements IRawMaterialBatchController {
 	 * 	 * @throws InputException if the RawMaterial ID does not exist
 	 */
 	@Override
-	public void updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws DALException {
+	public void updateRawMaterialBatch(RawMaterialBatchDTO rawMaterialBatch) throws InputException, DALException {
+		if(rawMaterialBatch.getAmount()<0)
+			throw new InputException("Amount must not be <0");
+		
 		try{
 			rmDAO.getRawMaterial(rawMaterialBatch.getRawMaterialId());
 		}catch(DALException e){

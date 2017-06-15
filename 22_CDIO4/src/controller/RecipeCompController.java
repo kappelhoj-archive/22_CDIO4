@@ -83,6 +83,10 @@ public class RecipeCompController implements IRecipeCompController {
 		if(recipeComponent.getTolerance()<0.1 || recipeComponent.getTolerance()>10)
 			throw new InputException("Tolerance must be between 0.1 and 10");
 		
+		if(recipeComponent.getNomNetto()<0.05 || recipeComponent.getNomNetto()>20)
+			throw new InputException("Netto must be between 0.05 and 20");
+
+		
 		try{
 			rDAO.getRecipe(recipeComponent.getRecipeId()); //Verify if the recipeId exists
 		}catch(DALException e){
@@ -105,6 +109,12 @@ public class RecipeCompController implements IRecipeCompController {
 	 */
 	@Override
 	public void updateRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
+		if(recipeComponent.getTolerance()<0.1 || recipeComponent.getTolerance()>10)
+			throw new InputException("Tolerance must be between 0.1 and 10");
+		
+		if(recipeComponent.getNomNetto()<0.05 || recipeComponent.getNomNetto()>20)
+			throw new InputException("Netto must be between 0.05 and 20");
+		
 		dao.updateRecipeComp(recipeComponent);
 
 	}
