@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IRecipeCompController;
@@ -10,6 +12,7 @@ import dataTransferObjects.RecipeCompDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 public class RecipeCompController implements IRecipeCompController {
 
@@ -45,6 +48,10 @@ public class RecipeCompController implements IRecipeCompController {
 	 */
 	@Override
 	public List<RecipeCompDTO> getRecipeCompList(int recipeId) throws DALException {
+		ArrayList<RecipeCompDTO> sortedArray = (ArrayList<RecipeCompDTO>) dao.getRecipeCompList(recipeId);
+
+		Collections.sort(sortedArray);
+		
 		return dao.getRecipeCompList(recipeId);
 	}
 
@@ -54,7 +61,11 @@ public class RecipeCompController implements IRecipeCompController {
 	 */
 	@Override
 	public List<RecipeCompDTO> getRecipeCompList() throws DALException {
-		return dao.getRecipeCompList();
+		ArrayList<RecipeCompDTO> sortedArray = (ArrayList<RecipeCompDTO>) dao.getRecipeCompList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/**
@@ -65,7 +76,10 @@ public class RecipeCompController implements IRecipeCompController {
 	 * @throws InputException : Params not correct
 	 */
 	@Override
-	public void createRecipeComp(RecipeCompDTO recipeComponent) throws DALException {
+	public void createRecipeComp(RecipeCompDTO recipeComponent) throws InputException, CollisionException, DALException {
+		Validator.idToInteger(recipeComponent.getRawMaterialId());//Use overload to check if the id is in the good range
+		Validator.idToInteger(recipeComponent.getRecipeId());
+		
 		try{
 			rDAO.getRecipe(recipeComponent.getRecipeId()); //Verify if the recipeId exists
 		}catch(DALException e){

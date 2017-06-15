@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IRawMaterialController;
@@ -8,6 +10,7 @@ import dataTransferObjects.RawMaterialDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 public class RawMaterialController implements IRawMaterialController {
 	
@@ -38,7 +41,11 @@ public class RawMaterialController implements IRawMaterialController {
 	 */
 	@Override
 	public List<RawMaterialDTO> getRawMaterialList() throws DALException {
-		return dao.getRawMaterialList();
+		ArrayList<RawMaterialDTO> sortedArray = (ArrayList<RawMaterialDTO>) dao.getRawMaterialList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/**
@@ -49,6 +56,10 @@ public class RawMaterialController implements IRawMaterialController {
 	 */
 	@Override
 	public void createRawMaterial(RawMaterialDTO rawMaterial) throws CollisionException, InputException, DALException {
+		Validator.idToInteger(rawMaterial.getId());//Use overload to check if the id is in the good range
+		Validator.validateStringName(rawMaterial.getName());
+		Validator.validateStringName(rawMaterial.getSupplier());
+		
 		dao.createRawMaterial(rawMaterial);
 	}
 

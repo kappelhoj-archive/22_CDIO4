@@ -22,12 +22,18 @@
     
     <div class="form-group">
     	<label>Rolle</label>
-    	<input type="text" class="form-control" name="role">
+    	<select name="role" class="form-control custom-select">
+			 <option selected value="">Vælg rolle</option>
+			 <option value="Admin">Admin</option>
+			 <option value="Farmaceut">Farmaceut</option>
+			 <option value="Værkfører">Værkfører</option>
+			 <option value="Laborant">Laborant</option>
+		</select>
     </div>
     <input type="hidden" class="form-control" name="password" value="111AAAbbb">
     
     <div class="form-group">
-		<button type="submit" class="btn btn-primary">Opret bruger</button>
-        <button type="button" class="btn btn-secondary">Gå tilbage</button>
+		<button type="submit" class="btn btn-primary">Opret</button>
+        <button type="button" class="btn btn-secondary user_list_link">Tilbage</button>
 	</div>
 </form>

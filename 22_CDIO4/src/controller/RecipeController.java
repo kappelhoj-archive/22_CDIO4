@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import controller.interfaces.IRecipeController;
@@ -7,6 +9,7 @@ import dataAccessObjects.interfaces.IRecipeDAO;
 import dataTransferObjects.RecipeDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
+import staticClasses.Validator;
 
 public class RecipeController implements IRecipeController {
 	
@@ -37,7 +40,11 @@ public class RecipeController implements IRecipeController {
 	 */
 	@Override
 	public List<RecipeDTO> getRecipeList() throws DALException {
-		return dao.getRecipeList();
+		ArrayList<RecipeDTO> sortedArray = (ArrayList<RecipeDTO>) dao.getRecipeList();
+
+		Collections.sort(sortedArray);
+
+		return sortedArray;
 	}
 
 	/**
@@ -48,6 +55,9 @@ public class RecipeController implements IRecipeController {
 	 */
 	@Override
 	public void createRecipe(RecipeDTO recipe) throws CollisionException, DALException {
+		Validator.idToInteger(recipe.getRecipeId());
+		Validator.validateStringName(recipe.getRecipeName());
+		
 		dao.createRecipe(recipe);
 
 	}

@@ -1,32 +1,31 @@
-<h2>Tilføj receptkomponent</h2>
+<div id="recipe_component_create">
+<h2>Tilføj recept komponent</h2>
 <form id="recipe_component_create_form">
 	<div class="form-group">
-    	<label for="recipe_id">Recept id</label>
-    	<input type="text" class="form-control" id="recipe_id" placeholder="Recept id" name="id" readonly>
+    	<label>Recept id</label>
+    	<input type="text" class="form-control" name="recipeId" readonly>
     </div>
     
     <div class="form-group">
-    	<label for="name">Navn</label>
-    	<input type="text" class="form-control" id="name" placeholder="Navn" name="name" readonly>
-    </div>
-    
-    <div class="form-group">
-    	<label for="raw_material_id">Råvare id</label>
-    	<input type="text" class="form-control" id="raw_material_id" placeholder="Råvare id" name="raw_material_id">
+    	<label>Råvare id</label>
+    	<select name="rawMaterialId" class="form-control custom-select">
+			 <option selected value="">Vælg råvare</option>
+		</select>
     </div>
     
     <div class="form-group">
     	<label for="netto">Nominel netto mængde</label>
-    	<input type="text" class="form-control" id="netto" placeholder="Nominel netto mængde" name="netto">
+    	<input type="text" class="form-control" name="nomNetto">
     </div>
     
     <div class="form-group">
-    	<label for="tolerance">Tolerance</label>
-    	<input type="text" class="form-control" id="tolerance" placeholder="Tolerance" name="tolerance">
+    	<label>Tolerance</label>
+    	<input type="text" class="form-control" name="tolerance">
     </div>
     
     <div class="form-group">
-		<button type="submit" class="btn btn-primary">Tilføj receptkomponent</button>
-        <button type="button" class="btn btn-secondary">Gå tilbage</button>
+		<button type="submit" class="btn btn-primary">Tilføj recept komponent</button>
+        <button type="button" class="btn btn-secondary recipe_edit_back_link">Tilbage</button>
 	</div>
 </form>
+</div>

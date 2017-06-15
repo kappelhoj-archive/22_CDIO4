@@ -1,118 +1,150 @@
 $(document).ready(function() {
 	
-	/** 
+	/* 
 	 * Links
-	 * **/
+	 * */
 	
-	// Vis min bruger link
+	// Link to edit user (logged in) page
 	$(document).on("click", ".user_edit_link", function(event) {
 		event.preventDefault();
 		var userId = $(".top_nav_userid").text();
 		getUser(userId).done(function(data) {
 			$.get("src/html/user/user_edit.html", function(template) {
-	            $("#content").html(Mustache.render($(template).html(),data))		            
+	            $("#content").html(Mustache.render($(template).html(),data));
+	            showInitials();
+	            validateUser("#user_edit_form");
 	        });
 		})
 		.fail(function(x) {
-			console.log("Fejl!");
+			console.log("Fejl i User REST");
 		});
 	});
 	
-	// Vis alle brugere link
+	// Link to list of users page
 	$(document).on("click", ".user_list_link", function(event) {
 		event.preventDefault();
 		showUserListPage();
 	});
 	
-	// Vis alle brugere link
+	// Link to create user page
 	$(document).on("click", ".user_create_link", function(event) {
 		event.preventDefault();
-		
 		$.get("src/html/user/user_create.html", function(template) {
-            $("#content").html(template);		            
+            $("#content").html(template);
+            showInitials();
+            validateUser("#user_create_form");
         });
 	});
 	
-	// Rediger bruger link
+	// Link to edit user page
 	$(document).on("click", ".user_edit_table_link", function(event) {
 		event.preventDefault();
 		var userId = $(this).parents("tr").children("td:first").text();
-		getUser(userId).done(function(data) {
-			$.get("src/html/user/user_edit.html", function(template) {
-	            $("#content").html(Mustache.render($(template).html(),data))		            
-	        });
+		showUserEditAdminPage(userId);
+		
+	});
+	
+	$(document).on("click", ".user_edit_admin_reset_pw_link", function(event) {
+		event.preventDefault();
+		var userId = $("input[name=\"id\"]").val();
+		resetPassword(userId).done(function(data) {
+			showRestMessage(data, function() { return showUserListPage() })
+			
 		})
 		.fail(function(x) {
-			console.log("Fejl!");
+			console.log("Fejl i User REST");
 		});
 	});
 	
-	/** 
-	 * Form submits
-	 * **/
+	/*
+	 * Submit forms
+	 * */
+	
+	// Submit create user form
 	$(document).on("submit", "#user_create_form", function(event) {
 		event.preventDefault();
-		
-		$.ajax({
-			url : 'rest/user/create',
-			type : 'POST',
-			contentType : "application/json",
-			data : $(this).serializeJSON(),
-			success : function(data) {
-				var splitData = data.split(": ");
-				switch(splitData[0]) {
-			    case "success":
-			        alert(splitData[1]);
-			        showUserListPage();
-			        break;
-			    case "input-error":
-			    	alert(splitData[1]);
-			        break;
-			    case "id-error":
-			    	alert(splitData[1]);
-			    default:
-			    	alert(splitData[1]);
-				}
-			},
-			error: function(data){
-				console.log("Fejl!")
-				console.log(data);
-			}
-		});
-		
+		createUser($(this).serializeJSON()).done(function(data) {
+			showRestMessage(data, function() { return showUserListPage() });
+		}).fail(function(data) {
+			console.log("Fejl i User REST");
+		});		
 	});
 	
+	// Submit edit user form
 	$(document).on("submit", "#user_edit_form", function(event) {
 		event.preventDefault();
-		
-		$.ajax({
-			url : 'rest/user/update',
-			type : 'PUT',
-			contentType : "application/json",
-			data : $(this).serializeJSON(),
-			success : function(data) {
-				console.log(data);
-				switch(data) {
-			    case "success":
-			        alert("Brugeren blev redigeret");
-			        showUserListPage();
-			        break;
-			    case "input-error":
-			        alert("Input fejl");
-			        break;
-			    default:
-			    	alert("System fejl");
-				}
-			},
-			error: function(data){
-				console.log("Fejl!")
-				console.log(data);
-			}
-		});
-		
+		updateUser($(this).serializeJSON()).done(function(data) {
+			showRestMessage(data, function() { return showStartPage() });
+		}).fail(function(data) {
+			console.log("Fejl i User REST");
+		});	
 	});
 	
+	// Submit edit user (admin) form
+	$(document).on("submit", "#user_edit_admin_form", function(event) {
+		event.preventDefault();
+		updateUser($(this).serializeJSON()).done(function(data) {
+			showRestMessage(data, function() { return showUserListPage() });
+		}).fail(function(data) {
+			console.log("Fejl i User REST");
+		});	
+	});
+	
+	// Submit edit user (admin) form
+	$(document).on("submit", "#user_edit_password_form", function(event) {
+		event.preventDefault();
+		var userId = $("#user_edit_password_form input[name=\"id\"]").val();
+		var $password = $("#user_edit_password_form input[name=\"password\"]");
+		
+		// Remove error message
+		$("#password-error").remove();
+		
+		changePassword($(this).serializeJSON()).done(function(data) {
+			var splitData = data.split(": ");
+			switch(splitData[0]) {
+			case "success":
+				showNewLoginPage(userId);
+			default:
+				$password.parent().append("<div id=\"password-error\" class=\"error form-control-feedback\">Forkert password.</div>");
+				$password.addClass("form-control-danger");
+				$password.parent().addClass("has-danger");
+				console.log(splitData[1]);
+			}
+		}).fail(function(data) {
+			console.log("Fejl i User REST");
+		});	
+	});
+	
+	
 });
+
+/*
+ * Functions
+ * */
+
+function showInitials() {
+	$("input[name=\"ini\"]").focus(function() {
+    	var iniValue = $(this).val();
+    	var iniAuto = generateInitials($("input[name=\"name\"]").val());
+    	if (iniValue ==  "") {
+    		$(this).val(iniAuto);
+    	}
+    });
+}
+
+function showUserEditAdminPage(userId) {
+	getUser(userId).done(function(data) {
+		$.get("src/html/user/user_edit_admin.html", function(template) {
+            $("#content").html(Mustache.render($(template).html(),data));
+            $(".custom-select").find("option[value=\"" + data.role + "\"]").attr("selected", true);
+            showInitials();
+            validateUser("#user_edit_admin_form");
+        });
+	})
+	.fail(function(x) {
+		console.log("Fejl i User REST");
+	});
+}
 
 function showUserListPage() {
 	getUserList().done(function(data) {
@@ -126,7 +158,61 @@ function showUserListPage() {
         });
 	})
 	.fail(function(x) {
-		console.log("Fejl!");
+		console.log("Fejl i User REST");
+	});
+}
+
+//generate initials from a name.
+function generateInitials(name){
+	var initials="";
+	splitName=name.split(" ");
+	if(splitName.length<3){
+		//Add the two first letters of every name.
+		for(var i=0;i<splitName.length;i++){
+			
+			initials+=splitName[i].substring(0,2);
+		}
+	}
+	else{
+		//Add first letter of the first name. 
+		initials+=splitName[0].substring(0,1);
+		
+		//Make sure the initials length match:
+		var modifier;
+		if(splitName.length==3){
+			modifier=2;
+		}
+		else{
+			modifier=3;
+		}
+		
+		//Add the first letter of the last three names, or two if there are 3 names.
+		for(var i=splitName.length-modifier;i<splitName.length;i++){
+			initials+=splitName[i].substring(0,1);
+		}
+	}
+	return initials
+}
+
+/*
+ * REST functions
+ * */
+
+function createUser(form) {
+	return $.ajax({
+		url : 'rest/user/create',
+		type : 'POST',
+		contentType : "application/json",
+		data : form
+	});
+}
+
+function updateUser(form) {
+	return $.ajax({
+		url : 'rest/user/update',
+		type : 'PUT',
+		contentType : "application/json",
+		data : form
 	});
 }
 

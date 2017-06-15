@@ -11,82 +11,98 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import controller.Initializer;
-import controller.interfaces.IUserController;
-import controller.teststub.UserStubController;
 import dataTransferObjects.UserDTO;
 import exceptions.CollisionException;
 import exceptions.DALException;
 import exceptions.InputException;
+import staticClasses.Validator;
 
 @Path("user")
 public class UserCRUD {
-	
+
+	/**
+	 * Returns the user with the given user id as a JSON-object.
+	 * @param userId The given id of the user.
+	 * @return The UserDTO as a JSON-object.
+	 */
 	@Path("read")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserDTO readUser(String userId)
-	{
-		int id = Integer.parseInt(userId);
+	public UserDTO readUser(String userId) {
 		try {
-			return Initializer.getUserController().getUser(id);
+			return Initializer.getUserController().getUser(Validator.idToInteger(userId));
 		} catch (InputException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return null;
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Returns a list of all users as a JSON-object.
+	 * @return The List<UserDTO> as a JSON-object.
+	 */
 	@Path("read_list")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<UserDTO> readUsers()
-	{
+	public List<UserDTO> readUsers() {
 		try {
 			return Initializer.getUserController().getUserList();
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return null;
 		}
 	}
-	
+
+	/**
+	 * Receives a JSON-object as a UserDTO and adds the UserDTO to the data layer.
+	 * @param user The user to be added to the data layer.
+	 * @return A message which tells whether the creation succeeded or not. 
+	 * If the response is positive the message includes the id of the user and a first time login key.
+	 */
 	@Path("create")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String createUser(UserDTO user)
-	{
+	public String createUser(UserDTO user) {
 		try {
+			int key = Initializer.getLoginController().generateAdminKey(user.getId());
 			Initializer.getUserController().createUser(user);
-			return "success: Successbesked";
+			return "success: Brugeren blev oprettet med id " + user.getId() + " og engangsnøglen " + key + ".";
 		} catch (InputException e) {
 			e.printStackTrace();
-			return "input-error: Fejlbesked";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (CollisionException e) {
 			e.printStackTrace();
-			return "id-error: Fejlbesked";
+			return "collision-error: Der eksisterer allerede en bruger med det indtastede id.";
 		} catch (DALException e) {
 			e.printStackTrace();
-			return "system-error: Fejlbesked";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
-	
+
+	/**
+	 * Receives a JSON-object as a UserDTO and updates the UserDTO in the data layer. 
+	 * @param user The user to be updated in the data layer.
+	 * @return A message which tells whether the update succeeded or not.
+	 */
 	@Path("update")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String updateUser(UserDTO user) {
 		try {
 			Initializer.getUserController().updateUser(user);
-			return "success: Successbesked";
+			return "success: Brugeren blev opdateret.";
 		} catch (InputException e) {
 			e.printStackTrace();
-			return "input-error: Fejlbesked";
+			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
 			e.printStackTrace();
-			return "system-error: Fejlbesked";
+			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
 }
