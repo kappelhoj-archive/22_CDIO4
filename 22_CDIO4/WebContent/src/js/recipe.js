@@ -131,14 +131,29 @@ function showRecipeListPage() {
 }
 
 function showRecipeCompsPage(recipeId) {
-	getRecipeContent(recipeId).done(function(data) {
+	getRecipeCompList(recipeId).done(function(data) {
 		$.get("src/html/recipe/recipe_comp_list.html", function(template) {
 			$("#recipe_edit_form").append(template);
-			$.each(data, function(i, data) {
-				$.get("src/html/recipe/recipe_comp_list_row.html", function(template) {
-					$("#recipe_comp_list .table tbody").append(Mustache.render($(template).html(), data))
+			if(data.length > 0)
+			{
+				$("#recipe_comp_list .recipe_comp_list_table").html(
+						"<table class=\"table table-hover\">"
+							+"<thead>"
+								+"<tr>"
+									+"<th>Råvare id</th>"
+									+"<th>Nominel netto (kg)</th>"
+									+"<th>Tolerance (%)</th>"
+									+"<th></th>"
+								+"</tr>"
+							+"</thead>"
+							+"<tbody></tbody>"
+						+"</table>");
+				$.each(data, function(i, data) {
+					$.get("src/html/recipe/recipe_comp_list_row.html", function(template) {
+						$("#recipe_comp_list .table tbody").append(Mustache.render($(template).html(), data))
+					});
 				});
-			});
+			}
 		});
 	});
 }
@@ -161,7 +176,7 @@ function showRecipeEditPage(recipeId) {
  * REST functions
  * */
 
-function getRecipeContent(recipeId){
+function getRecipeCompList(recipeId){
 	return $.ajax({
 		url: "rest/recipe_component/read_list_specific",
 		type: "POST",
