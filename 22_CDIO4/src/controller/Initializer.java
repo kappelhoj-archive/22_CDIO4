@@ -99,7 +99,8 @@ public class Initializer implements ServletContextListener {
 
 			MeasurementController measureCon =new MeasurementController(Initializer.getProductBatchCompDAO(), Initializer.getProductBatchDAO());
 			ConnectionManager conMan=new ConnectionManager(null,measureCon);
-			conMan.threadStarter();
+
+			new Thread(conMan).start();
 			new Thread(measureCon).start();
 			
 			System.out.println("Done.");
