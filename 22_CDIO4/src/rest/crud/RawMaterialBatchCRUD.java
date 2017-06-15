@@ -32,12 +32,9 @@ public class RawMaterialBatchCRUD {
 		try {
 			return Initializer.getRawMaterialBatchController().getRawMaterialBatch(Validator.idToInteger(id));
 		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return null;
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -53,8 +50,7 @@ public class RawMaterialBatchCRUD {
 		try {
 			return Initializer.getRawMaterialBatchController().getRawMaterialBatchList();
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -72,12 +68,9 @@ public class RawMaterialBatchCRUD {
 		try {
 			return Initializer.getRawMaterialBatchController().getRawMaterialBatchList(Validator.idToInteger(rawMaterialId));
 		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return null;
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println();
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -95,16 +88,11 @@ public class RawMaterialBatchCRUD {
 			Initializer.getRawMaterialBatchController().createRawMaterialBatch(rawMaterialBatch);
 			return "success: Råvare batchen blev oprettet.";
 		} catch (CollisionException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return "collision-error: Denne råvare batch eksisterer allerede i systemet.";
 		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
@@ -122,12 +110,9 @@ public class RawMaterialBatchCRUD {
 			Initializer.getRawMaterialBatchController().updateRawMaterialBatch(rawMaterialBatch);
 			return "success: Råvare batchen blev opdateret.";
 		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
