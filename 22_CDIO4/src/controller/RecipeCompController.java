@@ -80,6 +80,9 @@ public class RecipeCompController implements IRecipeCompController {
 		Validator.idToInteger(recipeComponent.getRawMaterialId());//Use overload to check if the id is in the good range
 		Validator.idToInteger(recipeComponent.getRecipeId());
 		
+		if(recipeComponent.getTolerance()<0.1 || recipeComponent.getTolerance()>10)
+			throw new InputException("Tolerance must be between 0.1 and 10");
+		
 		try{
 			rDAO.getRecipe(recipeComponent.getRecipeId()); //Verify if the recipeId exists
 		}catch(DALException e){
