@@ -2,7 +2,6 @@ package ASE.tests.weightController;
 
 import ASE.DTOs.MeasurementDTO;
 import ASE.interfaces.IMeasurementController;
-import dataTransferObjects.ProductBatchCompDTO;
 
 public class MeasurementControllerStub implements IMeasurementController {
 	MeasurementDTO measurement;

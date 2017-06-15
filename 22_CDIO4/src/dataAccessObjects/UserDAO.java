@@ -33,7 +33,6 @@ public class UserDAO implements IUserDAO,IWeightControlDAO {
 			System.out.println("Done.");
 
 		}catch(Exception e){ //if we can not read the file then it is missing
-			System.out.println(e);
 			System.out.println("Trying to create the saving file...");
 			FileManagement.writeData(userList, TypeOfData.USER);
 			System.out.println("Done.");

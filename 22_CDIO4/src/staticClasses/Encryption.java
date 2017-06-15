@@ -18,14 +18,12 @@ public class Encryption {
 		try {
 			digest = MessageDigest.getInstance("SHA-512");
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         byte[] hash = null;
 		try {
 			hash = digest.digest(base.getBytes("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         StringBuffer hexString = new StringBuffer();
@@ -38,6 +36,7 @@ public class Encryption {
 	        }
 
 	        return hexString.toString();
+	        
 	    } catch(Exception ex){
 	    	return hexString.toString();
 	    }

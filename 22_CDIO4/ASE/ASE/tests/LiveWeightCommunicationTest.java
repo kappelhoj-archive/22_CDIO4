@@ -5,8 +5,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import ASE.Controllers.WeightCommunicator;
-import ASE.exceptions.InvalidReturnMessageException;
-import ASE.exceptions.LogOutException;
 import ASE.exceptions.ProtocolErrorException;
 
 public class LiveWeightCommunicationTest {
@@ -20,7 +18,7 @@ public class LiveWeightCommunicationTest {
 		
 		weightCommunicator.restartWeightDisplay();
 		
-		System.out.println("Tryk på knappe Simon!");
+		System.out.println("Tryk pï¿½ knappe Simon!");
 
 		try {
 			Thread.sleep(2000);

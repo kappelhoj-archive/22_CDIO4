@@ -19,7 +19,6 @@ public class Login {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public String loginUser(LoginPOJO login) {
-		System.out.println(login);
 		switch(Initializer.getLoginController().checkLogin(login)) {
 		case TRUE:
 			return "true_login";
@@ -40,12 +39,8 @@ public class Login {
 			Initializer.getLoginController().setNewPassword(Validator.idToInteger(login.getId()), login.getPassword());
 			return "success: Password opdateret";
 			} catch (InputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return "input-error: Det indstastede er ugyldigt.";
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
@@ -57,12 +52,9 @@ public class Login {
 		try {
 			return "success: Brugerens password blev nulstillet. Engangsnøglen er " + Initializer.getLoginController().resetPassword(Validator.idToInteger(userId));
 		} catch (InputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
@@ -79,12 +71,10 @@ public class Login {
 				return "password-error: Forkert password.";
 			}
 		} catch (InputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return "input-error: Forkert input.";
+		
 		} catch (DALException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e);
 			return "system-error: Der skete en system fejl";
 		}
 	}

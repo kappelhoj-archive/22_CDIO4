@@ -71,7 +71,7 @@ public class ProductBatchController implements IProductBatchController {
 			throw new InputException(e.getMessage());
 		}
 
-		if(productBatch.getStatus() <= 0 && productBatch.getStatus() <= 2) //checks if the status is between 0 and 2
+		if(productBatch.getStatus() >= 0 && productBatch.getStatus() <= 2) //checks if the status is between 0 and 2
 			dao.createProductBatch(productBatch);
 		else
 			throw new InputException("Status must be between 0 and 2");

@@ -32,8 +32,7 @@ public class ProductBatchCRUD {
 		try {
 			return Initializer.getProductBatchController().getProductBatch(Validator.idToInteger(id));
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -49,8 +48,7 @@ public class ProductBatchCRUD {
 		try {
 			return Initializer.getProductBatchController().getProductBatchList();
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -68,16 +66,11 @@ public class ProductBatchCRUD {
 			Initializer.getProductBatchController().createProductBatch(productbatch);
 			return "success: Produkt batchen blev oprettet.";
 		} catch (CollisionException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return "collision-error: Der eksisterer allerede en produkt batch med det indtastede id";
 		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return "input-error: Det indtastede er ugyldigt.";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
@@ -96,12 +89,9 @@ public class ProductBatchCRUD {
 			Initializer.getProductBatchController().updateProductBatch(productbatch);
 			return "success: Produkt batchen blev opdateret.";
 		} catch (InputException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return "input-error Det indtastede er ugyldigt.";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}

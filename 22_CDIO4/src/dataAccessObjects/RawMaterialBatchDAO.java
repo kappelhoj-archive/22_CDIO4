@@ -31,7 +31,6 @@ public class RawMaterialBatchDAO implements IRawMaterialBatchDAO, IWeightControl
 			System.out.println("Done.");
 
 		}catch(Exception e){
-			System.out.println(e);
 			System.out.println("Trying to create the saving file...");
 			FileManagement.writeData(rawmatBatchList, TypeOfData.RAWMATERIALBATCH);
 			System.out.println("Done.");

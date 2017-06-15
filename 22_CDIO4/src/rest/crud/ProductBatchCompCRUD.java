@@ -33,8 +33,7 @@ public class ProductBatchCompCRUD {
 		try {
 			return Initializer.getProductBatchCompController().getProductBatchComp(Validator.idToInteger(i.getPbId()), Validator.idToInteger(i.getRbId()));
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -51,8 +50,7 @@ public class ProductBatchCompCRUD {
 		try {
 			return Initializer.getProductBatchCompController().getProductBatchCompList(Validator.idToInteger(pbId));
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -69,8 +67,7 @@ public class ProductBatchCompCRUD {
 		try {
 			return Initializer.getProductBatchCompController().getProductBatchCompList();
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return null;
 		}
 	}
@@ -89,12 +86,9 @@ public class ProductBatchCompCRUD {
 			Initializer.getProductBatchCompController().createProductBatchComp(pbc);
 			return "success: Produkt batch komponenten blev oprettet og tilføjet til produkt batchen.";
 		} catch (CollisionException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
 			return "collision-error: Der eksisterede allerede en produkt batch komponent med det indtastede id.";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}
@@ -113,8 +107,7 @@ public class ProductBatchCompCRUD {
 			Initializer.getProductBatchCompController().updateProductBatchComp(pbc);
 			return "success: Produkt batch komponenten blev opdateret.";
 		} catch (DALException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			System.out.println(e);
 			return "system-error: Der skete en fejl i systemet.";
 		}
 	}

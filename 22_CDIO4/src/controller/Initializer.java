@@ -18,8 +18,6 @@ public class Initializer implements ServletContextListener {
 
 	private static boolean initialized = false;
 
-	private static int numberOfErrors = 0;
-
 	static ProductBatchCompDAO productBatchCompDAO = new ProductBatchCompDAO();
 	static ProductBatchDAO productBatchDAO = new ProductBatchDAO();
 	static RawMaterialBatchDAO rawMaterialBatchDAO = new RawMaterialBatchDAO();
@@ -60,157 +58,56 @@ public class Initializer implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 
-		System.out.println("Initialicering færdig");
+		System.out.println("Listener initialized");
 
 		if (!initialized) {
 
-			try {
-				System.out.println("Lave standard brugere...");
-
-				u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "0101800032", "Peterpeter1", "Admin"));
-			} catch (DALException e) {
-				System.out.println("ERROR");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-			try{
-				u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "0101405109", "Simonsimon1", "Farmaceut"));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-			try{
-				u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "0101600203", "Arvidarvid1", "Laborant"));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-			try{
-				u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "0101600203", "Mikkelmikkel1", "Farmaceut"));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-			try{
-				u.createUser(new UserDTO(93905, "Jeppe Nielsen", "JN", "0101200159", "Jeppejeppe1", "Værkfører"));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-			try{
-				u.createUser(new UserDTO(16524, "Mads Stege", "MS", "0101002918", "Madsmads1", "Værkfører"));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-			System.out.println("Done.");
-
-			try{
-				System.out.println(u.getUserList());
-
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-			System.out.println("laver forskellige DTO'er...");
-
-			try{
-				r.createRecipe(new RecipeDTO(1, "Salt vand"));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-
-			try{
-				rm.createRawMaterial(new RawMaterialDTO(1, "Vand", "VandCo"));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-			try{
-				rm.createRawMaterial(new RawMaterialDTO(2, "Salt", "SaltCo"));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-			try{
-				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(1, 1, 8.6));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-			try{
-				rmb.createRawMaterialBatch(new RawMaterialBatchDTO(2, 2, 10.7));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
+			try {u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "0101800032", null, "Admin"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "0101405109", null, "Farmaceut"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(144265, "Arvid Langso", "AL", "0101600203", null, "Laborant"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(165238, "Mikkel Lund", "ML", "0101600203", null, "Farmaceut"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(93905, "Jeppe Nielsen", "JN", "0101200159", null, "Værkfører"));} catch (DALException e){}
+				
+			try {u.createUser(new UserDTO(165243, "Mads Stege", "MS", "0101002918", null, "Værkfører"));} catch (DALException e){}
 			
-			try{
-				pb.createProductBatch(new ProductBatchDTO(1, 0, 1));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
+			try {u.createUser(new UserDTO(6, "Bent", "BE", "1111111118", null, "Farmaceut"));} catch (DALException e){}
 			
-			try{
-				pb.createProductBatch(new ProductBatchDTO(3, 0, 1));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-			try{
-
-				pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-			try{
-				rc.createRecipeComp(new RecipeCompDTO(1, 1, 1.1, 0.6));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-
-			try{
-				rc.createRecipeComp(new RecipeCompDTO(1, 2, 3.1, 2.1));
-			} catch (DALException e) {
-				System.out.println("FEJL!");
-				System.out.println(e);
-				++numberOfErrors;
-			}
-			
 			
-			System.out.println("Server startet med: "+numberOfErrors+" FEJL!!");			System.out.println("Starting weight controllers.");
-			System.out.println("Listener destroyed.\n");
+				
+			try {r.createRecipe(new RecipeDTO(1, "Salt vand"));} catch (DALException e){}
+			
+			try {rm.createRawMaterial(new RawMaterialDTO(1, "Vand", "VandCo"));} catch (DALException e){}
+
+			try {rm.createRawMaterial(new RawMaterialDTO(2, "Salt", "SaltCo"));} catch (DALException e){}
+			
+			try {rmb.createRawMaterialBatch(new RawMaterialBatchDTO(1, 1, 8.6));} catch (DALException e){}
+			
+			try {rmb.createRawMaterialBatch(new RawMaterialBatchDTO(2, 2, 10.7));} catch (DALException e){}
+
+			try {pb.createProductBatch(new ProductBatchDTO(1, 0, 1));} catch (DALException e){}
+			
+			try {pb.createProductBatch(new ProductBatchDTO(2, 1, 1));} catch (DALException e){}
+			
+			try {pb.createProductBatch(new ProductBatchDTO(3, 2, 1));} catch (DALException e){}
+			
+			try {pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));} catch (DALException e){}
+
+			try {rc.createRecipeComp(new RecipeCompDTO(1, 1, 0.15, 10));} catch (DALException e){}
+
+			try {rc.createRecipeComp(new RecipeCompDTO(1, 2, 0.15, 10));} catch (DALException e){}
+			System.out.println("Starting weight controllers.");
+
 			MeasurementController measureCon =new MeasurementController(Initializer.getProductBatchCompDAO(), Initializer.getProductBatchDAO());
 			ConnectionManager conMan=new ConnectionManager(null,measureCon);
-			conMan.threadStarter();
-			new Thread(measureCon).start();
 
+			new Thread(conMan).start();
+			new Thread(measureCon).start();
+			
+			System.out.println("Done.");
 		}
 	}
 
@@ -219,6 +116,6 @@ public class Initializer implements ServletContextListener {
 	 */
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		
+		System.out.println("Listener destroyed.\n");
 	}
 }

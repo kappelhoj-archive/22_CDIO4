@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  */
 
-public class ConnectionManager {
+public class ConnectionManager implements Runnable {
 
 	// Creation of needed Arraylists, Arrays, and classes needed for the
 	// Manager.
@@ -59,18 +59,15 @@ public class ConnectionManager {
 		for (int i = 0; i < connectionReader.getAllIPAddresses().size(); i++) {
 			try {
 				weightSocket = new Socket(connectionReader.getIPString(i), connectionReader.getPortInt(i));
+				weightController[i] = new WeightController(measurementController, weightSocket);
+				(new Thread(weightController[i])).start();
 			} catch (IOException e) {
 				System.out.println("Error: Attempted connection failed!");
 				System.out.println(
 						"Error source: " + connectionReader.getIPString(i) + " " + connectionReader.getPortInt(i));
 			}
 
-			try {
-				weightController[i] = new WeightController(measurementController, weightSocket);
-			} catch (IOException e) {
-				System.out.println("weightController creation failed!");
-			}
-			(new Thread(weightController[i])).start();
+			
 		}
 	}
 
@@ -100,5 +97,11 @@ public class ConnectionManager {
 	 */
 	public int getNumberOfConnectedIPs() {
 		return allConnectedIPAddresses.size();
+	}
+
+	@Override
+	public void run() {
+		threadStarter();
+		
 	}
 }

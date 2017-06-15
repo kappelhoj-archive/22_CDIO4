@@ -31,7 +31,6 @@ public class ProductBatchDAO implements IProductBatchDAO, IWeightControlDAO {
 			System.out.println("Done.");
 
 		}catch(Exception e){
-			System.out.println(e);
 			System.out.println("Trying to create the saving file...");
 			FileManagement.writeData(productBatchList, TypeOfData.PRODUCTBATCH);
 			System.out.println("Done.");

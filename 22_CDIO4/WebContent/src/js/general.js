@@ -10,12 +10,18 @@ $(document).ready(function() {
 		event.preventDefault();
 		showStartPage();
 	});
+	
+	$(document).on("click", ".startpage_link", function(event) {
+		event.preventDefault();
+		var userId = $("input[name=\"id\"]").text();
+		showStartPage(userId);
+	});
 });
 
 function showStartPage() {
 	// userId must be parsed as string
 	var data = {
-		id: $("top_nav_userid").text(),
+		id: $(".top_nav_userid").text(),
 		name: $(".top_nav_name").text(),
 		role: $(".top_nav_role").text()
 		
@@ -44,11 +50,12 @@ function showRestMessage(data, showPage) {
     	showAlertMessage(alertData);
         break;
     case "collision-error": {
-    	var $rawMaterialId = $("input[name=\"rawMaterialId\"]");
-    	var $rbId = $("input[name=\"rbId\"]");
-    	var $pbId = $("input[name=\"pbId\"]");
-    	var $recipeId = $("input[name=\"recipeId\"]");
-    	var $id = $("input[name=\"id\"]");
+    	var $rawMaterialId = $("[name=\"rawMaterialId\"]");
+    	var $rbId = $("[name=\"rbId\"]");
+    	var $pbId = $("[name=\"pbId\"]");
+    	var $recipeId = $("[name=\"recipeId\"]");
+    	var $id = $("[name=\"id\"]");
+    	
     	
     	$rawMaterialId.parent().removeClass("has-success").addClass("has-danger");
     	$rawMaterialId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
@@ -59,8 +66,13 @@ function showRestMessage(data, showPage) {
     	$pbId.parent().removeClass("has-success").addClass("has-danger");
     	$pbId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
     	
-    	$recipeId.parent().removeClass("has-success").addClass("has-danger");
-    	$recipeId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
+    	if($("#recipe_comp_edit_form").length < 1 && $("#recipe_component_create_form").length < 1) {
+    		console.log("edit: " + $("#recipe_comp_edit_form").length)
+    		console.log("create: " + $("#recipe_component_create_form").length)
+    		console.log("hey");
+    		$recipeId.parent().removeClass("has-success").addClass("has-danger");
+        	$recipeId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
+    	}
     	
     	$id.parent().removeClass("has-success").addClass("has-danger");
     	$id.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");

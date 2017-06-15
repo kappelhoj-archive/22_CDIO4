@@ -33,16 +33,16 @@ $(document).ready(function() {
 		getProductBatch(productBatchId).done(function(data) {
 			var statusCode = data.status;
 			$.get("src/html/product_batch/product_batch_edit.html", function(template) {
-				showProductBatchStatus(data);
 				$("#content").html(Mustache.render($(template).html(), data));
+				$(".pb_status").text(pbStatusCodeToText(data.status));
 				// raw material id must be parsed as a string ("")
 				getRecipe("" + data.recipeId).done(function(data) {
 					$("input[name=\"recipeName\"]").val(data.recipeName);
 				}).fail(function(data){
 					console.log("Fejl i Recipe REST")
 				});
-				$(".pb_status").removeClass("status_0").removeClass("status_1").removeClass("status_2").addClass("status_"+statusCode);
 				showProductBatchCompsPage(productBatchId);
+				$(".pb_status").addClass("status_"+statusCode)
 			});
 		}).fail(function(data){
 			console.log("Fejl i ProductBatch REST");
@@ -74,11 +74,9 @@ function showProductBatchListPage() {
 		$.get("src/html/product_batch/product_batch_list.html", function(template) {
 			$("#content").html(template);
 			$.each(data, function(i, data){
-				var statusCode = data.status;
-				showProductBatchStatus(data);
+				data["statusText"] = pbStatusCodeToText(data.status);
 				$.get("src/html/product_batch/product_batch_list_row.html", function(template) {
-		            $("#product_batch_list .table tbody").append(Mustache.render($(template).html(),data))
-		            $(".pb_status").addClass("status_"+statusCode);
+		            $("#product_batch_list .table tbody").append(Mustache.render($(template).html(),data));	            
 		        });
 			});
         });
@@ -92,31 +90,49 @@ function showProductBatchCompsPage(pbId) {
 	getProductBatchCompListSpecific(pbId).done(function(data) {
 		$.get("src/html/product_batch/product_batch_comp_list.html", function(template) {
 			$("#product_batch_edit_form").append(template);
-			$.each(data, function(i, data) {
-				$.get("src/html/product_batch/product_batch_comp_list_row.html", function(template) {
-					$("#product_batch_comp_list .table tbody").append(Mustache.render($(template).html(), data));
+			
+			if(data.length > 0) {
+				$("#product_batch_comp_list .product_batch_comp_list_table").html(
+						"<table class=\"table table-hover\">"
+							+"<thead>"
+								+"<tr>"
+									+"<th>Produkt batch id</th>"
+									+"<th>Råvare batch id</th>"
+									+"<th>Tara</th>"
+									+"<th>Netto</th>"
+									+"<th>Bruger id</th>"
+								+"</tr>"
+							+"</thead>"
+							+"<tbody></tbody>"
+						+"</table>");
+				$.each(data, function(i, data) {
+					$.get("src/html/product_batch/product_batch_comp_list_row.html", function(template) {
+						$("#product_batch_comp_list .table tbody").append(Mustache.render($(template).html(), data));
+					});
 				});
-			});
+			}
 		});
 	});
 }
 
 // Change status code of a product batch to a string
-function showProductBatchStatus(data) {
-	switch(data.status) {
+function pbStatusCodeToText(statusCode) {
+	var statusText;
+	switch(statusCode) {
 	case 0:
-		data.status = "Ikke påbegyndt";
+		statusText = "Ikke påbegyndt";
 		break;
 	case 1:
-		data.status = "Under produktion";
+		statusText = "Under produktion";
 		break;
 	case 2:
-		data.status = "Afsluttet";
+		statusText = "Afsluttet";
 		break;
 	default:
 		console.log("Fejl i status kode");
 		break;
 	}
+	return statusText;
 }
 
 /*
