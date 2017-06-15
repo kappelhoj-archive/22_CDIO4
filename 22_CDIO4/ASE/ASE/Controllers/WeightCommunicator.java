@@ -125,7 +125,8 @@ public class WeightCommunicator implements IWeightCommunicator {
 	 */
 	@Override
 	public void sendMessage(String message) throws InvalidReturnMessageException {
-		sendProtocol(Protocol.P111, message);
+		
+		sendProtocol(Protocol.P111, message.substring(0, 30));
 
 		try {
 			answerReceived = waitForAnswer();
@@ -152,7 +153,7 @@ public class WeightCommunicator implements IWeightCommunicator {
 	// ..............................
 	public String askForInformation(String message) throws InvalidReturnMessageException {
 		// TODO Auto-generated method stub
-		sendProtocol(Protocol.RM20, message);
+		sendProtocol(Protocol.RM20, message.substring(0, 24));
 
 		try {
 			answerReceived = waitForAnswer();

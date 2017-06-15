@@ -26,7 +26,6 @@ import dataTransferObjects.RecipeCompDTO;
 import dataTransferObjects.UserDTO;
 import exceptions.DALException;
 
-
 /**
  * 
  * @author arvid
@@ -57,7 +56,9 @@ public class WeightController implements Runnable {
 	List<ProductBatchCompDTO> measurements;
 
 	/**
-	 * Create a measurementController that takes a socket. Also get all the DAOs automaticly.
+	 * Create a measurementController that takes a socket. Also get all the DAOs
+	 * automaticly.
+	 * 
 	 * @param measurementAdder
 	 *            object that receives measurements.
 	 * @param weightConnection
@@ -67,11 +68,13 @@ public class WeightController implements Runnable {
 	public WeightController(IMeasurementController measurementAdder, Socket weightConnection) throws IOException {
 		this.measurementAdder = measurementAdder;
 		weightCommunication = new WeightCommunicator(weightConnection);
-		setDAO(Initializer.getUserDAO(), Initializer.getRawMaterialBatchDAO(), Initializer.getProductBatchDAO(), Initializer.getRecipeCompDAO(), Initializer.getRecipeDAO());
+		setDAO(Initializer.getUserDAO(), Initializer.getRawMaterialBatchDAO(), Initializer.getProductBatchDAO(),
+				Initializer.getRecipeCompDAO(), Initializer.getRecipeDAO());
 	}
 
 	/**
 	 * Create a WeightController with a weightCommunicator.
+	 * 
 	 * @param measurementAdder
 	 *            Object that receives measurements.
 	 * @param weightCommunication
@@ -173,13 +176,13 @@ public class WeightController implements Runnable {
 	private void login() throws ProtocolErrorException {
 
 		Buttons buttonConfirmation = Buttons.NULL;
-		//Keep trying to login until successful.
+		// Keep trying to login until successful.
 		do {
 			try {
 				try {
-					//Get a userDTO and receive confirmation from user.
+					// Get a userDTO and receive confirmation from user.
 					buttonConfirmation = getDTOAndConfirm(userDTO, userDAO, "user id", "name");
-					//If they press back start over. 
+					// If they press back start over.
 					if (buttonConfirmation == Buttons.BACK)
 						continue;
 				} catch (DALException e) {
@@ -223,10 +226,10 @@ public class WeightController implements Runnable {
 			measurements = new ArrayList<ProductBatchCompDTO>();
 
 			try {
-				//Find all the recipe components.
+				// Find all the recipe components.
 				ArrayList<RecipeCompDTO> myRecipe = (ArrayList<RecipeCompDTO>) recipeCompDAO
 						.getRecipeCompList(pbDTO.getReceptId());
-				
+
 				for (RecipeCompDTO comp : myRecipe) {
 					remainingReceptComp.put(comp.getRawMaterialId(), comp);
 				}
@@ -335,12 +338,11 @@ public class WeightController implements Runnable {
 			if (currentWeight == null) {
 				continue;
 			}
-			
-			
+
 			// Check if the measurement is as expected from the recipe
-			double weightedTolerance = myRecipeComp.getTolerance()
+			double weightedTolerance = ((myRecipeComp.getTolerance()/100)*myRecipeComp.getNomNetto())
 					- Math.abs(currentWeight + measurement.getTara() + measurement.getNetto());
-			
+
 			if (weightedTolerance >= Math.abs(measurement.getNetto() - myRecipeComp.getNomNetto())) {
 				return measurement;
 			} else {
@@ -358,16 +360,28 @@ public class WeightController implements Runnable {
 	 * 
 	 * @param message
 	 *            The message to send to the user.
-	 * @return	The weight measured.
+	 * @return The weight measured.
 	 * @throws ProtocolErrorException
 	 * @throws LogOutException
 	 */
 	private Double getCurrentWeight(String message) throws ProtocolErrorException, LogOutException {
-		//Send a message.
+		// Send a message.
 		Buttons buttonPressed = sendMessageAndConfirm(message);
+
+		try {
+			weightCommunication.sendMessage("Vent venligst");
+		} catch (InvalidReturnMessageException e) {
+			switch (weightCommunication.receiveButtonPush()) {
+			case BACK:
+				return null;
+			default:
+				break;
+			}
+		}
+
 		switch (buttonPressed) {
 		case CONFIRM:
-			//Read the current weight.
+
 			return weightCommunication.getWeight();
 		case BACK:
 			return null;
@@ -393,35 +407,36 @@ public class WeightController implements Runnable {
 	private Buttons getDTOAndConfirm(IWeightControlDTO dto, IWeightControlDAO dao, String questionSubject,
 			String expectedIdentity) throws ProtocolErrorException, LogOutException, DALException {
 		try {
-			//Ask for some id.
+			// Ask for some id.
 			String id = weightCommunication.askForInformation("Indtast " + questionSubject);
-			//Look up the id in the specified DAO.
+			// Look up the id in the specified DAO.
 			dto.copy(dao.getDTOById(Integer.parseInt(id)));
 			String identity = dto.getIdentity();
 
-			//Send a message so the user can confirm the information. 
+			// Send a message so the user can confirm the information.
 			weightCommunication.sendMessage(expectedIdentity + ": " + identity + " ->]");
 			return weightCommunication.receiveButtonPush();
 
 		} catch (InvalidReturnMessageException e) {
-			System.out.println("Caught Exception:"+e);
+			System.out.println("Caught Exception:" + e);
 			return weightCommunication.receiveButtonPush();
 		}
 
-	} 
+	}
 
-/**
- * Sends a message and wait for confirmation from the user.
- * @param message 
- * @return
- * @throws ProtocolErrorException
- * @throws LogOutException
- */
+	/**
+	 * Sends a message and wait for confirmation from the user.
+	 * 
+	 * @param message
+	 * @return
+	 * @throws ProtocolErrorException
+	 * @throws LogOutException
+	 */
 	private Buttons sendMessageAndConfirm(String message) throws ProtocolErrorException, LogOutException {
 		try {
-			//Send a message to the user.
+			// Send a message to the user.
 			weightCommunication.sendMessage(message + " ->]");
-			//Wait for user.
+			// Wait for user.
 			return weightCommunication.receiveButtonPush();
 		} catch (InvalidReturnMessageException e) {
 			return weightCommunication.receiveButtonPush();
