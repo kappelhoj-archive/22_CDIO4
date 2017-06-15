@@ -61,7 +61,6 @@ public class Initializer implements ServletContextListener {
 		System.out.println("Listener initialized");
 
 		if (!initialized) {
-
 			try {u.createUser(new UserDTO(165202, "Peter Issam EL-HABR", "PE", "0101800032", null, "Admin"));} catch (DALException e){}
 				
 			try {u.createUser(new UserDTO(143233, "Simon Engquist", "SE", "0101405109", null, "Farmaceut"));} catch (DALException e){}
