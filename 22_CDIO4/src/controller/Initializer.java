@@ -86,11 +86,17 @@ public class Initializer implements ServletContextListener {
 			
 			try {rmb.createRawMaterialBatch(new RawMaterialBatchDTO(2, 2, 10.7));} catch (DALException e){}
 
-			try {pb.createProductBatch(new ProductBatchDTO(1, 0, 1));} catch (DALException e){}
+			try {pb.createProductBatch(new ProductBatchDTO(2, 2, 1));} catch (DALException e){}
+			
+			try {pb.createProductBatch(new ProductBatchDTO(1, 1, 1));} catch (DALException e){}
 			
 			try {pb.createProductBatch(new ProductBatchDTO(3, 0, 1));} catch (DALException e){}
 			
-			try {pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 5.1, 3.2, 165202));} catch (DALException e){}
+			try {pbc.createProductBatchComp(new ProductBatchCompDTO(1, 1, 0.1, 0.151, 165202));} catch (DALException e){}
+			
+			try {pbc.createProductBatchComp(new ProductBatchCompDTO(2, 1, 0.1, 0.150, 165202));} catch (DALException e){}
+			
+			try {pbc.createProductBatchComp(new ProductBatchCompDTO(2, 2, 0.1, 0.149, 165202));} catch (DALException e){}
 
 			try {rc.createRecipeComp(new RecipeCompDTO(1, 1, 0.15, 10));} catch (DALException e){}
 
