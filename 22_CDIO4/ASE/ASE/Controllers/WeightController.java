@@ -269,16 +269,16 @@ public class WeightController implements Runnable {
 				if (buttonConfirmation == Buttons.BACK)
 					continue;
 			} catch (DALException e) {
-				sendMessageAndConfirm("Råvare findes ikke.");
+				sendMessageAndConfirm("Raavare findes ikke.");
 			}
 
 			if (remainingReceptComp.containsKey(rbDTO.getRawMaterialId())) {
-				sendMessageAndConfirm("Afvejning af påbegyndt:");
+				sendMessageAndConfirm("Afvejning af paabegyndt:");
 			} else if (finnishedReceptComp.containsKey(rbDTO.getRawMaterialId())) {
-				sendMessageAndConfirm("Råvare allerede afvejet.");
+				sendMessageAndConfirm("Raavare allerede afvejet.");
 				continue;
 			} else {
-				sendMessageAndConfirm("Råvare ikke i recept");
+				sendMessageAndConfirm("Raavare ikke i recept");
 				continue;
 			}
 
@@ -307,7 +307,7 @@ public class WeightController implements Runnable {
 
 		while (true) {
 			weightCommunication.taraWeight();
-			Double currentWeight = getCurrentWeight("Ryd vægten.");
+			Double currentWeight = getCurrentWeight("Ryd vaegten.");
 
 			// If the user want to go back, go back to choosing a new product.
 			if (currentWeight == null) {
