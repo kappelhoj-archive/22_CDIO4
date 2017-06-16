@@ -265,7 +265,7 @@ public class WeightController implements Runnable {
 		// Register rawmaterial.
 		do {
 			try {
-				buttonConfirmation = getDTOAndConfirm(rbDTO, rbDAO, "rb id", "råvare id");
+				buttonConfirmation = getDTOAndConfirm(rbDTO, rbDAO, "rb id", "raavare id");
 				if (buttonConfirmation == Buttons.BACK)
 					continue;
 			} catch (DALException e) {
