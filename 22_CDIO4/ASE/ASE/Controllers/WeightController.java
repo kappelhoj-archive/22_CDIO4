@@ -181,7 +181,7 @@ public class WeightController implements Runnable {
 			try {
 				try {
 					// Get a userDTO and receive confirmation from user.
-					buttonConfirmation = getDTOAndConfirm(userDTO, userDAO, "user id", "name");
+					buttonConfirmation = getDTOAndConfirm(userDTO, userDAO, "user id", "navn");
 					// If they press back start over.
 					if (buttonConfirmation == Buttons.BACK)
 						continue;
