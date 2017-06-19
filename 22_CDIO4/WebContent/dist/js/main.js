@@ -235,26 +235,25 @@ function showRestMessage(data, showPage) {
     	var $recipeId = $("[name=\"recipeId\"]");
     	var $id = $("[name=\"id\"]");
     	
+    	if($("#recipe_comp_edit_form").length < 1 && $("#recipe_component_create_form").length < 1 && $("#product_batch_create_form").length < 1) {
+    		$recipeId.parent().removeClass("has-success").addClass("has-danger");
+        	$recipeId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
+    	}
     	
-    	$rawMaterialId.parent().removeClass("has-success").addClass("has-danger");
-    	$rawMaterialId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
+    	if($("#raw_material_batch_create_form").length < 1 && $("#raw_material_batch_edit_form").length < 1) {
+    		$rawMaterialId.parent().removeClass("has-success").addClass("has-danger");
+        	$rawMaterialId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
+    	}
     	
-    	$rbId.parent().removeClass("has-success").addClass("has-danger");
+    	
+		$rbId.parent().removeClass("has-success").addClass("has-danger");
     	$rbId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
     	
     	$pbId.parent().removeClass("has-success").addClass("has-danger");
     	$pbId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
     	
-    	if($("#recipe_comp_edit_form").length < 1 && $("#recipe_component_create_form").length < 1) {
-    		console.log("edit: " + $("#recipe_comp_edit_form").length)
-    		console.log("create: " + $("#recipe_component_create_form").length)
-    		console.log("hey");
-    		$recipeId.parent().removeClass("has-success").addClass("has-danger");
-        	$recipeId.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
-    	}
-    	
     	$id.parent().removeClass("has-success").addClass("has-danger");
-    	$id.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");
+    	$id.removeClass("form-control-success").addClass("form-control-danger").attr("aria-invalid", "true");    	
     	
     	showAlertMessage(alertData);
     	break;
